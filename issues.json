@@ -4,6 +4,7 @@
   "issues": [
     {
       "id": "issue-01",
+      "area": "Admin Manager",
       "title": "SSO configuration screen conflates two tasks in wrong order",
       "screen": "Admin Manager > Organization > Authentication > SSO tab",
       "jira": "APP-2297",
@@ -52,8 +53,8 @@
       "interactive_candidate": true,
       "interactive_description": "Mini mock showing the two-pass flow: Step 1 (copy values) → tooltip or modal saying 'Now go configure your IdP and return' → Step 2 (upload metadata) becomes active",
       "screenshots": {
-        "before": "screenshots/issue-01-before.png",
-        "after": "screenshots/issue-01-after.png"
+        "before": "admin-manager/sso-config/screenshots/before.png",
+        "after": "admin-manager/sso-config/screenshots/after.png"
       },
       "annotations": [
         {

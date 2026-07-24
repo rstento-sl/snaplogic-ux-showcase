@@ -37,22 +37,32 @@
   .issue a:hover { background: #e8f0fe; }
   .issue a.secondary { color: #b26a00; border-color: #b26a00; }
   .issue a.secondary:hover { background: #fff8e1; }
+  .area-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #888; margin: 32px 0 12px; }
+  .area-title:first-of-type { margin-top: 0; }
+  .empty { color: #999; font-size: 13px; font-style: italic; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>UX Issue Showcase</h1>
-  <p class="sub">Confusing UI interactions and microcopy in the SnapLogic Admin Manager, with proposed fixes.</p>
+  <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin UI, with proposed fixes.</p>
 
+  <div class="area-title">Admin Manager</div>
   <div class="issue">
     <h2>Issue 01 — SSO configuration screen conflates two tasks in the wrong order</h2>
     <div class="meta">Admin Manager › Authentication › SSO tab &nbsp;·&nbsp; APP-2297 &nbsp;·&nbsp; Severity: High</div>
     <div class="links">
-      <a href="mockup-issue-01-sso-annotated.html">Current UI (3 issues)</a>
-      <a href="mockup-issue-01-sso.html">Proposed Redesign</a>
-      <a class="secondary" href="bug-download-button-disabled.html">Possible Bug</a>
+      <a href="admin-manager/sso-config/current-ui.html">Current UI (3 issues)</a>
+      <a href="admin-manager/sso-config/proposed-redesign.html">Proposed Redesign</a>
+      <a class="secondary" href="admin-manager/sso-config/possible-bug.html">Possible Bug</a>
     </div>
   </div>
+
+  <div class="area-title">Monitor</div>
+  <p class="empty">No issues cataloged yet.</p>
+
+  <div class="area-title">SnapGPT</div>
+  <p class="empty">No issues cataloged yet.</p>
 </div>
 </body>
 </html>

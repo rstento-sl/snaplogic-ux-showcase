@@ -1,0 +1,40 @@
+# UX Issue Showcase — instructions for Claude
+
+This repo catalogs confusing UI interactions and microcopy in the SnapLogic Admin UI for PM/eng stakeholders. Each issue is a set of small, self-contained, interactive HTML mockups — no build tools, no server, opened directly via `open <file>` or a browser.
+
+Read `README.md` for the full human-facing explanation. This file is the condensed version for you to follow automatically.
+
+## Repo structure
+
+```
+/
+├── index.html          ← landing page, grouped by UI area, links to every issue
+├── issues.json          ← single catalog of all issues, each entry has an "area" field
+├── <area>/               ← one folder per UI area: admin-manager, monitor, snapgpt, ...
+│   └── <issue-slug>/      ← one folder per issue, named for the issue not the ticket number
+│       ├── current-ui.html         ← recreation of the real screen, with clickable pins
+│       ├── proposed-redesign.html  ← interactive proposed fix
+│       └── possible-bug.html       ← optional, only if a defect (not a UX issue) was found
+```
+
+Name issue folders descriptively (`sso-config`), never by ticket number (`app-2297`).
+
+## When asked to add a new issue
+
+1. **Get the real facts from the user first.** You need: the screen's location (breadcrumb path), a screenshot, the JIRA ticket if one exists, and the user's description of the real workflow versus what the screen does. Don't invent UI details — ask, or work from the screenshot given. If a screenshot shows fewer/different elements than you assumed, the screenshot wins; fix the recreation to match it exactly.
+2. **Build the three files** in a new `<area>/<issue-slug>/` folder, copying the shared toolbar component (breadcrumb + nav + one-line instruction, dark navy `#1a1a2e` background) from an existing issue folder rather than reinventing it. Keep pin/nav styling consistent: red (`#d32f2f`) for UX-issue pins and their `current-ui.html`/`proposed-redesign.html` nav accent, amber (`#b26a00`) for `possible-bug.html`.
+3. **Pins on `current-ui.html`** — one per genuinely distinct problem, numbered in top-to-bottom reading order. Each pin opens a popover with: a concise title, a `problem` (what's wrong and why it confuses users), and a `fix` (the specific change). Don't split one problem into multiple pins to pad the count.
+4. **`proposed-redesign.html`** — make interactions real where it matters (copy buttons, a step unlocking after a real action). Only gate UI state on something the app can actually observe. Don't gate a step on an action that happens outside the app (e.g. "the user configured something in an external tool") — that can't be reflected honestly in a mockup, so just use step numbers and instructional text instead of a locked/dimmed state.
+5. **Defects vs. design issues** — if something looks broken rather than badly designed (e.g. a control disabled with no apparent dependency), it goes in `possible-bug.html`, styled amber, explicitly labeled "not a UX design issue." Never fold a defect into the numbered UX pins — it gives stakeholders an easy way to dismiss a real design problem as "just a bug."
+6. **Wire it up**: add an entry to root `issues.json` (with the correct `area` field), add a card to `index.html` under the right area section, then `git add -A`, commit, and push. GitHub Pages rebuilds automatically from `main`.
+
+## Content rules (apply to everything you draft or edit)
+
+- **Active voice, always.** No exceptions. If you catch yourself writing "is used," "are presented," "was configured," rewrite it as who does the action.
+- **Be concise.** Popover `problem`/`fix` text should be a few sentences, not a paragraph. Titles are one line.
+- **Use consistent terminology** for the same concept across all pins/files in an issue (e.g. don't alternate between "SnapLogic values" and "SnapLogic-generated values").
+- When reviewing or critiquing a design (not drafting new copy), structure findings across four lenses if asked for a full review: **Product** (users, problem, workflow fit), **UX** (mental model, flows, edge cases, cognitive load), **UI** (components, hierarchy, labeling, consistency), **Enterprise Reality Check** (permissions/scale/backward-compatibility risk). Ask 1–2 sharp clarifying questions when something is ambiguous rather than guessing; offer alternatives, not just criticism.
+
+## Before every push
+
+**Scrub any real customer/org-identifying data.** This repo is public. Replace real staging URLs, org IDs, org paths, customer names — anything pulled from a real screenshot — with obviously-fake placeholders (`your-org.snaplogic.com`, `ORG_ID`, `YOUR_ORG`) before committing. Never commit credentials, tokens, or internal-only hostnames.

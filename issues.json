@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "project": "SnapLogic Admin Manager UX Issues",
+  "issues": [
+    {
+      "id": "issue-01",
+      "title": "SSO configuration screen conflates two tasks in wrong order",
+      "screen": "Admin Manager > Organization > Authentication > SSO tab",
+      "jira": "APP-2297",
+      "severity": "High",
+      "category": "Information architecture / sequencing",
+      "current_state": {
+        "labels": [
+          "Upload identity provider metadata",
+          "IdP Entity ID",
+          "IdP HTTP-POST Endpoint",
+          "Single Log Off Call Back URL",
+          "Update",
+          "Add SnapLogic application in your identity provider",
+          "Entity ID",
+          "Reply URL (Assertion Consumer Service URL)",
+          "Logout URL",
+          "Provide SnapLogic metadata to your IdP",
+          "Download file",
+          "Manage SSO options"
+        ],
+        "problems": [
+          "Metadata upload section (second-visit task) appears at the top, before the SnapLogic-generated URLs the user needs first",
+          "No indication that this is a two-pass workflow requiring the user to leave and return",
+          "The page acts as both source (copy values out) and destination (paste metadata back) with no explanation of either role",
+          "Users attempt to upload IdP metadata before the IdP app exists, because they cannot yet have the metadata"
+        ]
+      },
+      "proposed_fix": {
+        "approach": "Numbered two-step layout that makes the two-pass workflow explicit",
+        "steps": [
+          {
+            "step": 1,
+            "heading": "Copy SnapLogic values to your identity provider",
+            "body": "Copy the values below and use them to create a SAML application in your identity provider (Okta, Azure AD, etc.). Then return to this page to complete Step 2.",
+            "elements": ["Entity ID (with copy button)", "Reply URL (with copy button)", "Logout URL (with copy button)", "Download metadata file (alternative for IdPs that accept file format)"]
+          },
+          {
+            "step": 2,
+            "heading": "Upload your identity provider metadata",
+            "subheading": "Complete after finishing Step 1 in your identity provider",
+            "body": "After creating your SAML application in your IdP, export the metadata file and upload it here.",
+            "elements": ["IdP Entity ID field", "IdP HTTP-POST Endpoint field", "Single Log Off Call Back URL field", "Update button"]
+          }
+        ]
+      },
+      "interactive_candidate": true,
+      "interactive_description": "Mini mock showing the two-pass flow: Step 1 (copy values) → tooltip or modal saying 'Now go configure your IdP and return' → Step 2 (upload metadata) becomes active",
+      "screenshots": {
+        "before": "screenshots/issue-01-before.png",
+        "after": "screenshots/issue-01-after.png"
+      },
+      "annotations": [
+        {
+          "target": "Upload identity provider metadata section",
+          "callout": "Users see this first — but they can't complete it yet. The IdP app doesn't exist until they use values from lower on this same page."
+        },
+        {
+          "target": "Entity ID / Reply URL / Logout URL section",
+          "callout": "The values users need first are presented second, with no instruction to copy them and go elsewhere."
+        },
+        {
+          "target": "Full page",
+          "callout": "This page plays two roles at two different times — source and destination — but nothing on the page communicates that."
+        }
+      ]
+    }
+  ]
+}

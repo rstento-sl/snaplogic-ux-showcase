@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Issue Showcase</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    padding: 48px 24px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 26px; margin-bottom: 8px; }
+  .sub { color: #555; margin-bottom: 32px; line-height: 1.5; }
+  .issue {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .issue h2 { font-size: 16px; margin-bottom: 4px; }
+  .issue .meta { font-size: 12px; color: #888; margin-bottom: 12px; }
+  .issue .links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .issue a {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a73e8;
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid #1a73e8;
+    border-radius: 4px;
+  }
+  .issue a:hover { background: #e8f0fe; }
+  .issue a.secondary { color: #b26a00; border-color: #b26a00; }
+  .issue a.secondary:hover { background: #fff8e1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>UX Issue Showcase</h1>
+  <p class="sub">Confusing UI interactions and microcopy in the SnapLogic Admin Manager, with proposed fixes.</p>
+
+  <div class="issue">
+    <h2>Issue 01 — SSO configuration screen conflates two tasks in the wrong order</h2>
+    <div class="meta">Admin Manager › Authentication › SSO tab &nbsp;·&nbsp; APP-2297 &nbsp;·&nbsp; Severity: High</div>
+    <div class="links">
+      <a href="mockup-issue-01-sso-annotated.html">Current UI (3 issues)</a>
+      <a href="mockup-issue-01-sso.html">Proposed Redesign</a>
+      <a class="secondary" href="bug-download-button-disabled.html">Possible Bug</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

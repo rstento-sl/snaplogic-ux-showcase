@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Possible Bug — Download File Disabled</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #f5f5f5;
+    padding: 24px;
+  }
+
+  /* ── Mockup toolbar (shared across mockup-issue-01-*.html) ── */
+  .mockup-toolbar {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #1a1a2e;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+  }
+  .mockup-breadcrumb {
+    padding: 8px 40px 7px;
+    color: #8a8aa3;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .mockup-breadcrumb .sep { margin: 0 6px; color: #52526a; }
+  .mockup-nav {
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .mockup-nav a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0;
+    margin-right: 24px;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+  }
+  .mockup-nav a:hover { color: #fff; }
+  .mockup-nav a.current { color: #fff; border-bottom-color: #b26a00; }
+  .mockup-nav a .tag {
+    background: rgba(255,255,255,0.12);
+    padding: 1px 7px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .mockup-instruction {
+    padding: 8px 40px;
+    color: #ffb74d;
+    font-style: italic;
+    font-size: 12px;
+  }
+
+  .page-wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 32px 40px 48px;
+    position: relative;
+  }
+
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 20px; }
+
+  .tabs { display: flex; border-bottom: 2px solid #e0e0e0; margin-bottom: 24px; }
+  .tab { padding: 8px 0; margin-right: 24px; font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+  .tab.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+
+  .intro-text { color: #444; margin-bottom: 24px; line-height: 1.5; }
+  .intro-text a { color: #1a73e8; text-decoration: none; }
+
+  .section { padding: 24px 0; border-bottom: 1px solid #e8e8e8; position: relative; }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .section-body { font-size: 13px; color: #444; margin-bottom: 16px; line-height: 1.5; }
+
+  .field-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .field-row-text { flex: 1; }
+  .field-label { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 3px; }
+  .field-value { font-size: 13px; color: #1a1a1a; }
+  .copy-icon { color: #888; padding: 4px; }
+  .copy-icon svg { width: 16px; height: 16px; display: block; }
+
+  .btn {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    color: #aaa;
+    cursor: not-allowed;
+  }
+  .btn-primary { background: #1a73e8; color: #fff; border-color: #1a73e8; cursor: pointer; }
+
+  .section-flagged { background: #fffaf0; border-radius: 4px; }
+  .section-flagged .section-title { color: #7a4a00; }
+
+  .pin {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #b26a00;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+    z-index: 300;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .pin:hover { transform: scale(1.15); background: #8a5300; }
+
+  .popover {
+    display: none;
+    position: fixed;
+    width: 380px;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    background: #fff;
+    border: 1px solid #e8c27a;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 400;
+    overflow-y: auto;
+  }
+  .popover-header {
+    background: #b26a00;
+    color: #fff;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; flex: 1; }
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 0 0 8px;
+  }
+  .popover-body { padding: 16px; font-size: 13px; line-height: 1.6; color: #333; }
+  .popover-body .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #7a4a00; margin: 12px 0 4px; }
+  .popover-body .label:first-child { margin-top: 0; }
+</style>
+</head>
+<body>
+
+<div class="mockup-toolbar">
+  <div class="mockup-breadcrumb">Admin Manager <span class="sep">›</span> Authentication <span class="sep">›</span> SSO tab</div>
+  <div class="mockup-nav">
+    <a href="mockup-issue-01-sso-annotated.html">Current UI <span class="tag">3 issues</span></a>
+    <a href="mockup-issue-01-sso.html">Proposed Redesign</a>
+    <a class="current" href="bug-download-button-disabled.html">Possible Bug</a>
+  </div>
+  <div class="mockup-instruction">
+    ⚠ Not a UX design issue — flagged separately from the SSO catalog
+    <a href="#" onclick="jumpToPin(event)" style="color:#ffb74d; margin-left:10px;">Jump to issue ↓</a>
+  </div>
+</div>
+
+<div class="page-wrapper">
+  <h1>Authentication</h1>
+
+  <div class="tabs">
+    <div class="tab active">SSO</div>
+    <div class="tab">JWT</div>
+  </div>
+
+  <p class="intro-text">
+    SnapLogic supports SSO identity providers (IdPs) that adhere to the SAML 2.0 standard. <a href="#">Learn more.</a>
+  </p>
+
+  <div class="section">
+    <div class="section-title">Upload identity provider metadata</div>
+    <p class="section-body">All of your environments must use the same IdP. Upload the metadata file provided by your IdP.</p>
+    <button class="btn btn-primary">Upload file</button>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Add SnapLogic application in your identity provider</div>
+    <p class="section-body">Copy and paste the links in your identity provider.</p>
+
+    <div class="field-row">
+      <div class="field-row-text">
+        <div class="field-label">Entity ID</div>
+        <div class="field-value">https://your-org.snaplogic.com/api/1/rest/admin/sso/login?org_path=YOUR_ORG</div>
+      </div>
+      <div class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+    </div>
+    <div class="field-row">
+      <div class="field-row-text">
+        <div class="field-label">Reply URL (Assertion Consumer Service URL)</div>
+        <div class="field-value">https://your-org.snaplogic.com/api/1/rest/admin/org/ORG_ID/saml/consume</div>
+      </div>
+      <div class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+    </div>
+    <div class="field-row">
+      <div class="field-row-text">
+        <div class="field-label">Logout URL</div>
+        <div class="field-value">https://your-org.snaplogic.com/api/1/rest/admin/org/ORG_ID/saml/logout</div>
+      </div>
+      <div class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+    </div>
+  </div>
+
+  <div class="section section-flagged" id="section-flagged">
+    <div class="pin" onclick="openPopover(event)">!</div>
+    <div class="section-title">Provide SnapLogic metadata to your IdP</div>
+    <p class="section-body">Download the metadata file and upload it to your IdP.</p>
+    <button class="btn">Download file</button>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Manage SSO options</div>
+    <button class="btn">Set up SSO options</button>
+  </div>
+</div>
+
+<div class="popover" id="popover">
+  <div class="popover-header">
+    <h3>Why is this button disabled?</h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    “Download file” is an alternate way to provide SnapLogic metadata to your IdP — instead of copying the individual Entity ID, Reply URL, and Logout URL. It shouldn't only become enabled after users upload their SSO configuration first.
+
+    <div class="label">Suggested next step</div>
+    File as an engineering bug, separate from the SSO UX catalog (APP-2297). Ask engineering to confirm whether the disabled state is intentional and, if so, what the actual dependency is.
+  </div>
+</div>
+
+<script>
+function jumpToPin(e) {
+  e.preventDefault();
+  const section = document.getElementById('section-flagged');
+  section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => {
+    const pin = section.querySelector('.pin');
+    pin.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  }, 400);
+}
+
+function openPopover(e) {
+  e.stopPropagation();
+  const pop = document.getElementById('popover');
+  pop.style.display = 'block';
+
+  const pin = e.target;
+  const rect = pin.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  const popWidth = popRect.width;
+  const popHeight = popRect.height;
+
+  let top = rect.bottom + margin;
+  if (top + popHeight > window.innerHeight - margin) {
+    top = rect.top - popHeight - margin;
+  }
+  top = Math.max(margin, Math.min(top, window.innerHeight - popHeight - margin));
+
+  let left = rect.left + rect.width / 2 - popWidth / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popWidth - margin));
+
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+}
+
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('popover');
+  if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) {
+    closePopover();
+  }
+});
+</script>
+
+</body>
+</html>

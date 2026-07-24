@@ -23,7 +23,9 @@ Each area (Admin Manager, Monitor, SnapGPT, ...) gets its own top-level folder. 
 
 ## How to ask Claude to add a new issue
 
-Claude Code already knows this repo's pattern once you're working in it — you don't need to explain the file structure every time. What Claude needs from **you** is the actual UX judgment: what's on the screen, what's confusing about it, and what should happen instead.
+This repo includes a [`CLAUDE.md`](CLAUDE.md) file with the conventions (folder structure, the three-file pattern, pin/color rules, active-voice requirement) written as direct instructions for Claude. If you're using Claude Code, clone this repo and work inside it — Claude Code loads `CLAUDE.md` automatically, so you don't need to re-explain any of this. If you're using Claude some other way, download `CLAUDE.md` and paste it in at the start of your session.
+
+Either way, what Claude needs from **you** is the actual UX judgment: what's on the screen, what's confusing about it, and what should happen instead.
 
 ### 1. Give Claude a screenshot and describe the problem
 

@@ -58,10 +58,9 @@ If something in the real UI looks broken rather than badly designed (e.g. a butt
 
 ### 6. Wire it into the catalog
 
-Once the three files exist and look right, ask Claude to:
-- Add an entry to the root `issues.json` (with the correct `"area"` field)
-- Add a card to `index.html` under the right area section
-- Commit and push — GitHub Pages rebuilds automatically from `main`
+The homepage (`index.html`) is generated entirely from `issues.json` — you never hand-edit issue cards into the page itself. Once the three files exist and look right, ask Claude to:
+- Add an entry to the root `issues.json`, including a short `"summary"` (the one- or two-sentence blurb shown on the homepage card) and a `"mockups"` object pointing at your three files
+- Commit and push — GitHub Pages rebuilds automatically from `main`, and the new issue appears on the homepage under the right area
 
 ## What each mockup file needs
 

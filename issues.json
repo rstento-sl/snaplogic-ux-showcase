@@ -10,6 +10,12 @@
       "jira": "APP-2297",
       "severity": "High",
       "category": "Information architecture / sequencing",
+      "summary": "The screen shows the paste-back step before the copy-out step, so users hit a dead end before they have anything to enter — with no indication they need to leave and return.",
+      "mockups": {
+        "currentUi": "admin-manager/sso-config/current-ui.html",
+        "proposedRedesign": "admin-manager/sso-config/proposed-redesign.html",
+        "possibleBug": "admin-manager/sso-config/possible-bug.html"
+      },
       "current_state": {
         "labels": [
           "Upload identity provider metadata",

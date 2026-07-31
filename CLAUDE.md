@@ -8,8 +8,8 @@ Read `README.md` for the full human-facing explanation. This file is the condens
 
 ```
 /
-├── index.html          ← landing page, grouped by UI area, links to every issue
-├── issues.json          ← single catalog of all issues, each entry has an "area" field
+├── index.html          ← landing page, generated from issues.json at load time — don't hand-edit issue cards into it
+├── issues.json          ← single source of truth; every issue's card, links, and badges come from here
 ├── <area>/               ← one folder per UI area: admin-manager, monitor, snapgpt, ...
 │   └── <issue-slug>/      ← one folder per issue, named for the issue not the ticket number
 │       ├── current-ui.html         ← recreation of the real screen, with clickable pins
@@ -26,7 +26,7 @@ Name issue folders descriptively (`sso-config`), never by ticket number (`app-22
 3. **Pins on `current-ui.html`** — one per genuinely distinct problem, numbered in top-to-bottom reading order. Each pin opens a popover with: a concise title, a `problem` (what's wrong and why it confuses users), and a `fix` (the specific change). Don't split one problem into multiple pins to pad the count.
 4. **`proposed-redesign.html`** — make interactions real where it matters (copy buttons, a step unlocking after a real action). Only gate UI state on something the app can actually observe. Don't gate a step on an action that happens outside the app (e.g. "the user configured something in an external tool") — that can't be reflected honestly in a mockup, so just use step numbers and instructional text instead of a locked/dimmed state.
 5. **Defects vs. design issues** — if something looks broken rather than badly designed (e.g. a control disabled with no apparent dependency), it goes in `possible-bug.html`, styled amber, explicitly labeled "not a UX design issue." Never fold a defect into the numbered UX pins — it gives stakeholders an easy way to dismiss a real design problem as "just a bug."
-6. **Wire it up**: add an entry to root `issues.json` (with the correct `area` field), add a card to `index.html` under the right area section, then `git add -A`, commit, and push. GitHub Pages rebuilds automatically from `main`.
+6. **Wire it up**: add an entry to root `issues.json`. `index.html` is generated entirely from this file (fetched at load time) — you do not edit `index.html` to add an issue. Required fields per entry: `id`, `area` (must exactly match a folder name — `Admin Manager`, `Monitor`, `SnapGPT`), `title`, `screen` (breadcrumb path), `jira` (empty string if none), `severity` (`High`/`Medium`/`Low`), `category`, `summary` (one or two sentences — this is the card blurb, keep it sharp and active-voice), `mockups.currentUi`/`mockups.proposedRedesign`/`mockups.possibleBug` (relative paths from repo root; omit `possibleBug` entirely if there isn't one), and `annotations` (array matching the pins in `current-ui.html` — its length drives the "N issues" count shown on the card). Then `git add -A`, commit, and push. GitHub Pages rebuilds automatically from `main`.
 
 ## Content rules (apply to everything you draft or edit)
 

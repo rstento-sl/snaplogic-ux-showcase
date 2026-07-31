@@ -12,57 +12,159 @@
     color: #1a1a1a;
     padding: 48px 24px;
   }
-  .wrap { max-width: 640px; margin: 0 auto; }
+  .wrap { max-width: 720px; margin: 0 auto; }
   h1 { font-size: 26px; margin-bottom: 8px; }
   .sub { color: #555; margin-bottom: 32px; line-height: 1.5; }
-  .issue {
+
+  .area-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #888;
+    margin: 32px 0 12px;
+  }
+  .area-title:first-of-type { margin-top: 0; }
+  .empty { color: #999; font-size: 13px; font-style: italic; }
+
+  .issue-card {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 6px;
     padding: 20px 24px;
     margin-bottom: 16px;
   }
-  .issue h2 { font-size: 16px; margin-bottom: 4px; }
-  .issue .meta { font-size: 12px; color: #888; margin-bottom: 12px; }
-  .issue .links { display: flex; gap: 10px; flex-wrap: wrap; }
-  .issue a {
+  .issue-card-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: #444;
+    background: #f0f0f0;
+    padding: 3px 9px;
+    border-radius: 10px;
+  }
+  .severity {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 3px 9px;
+    border-radius: 10px;
+  }
+  .severity-high { background: #fdecea; color: #c62828; }
+  .severity-medium { background: #fff3e0; color: #b26a00; }
+  .severity-low { background: #eef2f6; color: #555; }
+
+  .issue-card h2 { font-size: 16px; margin-bottom: 4px; }
+  .issue-card .meta { font-size: 12px; color: #888; margin-bottom: 10px; }
+  .issue-card .summary { font-size: 13px; color: #444; line-height: 1.5; margin-bottom: 16px; }
+
+  .links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .issue-card a, .preview-toggle {
     font-size: 13px;
     font-weight: 600;
-    color: #1a73e8;
     text-decoration: none;
     padding: 6px 12px;
-    border: 1px solid #1a73e8;
     border-radius: 4px;
+    border: 1px solid;
+    cursor: pointer;
+    background: #fff;
+    font-family: inherit;
   }
-  .issue a:hover { background: #e8f0fe; }
-  .issue a.secondary { color: #b26a00; border-color: #b26a00; }
-  .issue a.secondary:hover { background: #fff8e1; }
-  .area-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #888; margin: 32px 0 12px; }
-  .area-title:first-of-type { margin-top: 0; }
-  .empty { color: #999; font-size: 13px; font-style: italic; }
+  .issue-card a.primary { color: #1a73e8; border-color: #1a73e8; }
+  .issue-card a.primary:hover { background: #e8f0fe; }
+  .issue-card a.secondary { color: #b26a00; border-color: #b26a00; }
+  .issue-card a.secondary:hover { background: #fff8e1; }
+  .preview-toggle { color: #555; border-color: #ccc; margin-left: auto; }
+  .preview-toggle:hover { background: #f5f5f5; }
+
+  .preview-frame {
+    margin-top: 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    display: none;
+  }
+  .preview-frame iframe {
+    width: 100%;
+    height: 560px;
+    border: none;
+    display: block;
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>UX Issue Showcase</h1>
   <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin UI, with proposed fixes.</p>
-
-  <div class="area-title">Admin Manager</div>
-  <div class="issue">
-    <h2>Issue 01 — SSO configuration screen conflates two tasks in the wrong order</h2>
-    <div class="meta">Admin Manager › Authentication › SSO tab &nbsp;·&nbsp; APP-2297 &nbsp;·&nbsp; Severity: High</div>
-    <div class="links">
-      <a href="admin-manager/sso-config/current-ui.html">Current UI (3 issues)</a>
-      <a href="admin-manager/sso-config/proposed-redesign.html">Proposed Redesign</a>
-      <a class="secondary" href="admin-manager/sso-config/possible-bug.html">Possible Bug</a>
-    </div>
-  </div>
-
-  <div class="area-title">Monitor</div>
-  <p class="empty">No issues cataloged yet.</p>
-
-  <div class="area-title">SnapGPT</div>
-  <p class="empty">No issues cataloged yet.</p>
+  <div id="app"><p class="empty">Loading issue catalog…</p></div>
 </div>
+
+<script>
+const AREAS = ["Admin Manager", "Monitor", "SnapGPT"];
+
+function severityClass(sev) {
+  return "severity-" + (sev || "").toLowerCase();
+}
+
+function renderCard(issue) {
+  const pinCount = (issue.annotations || []).length;
+  const m = issue.mockups || {};
+  return `
+    <div class="issue-card">
+      <div class="issue-card-top">
+        <span class="tag">${issue.category || ""}</span>
+        <span class="severity ${severityClass(issue.severity)}">${issue.severity || ""}</span>
+      </div>
+      <h2>${issue.title}</h2>
+      <div class="meta">${issue.screen}${issue.jira ? " &nbsp;·&nbsp; " + issue.jira : ""}</div>
+      <p class="summary">${issue.summary || ""}</p>
+      <div class="links">
+        ${m.currentUi ? `<a class="primary" href="${m.currentUi}">Current UI (${pinCount} issue${pinCount === 1 ? "" : "s"})</a>` : ""}
+        ${m.proposedRedesign ? `<a class="primary" href="${m.proposedRedesign}">Proposed Redesign</a>` : ""}
+        ${m.possibleBug ? `<a class="secondary" href="${m.possibleBug}">Possible Bug</a>` : ""}
+        ${m.currentUi ? `<button class="preview-toggle" onclick="togglePreview(this)">Show live preview ▾</button>` : ""}
+      </div>
+      ${m.currentUi ? `<div class="preview-frame"><iframe src="${m.currentUi}" loading="lazy"></iframe></div>` : ""}
+    </div>
+  `;
+}
+
+function togglePreview(btn) {
+  const frame = btn.closest(".issue-card").querySelector(".preview-frame");
+  const showing = frame.style.display === "block";
+  frame.style.display = showing ? "none" : "block";
+  btn.textContent = showing ? "Show live preview ▾" : "Hide live preview ▲";
+}
+
+fetch("issues.json")
+  .then(r => r.json())
+  .then(data => {
+    const byArea = {};
+    (data.issues || []).forEach(issue => {
+      const area = issue.area || "Uncategorized";
+      (byArea[area] = byArea[area] || []).push(issue);
+    });
+
+    const html = AREAS.map(area => {
+      const issues = byArea[area] || [];
+      const body = issues.length
+        ? issues.map(renderCard).join("")
+        : `<p class="empty">No issues cataloged yet.</p>`;
+      return `<div class="area-title">${area}</div>${body}`;
+    }).join("");
+
+    document.getElementById("app").innerHTML = html;
+  })
+  .catch(err => {
+    document.getElementById("app").innerHTML =
+      `<p class="empty">Couldn't load issues.json (${err.message}). If you're viewing this file directly from disk, open it via the live site instead — browsers block local file fetches.</p>`;
+  });
+</script>
 </body>
 </html>

@@ -5,9 +5,10 @@
     {
       "id": "issue-02",
       "area": "Admin Manager",
-      "title": "Pipeline validation screen mixes settings with no explanation",
+      "title": "Designer pipeline validation screen mixes settings with no explanation",
       "screen": "Admin Manager > Application Settings > Designer > Pipeline validation",
       "jira": "",
+      "unreportedLabel": "Unreported issue 01",
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "summary": "The page title, an unexplained toggle, and an unrelated-looking document limit sit together with no copy tying them to each other or to what the page is actually for.",

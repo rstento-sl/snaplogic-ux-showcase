@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pipeline validation screen mixes settings with no explanation</title>
+<title>Designer pipeline validation screen mixes settings with no explanation</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -35,7 +35,18 @@
   .path .sep { margin: 0 6px; color: var(--hairline); }
   .back-link { font-size: 12px; font-weight: 700; color: var(--teal); text-decoration: none; }
   .back-link:hover { text-decoration: underline; }
-  .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; margin-bottom: 8px; }
+  .issue-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
+  .ticket-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--dim);
+    border: 1px solid var(--hairline);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
   .instruction { color: var(--dim); font-size: 12px; }
 
   .compare-grid {
@@ -148,6 +159,7 @@
   .dropdown.open .dropdown-trigger { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
   .dropdown-trigger svg { width: 16px; height: 16px; color: #888; transition: transform 0.15s; }
   .dropdown.open .dropdown-trigger svg { transform: rotate(180deg); }
+  .dropdown.disabled .dropdown-trigger { opacity: 0.5; cursor: not-allowed; background: #f5f5f5; }
 
   .dropdown-menu {
     display: none;
@@ -283,7 +295,8 @@
     <span class="path">admin-manager <span class="sep">/</span> application-settings <span class="sep">/</span> designer</span>
   </div>
   <div class="issue-heading">
-    <h1>Pipeline validation screen mixes settings with no explanation</h1>
+    <span class="ticket-chip">Unreported issue 01</span>
+    <h1>Designer pipeline validation screen mixes settings with no explanation</h1>
   </div>
   <div class="instruction">Click a red pin on the left to see what's wrong</div>
 </div>
@@ -358,7 +371,7 @@
       <div class="block">
         <p class="helper-text">With pipeline validation enabled, the SnapLogic Platform attempts to pass real data through Snaps on validation or save. Snaps that execute successfully provide preview data.</p>
         <div class="toggle-row">
-          <div class="toggle-switch" id="prop-validation-toggle" onclick="toggleValidation('prop-validation-toggle')">
+          <div class="toggle-switch" id="prop-validation-toggle" onclick="propToggleValidation()">
             <div class="knob"></div>
           </div>
           <div class="toggle-label">Enable pipeline validation</div>
@@ -369,27 +382,27 @@
         <p class="helper-text">Preview documents show whether pipeline mappings and transformations are working as expected. The following dropdown sets the environment maximum number of documents (limited to up to 15 MB in total size). Users can change the number of preview documents for their own account in user settings, up to the value set here.</p>
         <div class="field-label">Maximum preview documents</div>
         <div class="dropdown" id="prop-doc-dropdown">
-          <div class="dropdown-trigger" onclick="toggleDropdown('prop-doc-dropdown')">
-            <span id="prop-doc-value">2000</span>
+          <div class="dropdown-trigger" onclick="propToggleDropdown()">
+            <span id="prop-doc-value">50</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="dropdown-menu">
-            <div class="dropdown-option" onclick="selectDoc('1', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">1</div>
-            <div class="dropdown-option" onclick="selectDoc('2', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">2</div>
-            <div class="dropdown-option" onclick="selectDoc('10', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">10</div>
-            <div class="dropdown-option" onclick="selectDoc('20', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">20</div>
-            <div class="dropdown-option" onclick="selectDoc('50', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">50</div>
-            <div class="dropdown-option" onclick="selectDoc('100', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">100</div>
-            <div class="dropdown-option" onclick="selectDoc('200', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">200</div>
-            <div class="dropdown-option" onclick="selectDoc('500', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">500</div>
-            <div class="dropdown-option" onclick="selectDoc('1000', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">1000</div>
-            <div class="dropdown-option" onclick="selectDoc('1500', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">1500</div>
-            <div class="dropdown-option selected" onclick="selectDoc('2000', event, 'prop-doc-dropdown', 'prop-doc-value', 'prop-save-btn')">2000</div>
+            <div class="dropdown-option" onclick="propSelectDoc('1', event)">1</div>
+            <div class="dropdown-option" onclick="propSelectDoc('2', event)">2</div>
+            <div class="dropdown-option" onclick="propSelectDoc('10', event)">10</div>
+            <div class="dropdown-option" onclick="propSelectDoc('20', event)">20</div>
+            <div class="dropdown-option selected" onclick="propSelectDoc('50', event)">50</div>
+            <div class="dropdown-option" onclick="propSelectDoc('100', event)">100</div>
+            <div class="dropdown-option" onclick="propSelectDoc('200', event)">200</div>
+            <div class="dropdown-option" onclick="propSelectDoc('500', event)">500</div>
+            <div class="dropdown-option" onclick="propSelectDoc('1000', event)">1000</div>
+            <div class="dropdown-option" onclick="propSelectDoc('1500', event)">1500</div>
+            <div class="dropdown-option" onclick="propSelectDoc('2000', event)">2000</div>
           </div>
         </div>
       </div>
 
-      <button class="btn" id="prop-save-btn" disabled>Save</button>
+      <button class="btn" id="prop-save-btn" disabled onclick="propSave()">Save</button>
 
     </div>
   </div>
@@ -557,6 +570,53 @@ function selectDoc(value, e, dropdownId, valueId, btnId) {
   const btn = document.getElementById(btnId);
   btn.disabled = false;
   btn.classList.add('enabled');
+}
+
+/* ── Proposed column: Save/Update state machine ── */
+let propValidationEnabled = true;
+let propDocValue = '50';
+let propSavedValidation = true;
+let propSavedDoc = '50';
+
+function propToggleValidation() {
+  propValidationEnabled = !propValidationEnabled;
+  document.getElementById('prop-validation-toggle').classList.toggle('off', !propValidationEnabled);
+  propUpdateDirtyState();
+}
+
+function propToggleDropdown() {
+  const dropdown = document.getElementById('prop-doc-dropdown');
+  if (dropdown.classList.contains('disabled')) return;
+  dropdown.classList.toggle('open');
+}
+
+function propSelectDoc(value, e) {
+  propDocValue = value;
+  document.getElementById('prop-doc-value').textContent = value;
+  const dropdown = document.getElementById('prop-doc-dropdown');
+  dropdown.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('selected'));
+  e.target.classList.add('selected');
+  dropdown.classList.remove('open');
+  propUpdateDirtyState();
+}
+
+function propUpdateDirtyState() {
+  const btn = document.getElementById('prop-save-btn');
+  const changed = (propValidationEnabled !== propSavedValidation) || (propDocValue !== propSavedDoc);
+  btn.disabled = !changed;
+  btn.classList.toggle('enabled', changed);
+}
+
+function propSave() {
+  propSavedValidation = propValidationEnabled;
+  propSavedDoc = propDocValue;
+
+  const btn = document.getElementById('prop-save-btn');
+  btn.textContent = 'Update';
+  btn.disabled = true;
+  btn.classList.remove('enabled');
+
+  document.getElementById('prop-doc-dropdown').classList.toggle('disabled', !propValidationEnabled);
 }
 </script>
 </body>

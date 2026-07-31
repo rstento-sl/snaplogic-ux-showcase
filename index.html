@@ -147,7 +147,7 @@ function severityClass(sev) {
 function renderCard(issue) {
   const pinCount = (issue.annotations || []).length;
   const m = issue.mockups || {};
-  const ticketLabel = issue.jira || issue.id || "";
+  const ticketLabel = issue.jira || issue.unreportedLabel || issue.id || "";
   const ticketEl = issue.jira
     ? `<a class="ticket-id" href="${JIRA_BASE_URL}${issue.jira}" target="_blank" rel="noopener">${ticketLabel}</a>`
     : `<span class="ticket-id">${ticketLabel}</span>`;

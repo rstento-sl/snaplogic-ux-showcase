@@ -86,7 +86,7 @@
       "category": "Content clarity / labeling",
       "summary": "The page title, an unexplained toggle, and an unrelated-looking document limit sit together with no copy tying them to each other or to what the page is actually for.",
       "mockups": {
-        "currentUi": "admin-manager/pipeline-validation/current-ui.html"
+        "comparison": "admin-manager/pipeline-validation/comparison.html"
       },
       "current_state": {
         "labels": [

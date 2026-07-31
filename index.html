@@ -169,7 +169,7 @@ function renderCard(issue) {
       <div class="meta">${issue.screen}</div>
       <p class="summary">${issue.summary || ""}</p>
       <div class="links">
-        ${m.comparison ? `<a class="primary" href="${m.comparison}">Current (${pinCount} issue${pinCount === 1 ? "" : "s"}) and proposed design</a>` : ""}
+        ${m.comparison ? `<a class="primary" href="${m.comparison}">Current UI and proposed design</a>` : ""}
         ${!m.comparison && m.currentUi ? `<a class="primary" href="${m.currentUi}">Current UI (${pinCount} issue${pinCount === 1 ? "" : "s"}) — proposed design pending</a>` : ""}
         ${m.possibleBug ? `<a class="secondary" href="${m.possibleBug}">Possible Bug</a>` : ""}
       </div>

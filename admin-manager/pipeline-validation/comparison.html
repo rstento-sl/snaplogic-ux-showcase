@@ -81,7 +81,30 @@
     font-size: 12px;
     font-style: italic;
   }
+
+  .state-toggle {
+    background: #fff;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .state-toggle span { font-size: 11px; color: var(--dim); margin-right: 2px; }
+  .state-btn {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--hairline);
+    background: #fff;
+    color: var(--dim);
+    cursor: pointer;
+  }
+  .state-btn.active { background: var(--teal); border-color: var(--teal); color: #fff; }
   .col-instruction.current { color: var(--red); }
+  .col-instruction.proposed { color: var(--teal); }
 
   .sheet { position: relative; }
   .sheet.current { transform: rotate(-0.4deg); }
@@ -364,6 +387,12 @@
   <!-- ── Proposed Redesign ── -->
   <div>
     <div class="compare-col-label proposed">Proposed design</div>
+    <div class="col-instruction proposed">When the user changes the preview document value, Update becomes active — before the user even clicks Save.</div>
+    <div class="state-toggle">
+      <span>View as:</span>
+      <button class="state-btn active" id="btn-initial-state" onclick="setDemoState('initial')">Initial state</button>
+      <button class="state-btn" id="btn-user-update" onclick="setDemoState('updated')">User update</button>
+    </div>
     <div class="page-wrapper">
 
       <h1>Designer pipeline validation and document previews</h1>
@@ -602,21 +631,42 @@ function propSelectDoc(value, e) {
 
 function propUpdateDirtyState() {
   const btn = document.getElementById('prop-save-btn');
-  const changed = (propValidationEnabled !== propSavedValidation) || (propDocValue !== propSavedDoc);
+  const docChanged = propDocValue !== propSavedDoc;
+  const changed = docChanged || (propValidationEnabled !== propSavedValidation);
   btn.disabled = !changed;
   btn.classList.toggle('enabled', changed);
+  btn.textContent = docChanged ? 'Update' : 'Save';
 }
 
 function propSave() {
   propSavedValidation = propValidationEnabled;
   propSavedDoc = propDocValue;
-
-  const btn = document.getElementById('prop-save-btn');
-  btn.textContent = 'Update';
-  btn.disabled = true;
-  btn.classList.remove('enabled');
-
   document.getElementById('prop-doc-dropdown').classList.toggle('disabled', !propValidationEnabled);
+  propUpdateDirtyState();
+}
+
+function setDemoState(state) {
+  const toggleEl = document.getElementById('prop-validation-toggle');
+  const dropdown = document.getElementById('prop-doc-dropdown');
+  const btnInitial = document.getElementById('btn-initial-state');
+  const btnUpdate = document.getElementById('btn-user-update');
+  const docValue = state === 'updated' ? '100' : '50';
+
+  propValidationEnabled = true;
+  propSavedValidation = true;
+  propSavedDoc = '50';
+  propDocValue = docValue;
+
+  toggleEl.classList.remove('off');
+  document.getElementById('prop-doc-value').textContent = docValue;
+  dropdown.querySelectorAll('.dropdown-option').forEach(opt => {
+    opt.classList.toggle('selected', opt.textContent.trim() === docValue);
+  });
+  dropdown.classList.remove('disabled');
+  propUpdateDirtyState();
+
+  btnInitial.classList.toggle('active', state === 'initial');
+  btnUpdate.classList.toggle('active', state === 'updated');
 }
 </script>
 </body>

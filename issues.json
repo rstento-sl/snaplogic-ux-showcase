@@ -42,7 +42,7 @@
         "steps": [
           {
             "step": 1,
-            "heading": "Copy SnapLogic values to your identity provider",
+            "heading": "Copy SnapLogic values for your identity provider",
             "body": "Copy the values below and use them to create a SAML application in your identity provider (Okta, Azure AD, etc.). Then return to this page to complete Step 2.",
             "elements": ["Entity ID (with copy button)", "Reply URL (with copy button)", "Logout URL (with copy button)", "Download metadata file (alternative for IdPs that accept file format)"]
           },

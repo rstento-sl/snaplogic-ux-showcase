@@ -15,39 +15,48 @@
     padding: 24px;
   }
 
+  :root {
+    --dim: #7D8695;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --orange: #C75209;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
+  .topbar { max-width: 760px; margin: 0 auto; height: 4px; background: var(--orange); border-radius: 4px 4px 0 0; }
+
   /* ── Mockup toolbar ── */
   .mockup-toolbar {
     max-width: 760px;
     margin: 0 auto;
-    background: #1a1a2e;
-    border-radius: 4px 4px 0 0;
-    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-top: none;
+    padding: 14px 32px 12px;
   }
   .mockup-breadcrumb {
-    padding: 8px 40px 7px;
-    color: #8a8aa3;
+    font-family: var(--mono);
+    color: var(--dim);
     font-size: 11px;
     letter-spacing: 0.02em;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 10px;
   }
-  .mockup-breadcrumb .sep { margin: 0 6px; color: #52526a; }
+  .mockup-breadcrumb .sep { margin: 0 6px; color: var(--hairline); }
   .mockup-back {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 40px;
   }
   .mockup-back a {
-    color: #aaa;
+    color: var(--teal);
     text-decoration: none;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
   }
-  .mockup-back a:hover { color: #fff; }
+  .mockup-back a:hover { text-decoration: underline; }
   .mockup-instruction {
-    padding: 0 40px 10px;
-    color: #FBA36D;
-    font-style: italic;
+    margin-top: 8px;
+    color: var(--orange);
     font-size: 12px;
   }
 
@@ -160,11 +169,12 @@
 </head>
 <body>
 
+<div class="topbar"></div>
 <div class="mockup-toolbar">
-  <div class="mockup-breadcrumb">Admin Manager <span class="sep">›</span> Authentication <span class="sep">›</span> SSO tab</div>
+  <div class="mockup-breadcrumb">admin-manager <span class="sep">/</span> authentication <span class="sep">/</span> sso</div>
   <div class="mockup-back">
     <a href="comparison.html">← Back to comparison</a>
-    <a href="#" onclick="jumpToPin(event)" style="color:#FBA36D;">Jump to issue ↓</a>
+    <a href="#" onclick="jumpToPin(event)" style="color:var(--orange); font-weight:700; text-decoration:none;">Jump to issue ↓</a>
   </div>
   <div class="mockup-instruction">⚠ Not a UX design issue — flagged separately from the SSO catalog</div>
 </div>

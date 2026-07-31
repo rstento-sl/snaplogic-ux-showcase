@@ -6,85 +6,143 @@
 <title>UX Issue Showcase</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1F2125;
+    --dim: #7D8695;
+    --paper: #FAFAFB;
+    --canvas: #EBEDF1;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --teal-tint: #E6F2F2;
+    --red: #E31C3D;
+    --red-tint: #FDF3F5;
+    --red-ink: #B61631;
+    --orange: #C75209;
+    --orange-tint: #FEF0E7;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #f5f5f5;
-    color: #1a1a1a;
-    padding: 48px 24px;
+    background: var(--canvas);
+    color: var(--ink);
+    padding-bottom: 64px;
   }
-  .wrap { max-width: 720px; margin: 0 auto; }
-  h1 { font-size: 26px; margin-bottom: 8px; }
-  .sub { color: #555; margin-bottom: 32px; line-height: 1.5; }
+
+  .topbar { height: 4px; background: var(--teal); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 0; }
+
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px; flex-wrap: wrap; }
+  h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
+  .ticket-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--teal);
+    background: var(--teal-tint);
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .sub { color: var(--dim); margin-bottom: 36px; line-height: 1.5; font-size: 14px; max-width: 52ch; }
 
   .area-title {
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #888;
-    margin: 32px 0 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dim);
+    letter-spacing: 0.01em;
+    margin: 36px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--hairline);
   }
   .area-title:first-of-type { margin-top: 0; }
-  .empty { color: #999; font-size: 13px; font-style: italic; }
+  .area-title::after { content: "/"; color: var(--hairline); margin-left: 2px; }
+
+  .empty {
+    border: 1px dashed var(--hairline);
+    border-radius: 6px;
+    padding: 18px 20px;
+    color: var(--dim);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
 
   .issue-card {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--paper);
+    border: 1px solid var(--hairline);
     border-radius: 6px;
     padding: 20px 24px;
     margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(206, 217, 240, 0.6);
   }
   .issue-card-top {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
+  .ticket-id {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .badges { display: flex; align-items: center; gap: 6px; }
   .tag {
     font-size: 11px;
     font-weight: 600;
-    color: #444;
-    background: #f0f0f0;
+    color: var(--dim);
+    background: var(--canvas);
     padding: 3px 9px;
-    border-radius: 10px;
+    border-radius: 999px;
   }
   .severity {
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     padding: 3px 9px;
-    border-radius: 10px;
+    border-radius: 999px;
   }
-  .severity-high { background: #fdecea; color: #B61631; }
-  .severity-medium { background: #fff3e0; color: #C75209; }
-  .severity-low { background: #eef2f6; color: #555; }
+  .severity-high { background: var(--red-tint); color: var(--red-ink); }
+  .severity-medium { background: var(--orange-tint); color: var(--orange); }
+  .severity-low { background: var(--canvas); color: var(--dim); }
 
-  .issue-card h2 { font-size: 16px; margin-bottom: 4px; }
-  .issue-card .meta { font-size: 12px; color: #888; margin-bottom: 10px; }
-  .issue-card .summary { font-size: 13px; color: #444; line-height: 1.5; margin-bottom: 16px; }
+  .issue-card h2 { font-size: 17px; font-weight: 800; margin-bottom: 4px; line-height: 1.3; }
+  .issue-card .meta { font-family: var(--mono); font-size: 11px; color: var(--dim); margin-bottom: 12px; }
+  .issue-card .summary { font-size: 13px; color: #444; line-height: 1.55; margin-bottom: 18px; }
 
   .links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
   .issue-card a {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
-    padding: 6px 12px;
+    padding: 7px 14px;
     border-radius: 4px;
     border: 1px solid;
-    background: #fff;
   }
-  .issue-card a.primary { color: #0841B4; border-color: #0841B4; }
-  .issue-card a.primary:hover { background: #E6ECF8; }
-  .issue-card a.secondary { color: #C75209; border-color: #C75209; }
-  .issue-card a.secondary:hover { background: #FEF0E7; }
+  .issue-card a.primary { color: #fff; background: var(--teal); border-color: var(--teal); }
+  .issue-card a.primary:hover { background: #076766; border-color: #076766; }
+  .issue-card a.secondary { color: var(--orange); border-color: var(--orange); background: transparent; }
+  .issue-card a.secondary:hover { background: var(--orange-tint); }
 </style>
 </head>
 <body>
+<div class="topbar"></div>
 <div class="wrap">
-  <h1>UX Issue Showcase</h1>
-  <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin UI, with proposed fixes.</p>
-  <div id="app"><p class="empty">Loading issue catalog…</p></div>
+  <header>
+    <h1>UX Issue Showcase</h1>
+    <span class="ticket-count" id="ticket-count"></span>
+  </header>
+  <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin UI, with proposed fixes — for PM and engineering review.</p>
+  <div id="app"><p class="empty">// loading issue catalog…</p></div>
 </div>
 
 <script>
@@ -100,11 +158,14 @@ function renderCard(issue) {
   return `
     <div class="issue-card">
       <div class="issue-card-top">
-        <span class="tag">${issue.category || ""}</span>
-        <span class="severity ${severityClass(issue.severity)}">${issue.severity || ""}</span>
+        <span class="ticket-id">${issue.jira || issue.id || ""}</span>
+        <div class="badges">
+          <span class="tag">${issue.category || ""}</span>
+          <span class="severity ${severityClass(issue.severity)}">${issue.severity || ""}</span>
+        </div>
       </div>
       <h2>${issue.title}</h2>
-      <div class="meta">${issue.screen}${issue.jira ? " &nbsp;·&nbsp; " + issue.jira : ""}</div>
+      <div class="meta">${issue.screen}</div>
       <p class="summary">${issue.summary || ""}</p>
       <div class="links">
         ${m.comparison ? `<a class="primary" href="${m.comparison}">Current (${pinCount} issue${pinCount === 1 ? "" : "s"}) and proposed design</a>` : ""}
@@ -117,17 +178,21 @@ function renderCard(issue) {
 fetch("issues.json")
   .then(r => r.json())
   .then(data => {
+    const issues = data.issues || [];
+    document.getElementById("ticket-count").textContent =
+      issues.length + " ticket" + (issues.length === 1 ? "" : "s") + " open";
+
     const byArea = {};
-    (data.issues || []).forEach(issue => {
+    issues.forEach(issue => {
       const area = issue.area || "Uncategorized";
       (byArea[area] = byArea[area] || []).push(issue);
     });
 
     const html = AREAS.map(area => {
-      const issues = byArea[area] || [];
-      const body = issues.length
-        ? issues.map(renderCard).join("")
-        : `<p class="empty">No issues cataloged yet.</p>`;
+      const areaIssues = byArea[area] || [];
+      const body = areaIssues.length
+        ? areaIssues.map(renderCard).join("")
+        : `<p class="empty">— no tickets filed —</p>`;
       return `<div class="area-title">${area}</div>${body}`;
     }).join("");
 

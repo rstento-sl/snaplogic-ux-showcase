@@ -112,6 +112,17 @@
   .compare-col-label.current { background: var(--red); }
   .compare-col-label.proposed { background: var(--teal); }
 
+  .col-instruction {
+    background: #fff;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 10px 32px;
+    font-size: 12px;
+    font-style: italic;
+  }
+  .col-instruction.current { color: var(--red); }
+  .col-instruction.proposed { color: var(--teal); }
+
   /* ── Sheet framing (redline vs. proposed) ── */
   .sheet { position: relative; }
   .sheet.current { transform: rotate(-0.4deg); }
@@ -451,7 +462,7 @@
     <h1>SSO configuration screen conflates two tasks in wrong order</h1>
   </div>
   <div class="header-row">
-    <div class="instruction">Click a red pin on the left to see what's wrong · click Update in Step 2 on the right to see Step 3 unlock</div>
+    <div class="instruction">Click Update in Step 2 on the right to see Step 3 unlock</div>
     <a class="bug-link" href="possible-bug.html">⚠ 1 possible bug noted →</a>
   </div>
 </div>
@@ -463,6 +474,7 @@
     <div class="sheet current">
     <span class="stamp redline">REDLINE</span>
     <div class="compare-col-label current">Current UI<span class="count">(3 issues)</span></div>
+    <div class="col-instruction current">Click a red pin on the left to see what's wrong</div>
     <div class="page-wrapper">
 
       <h1>Authentication</h1>

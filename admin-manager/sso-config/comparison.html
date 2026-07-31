@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSO Configuration — Current UI vs. Proposed Redesign</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #f5f5f5;
+    padding: 24px;
+  }
+
+  /* ── Shared header ── */
+  .showcase-header {
+    max-width: 1500px;
+    margin: 0 auto 20px;
+    background: #1a1a2e;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .breadcrumb {
+    padding: 8px 32px 7px;
+    color: #8a8aa3;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .breadcrumb .sep { margin: 0 6px; color: #52526a; }
+  .issue-heading {
+    padding: 16px 32px 4px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .issue-heading .jira {
+    font-size: 11px;
+    font-weight: 600;
+    color: #8ab4f8;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 32px 16px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .instruction { color: #8ab4f8; font-style: italic; font-size: 12px; }
+  .bug-link {
+    color: #ffb74d;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .bug-link:hover { text-decoration: underline; }
+
+  /* ── Comparison grid ── */
+  .compare-grid {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+  .compare-col-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  .compare-col-label.current { color: #c62828; }
+  .compare-col-label.proposed { color: #1557b0; }
+
+  /* ── Shared page-recreation chrome ── */
+  .page-wrapper {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 28px 32px 40px;
+    position: relative;
+  }
+  h1 { font-size: 26px; font-weight: 700; margin-bottom: 18px; }
+  .tabs { display: flex; border-bottom: 2px solid #e0e0e0; margin-bottom: 20px; }
+  .tab { padding: 8px 0; margin-right: 24px; font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+  .tab.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+  .intro-text { color: #444; margin-bottom: 22px; line-height: 1.5; }
+  .intro-text a { color: #1a73e8; text-decoration: none; }
+
+  /* ── Current UI: sections + pins + popover ── */
+  .section { padding: 22px 0; border-bottom: 1px solid #e8e8e8; position: relative; }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .section-body { font-size: 13px; color: #444; margin-bottom: 14px; line-height: 1.5; }
+
+  .field-label { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 3px; }
+  .field-value { font-size: 13px; color: #1a1a1a; margin-bottom: 14px; }
+  .field-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .field-row-text { flex: 1; }
+  .field-row .field-value { margin-bottom: 0; }
+  .copy-icon { color: #888; cursor: pointer; padding: 4px; border-radius: 3px; }
+  .copy-icon:hover { background: #f0f0f0; }
+  .copy-icon svg { width: 16px; height: 16px; display: block; }
+
+  .btn {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    color: #aaa;
+    cursor: not-allowed;
+  }
+  .btn-primary { background: #1a73e8; color: #fff; border-color: #1a73e8; cursor: pointer; }
+
+  .pin {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #d32f2f;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 300;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+    transition: transform 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .pin:hover { transform: scale(1.15); background: #b71c1c; }
+  .pin.active { background: #b71c1c; transform: scale(1.15); }
+
+  .section.highlighted { background: #fff8f8; border-radius: 4px; }
+  .section.highlighted .section-title { color: #c62828; }
+
+  .popover {
+    display: none;
+    position: fixed;
+    width: 380px;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 400;
+    overflow-y: auto;
+  }
+  .popover-header {
+    background: #d32f2f;
+    color: #fff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .popover-header .pin-label {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .popover-body { padding: 16px; }
+  .popover-problem {
+    font-size: 13px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eee;
+  }
+  .popover-fix-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #2e7d32;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .popover-fix-label svg { width: 13px; height: 13px; }
+  .popover-fix { font-size: 13px; color: #1a1a1a; line-height: 1.6; }
+  .popover-footer {
+    padding: 10px 16px;
+    background: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+    border-top: 1px solid #eee;
+  }
+  .popover-nav { display: flex; gap: 8px; }
+  .popover-nav button {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    color: #444;
+  }
+  .popover-nav button:hover { background: #f0f0f0; }
+  .popover-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: auto;
+    line-height: 1;
+    padding: 0 0 0 8px;
+  }
+
+  /* ── Proposed redesign: step blocks ── */
+  .step-block {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .step-block .step-number { background: #1a73e8; }
+  .step-block.locked { opacity: 0.55; }
+  .step-block.locked .step-number { background: #bbb; }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 22px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ccc;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-header-text h2 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .step-header-text p { font-size: 13px; color: #555; line-height: 1.5; }
+  .step-body { padding: 22px; }
+
+  .value-row { margin-bottom: 16px; }
+  .value-row:last-child { margin-bottom: 0; }
+  .value-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 5px;
+  }
+  .value-field { display: flex; align-items: center; gap: 8px; }
+  .value-text {
+    font-size: 13px;
+    color: #1a1a1a;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 12px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .copy-btn {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 7px 10px;
+    cursor: pointer;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .copy-btn:hover { background: #f0f0f0; border-color: #999; }
+  .copy-btn.copied { color: #2e7d32; border-color: #81c784; background: #f1f8f1; }
+  .copy-btn svg { width: 14px; height: 14px; }
+
+  .or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 18px 0;
+    color: #999;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .or-divider::before, .or-divider::after { content: ''; flex: 1; border-top: 1px solid #e0e0e0; }
+  .or-divider span { padding: 0 12px; }
+
+  .alt-option { font-size: 13px; color: #555; margin-bottom: 12px; }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .download-btn:hover { background: #f5f5f5; border-color: #999; }
+  .download-btn svg { width: 15px; height: 15px; }
+
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .form-input {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #1a1a1a;
+    background: #fff;
+  }
+  .form-input:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,0.15); }
+  .form-input::placeholder { color: #aaa; }
+
+  .update-btn {
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .update-btn:hover { background: #1557b0; }
+  .update-btn:disabled { background: #ccc; cursor: not-allowed; }
+</style>
+</head>
+<body>
+
+<div class="showcase-header">
+  <div class="breadcrumb">Admin Manager <span class="sep">›</span> Authentication <span class="sep">›</span> SSO tab</div>
+  <div class="issue-heading">SSO configuration screen conflates two tasks in wrong order <span class="jira">APP-2297</span></div>
+  <div class="header-row">
+    <div class="instruction">Click a red pin on the left to see what's wrong · click Update in Step 2 on the right to see Step 3 unlock</div>
+    <a class="bug-link" href="possible-bug.html">⚠ 1 possible bug noted →</a>
+  </div>
+</div>
+
+<div class="compare-grid">
+
+  <!-- ── Current UI ── -->
+  <div>
+    <div class="compare-col-label current">Current UI</div>
+    <div class="page-wrapper">
+
+      <h1>Authentication</h1>
+      <div class="tabs">
+        <div class="tab active">SSO</div>
+        <div class="tab">JWT</div>
+      </div>
+      <p class="intro-text">
+        SnapLogic supports SSO identity providers (IdPs) that adhere to the SAML 2.0 standard. <a href="#">Learn more.</a>
+      </p>
+
+      <div class="section" id="section-A">
+        <div class="pin" id="pin-2" style="top: 18px; right: 0;" onclick="openPopover(2, event)">2</div>
+        <div class="section-title">Upload identity provider metadata</div>
+        <p class="section-body">All of your environments must use the same IdP. Upload the metadata file provided by your IdP.</p>
+        <button class="btn btn-primary">Upload file</button>
+      </div>
+
+      <div class="section" id="section-B">
+        <div class="pin" id="pin-3" style="top: 18px; right: 0;" onclick="openPopover(3, event)">3</div>
+        <div class="section-title">Add SnapLogic application in your identity provider</div>
+        <p class="section-body">Copy and paste the links in your identity provider.</p>
+
+        <div class="field-row">
+          <div class="field-row-text">
+            <div class="field-label">Entity ID</div>
+            <div class="field-value">https://your-org.snaplogic.com/api/1/rest/admin/sso/login?org_path=YOUR_ORG</div>
+          </div>
+          <div class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+        </div>
+        <div class="field-row">
+          <div class="field-row-text">
+            <div class="field-label">Reply URL (Assertion Consumer Service URL)</div>
+            <div class="field-value">https://your-org.snaplogic.com/api/1/rest/admin/org/ORG_ID/saml/consume</div>
+          </div>
+          <div class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+        </div>
+        <div class="field-row">
+          <div class="field-row-text">
+            <div class="field-label">Logout URL</div>
+            <div class="field-value">https://your-org.snaplogic.com/api/1/rest/admin/org/ORG_ID/saml/logout</div>
+          </div>
+          <div class="copy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+        </div>
+      </div>
+
+      <div class="section" id="section-C">
+        <div class="section-title">Provide SnapLogic metadata to your IdP</div>
+        <p class="section-body">Download the metadata file and upload it to your IdP.</p>
+        <button class="btn">Download file</button>
+      </div>
+
+      <div class="pin" id="pin-1" style="position:absolute; top: 28px; right: 32px;" onclick="openPopover(1, event)">1</div>
+
+      <div class="section">
+        <div class="section-title">Manage SSO options</div>
+        <button class="btn">Set up SSO options</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Proposed Redesign ── -->
+  <div>
+    <div class="compare-col-label proposed">Proposed Redesign</div>
+    <div class="page-wrapper">
+
+      <h1>Authentication</h1>
+      <div class="tabs">
+        <div class="tab active">SSO</div>
+        <div class="tab">JWT</div>
+      </div>
+      <p class="intro-text">
+        SnapLogic supports SSO identity providers (IdPs) that adhere to the SAML 2.0 standard. <a href="#">Learn more.</a>
+      </p>
+
+      <div class="step-block" id="step1-block">
+        <div class="step-header">
+          <div class="step-number">1</div>
+          <div class="step-header-text">
+            <h2>Copy SnapLogic values to your identity provider</h2>
+            <p>Copy the values below and use them to create a SAML application in your identity provider (Okta, Azure AD, etc.). Then return to this page to complete Step 2.</p>
+          </div>
+        </div>
+        <div class="step-body">
+          <p class="alt-option">Some identity providers accept a metadata file. If yours does, download and upload it — no need to copy individual values.</p>
+          <button class="download-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download metadata file
+          </button>
+
+          <div class="or-divider"><span>or copy individual values</span></div>
+
+          <div class="value-row">
+            <div class="value-label">Entity ID</div>
+            <div class="value-field">
+              <div class="value-text">https://your-org.snaplogic.com/api/1/rest/admin/sso/login?org_path=YOUR_ORG</div>
+              <button class="copy-btn" onclick="copyVal(this, 'https://your-org.snaplogic.com/api/1/rest/admin/sso/login?org_path=YOUR_ORG')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+          </div>
+          <div class="value-row">
+            <div class="value-label">Reply URL (Assertion Consumer Service URL)</div>
+            <div class="value-field">
+              <div class="value-text">https://your-org.snaplogic.com/api/1/rest/admin/org/ORG_ID/saml/consume</div>
+              <button class="copy-btn" onclick="copyVal(this, 'https://your-org.snaplogic.com/api/1/rest/admin/org/ORG_ID/saml/consume')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+          </div>
+          <div class="value-row">
+            <div class="value-label">Logout URL</div>
+            <div class="value-field">
+              <div class="value-text">https://your-org.snaplogic.com/api/1/rest/admin/org/ORG_ID/saml/logout</div>
+              <button class="copy-btn" onclick="copyVal(this, 'https://your-org.snaplogic.com/api/1/rest/admin/org/ORG_ID/saml/logout')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-block" id="step2-block">
+        <div class="step-header">
+          <div class="step-number">2</div>
+          <div class="step-header-text">
+            <h2>Upload your identity provider metadata</h2>
+            <p>Complete this after finishing Step 1 in your identity provider. Export its metadata and enter the values below.</p>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="form-group">
+            <label class="form-label">IdP Entity ID</label>
+            <input class="form-input" type="text" placeholder="Paste the Entity ID from your identity provider" id="idp-entity">
+          </div>
+          <div class="form-group">
+            <label class="form-label">IdP HTTP-POST Endpoint</label>
+            <input class="form-input" type="text" placeholder="Paste the HTTP-POST endpoint from your identity provider" id="idp-endpoint">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Single Log Off Call Back URL</label>
+            <input class="form-input" type="text" placeholder="Optional — paste if your IdP provides one" id="idp-logout">
+          </div>
+          <button class="update-btn" id="update-btn" onclick="saveStep2()">Upload file</button>
+        </div>
+      </div>
+
+      <div class="step-block locked" id="step3-block">
+        <div class="step-header">
+          <div class="step-number">3</div>
+          <div class="step-header-text">
+            <h2>Manage SSO options</h2>
+            <p id="step3-note">Available after you save your identity provider metadata in Step 2.</p>
+          </div>
+        </div>
+        <div class="step-body">
+          <button class="update-btn" id="step3-btn" disabled>Set up SSO options</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Popover (shared, positions relative to whichever pin was clicked) -->
+<div class="popover" id="popover">
+  <div class="popover-header">
+    <div class="pin-label" id="pop-num">1</div>
+    <h3 id="pop-title"></h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <div class="popover-problem" id="pop-problem"></div>
+    <div class="popover-fix-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      Proposed fix
+    </div>
+    <div class="popover-fix" id="pop-fix"></div>
+  </div>
+  <div class="popover-footer">
+    <span id="pop-counter"></span>
+    <div class="popover-nav">
+      <button id="btn-prev" onclick="navigate(-1)">← Prev</button>
+      <button id="btn-next" onclick="navigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const annotations = [
+  {
+    title: "Sections are out of order, with no indication users must leave and return",
+    problem: "Users visit this page twice, at two different times — first to copy values OUT to the IdP, later to paste IdP metadata BACK IN. But the paste-back section appears first, above the copy-out section, so users hit it before they have anything to enter. Nothing marks the sections as sequential or tells users they need to leave and come back.",
+    fix: "Reorder the sections to match the real workflow and number them: Step 1 — copy/download SnapLogic values, go set up your IdP. Step 2 — return and upload the IdP metadata.",
+    section: null
+  },
+  {
+    title: "Upload section appears before the user has a file to upload",
+    problem: "The “Upload identity provider metadata” section is the first thing users see, and its “Upload file” button is fully enabled — but users don't have a metadata file yet. That file only exists after they create a SAML application in their IdP using the SnapLogic values lower on this same page. Users either open the file picker with nothing valid to select, or abandon the page thinking they've missed a step.",
+    fix: "Move this section to Step 2, below the SnapLogic values, and disable “Upload file” until Step 1 is complete. Add a subheading: “Complete after finishing Step 1 in your identity provider.”",
+    section: "section-A"
+  },
+  {
+    title: "Users need these values first, but the page shows them second — with no instruction",
+    problem: "Users need the Entity ID, Reply URL, and Logout URL to configure their IdP — but the page buries them below the upload section and gives no instruction to copy them or go elsewhere. The page also gives no indication that the “Download file” option in the next section is an alternative path for this same step.",
+    fix: "Make this Step 1. Lead with the download option and add an “or copy individual values” divider before listing the URLs. Add copy buttons and explicit instruction: “Copy these values and use them to create a SAML application in your identity provider. Then return here to complete Step 2.”",
+    section: "section-B"
+  }
+];
+
+let current = null;
+
+function openPopover(n, e) {
+  e.stopPropagation();
+  current = n;
+  render(n);
+
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+
+  const a = annotations[n - 1];
+  if (a.section) document.getElementById(a.section).classList.add('highlighted');
+  document.getElementById('pin-' + n).classList.add('active');
+
+  positionPopover(e.target.closest('.pin'));
+}
+
+function positionPopover(pinEl) {
+  const pop = document.getElementById('popover');
+  pop.style.display = 'block';
+
+  const rect = pinEl.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  const popWidth = popRect.width;
+  const popHeight = popRect.height;
+
+  let top = rect.bottom + margin;
+  if (top + popHeight > window.innerHeight - margin) {
+    top = rect.top - popHeight - margin;
+  }
+  top = Math.max(margin, Math.min(top, window.innerHeight - popHeight - margin));
+
+  let left = rect.left + rect.width / 2 - popWidth / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popWidth - margin));
+
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function render(n) {
+  const a = annotations[n - 1];
+  document.getElementById('pop-num').textContent = n;
+  document.getElementById('pop-title').textContent = a.title;
+  document.getElementById('pop-problem').textContent = a.problem;
+  document.getElementById('pop-fix').textContent = a.fix;
+  document.getElementById('pop-counter').textContent = 'Issue ' + n + ' of ' + annotations.length;
+  document.getElementById('btn-prev').disabled = n === 1;
+  document.getElementById('btn-next').disabled = n === annotations.length;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > annotations.length) return;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  current = next;
+  render(next);
+  const a = annotations[next - 1];
+  if (a.section) document.getElementById(a.section).classList.add('highlighted');
+  const pinEl = document.getElementById('pin-' + next);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  current = null;
+}
+
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('popover');
+  if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) {
+    closePopover();
+  }
+});
+
+function saveStep2() {
+  const step3 = document.getElementById('step3-block');
+  step3.classList.remove('locked');
+  document.getElementById('step3-btn').disabled = false;
+  document.getElementById('step3-note').textContent = 'Configure single sign-on enforcement and other options for your org.';
+
+  const updateBtn = document.getElementById('update-btn');
+  updateBtn.textContent = 'Saved ✓';
+  updateBtn.disabled = true;
+}
+
+function copyVal(btn, text) {
+  navigator.clipboard.writeText(text).catch(() => {});
+  btn.classList.add('copied');
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied`;
+  setTimeout(() => {
+    btn.classList.remove('copied');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
+  }, 2000);
+}
+</script>
+</body>
+</html>

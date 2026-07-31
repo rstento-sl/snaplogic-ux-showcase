@@ -15,7 +15,7 @@
     padding: 24px;
   }
 
-  /* ── Mockup toolbar (shared across mockup-issue-01-*.html) ── */
+  /* ── Mockup toolbar ── */
   .mockup-toolbar {
     max-width: 760px;
     margin: 0 auto;
@@ -31,35 +31,21 @@
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .mockup-breadcrumb .sep { margin: 0 6px; color: #52526a; }
-  .mockup-nav {
+  .mockup-back {
     display: flex;
     align-items: center;
-    padding: 0 40px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    justify-content: space-between;
+    padding: 10px 40px;
   }
-  .mockup-nav a {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 0;
-    margin-right: 24px;
+  .mockup-back a {
     color: #aaa;
     text-decoration: none;
     font-size: 12px;
     font-weight: 600;
-    border-bottom: 2px solid transparent;
   }
-  .mockup-nav a:hover { color: #fff; }
-  .mockup-nav a.current { color: #fff; border-bottom-color: #b26a00; }
-  .mockup-nav a .tag {
-    background: rgba(255,255,255,0.12);
-    padding: 1px 7px;
-    border-radius: 8px;
-    font-size: 10px;
-    font-weight: 600;
-  }
+  .mockup-back a:hover { color: #fff; }
   .mockup-instruction {
-    padding: 8px 40px;
+    padding: 0 40px 10px;
     color: #ffb74d;
     font-style: italic;
     font-size: 12px;
@@ -176,15 +162,11 @@
 
 <div class="mockup-toolbar">
   <div class="mockup-breadcrumb">Admin Manager <span class="sep">›</span> Authentication <span class="sep">›</span> SSO tab</div>
-  <div class="mockup-nav">
-    <a href="current-ui.html">Current UI <span class="tag">3 issues</span></a>
-    <a href="proposed-redesign.html">Proposed Redesign</a>
-    <a class="current" href="possible-bug.html">Possible Bug</a>
+  <div class="mockup-back">
+    <a href="comparison.html">← Back to comparison</a>
+    <a href="#" onclick="jumpToPin(event)" style="color:#ffb74d;">Jump to issue ↓</a>
   </div>
-  <div class="mockup-instruction">
-    ⚠ Not a UX design issue — flagged separately from the SSO catalog
-    <a href="#" onclick="jumpToPin(event)" style="color:#ffb74d; margin-left:10px;">Jump to issue ↓</a>
-  </div>
+  <div class="mockup-instruction">⚠ Not a UX design issue — flagged separately from the SSO catalog</div>
 </div>
 
 <div class="page-wrapper">

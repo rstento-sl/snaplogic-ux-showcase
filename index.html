@@ -125,12 +125,11 @@ function renderCard(issue) {
       <div class="meta">${issue.screen}${issue.jira ? " &nbsp;·&nbsp; " + issue.jira : ""}</div>
       <p class="summary">${issue.summary || ""}</p>
       <div class="links">
-        ${m.currentUi ? `<a class="primary" href="${m.currentUi}">Current UI (${pinCount} issue${pinCount === 1 ? "" : "s"})</a>` : ""}
-        ${m.proposedRedesign ? `<a class="primary" href="${m.proposedRedesign}">Proposed Redesign</a>` : ""}
+        ${m.comparison ? `<a class="primary" href="${m.comparison}">View comparison (${pinCount} issue${pinCount === 1 ? "" : "s"})</a>` : ""}
         ${m.possibleBug ? `<a class="secondary" href="${m.possibleBug}">Possible Bug</a>` : ""}
-        ${m.currentUi ? `<button class="preview-toggle" onclick="togglePreview(this)">Show live preview ▾</button>` : ""}
+        ${m.comparison ? `<button class="preview-toggle" onclick="togglePreview(this)">Show live preview ▾</button>` : ""}
       </div>
-      ${m.currentUi ? `<div class="preview-frame"><iframe src="${m.currentUi}" loading="lazy"></iframe></div>` : ""}
+      ${m.comparison ? `<div class="preview-frame"><iframe src="${m.comparison}" loading="lazy"></iframe></div>` : ""}
     </div>
   `;
 }

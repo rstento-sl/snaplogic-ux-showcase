@@ -144,14 +144,6 @@
     cursor: pointer;
   }
   .state-btn.active { background: var(--teal); border-color: var(--teal); color: #fff; }
-  .step1-done-badge {
-    display: none;
-    font-size: 11px;
-    font-weight: 700;
-    color: #017D1B;
-    margin-left: 8px;
-    vertical-align: middle;
-  }
 
   /* ── Sheet framing (redline vs. proposed) ── */
   .sheet { position: relative; }
@@ -574,7 +566,7 @@
         <div class="step-header">
           <div class="step-number">1</div>
           <div class="step-header-text">
-            <h2>Copy SnapLogic values for your identity provider<span class="step1-done-badge" id="step1-done-badge">✓ Already sent to your IdP</span></h2>
+            <h2>Copy SnapLogic values for your identity provider</h2>
             <p>Copy the values below and use them to create a SAML application in your identity provider (Okta, Azure AD, etc.). Then return to this page to complete Step 2.</p>
           </div>
         </div>
@@ -789,7 +781,6 @@ function saveStep2() {
 }
 
 function setProposedState(state) {
-  const step1Badge = document.getElementById('step1-done-badge');
   const updateBtn = document.getElementById('update-btn');
   const step3 = document.getElementById('step3-block');
   const step3Btn = document.getElementById('step3-btn');
@@ -798,18 +789,18 @@ function setProposedState(state) {
   const btnConfigured = document.getElementById('btn-configured');
 
   if (state === 'configured') {
-    step1Badge.style.display = 'inline';
-    updateBtn.textContent = 'Saved ✓';
-    updateBtn.disabled = true;
+    updateBtn.textContent = 'Update';
+    updateBtn.disabled = false;
+    updateBtn.onclick = null;
     step3.classList.remove('locked');
     step3Btn.disabled = false;
     step3Note.textContent = 'Configure single sign-on enforcement and other options for your org.';
     btnConfigured.classList.add('active');
     btnFirst.classList.remove('active');
   } else {
-    step1Badge.style.display = 'none';
     updateBtn.textContent = 'Upload file';
     updateBtn.disabled = false;
+    updateBtn.onclick = saveStep2;
     step3.classList.add('locked');
     step3Btn.disabled = true;
     step3Note.textContent = 'Available after you save the identity provider metadata.';

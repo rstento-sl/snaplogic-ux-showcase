@@ -25,12 +25,17 @@
   }
   .breadcrumb {
     padding: 8px 32px 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     color: #8a8aa3;
     font-size: 11px;
     letter-spacing: 0.02em;
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .breadcrumb .sep { margin: 0 6px; color: #52526a; }
+  .back-link { color: #aaa; text-decoration: none; font-weight: 600; }
+  .back-link:hover { color: #fff; }
   .issue-heading {
     padding: 16px 32px 4px;
     color: #fff;
@@ -388,7 +393,10 @@
 <body>
 
 <div class="showcase-header">
-  <div class="breadcrumb">Admin Manager <span class="sep">›</span> Authentication <span class="sep">›</span> SSO tab</div>
+  <div class="breadcrumb">
+    <span>Admin Manager <span class="sep">›</span> Authentication <span class="sep">›</span> SSO tab</span>
+    <a class="back-link" href="../../index.html">← All issues</a>
+  </div>
   <div class="issue-heading">SSO configuration screen conflates two tasks in wrong order <span class="jira">APP-2297</span></div>
   <div class="header-row">
     <div class="instruction">Click a red pin on the left to see what's wrong · click Update in Step 2 on the right to see Step 3 unlock</div>

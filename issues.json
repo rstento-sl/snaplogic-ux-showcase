@@ -51,7 +51,7 @@
             "heading": "Upload your identity provider metadata",
             "subheading": "Complete after finishing Step 1 in your identity provider",
             "body": "After creating your SAML application in your IdP, export the metadata file and upload it here.",
-            "elements": ["IdP Entity ID field", "IdP HTTP-POST Endpoint field", "Single Log Off Call Back URL field", "Update button"]
+            "elements": ["Upload file button"]
           }
         ]
       },

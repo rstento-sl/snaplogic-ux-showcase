@@ -413,27 +413,6 @@
   .download-btn:hover { background: #f5f5f5; border-color: #999; }
   .download-btn svg { width: 15px; height: 15px; }
 
-  .form-group { margin-bottom: 16px; }
-  .form-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #333;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 5px;
-    display: block;
-  }
-  .form-input {
-    width: 100%;
-    padding: 8px 12px;
-    font-size: 13px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    color: #1a1a1a;
-    background: #fff;
-  }
-  .form-input:focus { outline: none; border-color: #0841B4; box-shadow: 0 0 0 2px rgba(26,115,232,0.15); }
-  .form-input::placeholder { color: #aaa; }
 
   .update-btn {
     background: #0841B4;
@@ -611,22 +590,10 @@
           <div class="step-number">2</div>
           <div class="step-header-text">
             <h2>Upload your identity provider metadata</h2>
-            <p>Complete this after finishing Step 1 in your identity provider. Export its metadata and enter the values below. <a class="inline-learn-more" href="https://docs.snaplogic.com/admin-manager/configure-sso.html" target="_blank" rel="noopener">Learn more.</a></p>
+            <p>Complete this after finishing Step 1 in your identity provider. Export its metadata file and upload it below. <a class="inline-learn-more" href="https://docs.snaplogic.com/admin-manager/configure-sso.html" target="_blank" rel="noopener">Learn more.</a></p>
           </div>
         </div>
         <div class="step-body">
-          <div class="form-group">
-            <label class="form-label">IdP Entity ID</label>
-            <input class="form-input" type="text" placeholder="Paste the Entity ID from your identity provider" id="idp-entity">
-          </div>
-          <div class="form-group">
-            <label class="form-label">IdP HTTP-POST Endpoint</label>
-            <input class="form-input" type="text" placeholder="Paste the HTTP-POST endpoint from your identity provider" id="idp-endpoint">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Single Log Off Call Back URL</label>
-            <input class="form-input" type="text" placeholder="Optional — paste if your IdP provides one" id="idp-logout">
-          </div>
           <button class="update-btn" id="update-btn" onclick="saveStep2()">Upload file</button>
         </div>
       </div>

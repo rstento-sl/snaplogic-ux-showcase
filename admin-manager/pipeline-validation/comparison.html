@@ -387,7 +387,7 @@
   <!-- ── Proposed Redesign ── -->
   <div>
     <div class="compare-col-label proposed">Proposed design</div>
-    <div class="col-instruction proposed">When the user changes the preview document value, Update becomes active — before the user even clicks Save.</div>
+    <div class="col-instruction proposed">When the user changes the preview document value, the Update button becomes active.</div>
     <div class="state-toggle">
       <span>View as:</span>
       <button class="state-btn active" id="btn-initial-state" onclick="setDemoState('initial')">Initial state</button>
@@ -464,14 +464,14 @@
 <script>
 const annotations = [
   {
-    title: "The page title doesn't match what the controls do",
-    problem: "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does. Someone who comes here to understand pipeline validation gets no explanation of it.",
-    block: null
-  },
-  {
     title: "The page title doesn't match its navigation label",
     problem: "The left sidebar highlights “Designer” as the current nav item, but the page title reads “Pipeline validation” — a different, more specific label. Users scanning the nav for context see one name and land on a page using another.",
     fix: "Include the nav section name in the page title, as in the proposed heading: “Designer pipeline validation and document previews.”",
+    block: null
+  },
+  {
+    title: "The page title doesn't match what the controls do",
+    problem: "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does. Someone who comes here to understand pipeline validation gets no explanation of it.",
     block: null
   },
   {

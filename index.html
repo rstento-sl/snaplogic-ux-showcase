@@ -86,6 +86,11 @@
     text-decoration: none;
   }
   .ticket-id:hover { background: var(--teal-tint); }
+  span.ticket-id {
+    color: var(--dim);
+    border-color: var(--hairline);
+    cursor: default;
+  }
   .badges { display: flex; align-items: center; gap: 6px; }
   .tag {
     font-size: 11px;
@@ -149,7 +154,7 @@ function renderCard(issue) {
   const m = issue.mockups || {};
   const ticketLabel = issue.jira || issue.unreportedLabel || issue.id || "";
   const ticketEl = issue.jira
-    ? `<a class="ticket-id" href="${JIRA_BASE_URL}${issue.jira}" target="_blank" rel="noopener">${ticketLabel}</a>`
+    ? `<a class="ticket-id" href="${JIRA_BASE_URL}${issue.jira}" target="_blank" rel="noopener">Jira ticket ${ticketLabel}</a>`
     : `<span class="ticket-id">${ticketLabel}</span>`;
   return `
     <div class="issue-card">

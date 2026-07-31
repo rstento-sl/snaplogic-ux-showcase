@@ -32,12 +32,12 @@
       },
       "annotations": [
         {
-          "target": "Page heading",
-          "callout": "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does."
-        },
-        {
           "target": "Page heading vs. navigation label",
           "callout": "The left sidebar highlights “Designer” as the current nav item, but the page title reads “Pipeline validation” — a different, more specific label."
+        },
+        {
+          "target": "Page heading",
+          "callout": "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does."
         },
         {
           "target": "Enable pipeline validation toggle",

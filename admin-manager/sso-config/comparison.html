@@ -634,6 +634,14 @@
           </div>
         </div>
         <div class="step-body">
+          <div id="step3-fields" style="display:none;">
+            <div class="field-label">AuthNRequests Signed</div>
+            <div class="field-value">False</div>
+            <div class="field-label">RequestedAuthnContext Comparison</div>
+            <div class="field-value">Minimum</div>
+            <div class="field-label">AuthnContextClassRef</div>
+            <div class="field-value">urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</div>
+          </div>
           <button class="update-btn" id="step3-btn" disabled>Set up SSO options</button>
         </div>
       </div>
@@ -774,6 +782,7 @@ function saveStep2() {
   step3.classList.remove('locked');
   document.getElementById('step3-btn').disabled = false;
   document.getElementById('step3-note').textContent = 'Configure single sign-on enforcement and other options for your org.';
+  document.getElementById('step3-fields').style.display = 'block';
 
   const updateBtn = document.getElementById('update-btn');
   updateBtn.textContent = 'Saved ✓';
@@ -785,6 +794,7 @@ function setProposedState(state) {
   const step3 = document.getElementById('step3-block');
   const step3Btn = document.getElementById('step3-btn');
   const step3Note = document.getElementById('step3-note');
+  const step3Fields = document.getElementById('step3-fields');
   const btnFirst = document.getElementById('btn-first-time');
   const btnConfigured = document.getElementById('btn-configured');
 
@@ -795,6 +805,7 @@ function setProposedState(state) {
     step3.classList.remove('locked');
     step3Btn.disabled = false;
     step3Note.textContent = 'Configure single sign-on enforcement and other options for your org.';
+    step3Fields.style.display = 'block';
     btnConfigured.classList.add('active');
     btnFirst.classList.remove('active');
   } else {
@@ -804,6 +815,7 @@ function setProposedState(state) {
     step3.classList.add('locked');
     step3Btn.disabled = true;
     step3Note.textContent = 'Available after you save the identity provider metadata.';
+    step3Fields.style.display = 'none';
     btnFirst.classList.add('active');
     btnConfigured.classList.remove('active');
   }

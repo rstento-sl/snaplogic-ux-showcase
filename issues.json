@@ -54,6 +54,38 @@
       ]
     },
     {
+      "id": "issue-03",
+      "area": "Admin Manager",
+      "title": "SnapGPT settings don't show which controls depend on the master toggle",
+      "screen": "Admin Manager > Application Settings > SnapGPT",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 02",
+      "severity": "High",
+      "category": "Content clarity / labeling",
+      "summary": "Four toggles and a dropdown sit under a master switch with no grouping to show what depends on it, and one toggle's description contradicts the phrasing pattern of the rest.",
+      "mockups": {
+        "comparison": "admin-manager/snapgpt-settings/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Intro text",
+          "callout": "Credentials are never sent — where?"
+        },
+        {
+          "target": "Toggle list",
+          "callout": "Nothing shows that the four toggles below depend on Enable SnapGPT."
+        },
+        {
+          "target": "Use preview data for contextual metadata toggle",
+          "callout": "Four toggles say “When disabled,” this one says “When enabled.”"
+        },
+        {
+          "target": "Pipeline generation dropdown",
+          "callout": "No helper text explains what this setting controls, and it's not grouped with the toggles above."
+        }
+      ]
+    },
+    {
       "id": "issue-01",
       "area": "Admin Manager",
       "title": "SSO configuration screen confusing and sections in wrong order",

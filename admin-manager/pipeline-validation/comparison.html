@@ -465,28 +465,28 @@
 const annotations = [
   {
     title: "The page title doesn't match its navigation label",
-    problem: "The left sidebar highlights “Designer” as the current nav item, but the page title reads “Pipeline validation” — a different, more specific label. Users scanning the nav for context see one name and land on a page using another.",
+    problem: "Users click Designer and a screen with a different title opens.",
     fix: "Include the nav section name in the page title, as in the proposed heading: “Designer pipeline validation and document previews.”",
     block: null
   },
   {
     title: "The page title doesn't match what the controls do",
-    problem: "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does. Someone who comes here to understand pipeline validation gets no explanation of it.",
+    problem: "The page explains a document limit, not what validation does.",
     block: null
   },
   {
     title: "The toggle's purpose is never explained",
-    problem: "“Enable pipeline validation” has no supporting copy of its own. The one sentence on the page describes the document-count field, not the toggle. Users can't tell what turning this on or off actually changes.",
+    problem: "Nothing on the page says what this toggle does.",
     block: "block-toggle"
   },
   {
     title: "No visual relationship between the toggle and the document limit",
-    problem: "The reading order is: intro sentence about document count, then the toggle, then “Maximum preview documents” again. If the document limit only applies when validation is enabled, nothing on the page shows that — no indentation, no grouping, no conditional state. If they're unrelated, the sandwiching is just confusing either way.",
+    problem: "Nothing shows that the document limit isn't applicable if validation is disabled.",
     block: "block-relationship"
   },
   {
     title: "Save is disabled with no explanation",
-    problem: "Save appears disabled by default with no tooltip or hint text. If this is the common “disabled until something changes” pattern, nothing on the screen confirms that — a user has no way to tell “nothing's changed yet” apart from “something's broken.”",
+    problem: "Save is disabled and nothing says why.",
     block: null
   }
 ];

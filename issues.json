@@ -33,23 +33,23 @@
       "annotations": [
         {
           "target": "Page heading vs. navigation label",
-          "callout": "The left sidebar highlights “Designer” as the current nav item, but the page title reads “Pipeline validation” — a different, more specific label."
+          "callout": "Users click Designer and a screen with a different title opens."
         },
         {
           "target": "Page heading",
-          "callout": "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does."
+          "callout": "The page explains a document limit, not what validation does."
         },
         {
           "target": "Enable pipeline validation toggle",
-          "callout": "The toggle has no supporting copy of its own. Users can't tell what turning it on or off actually changes."
+          "callout": "Nothing on the page says what this toggle does."
         },
         {
           "target": "Maximum preview documents field",
-          "callout": "Nothing shows whether this field depends on the toggle above it or is unrelated — the reading order just sandwiches the toggle between two document-count mentions."
+          "callout": "Nothing shows that the document limit isn't applicable if validation is disabled."
         },
         {
           "target": "Save button",
-          "callout": "Disabled by default with no tooltip or hint text explaining why."
+          "callout": "Save is disabled and nothing says why."
         }
       ]
     },

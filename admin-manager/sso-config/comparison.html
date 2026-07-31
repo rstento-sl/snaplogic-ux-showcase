@@ -805,6 +805,7 @@ function setProposedState(state) {
     updateBtn.onclick = null;
     step3.classList.remove('locked');
     step3Btn.disabled = false;
+    step3Btn.textContent = 'Update configuration options';
     step3Note.textContent = 'Configure single sign-on enforcement and other options for your org.';
     step3Fields.style.display = 'block';
     btnConfigured.classList.add('active');
@@ -815,6 +816,7 @@ function setProposedState(state) {
     updateBtn.onclick = saveStep2;
     step3.classList.add('locked');
     step3Btn.disabled = true;
+    step3Btn.textContent = 'Set up SSO options';
     step3Note.textContent = 'Available after you save the identity provider metadata.';
     step3Fields.style.display = 'none';
     btnFirst.classList.add('active');

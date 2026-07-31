@@ -235,6 +235,19 @@
   .popover-header h3 { font-size: 14px; font-weight: 700; line-height: 1.3; }
   .popover-body { padding: 16px; }
   .popover-problem { font-size: 13px; color: #333; line-height: 1.6; }
+  .popover-fix-label {
+    display: none;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #017D1B;
+    margin: 14px 0 6px;
+    align-items: center;
+    gap: 5px;
+  }
+  .popover-fix-label svg { width: 13px; height: 13px; }
+  .popover-fix { display: none; font-size: 13px; color: #1a1a1a; line-height: 1.6; }
   .popover-footer {
     padding: 10px 16px;
     background: #f8f8f8;
@@ -279,12 +292,13 @@
 
   <!-- ── Current UI ── -->
   <div>
-    <div class="compare-col-label current">Current UI<span class="count">(4 issues)</span></div>
+    <div class="compare-col-label current">Current UI<span class="count">(5 issues)</span></div>
     <div class="sheet current">
       <span class="stamp redline">REDLINE</span>
       <div class="page-wrapper">
 
-        <div class="pin" id="pin-1" style="top: 4px; right: 8px;" onclick="openPopover(1, event)">1</div>
+        <div class="pin" id="pin-1" style="top: 4px; right: 40px;" onclick="openPopover(1, event)">1</div>
+        <div class="pin" id="pin-2" style="top: 4px; right: 8px;" onclick="openPopover(2, event)">2</div>
         <h1>Pipeline validation</h1>
 
         <p class="intro-text">
@@ -292,7 +306,7 @@
         </p>
 
         <div class="block" id="block-toggle">
-          <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
+          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
           <div class="toggle-row">
             <div class="toggle-switch" id="cur-validation-toggle" onclick="toggleValidation('cur-validation-toggle')">
               <div class="knob"></div>
@@ -302,7 +316,7 @@
         </div>
 
         <div class="block" id="block-relationship">
-          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-4" style="top: -8px; right: -8px;" onclick="openPopover(4, event)">4</div>
           <div class="field-label">Maximum preview documents</div>
           <div class="dropdown" id="cur-doc-dropdown">
             <div class="dropdown-trigger" onclick="toggleDropdown('cur-doc-dropdown')">
@@ -326,7 +340,7 @@
         </div>
 
         <div style="position:relative;">
-          <div class="pin" id="pin-4" style="top: -8px; right: -8px;" onclick="openPopover(4, event)">4</div>
+          <div class="pin" id="pin-5" style="top: -8px; right: -8px;" onclick="openPopover(5, event)">5</div>
           <button class="btn" id="cur-save-btn" disabled>Save</button>
         </div>
 
@@ -390,6 +404,11 @@
   </div>
   <div class="popover-body">
     <div class="popover-problem" id="pop-problem"></div>
+    <div class="popover-fix-label" id="pop-fix-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      Proposed fix
+    </div>
+    <div class="popover-fix" id="pop-fix"></div>
   </div>
   <div class="popover-footer">
     <span id="pop-counter"></span>
@@ -405,6 +424,12 @@ const annotations = [
   {
     title: "The page title doesn't match what the controls do",
     problem: "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does. Someone who comes here to understand pipeline validation gets no explanation of it.",
+    block: null
+  },
+  {
+    title: "The page title doesn't match its navigation label",
+    problem: "The left sidebar highlights “Designer” as the current nav item, but the page title reads “Pipeline validation” — a different, more specific label. Users scanning the nav for context see one name and land on a page using another.",
+    fix: "Include the nav section name in the page title, as in the proposed heading: “Designer pipeline validation and document previews.”",
     block: null
   },
   {
@@ -469,6 +494,16 @@ function render(n) {
   document.getElementById('pop-num').textContent = n;
   document.getElementById('pop-title').textContent = a.title;
   document.getElementById('pop-problem').textContent = a.problem;
+  const fixLabel = document.getElementById('pop-fix-label');
+  const fixBox = document.getElementById('pop-fix');
+  if (a.fix) {
+    fixLabel.style.display = 'flex';
+    fixBox.style.display = 'block';
+    fixBox.textContent = a.fix;
+  } else {
+    fixLabel.style.display = 'none';
+    fixBox.style.display = 'none';
+  }
   document.getElementById('pop-counter').textContent = 'Issue ' + n + ' of ' + annotations.length;
   document.getElementById('btn-prev').disabled = n === 1;
   document.getElementById('btn-next').disabled = n === annotations.length;

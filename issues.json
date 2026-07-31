@@ -23,6 +23,7 @@
         ],
         "problems": [
           "The page title says \"Pipeline validation,\" but the only explanatory text describes a document-preview limit, not what validation checks or does",
+          "The page title doesn't match its navigation label, which is \"Designer\"",
           "The \"Enable pipeline validation\" toggle has no supporting copy explaining its own purpose",
           "No visual relationship (grouping, indentation, conditional state) shows whether the document limit depends on the toggle or is unrelated to it",
           "Save is disabled by default with no explanation of why"
@@ -32,6 +33,10 @@
         {
           "target": "Page heading",
           "callout": "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does."
+        },
+        {
+          "target": "Page heading vs. navigation label",
+          "callout": "The left sidebar highlights “Designer” as the current nav item, but the page title reads “Pipeline validation” — a different, more specific label."
         },
         {
           "target": "Enable pipeline validation toggle",

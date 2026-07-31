@@ -75,6 +75,51 @@
           "callout": "This page plays two roles at two different times — source and destination — but nothing on the page communicates that."
         }
       ]
+    },
+    {
+      "id": "issue-02",
+      "area": "Admin Manager",
+      "title": "Pipeline validation screen mixes settings with no explanation",
+      "screen": "Admin Manager > Application Settings > Designer > Pipeline validation",
+      "jira": "",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "The page title, an unexplained toggle, and an unrelated-looking document limit sit together with no copy tying them to each other or to what the page is actually for.",
+      "mockups": {
+        "currentUi": "admin-manager/pipeline-validation/current-ui.html"
+      },
+      "current_state": {
+        "labels": [
+          "Pipeline validation",
+          "Enable pipeline validation",
+          "Maximum preview documents",
+          "Save"
+        ],
+        "problems": [
+          "The page title says \"Pipeline validation,\" but the only explanatory text describes a document-preview limit, not what validation checks or does",
+          "The \"Enable pipeline validation\" toggle has no supporting copy explaining its own purpose",
+          "No visual relationship (grouping, indentation, conditional state) shows whether the document limit depends on the toggle or is unrelated to it",
+          "Save is disabled by default with no explanation of why"
+        ]
+      },
+      "annotations": [
+        {
+          "target": "Page heading",
+          "callout": "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does."
+        },
+        {
+          "target": "Enable pipeline validation toggle",
+          "callout": "The toggle has no supporting copy of its own. Users can't tell what turning it on or off actually changes."
+        },
+        {
+          "target": "Maximum preview documents field",
+          "callout": "Nothing shows whether this field depends on the toggle above it or is unrelated — the reading order just sandwiches the toggle between two document-count mentions."
+        },
+        {
+          "target": "Save button",
+          "callout": "Disabled by default with no tooltip or hint text explaining why."
+        }
+      ]
     }
   ]
 }

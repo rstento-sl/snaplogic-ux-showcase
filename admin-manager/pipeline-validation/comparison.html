@@ -387,7 +387,7 @@
   <!-- ── Proposed Redesign ── -->
   <div>
     <div class="compare-col-label proposed">Proposed design</div>
-    <div class="col-instruction proposed">When the user changes the preview document value, the Update button becomes active.</div>
+    <div class="col-instruction proposed">When the user changes the validation toggle or the preview document value, the Update button becomes active.</div>
     <div class="state-toggle">
       <span>View as:</span>
       <button class="state-btn active" id="btn-initial-state" onclick="setDemoState('initial')">Initial state</button>
@@ -631,11 +631,10 @@ function propSelectDoc(value, e) {
 
 function propUpdateDirtyState() {
   const btn = document.getElementById('prop-save-btn');
-  const docChanged = propDocValue !== propSavedDoc;
-  const changed = docChanged || (propValidationEnabled !== propSavedValidation);
+  const changed = propDocValue !== propSavedDoc || propValidationEnabled !== propSavedValidation;
   btn.disabled = !changed;
   btn.classList.toggle('enabled', changed);
-  btn.textContent = docChanged ? 'Update' : 'Save';
+  btn.textContent = changed ? 'Update' : 'Save';
 }
 
 function propSave() {

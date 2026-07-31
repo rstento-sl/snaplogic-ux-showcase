@@ -93,7 +93,9 @@
     border: 1px solid var(--teal);
     padding: 2px 8px;
     border-radius: 4px;
+    text-decoration: none;
   }
+  .ticket-id:hover { background: var(--teal-tint); }
   .badges { display: flex; align-items: center; gap: 6px; }
   .tag {
     font-size: 11px;
@@ -147,6 +149,7 @@
 
 <script>
 const AREAS = ["Admin Manager", "Monitor", "SnapGPT"];
+const JIRA_BASE_URL = "https://mysnaplogic.atlassian.net/browse/";
 
 function severityClass(sev) {
   return "severity-" + (sev || "").toLowerCase();
@@ -155,10 +158,14 @@ function severityClass(sev) {
 function renderCard(issue) {
   const pinCount = (issue.annotations || []).length;
   const m = issue.mockups || {};
+  const ticketLabel = issue.jira || issue.id || "";
+  const ticketEl = issue.jira
+    ? `<a class="ticket-id" href="${JIRA_BASE_URL}${issue.jira}" target="_blank" rel="noopener">${ticketLabel}</a>`
+    : `<span class="ticket-id">${ticketLabel}</span>`;
   return `
     <div class="issue-card">
       <div class="issue-card-top">
-        <span class="ticket-id">${issue.jira || issue.id || ""}</span>
+        ${ticketEl}
         <div class="badges">
           <span class="tag">${issue.category || ""}</span>
           <span class="severity ${severityClass(issue.severity)}">${issue.severity || ""}</span>

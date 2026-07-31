@@ -58,7 +58,9 @@
     padding: 2px 8px;
     border-radius: 4px;
     flex-shrink: 0;
+    text-decoration: none;
   }
+  .ticket-chip:hover { background: var(--teal-tint); }
   .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
 
   .header-row {
@@ -445,7 +447,7 @@
     <a class="back-link" href="../../index.html">← All issues</a>
   </div>
   <div class="issue-heading">
-    <span class="ticket-chip">APP-2297</span>
+    <a class="ticket-chip" href="https://mysnaplogic.atlassian.net/browse/APP-2297" target="_blank" rel="noopener">APP-2297</a>
     <h1>SSO configuration screen conflates two tasks in wrong order</h1>
   </div>
   <div class="header-row">

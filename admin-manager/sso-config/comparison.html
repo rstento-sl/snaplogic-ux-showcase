@@ -394,9 +394,8 @@
   .or-divider span { padding: 0 12px; }
 
   .alt-option { font-size: 13px; color: #555; margin-bottom: 12px; }
-  .step-learn-more { font-size: 13px; margin-top: 14px; }
-  .step-learn-more a { color: #0841B4; text-decoration: none; }
-  .step-learn-more a:hover { text-decoration: underline; }
+  .inline-learn-more { color: #0841B4; text-decoration: none; white-space: nowrap; }
+  .inline-learn-more:hover { text-decoration: underline; }
 
   .download-btn {
     display: inline-flex;
@@ -566,7 +565,7 @@
           </div>
         </div>
         <div class="step-body">
-          <p class="alt-option">Some identity providers accept a metadata file. If yours does, download and upload it — no need to copy individual values.</p>
+          <p class="alt-option">Some identity providers accept a metadata file. If yours does, download and upload it — no need to copy individual values. <a class="inline-learn-more" href="https://docs.snaplogic.com/admin-manager/create-idp-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
           <button class="download-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download metadata file
@@ -604,7 +603,6 @@
               </button>
             </div>
           </div>
-          <p class="step-learn-more"><a href="https://docs.snaplogic.com/admin-manager/create-idp-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
         </div>
       </div>
 
@@ -613,7 +611,7 @@
           <div class="step-number">2</div>
           <div class="step-header-text">
             <h2>Upload your identity provider metadata</h2>
-            <p>Complete this after finishing Step 1 in your identity provider. Export its metadata and enter the values below.</p>
+            <p>Complete this after finishing Step 1 in your identity provider. Export its metadata and enter the values below. <a class="inline-learn-more" href="https://docs.snaplogic.com/admin-manager/configure-sso.html" target="_blank" rel="noopener">Learn more.</a></p>
           </div>
         </div>
         <div class="step-body">
@@ -630,7 +628,6 @@
             <input class="form-input" type="text" placeholder="Optional — paste if your IdP provides one" id="idp-logout">
           </div>
           <button class="update-btn" id="update-btn" onclick="saveStep2()">Upload file</button>
-          <p class="step-learn-more"><a href="https://docs.snaplogic.com/admin-manager/configure-sso.html" target="_blank" rel="noopener">Learn more.</a></p>
         </div>
       </div>
 

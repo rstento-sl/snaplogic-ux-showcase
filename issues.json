@@ -5,7 +5,7 @@
     {
       "id": "issue-01",
       "area": "Admin Manager",
-      "title": "SSO configuration screen conflates two tasks in wrong order",
+      "title": "SSO configuration screen confusing and sections in wrong order",
       "screen": "Admin Manager > Organization > Authentication > SSO tab",
       "jira": "APP-2297",
       "severity": "High",

@@ -125,8 +125,7 @@ function renderCard(issue) {
       <div class="meta">${issue.screen}${issue.jira ? " &nbsp;·&nbsp; " + issue.jira : ""}</div>
       <p class="summary">${issue.summary || ""}</p>
       <div class="links">
-        ${m.comparison ? `<a class="primary" href="${m.comparison}">View comparison (${pinCount} issue${pinCount === 1 ? "" : "s"})</a>` : ""}
-        ${m.comparison ? `<a class="primary" href="${m.comparison}">Current and proposed design</a>` : ""}
+        ${m.comparison ? `<a class="primary" href="${m.comparison}">Current (${pinCount} issue${pinCount === 1 ? "" : "s"}) and proposed design</a>` : ""}
         ${m.possibleBug ? `<a class="secondary" href="${m.possibleBug}">Possible Bug</a>` : ""}
         ${m.comparison ? `<button class="preview-toggle" onclick="togglePreview(this)">Show live preview ▾</button>` : ""}
       </div>

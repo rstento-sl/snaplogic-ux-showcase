@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline validation screen mixes settings with no explanation</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1F2125;
+    --dim: #7D8695;
+    --canvas: #EBEDF1;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --red: #E31C3D;
+    --red-dark: #B61631;
+    --blue: #0841B4;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--canvas);
+  }
+
+  .topbar { height: 4px; background: var(--teal); }
+
+  .showcase-header { max-width: 900px; margin: 0 auto; padding: 20px 32px 16px; }
+  .breadcrumb { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .path { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+  .path .sep { margin: 0 6px; color: var(--hairline); }
+  .back-link { font-size: 12px; font-weight: 700; color: var(--teal); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+  .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; margin-bottom: 8px; }
+  .instruction { color: var(--red); font-size: 12px; font-style: italic; }
+
+  .col-label {
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--red-dark);
+    background: #FDF3F5;
+    padding: 14px 24px;
+    border-radius: 6px 6px 0 0;
+  }
+  .col-label .count { font-family: var(--mono); font-size: 13px; font-weight: 600; opacity: 0.85; margin-left: 6px; }
+
+  .sheet { max-width: 900px; margin: 0 auto; position: relative; transform: rotate(-0.3deg); }
+  .stamp {
+    position: absolute;
+    top: -11px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: #fff;
+    color: var(--red);
+    border: 1.5px solid var(--red);
+    padding: 3px 10px;
+    border-radius: 3px;
+    z-index: 5;
+    transform: rotate(-3deg);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+
+  .page-wrapper {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 32px 40px 48px;
+    box-shadow: 0 6px 20px rgba(31,33,37,0.08);
+    position: relative;
+  }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 20px; }
+  .intro-text { color: #444; margin-bottom: 28px; line-height: 1.5; }
+  .intro-text a { color: var(--blue); text-decoration: none; }
+
+  .block { position: relative; margin-bottom: 28px; }
+
+  .toggle-row { display: flex; align-items: center; gap: 12px; }
+  .toggle-switch {
+    width: 40px; height: 22px;
+    border-radius: 999px;
+    background: var(--blue);
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .toggle-switch.off { background: #C4CAD6; }
+  .toggle-switch .knob {
+    position: absolute;
+    top: 2px; left: 20px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    transition: left 0.15s;
+  }
+  .toggle-switch.off .knob { left: 2px; }
+  .toggle-label { font-size: 15px; font-weight: 500; }
+
+  .field-label { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+
+  .dropdown { position: relative; width: 280px; }
+  .dropdown-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 9px 12px;
+    cursor: pointer;
+    background: #fff;
+  }
+  .dropdown.open .dropdown-trigger { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+  .dropdown-trigger svg { width: 16px; height: 16px; color: #888; transition: transform 0.15s; }
+  .dropdown.open .dropdown-trigger svg { transform: rotate(180deg); }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    max-height: 260px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    z-index: 20;
+    padding: 6px 0;
+  }
+  .dropdown.open .dropdown-menu { display: block; }
+  .dropdown-option {
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .dropdown-option:hover { background: #F2F6FC; }
+  .dropdown-option.selected {
+    margin: 6px 10px 4px;
+    padding: 8px 12px;
+    border: 1px solid var(--blue);
+    border-radius: 4px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 4px;
+    border: none;
+    background: #CED9F0;
+    color: #fff;
+    cursor: not-allowed;
+  }
+  .btn.enabled { background: var(--blue); color: #fff; cursor: pointer; }
+
+  .pin {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 300;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+    transition: transform 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .pin:hover { transform: scale(1.15); background: var(--red-dark); }
+  .pin.active { background: var(--red-dark); transform: scale(1.15); }
+
+  .block.highlighted { background: #FDF3F5; border-radius: 6px; margin: -8px -12px 20px; padding: 8px 12px; }
+
+  .popover {
+    display: none;
+    position: fixed;
+    width: 380px;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 400;
+    overflow-y: auto;
+  }
+  .popover-header { background: var(--red); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .popover-header .pin-label {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .popover-body { padding: 16px; }
+  .popover-problem { font-size: 13px; color: #333; line-height: 1.6; }
+  .popover-footer {
+    padding: 10px 16px;
+    background: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+    border-top: 1px solid #eee;
+  }
+  .popover-nav { display: flex; gap: 8px; }
+  .popover-nav button {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    color: #444;
+  }
+  .popover-nav button:hover { background: #f0f0f0; }
+  .popover-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .close-btn { background: none; border: none; font-size: 18px; color: #fff; cursor: pointer; margin-left: auto; line-height: 1; padding: 0 0 0 8px; }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="showcase-header">
+  <div class="breadcrumb">
+    <a class="back-link" href="../../index.html">← All issues</a>
+    <span class="path">admin-manager <span class="sep">/</span> application-settings <span class="sep">/</span> designer</span>
+  </div>
+  <div class="issue-heading">
+    <h1>Pipeline validation screen mixes settings with no explanation</h1>
+  </div>
+  <div class="instruction">Click a red pin to see what's wrong</div>
+</div>
+
+<div class="col-label">Current UI<span class="count">(4 issues)</span></div>
+
+<div class="sheet">
+  <span class="stamp">REDLINE</span>
+  <div class="page-wrapper">
+
+    <div class="pin" id="pin-1" style="top: 4px; right: 8px;" onclick="openPopover(1, event)">1</div>
+    <h1>Pipeline validation</h1>
+
+    <p class="intro-text">
+      Configure the number of documents that Snaps can display in the data preview. <a href="#">Learn more.</a>
+    </p>
+
+    <div class="block" id="block-toggle">
+      <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
+      <div class="toggle-row">
+        <div class="toggle-switch" id="validation-toggle" onclick="toggleValidation()">
+          <div class="knob"></div>
+        </div>
+        <div class="toggle-label">Enable pipeline validation</div>
+      </div>
+    </div>
+
+    <div class="block" id="block-relationship">
+      <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
+      <div class="field-label">Maximum preview documents</div>
+      <div class="dropdown" id="doc-dropdown">
+        <div class="dropdown-trigger" onclick="toggleDropdown()">
+          <span id="doc-value">2000</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="dropdown-menu">
+          <div class="dropdown-option" onclick="selectDoc('1', event)">1</div>
+          <div class="dropdown-option" onclick="selectDoc('2', event)">2</div>
+          <div class="dropdown-option" onclick="selectDoc('10', event)">10</div>
+          <div class="dropdown-option" onclick="selectDoc('20', event)">20</div>
+          <div class="dropdown-option" onclick="selectDoc('50', event)">50</div>
+          <div class="dropdown-option" onclick="selectDoc('100', event)">100</div>
+          <div class="dropdown-option" onclick="selectDoc('200', event)">200</div>
+          <div class="dropdown-option" onclick="selectDoc('500', event)">500</div>
+          <div class="dropdown-option" onclick="selectDoc('1000', event)">1000</div>
+          <div class="dropdown-option" onclick="selectDoc('1500', event)">1500</div>
+          <div class="dropdown-option selected" id="doc-option-2000" onclick="selectDoc('2000', event)">2000</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:relative;">
+      <div class="pin" id="pin-4" style="top: -8px; right: -8px;" onclick="openPopover(4, event)">4</div>
+      <button class="btn" id="save-btn" disabled>Save</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="popover" id="popover">
+  <div class="popover-header">
+    <div class="pin-label" id="pop-num">1</div>
+    <h3 id="pop-title"></h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <div class="popover-problem" id="pop-problem"></div>
+  </div>
+  <div class="popover-footer">
+    <span id="pop-counter"></span>
+    <div class="popover-nav">
+      <button id="btn-prev" onclick="navigate(-1)">← Prev</button>
+      <button id="btn-next" onclick="navigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const annotations = [
+  {
+    title: "The page title doesn't match what the controls do",
+    problem: "The heading says “Pipeline validation,” but the only explanatory text on the page describes a document-count limit for the data preview — not what validation checks or does. Someone who comes here to understand pipeline validation gets no explanation of it.",
+    block: null
+  },
+  {
+    title: "The toggle's purpose is never explained",
+    problem: "“Enable pipeline validation” has no supporting copy of its own. The one sentence on the page describes the document-count field, not the toggle. Users can't tell what turning this on or off actually changes.",
+    block: "block-toggle"
+  },
+  {
+    title: "No visual relationship between the toggle and the document limit",
+    problem: "The reading order is: intro sentence about document count, then the toggle, then “Maximum preview documents” again. If the document limit only applies when validation is enabled, nothing on the page shows that — no indentation, no grouping, no conditional state. If they're unrelated, the sandwiching is just confusing either way.",
+    block: "block-relationship"
+  },
+  {
+    title: "Save is disabled with no explanation",
+    problem: "Save appears disabled by default with no tooltip or hint text. If this is the common “disabled until something changes” pattern, nothing on the screen confirms that — a user has no way to tell “nothing's changed yet” apart from “something's broken.”",
+    block: null
+  }
+];
+
+let current = null;
+
+function openPopover(n, e) {
+  e.stopPropagation();
+  current = n;
+  render(n);
+
+  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+
+  const a = annotations[n - 1];
+  if (a.block) document.getElementById(a.block).classList.add('highlighted');
+  document.getElementById('pin-' + n).classList.add('active');
+
+  positionPopover(e.target.closest('.pin'));
+}
+
+function positionPopover(pinEl) {
+  const pop = document.getElementById('popover');
+  pop.style.display = 'block';
+
+  const rect = pinEl.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  const popWidth = popRect.width;
+  const popHeight = popRect.height;
+
+  let top = rect.bottom + margin;
+  if (top + popHeight > window.innerHeight - margin) {
+    top = rect.top - popHeight - margin;
+  }
+  top = Math.max(margin, Math.min(top, window.innerHeight - popHeight - margin));
+
+  let left = rect.left + rect.width / 2 - popWidth / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popWidth - margin));
+
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function render(n) {
+  const a = annotations[n - 1];
+  document.getElementById('pop-num').textContent = n;
+  document.getElementById('pop-title').textContent = a.title;
+  document.getElementById('pop-problem').textContent = a.problem;
+  document.getElementById('pop-counter').textContent = 'Issue ' + n + ' of ' + annotations.length;
+  document.getElementById('btn-prev').disabled = n === 1;
+  document.getElementById('btn-next').disabled = n === annotations.length;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > annotations.length) return;
+  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  current = next;
+  render(next);
+  const a = annotations[next - 1];
+  if (a.block) document.getElementById(a.block).classList.add('highlighted');
+  const pinEl = document.getElementById('pin-' + next);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  current = null;
+}
+
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('popover');
+  if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) {
+    closePopover();
+  }
+  const dropdown = document.getElementById('doc-dropdown');
+  if (dropdown.classList.contains('open') && !dropdown.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+function toggleValidation() {
+  document.getElementById('validation-toggle').classList.toggle('off');
+  markDirty();
+}
+
+function toggleDropdown() {
+  document.getElementById('doc-dropdown').classList.toggle('open');
+}
+
+function selectDoc(value, e) {
+  document.getElementById('doc-value').textContent = value;
+  document.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('selected'));
+  e.target.classList.add('selected');
+  document.getElementById('doc-dropdown').classList.remove('open');
+  markDirty();
+}
+
+function markDirty() {
+  const btn = document.getElementById('save-btn');
+  btn.disabled = false;
+  btn.classList.add('enabled');
+}
+</script>
+</body>
+</html>

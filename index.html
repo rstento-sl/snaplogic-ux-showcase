@@ -34,18 +34,8 @@
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 0; }
 
-  header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px; flex-wrap: wrap; }
+  header { margin-bottom: 6px; }
   h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
-  .ticket-count {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--teal);
-    background: var(--teal-tint);
-    padding: 4px 10px;
-    border-radius: 999px;
-    white-space: nowrap;
-  }
   .sub { color: var(--dim); margin-bottom: 36px; line-height: 1.5; font-size: 14px; max-width: 52ch; }
 
   .area-title {
@@ -141,7 +131,6 @@
 <div class="wrap">
   <header>
     <h1>UX Issue Showcase</h1>
-    <span class="ticket-count" id="ticket-count"></span>
   </header>
   <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin UI, with proposed fixes — for PM and engineering review.</p>
   <div id="app"><p class="empty">// loading issue catalog…</p></div>
@@ -187,8 +176,6 @@ fetch("issues.json")
   .then(r => r.json())
   .then(data => {
     const issues = data.issues || [];
-    document.getElementById("ticket-count").textContent =
-      issues.length + " ticket" + (issues.length === 1 ? "" : "s") + " open";
 
     const byArea = {};
     issues.forEach(issue => {

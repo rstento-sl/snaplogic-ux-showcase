@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Management page title doesn't cover both settings groups, and section scope is unclear</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1F2125;
+    --dim: #7D8695;
+    --canvas: #EBEDF1;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --teal-tint: #E6F2F2;
+    --red: #E31C3D;
+    --red-dark: #B61631;
+    --blue: #0841B4;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--canvas);
+  }
+
+  .topbar { height: 4px; background: var(--teal); }
+
+  .showcase-header { max-width: 1500px; margin: 0 auto; padding: 20px 32px 16px; }
+  .breadcrumb { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .path { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+  .path .sep { margin: 0 6px; color: var(--hairline); }
+  .back-link { font-size: 12px; font-weight: 700; color: var(--teal); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+  .issue-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
+  .ticket-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--dim);
+    border: 1px solid var(--hairline);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .instruction { color: var(--dim); font-size: 12px; }
+
+  .compare-grid {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 8px 32px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .compare-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .compare-col-label {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    padding: 14px 24px;
+    border-radius: 6px 6px 0 0;
+  }
+  .compare-col-label.current { background: #FDF3F5; color: var(--red-dark); }
+  .compare-col-label.proposed { background: var(--teal); color: #fff; }
+
+  .col-instruction {
+    background: #fff;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 10px 32px;
+    font-size: 12px;
+    font-style: italic;
+  }
+  .col-instruction.current { color: var(--red); }
+  .col-instruction.proposed { color: var(--teal); }
+
+  .sheet { position: relative; }
+  .sheet.current { transform: rotate(-0.4deg); }
+  @media (max-width: 900px) {
+    .sheet.current { transform: none; }
+  }
+  .stamp {
+    position: absolute;
+    top: -11px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: #fff;
+    padding: 3px 10px;
+    border-radius: 3px;
+    z-index: 5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .stamp.redline { color: var(--red); border: 1.5px solid var(--red); transform: rotate(-3deg); }
+  .stamp.proposed-stamp { color: var(--teal); border: 1.5px solid var(--teal); transform: rotate(2deg); }
+
+  .page-wrapper {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 32px 40px 48px;
+    box-shadow: 0 6px 20px rgba(31,33,37,0.08);
+    position: relative;
+  }
+  h1 { font-size: 26px; font-weight: 700; margin-bottom: 16px; }
+  .intro-text { color: #444; margin-bottom: 24px; line-height: 1.5; }
+  .intro-text a { color: var(--blue); text-decoration: none; }
+
+  .block { position: relative; margin-bottom: 24px; }
+  .section-divider { border: none; border-top: 1px solid var(--hairline); margin: 28px 0 24px; }
+  .section-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+
+  .toggle-item { display: flex; gap: 12px; margin-bottom: 20px; position: relative; }
+  .toggle-item:last-child { margin-bottom: 0; }
+  .toggle-switch {
+    width: 36px; height: 20px;
+    border-radius: 999px;
+    background: var(--blue);
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .toggle-switch.off { background: #C4CAD6; }
+  .toggle-switch .knob {
+    position: absolute;
+    top: 2px; left: 18px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .toggle-switch.off .knob { left: 2px; }
+  .toggle-label { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .toggle-desc { font-size: 13px; color: #444; line-height: 1.5; }
+
+  .field-label { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .helper-text-sm { font-size: 12px; color: var(--dim); line-height: 1.5; margin-bottom: 10px; }
+
+  .text-input {
+    display: block;
+    width: 320px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  .url-preview {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-style: italic;
+    color: #666;
+  }
+  .url-preview .typed { color: var(--blue); font-style: normal; font-weight: 600; }
+
+  .logo-placeholder {
+    width: 220px;
+    height: 60px;
+    border: 1px dashed var(--hairline);
+    border-radius: 4px;
+    background: #F7F8FA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dim);
+    font-size: 11px;
+    margin-bottom: 16px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 4px;
+    border: none;
+    background: #CED9F0;
+    color: #fff;
+    cursor: not-allowed;
+  }
+  .btn-primary { background: var(--blue); color: #fff; cursor: pointer; }
+
+  .pin {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 300;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+    transition: transform 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .pin:hover { transform: scale(1.15); background: var(--red-dark); }
+  .pin.active { background: var(--red-dark); transform: scale(1.15); }
+
+  .block.highlighted, .toggle-item.highlighted {
+    background: #FDF3F5;
+    border-radius: 6px;
+    margin: -8px -12px 16px;
+    padding: 8px 12px;
+  }
+
+  .popover {
+    display: none;
+    position: fixed;
+    width: 380px;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 400;
+    overflow-y: auto;
+  }
+  .popover-header { background: var(--red); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .popover-header .pin-label {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .popover-body { padding: 16px; }
+  .popover-problem { font-size: 13px; color: #333; line-height: 1.6; }
+  .popover-fix-label {
+    display: none;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #017D1B;
+    margin: 14px 0 6px;
+    align-items: center;
+    gap: 5px;
+  }
+  .popover-fix-label svg { width: 13px; height: 13px; }
+  .popover-fix { display: none; font-size: 13px; color: #1a1a1a; line-height: 1.6; }
+  .popover-footer {
+    padding: 10px 16px;
+    background: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+    border-top: 1px solid #eee;
+  }
+  .popover-nav { display: flex; gap: 8px; }
+  .popover-nav button {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    color: #444;
+  }
+  .popover-nav button:hover { background: #f0f0f0; }
+  .popover-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .close-btn { background: none; border: none; font-size: 18px; color: #fff; cursor: pointer; margin-left: auto; line-height: 1; padding: 0 0 0 8px; }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="showcase-header">
+  <div class="breadcrumb">
+    <a class="back-link" href="../../index.html">← All issues</a>
+    <span class="path">admin-manager <span class="sep">/</span> application-settings <span class="sep">/</span> api-management</span>
+  </div>
+  <div class="issue-heading">
+    <span class="ticket-chip">Unreported issue 04</span>
+    <h1>API Management page title doesn't cover both settings groups, and section scope is unclear</h1>
+  </div>
+  <div class="instruction">Click a red pin on the left to see what's wrong</div>
+</div>
+
+<div class="compare-grid">
+
+  <!-- ── Current UI ── -->
+  <div>
+    <div class="compare-col-label current">Current UI</div>
+    <div class="sheet current">
+      <span class="stamp redline">REDLINE</span>
+      <div class="page-wrapper">
+
+        <div class="block" id="block-title">
+          <div class="pin" id="pin-1" style="top: -8px; right: -8px;" onclick="openPopover(1, event)">1</div>
+          <h1>API Management 3.0</h1>
+          <p class="intro-text">Configure the Developer Portal. <a href="#">Learn more.</a></p>
+        </div>
+
+        <div class="block" id="block-toggle1">
+          <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
+          <div class="toggle-item">
+            <div class="toggle-switch"><div class="knob"></div></div>
+            <div class="toggle-label">Allow users with full access permissions to set APIM Services to published (i.e Public, Private, Restricted)</div>
+          </div>
+        </div>
+
+        <div class="block" id="block-save">
+          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
+          <button class="btn" disabled>Save</button>
+        </div>
+
+        <hr class="section-divider">
+
+        <h2 class="section-title" style="font-size: 20px; margin-bottom: 20px;">APIM Developer Portal</h2>
+
+        <div class="block" id="block-url">
+          <div class="pin" id="pin-4" style="top: -8px; right: -8px;" onclick="openPopover(4, event)">4</div>
+          <div class="field-label">Custom URL</div>
+          <input class="text-input" type="text" value="automation" id="cur-url-input" oninput="updateCurUrlPreview()">
+          <div class="url-preview">https://cdn.stage.your-org.example.com/devhub/content/<span class="typed" id="cur-url-preview">automation</span></div>
+        </div>
+
+        <div class="toggle-item" style="margin: 24px 0;">
+          <div class="toggle-switch off"><div class="knob"></div></div>
+          <div>
+            <div class="toggle-label">Allow Access to APIM 3.0 Portal pages without login.</div>
+            <div class="toggle-desc">If disabled, all pages except the login page require users to log in</div>
+          </div>
+        </div>
+
+        <div class="block" id="block-logo">
+          <div class="pin" id="pin-5" style="top: -8px; right: -8px;" onclick="openPopover(5, event)">5</div>
+          <div class="field-label">Logo</div>
+          <div class="logo-placeholder">[Uploaded logo image]</div>
+          <button class="btn btn-primary">Build site</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Proposed Redesign ── -->
+  <div>
+    <div class="compare-col-label proposed">Proposed design</div>
+    <div class="page-wrapper">
+
+      <h1>APIM 3.0 Developer Portal</h1>
+      <p class="intro-text">Configure the Developer Portal. <a href="#">Learn more.</a></p>
+
+      <h2 class="section-title" style="font-size: 20px;">Service publishing</h2>
+      <div class="toggle-item">
+        <div class="toggle-switch"><div class="knob"></div></div>
+        <div class="toggle-label">Allow users with full permissions to publish Services as restricted, private, or public.</div>
+      </div>
+      <button class="btn" disabled style="margin-top: 20px;">Save</button>
+
+      <hr class="section-divider">
+
+      <h2 class="section-title" style="font-size: 20px;">APIM Developer Portal</h2>
+      <p class="intro-text" style="margin-top: -8px;">Click <strong>Build site</strong> to save and publish any changes you make below.</p>
+
+      <div class="block">
+        <div class="field-label">Custom URL</div>
+        <p class="helper-text-sm">This value is appended to the default URL below.</p>
+        <input class="text-input" type="text" value="automation" id="prop-url-input" oninput="updateUrlPreview()">
+        <div class="url-preview">https://cdn.stage.your-org.example.com/devhub/content/<span class="typed" id="prop-url-preview">automation</span></div>
+      </div>
+
+      <div class="toggle-item" style="margin: 24px 0;">
+        <div class="toggle-switch off"><div class="knob"></div></div>
+        <div>
+          <div class="toggle-label">Allow Access to APIM 3.0 Portal pages without login.</div>
+          <div class="toggle-desc">If disabled, all pages except the login page require users to log in</div>
+        </div>
+      </div>
+
+      <div class="field-label">Logo</div>
+      <p class="helper-text-sm">A custom logo displays on the left side of the banner. Maximum width 250px. Background must be transparent.</p>
+      <div class="logo-placeholder">[Uploaded logo image]</div>
+      <button class="btn btn-primary">Build site</button>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="popover" id="popover">
+  <div class="popover-header">
+    <div class="pin-label" id="pop-num">1</div>
+    <h3 id="pop-title"></h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <div class="popover-problem" id="pop-problem"></div>
+    <div class="popover-fix-label" id="pop-fix-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      Proposed fix
+    </div>
+    <div class="popover-fix" id="pop-fix"></div>
+  </div>
+  <div class="popover-footer">
+    <span id="pop-counter"></span>
+    <div class="popover-nav">
+      <button id="btn-prev" onclick="navigate(-1)">← Prev</button>
+      <button id="btn-next" onclick="navigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const annotations = [
+  {
+    title: "The title doesn't cover both settings groups",
+    problem: "The page title says “API Management 3.0,” but the page really configures the APIM 3.0 Developer Portal.",
+    fix: "Retitle the page “APIM 3.0 Developer Portal” to cover both settings groups.",
+    block: "block-title"
+  },
+  {
+    title: "The first toggle's label is dense and hard to parse",
+    problem: "“Allow users with full access permissions to set APIM Services to published (i.e Public, Private, Restricted)” packs three ideas into one run-on label.",
+    fix: "Rewrite to: “Allow users with full permissions to publish Services as restricted, private, or public.”",
+    block: "block-toggle1"
+  },
+  {
+    title: "The Save button's scope is unclear",
+    problem: "Save sits right under one toggle, with no heading marking what it applies to — while the section below has its own separate “Build site” button that saves and rebuilds the portal at once, with no confirmation beyond the button's own progress label.",
+    fix: "Give each group its own heading (“Service publishing,” “APIM Developer Portal”), and tell users up front that Build site both saves and publishes their changes.",
+    block: "block-save"
+  },
+  {
+    title: "Custom URL doesn't explain what it does",
+    problem: "The example URL updates as users type, but that's a subtle hint easy to miss — nothing actually explains what's happening.",
+    fix: "Explain what happens above the entry field, not just through the dynamic example below it.",
+    block: "block-url"
+  },
+  {
+    title: "Logo has no explanation",
+    problem: "No helper text says where the logo appears or what constraints apply.",
+    fix: "Add: “A custom logo displays on the left side of the banner. Maximum width 250px. Background must be transparent.”",
+    block: "block-logo"
+  }
+];
+
+let current = null;
+
+function openPopover(n, e) {
+  e.stopPropagation();
+  current = n;
+  render(n);
+
+  document.querySelectorAll('.block, .toggle-item').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+
+  const a = annotations[n - 1];
+  if (a.block) document.getElementById(a.block).classList.add('highlighted');
+  document.getElementById('pin-' + n).classList.add('active');
+
+  positionPopover(e.target.closest('.pin'));
+}
+
+function positionPopover(pinEl) {
+  const pop = document.getElementById('popover');
+  pop.style.display = 'block';
+
+  const rect = pinEl.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  const popWidth = popRect.width;
+  const popHeight = popRect.height;
+
+  let top = rect.bottom + margin;
+  if (top + popHeight > window.innerHeight - margin) {
+    top = rect.top - popHeight - margin;
+  }
+  top = Math.max(margin, Math.min(top, window.innerHeight - popHeight - margin));
+
+  let left = rect.left + rect.width / 2 - popWidth / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popWidth - margin));
+
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function render(n) {
+  const a = annotations[n - 1];
+  document.getElementById('pop-num').textContent = n;
+  document.getElementById('pop-title').textContent = a.title;
+  document.getElementById('pop-problem').textContent = a.problem;
+  const fixLabel = document.getElementById('pop-fix-label');
+  const fixBox = document.getElementById('pop-fix');
+  if (a.fix) {
+    fixLabel.style.display = 'flex';
+    fixBox.style.display = 'block';
+    fixBox.textContent = a.fix;
+  } else {
+    fixLabel.style.display = 'none';
+    fixBox.style.display = 'none';
+  }
+  document.getElementById('pop-counter').textContent = 'Issue ' + n + ' of ' + annotations.length;
+  document.getElementById('btn-prev').disabled = n === 1;
+  document.getElementById('btn-next').disabled = n === annotations.length;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > annotations.length) return;
+  document.querySelectorAll('.block, .toggle-item').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  current = next;
+  render(next);
+  const a = annotations[next - 1];
+  if (a.block) document.getElementById(a.block).classList.add('highlighted');
+  const pinEl = document.getElementById('pin-' + next);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+  document.querySelectorAll('.block, .toggle-item').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  current = null;
+}
+
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('popover');
+  if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) {
+    closePopover();
+  }
+});
+
+function updateCurUrlPreview() {
+  const val = document.getElementById('cur-url-input').value;
+  document.getElementById('cur-url-preview').textContent = val;
+}
+
+function updateUrlPreview() {
+  const val = document.getElementById('prop-url-input').value;
+  document.getElementById('prop-url-preview').textContent = val;
+}
+</script>
+</body>
+</html>

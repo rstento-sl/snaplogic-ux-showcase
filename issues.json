@@ -86,6 +86,89 @@
       ]
     },
     {
+      "id": "issue-04",
+      "area": "Admin Manager",
+      "title": "Optimized Dashboard settings reference things that don't exist for customers",
+      "screen": "Admin Manager > Application Settings > Optimized Dashboard",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 03",
+      "severity": "High",
+      "category": "Content clarity / labeling",
+      "summary": "\"Optimized Dashboard\" isn't a concept that exists anywhere else in the product, and the only control's description references an undocumented data warehouse. Pins pending more information.",
+      "mockups": {
+        "comparison": "admin-manager/optimized-dashboard/comparison.html"
+      },
+      "annotations": []
+    },
+    {
+      "id": "issue-05",
+      "area": "Admin Manager",
+      "title": "API Management page title doesn't cover both settings groups, and section scope is unclear",
+      "screen": "Admin Manager > Application Settings > API Management",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 04",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "The page title doesn't cover the Developer Portal settings that live on the same page, and it's unclear which controls the Save button and which the Build site button actually apply to.",
+      "mockups": {
+        "comparison": "admin-manager/api-management/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Page title",
+          "callout": "The page title says API Management 3.0, but the page really configures the APIM 3.0 Developer Portal."
+        },
+        {
+          "target": "APIM Services toggle",
+          "callout": "The toggle label packs three ideas into one run-on sentence."
+        },
+        {
+          "target": "Save button",
+          "callout": "No heading marks what Save applies to (fix: label it “Service publishing”), while the section below has its own separate Build site button that saves and rebuilds the portal at once, with no confirmation of that beyond its own progress label."
+        },
+        {
+          "target": "Custom URL field",
+          "callout": "The example URL updates as users type, but that's a subtle hint easy to miss — nothing actually explains what's happening."
+        },
+        {
+          "target": "Logo field",
+          "callout": "No explanation of where the logo appears or what constraints apply."
+        }
+      ]
+    },
+    {
+      "id": "issue-06",
+      "area": "Admin Manager",
+      "title": "AutoSync page intro doesn't match its General tab, and a lone toggle requires an unnecessary Save",
+      "screen": "Admin Manager > Application Settings > AutoSync",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 05",
+      "severity": "High",
+      "category": "Content clarity / labeling",
+      "summary": "The page intro only describes the Versions tab, a single toggle requires an unnecessary Save step, and nothing explains how the environment default Snap Pack version relates to each pipeline's own version.",
+      "mockups": {
+        "comparison": "admin-manager/autosync/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Page intro",
+          "callout": "The intro describes upgrading pipelines — the Versions tab's job — but General loads first and has nothing to do with upgrading."
+        },
+        {
+          "target": "Allow nullable for last modified date toggle",
+          "callout": "The description restates the same idea in three different sentences without adding new information."
+        },
+        {
+          "target": "Save button",
+          "callout": "A standalone toggle doesn't need a separate Save step."
+        },
+        {
+          "target": "AutoSync Snap Pack version / pipeline table",
+          "callout": "The selector shows a raw build string with no explanation of what it controls, and the table's Current version uses a completely different format with nothing tying the two together or explaining what Upgrade now does."
+        }
+      ]
+    },
+    {
       "id": "issue-01",
       "area": "Admin Manager",
       "title": "SSO configuration screen confusing and sections in wrong order",

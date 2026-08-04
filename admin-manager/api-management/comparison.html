@@ -339,7 +339,8 @@
           <div class="url-preview">https://cdn.stage.your-org.example.com/devhub/content/<span class="typed" id="cur-url-preview">automation</span></div>
         </div>
 
-        <div class="toggle-item" style="margin: 24px 0;">
+        <div class="toggle-item" id="block-login-toggle" style="margin: 24px 0; position: relative;">
+          <div class="pin" id="pin-6" style="top: -8px; right: -8px;" onclick="openPopover(6, event)">6</div>
           <div class="toggle-switch off"><div class="knob"></div></div>
           <div>
             <div class="toggle-label">Allow Access to APIM 3.0 Portal pages without login.</div>
@@ -388,7 +389,7 @@
       <div class="toggle-item" style="margin: 24px 0;">
         <div class="toggle-switch off"><div class="knob"></div></div>
         <div>
-          <div class="toggle-label">Allow Access to APIM 3.0 Portal pages without login.</div>
+          <div class="toggle-label">Allow access to APIM 3.0 Portal pages without login.</div>
           <div class="toggle-desc">If disabled, all pages except the login page require users to log in</div>
         </div>
       </div>
@@ -457,6 +458,12 @@ const annotations = [
     problem: "No helper text says where the logo appears or what constraints apply.",
     fix: "Add: “A custom logo displays on the left side of the banner. Maximum width 250px. Background must be transparent.”",
     block: "block-logo"
+  },
+  {
+    title: "Inconsistent capitalization",
+    problem: "“Allow Access to APIM 3.0 Portal pages without login” uses title case, inconsistent with sentence-case labels everywhere else on the page.",
+    fix: "Change to sentence case: “Allow access to APIM 3.0 Portal pages without login.”",
+    block: "block-login-toggle"
   }
 ];
 

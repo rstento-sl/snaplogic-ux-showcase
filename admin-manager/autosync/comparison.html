@@ -353,7 +353,7 @@
 
         <div class="tabs">
           <button class="tab-btn active" id="cur-tab-btn-general" onclick="switchTab('cur','general')">General</button>
-          <button class="tab-btn" id="cur-tab-btn-versions" onclick="switchTab('cur','versions')">Versions<span class="tab-pin-count">1</span></button>
+          <button class="tab-btn" id="cur-tab-btn-versions" onclick="switchTab('cur','versions')">Versions<span class="tab-pin-count">2</span></button>
         </div>
 
         <div class="tab-panel active" id="cur-tab-general">
@@ -384,7 +384,10 @@
           </div>
           <button class="btn" disabled>Save</button>
 
-          <div class="versions-heading">1 Data Pipeline</div>
+          <div class="versions-heading" id="block-pipeline-heading" style="position: relative;">
+            <div class="pin" id="pin-5" style="top: -8px; right: -8px;" onclick="openPopover(5, event)">5</div>
+            1 Data Pipeline
+          </div>
           <div class="table-toolbar">
             <input class="search-input" placeholder="Search by name" readonly>
             <div class="select-trigger" style="width: 180px;">
@@ -447,7 +450,7 @@
 
         <div class="versions-heading">Snap Pack version for existing data pipelines</div>
         <p class="helper-text-sm">Select a specific version, or click Upgrade now to change to the default version.</p>
-        <div class="versions-heading" style="margin-top: 20px;">1 Data Pipeline</div>
+        <div class="versions-heading" style="margin-top: 20px;">1 data pipeline</div>
         <div class="table-toolbar">
           <input class="search-input" placeholder="Search by name" readonly>
           <div class="select-trigger" style="width: 180px;">
@@ -525,6 +528,13 @@ const annotations = [
     problem: "The selector shows a raw build string (“445rc35411”) with no explanation of what it controls, and the table's “Current version” uses a completely different format (“4.39.0.0”) with nothing tying the two together or explaining what Upgrade now actually does.",
     fix: "Label the selector “Environment default Snap Pack version” with helper text: “The default version applies to new AutoSync data pipelines. To change it, select a version and click Save.” Above the table, add: “Snap Pack version for existing data pipelines. Select a specific version, or click Upgrade now to change to the default version.”",
     block: "block-versions",
+    tab: "versions"
+  },
+  {
+    title: "Inconsistent capitalization",
+    problem: "“1 Data Pipeline” uses title case, inconsistent with sentence-case labels everywhere else on the page.",
+    fix: "Change to sentence case: “1 data pipeline.”",
+    block: "block-pipeline-heading",
     tab: "versions"
   }
 ];

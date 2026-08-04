@@ -133,6 +133,10 @@
         {
           "target": "Logo field",
           "callout": "No explanation of where the logo appears or what constraints apply."
+        },
+        {
+          "target": "Allow Access to APIM 3.0 Portal pages without login toggle",
+          "callout": "Uses title case, inconsistent with sentence-case labels everywhere else on the page."
         }
       ]
     },
@@ -165,6 +169,10 @@
         {
           "target": "AutoSync Snap Pack version / pipeline table",
           "callout": "The selector shows a raw build string with no explanation of what it controls, and the table's Current version uses a completely different format with nothing tying the two together or explaining what Upgrade now does."
+        },
+        {
+          "target": "1 Data Pipeline heading",
+          "callout": "Uses title case, inconsistent with sentence-case labels everywhere else on the page."
         }
       ]
     },

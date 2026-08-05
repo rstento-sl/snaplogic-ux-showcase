@@ -281,6 +281,38 @@
           "callout": "This page plays two roles at two different times — source and destination — but nothing on the page communicates that."
         }
       ]
+    },
+    {
+      "id": "issue-08",
+      "area": "Admin Manager",
+      "title": "JWT authentication page doesn't explain the Disable basic authentication option or field limits",
+      "screen": "Admin Manager > Organization > Authentication > JWT tab",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 07",
+      "severity": "Low",
+      "category": "Content clarity / labeling",
+      "summary": "The intro never mentions that Disable basic authentication enforces JWT-only auth, both URL fields truncate with no way to see the full value, and neither field says whether it's required.",
+      "mockups": {
+        "comparison": "admin-manager/jwt-config/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Intro text",
+          "callout": "The intro explains JWT auth is optional but never mentions that the Disable basic authentication checkbox further down enforces JWT-only auth for the org."
+        },
+        {
+          "target": "Issuer ID / JWKS endpoint fields",
+          "callout": "Long URLs truncate with no tooltip, wrap, or way to view the full value users entered."
+        },
+        {
+          "target": "Issuer ID / JWKS endpoint fields",
+          "callout": "Neither field indicates whether it's required."
+        },
+        {
+          "target": "Save button",
+          "callout": "Save is disabled by default with no explanation of why."
+        }
+      ]
     }
   ]
 }

@@ -177,6 +177,34 @@
       ]
     },
     {
+      "id": "issue-07",
+      "area": "Admin Manager",
+      "title": "Asset catalog access page doesn't explain the feature or its access options",
+      "screen": "Admin Manager > Application Settings > Asset catalog",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 06",
+      "severity": "Low",
+      "category": "Content clarity / labeling",
+      "summary": "The intro just restates the page title instead of explaining what the Asset catalog is, and neither access option says what it actually grants.",
+      "mockups": {
+        "comparison": "admin-manager/asset-catalog/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Intro text",
+          "callout": "The intro just restates the page title — it doesn't say what the Asset catalog is or why access to it matters."
+        },
+        {
+          "target": "Access options",
+          "callout": "Nothing tells users what Everyone actually grants — can non-admins edit assets, or only view them?"
+        },
+        {
+          "target": "Save behavior",
+          "callout": "This page auto-saves on selection with no confirmation, unlike other Admin Manager pages that use an explicit Save button — users may wonder if their change took effect."
+        }
+      ]
+    },
+    {
       "id": "issue-01",
       "area": "Admin Manager",
       "title": "SSO configuration screen confusing and sections in wrong order",

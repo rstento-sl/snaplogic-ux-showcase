@@ -237,6 +237,7 @@
 
   .section.highlighted { background: #FDF3F5; border-radius: 4px; }
   .section.highlighted .section-title { color: #B61631; }
+  #block-tabs.highlighted { background: #FDF3F5; border-radius: 4px; margin: -8px -12px 0; padding: 8px 12px; }
 
   .popover {
     display: none;
@@ -477,17 +478,20 @@
     <div class="sheet current">
     <span class="stamp redline">REDLINE</span>
     <div class="compare-col-label current">Current UI</div>
-    <div class="col-instruction current">Click a red pin on the left to see what's wrong</div>
+    <div class="col-instruction current">Click a red pin to see what's wrong</div>
     <div class="page-wrapper">
 
-      <h1>Authentication</h1>
-      <div class="tabs">
-        <div class="tab active">SSO</div>
-        <div class="tab">JWT</div>
+      <div id="block-tabs" style="position: relative;">
+        <div class="pin" id="pin-1" style="top: -8px; right: 0;" onclick="openPopover(1, event)">1</div>
+        <h1>Authentication</h1>
+        <div class="tabs">
+          <div class="tab active">SSO</div>
+          <div class="tab">JWT</div>
+        </div>
+        <p class="intro-text">
+          SnapLogic supports SSO identity providers (IdPs) that adhere to the SAML 2.0 standard. <a href="https://docs.snaplogic.com/admin-manager/sso.html" target="_blank" rel="noopener">Learn more.</a>
+        </p>
       </div>
-      <p class="intro-text">
-        SnapLogic supports SSO identity providers (IdPs) that adhere to the SAML 2.0 standard. <a href="https://docs.snaplogic.com/admin-manager/sso.html" target="_blank" rel="noopener">Learn more.</a>
-      </p>
 
       <div class="section" id="section-A">
         <div class="pin" id="pin-2" style="top: 18px; right: 0;" onclick="openPopover(2, event)">2</div>
@@ -525,12 +529,11 @@
       </div>
 
       <div class="section" id="section-C">
+        <div class="pin" id="pin-4" style="top: 18px; right: 0;" onclick="openPopover(4, event)">4</div>
         <div class="section-title">Provide SnapLogic metadata to your IdP</div>
         <p class="section-body">Download the metadata file and upload it to your IdP.</p>
         <button class="btn">Download file</button>
       </div>
-
-      <div class="pin" id="pin-1" style="position:absolute; top: 28px; right: 32px;" onclick="openPopover(1, event)">1</div>
 
       <div class="section">
         <div class="section-title">Manage SSO options</div>
@@ -555,12 +558,13 @@
     <div class="page-wrapper">
 
       <h1>Authentication</h1>
+      <p class="intro-text" style="margin-bottom: 12px;">By default, the SnapLogic Platform login and public API requests require Basic auth. You can optionally configure SSO for platform login and JWT for authenticating API requests.</p>
       <div class="tabs">
         <div class="tab active">SSO</div>
         <div class="tab">JWT</div>
       </div>
       <p class="intro-text">
-        SnapLogic supports SSO identity providers (IdPs) that adhere to the SAML 2.0 standard. <a href="https://docs.snaplogic.com/admin-manager/sso.html" target="_blank" rel="noopener">Learn more.</a>
+        Configure SSO to let users log in to the SnapLogic Platform through an identity provider (IdP) that adheres to the SAML 2.0 standard. <a href="https://docs.snaplogic.com/admin-manager/sso.html" target="_blank" rel="noopener">Learn more.</a>
       </p>
 
       <div class="step-block" id="step1-block">
@@ -680,10 +684,10 @@
 <script>
 const annotations = [
   {
-    title: "Sections are out of order, with no indication users must leave and return",
-    problem: "Users visit this page twice, at two different times — first to copy values OUT to the IdP, later to paste IdP metadata BACK IN. But the paste-back section appears first, above the copy-out section, so users hit it before they have anything to enter. Nothing marks the sections as sequential or tells users they need to leave and come back.",
-    fix: "Reorder the sections to match the real workflow and number them: Step 1 — copy/download SnapLogic values, go set up your IdP. Step 2 — return and upload the IdP metadata.",
-    section: null
+    title: "Tabs don't explain what SSO vs. JWT are each for",
+    problem: "Nothing above the tabs explains that one is for login and one is for API authentication.",
+    fix: "Lead with what needs authentication and when this page is relevant: “By default, the SnapLogic Platform login and public API requests require Basic auth. You can optionally configure SSO for platform login and JWT for authenticating API requests.”",
+    section: "block-tabs"
   },
   {
     title: "Upload section appears before the user has a file to upload",
@@ -696,6 +700,12 @@ const annotations = [
     problem: "Users need the Entity ID, Reply URL, and Logout URL to configure their IdP — but the page buries them below the upload section and gives no instruction to copy them or go elsewhere. The page also gives no indication that the “Download file” option in the next section is an alternative path for this same step.",
     fix: "Make this Step 1. Lead with the download option and add an “or copy individual values” divider before listing the URLs. Add copy buttons and explicit instruction: “Copy these values and use them to create a SAML application in your identity provider. Then return here to complete Step 2.”",
     section: "section-B"
+  },
+  {
+    title: "Sections are out of order, with no indication users must leave and return",
+    problem: "Users visit this page twice, at two different times — first to copy values OUT to the IdP, later to paste IdP metadata BACK IN. But the paste-back section appears first, above the copy-out section, so users hit it before they have anything to enter. Nothing marks the sections as sequential or tells users they need to leave and come back.",
+    fix: "Reorder the sections to match the real workflow and number them: Step 1 — copy/download SnapLogic values, go set up your IdP. Step 2 — return and upload the IdP metadata.",
+    section: null
   }
 ];
 
@@ -706,7 +716,7 @@ function openPopover(n, e) {
   current = n;
   render(n);
 
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.section, #block-tabs').forEach(s => s.classList.remove('highlighted'));
   document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
 
   const a = annotations[n - 1];
@@ -753,7 +763,7 @@ function render(n) {
 function navigate(dir) {
   const next = current + dir;
   if (next < 1 || next > annotations.length) return;
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.section, #block-tabs').forEach(s => s.classList.remove('highlighted'));
   document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
   current = next;
   render(next);
@@ -766,7 +776,7 @@ function navigate(dir) {
 
 function closePopover() {
   document.getElementById('popover').style.display = 'none';
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.section, #block-tabs').forEach(s => s.classList.remove('highlighted'));
   document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
   current = null;
 }

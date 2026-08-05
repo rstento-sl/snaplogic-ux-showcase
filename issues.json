@@ -265,6 +265,10 @@
       },
       "annotations": [
         {
+          "target": "Tabs",
+          "callout": "Nothing above the tabs explains that one is for login and one is for API authentication."
+        },
+        {
           "target": "Upload identity provider metadata section",
           "callout": "Users see this first — but they can't complete it yet. The IdP app doesn't exist until they use values from lower on this same page."
         },

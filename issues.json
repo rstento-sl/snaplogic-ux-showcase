@@ -94,7 +94,7 @@
       "unreportedLabel": "Unreported issue 03",
       "severity": "High",
       "category": "Content clarity / labeling",
-      "summary": "\"Optimized Dashboard\" isn't a concept that exists anywhere else in the product, and the only control's description references an undocumented data warehouse. Pins pending more information.",
+      "summary": "Shipping November 2026. \"Optimized Dashboard\" isn't a concept that exists anywhere else in the product, and the only control's description references an undocumented data warehouse. Pins pending more information.",
       "mockups": {
         "comparison": "admin-manager/optimized-dashboard/comparison.html"
       },

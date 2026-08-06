@@ -422,7 +422,7 @@
 
       <div class="block" id="prop-block-toggle">
         <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
-        <p class="helper-text">With pipeline validation enabled, the SnapLogic Platform attempts to pass real data through Snaps on validation or save. Snaps that execute successfully provide preview data.</p>
+        <p class="helper-text">On validation or save, pipeline validation passes real data through Snaps and successful Snaps provide preview documents.</p>
         <div class="toggle-row">
           <div class="toggle-switch" id="prop-validation-toggle" onclick="propToggleValidation()">
             <div class="knob"></div>
@@ -433,8 +433,8 @@
 
       <div class="block" id="prop-block-docs">
         <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
-        <p class="helper-text">Preview documents show whether pipeline mappings and transformations are working as expected. The following dropdown sets the environment maximum number of documents (limited to up to 15 MB in total size). Users can change the number of preview documents for their own account in user settings, up to the value set here.</p>
         <div class="field-label">Maximum preview documents</div>
+        <p class="helper-text">The environment maximum number of preview documents (limited to up to 15 MB in total size) created during validation. Users can change the number of preview documents for their own account in user settings, up to the value set here.</p>
         <div class="dropdown" id="prop-doc-dropdown">
           <div class="dropdown-trigger" onclick="propToggleDropdown()">
             <span id="prop-doc-value">50</span>
@@ -504,7 +504,7 @@ const annotations = [
   {
     title: "The toggle's purpose is never explained",
     problem: "Nothing on the page says what this toggle does.",
-    fix: "Add a helper sentence above the toggle: “With pipeline validation enabled, the SnapLogic Platform attempts to pass real data through Snaps on validation or save. Snaps that execute successfully provide preview data.”",
+    fix: "Add a helper sentence above the toggle: “On validation or save, pipeline validation passes real data through Snaps and successful Snaps provide preview documents.”",
     block: "block-toggle",
     propBlock: "prop-block-toggle"
   },

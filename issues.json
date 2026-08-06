@@ -460,6 +460,78 @@
           "callout": "The default role is User, yet many APIs require Environment admin permission — nothing on this screen tells admins that before they create the account."
         }
       ]
+    },
+    {
+      "id": "issue-14",
+      "area": "Admin Manager",
+      "title": "Groups table has no sort, no bulk delete, and hides that rows are clickable",
+      "screen": "Admin Manager > User Management > Groups",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 13",
+      "severity": "Medium",
+      "category": "Information architecture / sequencing",
+      "summary": "The Groups table offers no sorting or pagination despite 1527 rows, leaves the Description column empty instead of showing useful dates, and gives rows no visual cue that clicking them opens the group.",
+      "mockups": {
+        "comparison": "admin-manager/groups/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Search and sort controls",
+          "callout": "Only a name search box exists for 1527 groups — no column sorting and no pagination, just a scrollbar."
+        },
+        {
+          "target": "Table columns",
+          "callout": "The Description column is empty for every row shown, and the table lacks columns like Date added and Updated date that the Users table already has."
+        },
+        {
+          "target": "Group row",
+          "callout": "Clicking anywhere on the row opens it for editing, but the group name isn't styled as a link, so nothing signals it's clickable. There's also no way to select multiple groups for deletion, unlike the Users table's row checkboxes and bulk delete."
+        }
+      ]
+    },
+    {
+      "id": "issue-15",
+      "area": "Admin Manager",
+      "title": "New group dialog warns the name can't be changed before the group even exists",
+      "screen": "Admin Manager > User Management > Groups > New group",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 14",
+      "severity": "Low",
+      "category": "Content clarity / labeling",
+      "summary": "\"The group name cannot be changed\" appears under an empty, active Group name field on the creation screen, reading like a warning about a restriction that's already in effect before anything has been created.",
+      "mockups": {
+        "comparison": "admin-manager/add-group-dialog/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Group name helper text",
+          "callout": "This line sits under an empty, active Group name field on the creation screen — it reads like a warning about a restriction that's already in effect, when nothing has been created yet."
+        }
+      ]
+    },
+    {
+      "id": "issue-16",
+      "area": "Admin Manager",
+      "title": "Editing a group's members takes two saves, and Add users looks like a duplicate of member search",
+      "screen": "Admin Manager > User Management > Groups > Edit group",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 15",
+      "severity": "High",
+      "category": "Information architecture / sequencing",
+      "summary": "Adding a user to a group requires a save inside the Add users modal and a second save on the Edit group screen, or the change is silently lost, and the modal itself looks and behaves differently from the account-creation dialogs elsewhere in Admin Manager.",
+      "mockups": {
+        "comparison": "admin-manager/edit-group-dialog/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Member search and Add users",
+          "callout": "The \"Search users by email or name\" box and \"+ Add users\" link sit side by side but do unrelated things — search only filters existing members, while \"+ Add users\" is the only way to add someone new. The modal it opens also looks and behaves differently from the account-creation dialogs, and its trigger is a plain text link rather than a button."
+        },
+        {
+          "target": "Save behavior",
+          "callout": "Adding a user requires clicking Save inside the Add users modal, then clicking Save again on this screen — skip the second Save and the added user is lost, with no warning that this is required."
+        }
+      ]
     }
   ]
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JWT authentication page doesn't explain the Disable basic authentication option or field limits</title>
+<title>New user account-type screen doesn't explain what really differs between types</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,8 +16,8 @@
     --teal-tint: #E6F2F2;
     --red: #E31C3D;
     --red-dark: #B61631;
-    --green: #017D1B;
     --green-dark: #015c14;
+    --green: #017D1B;
     --blue: #0841B4;
     --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   }
@@ -116,77 +116,66 @@
     box-shadow: 0 6px 20px rgba(31,33,37,0.08);
     position: relative;
   }
-  h1 { font-size: 26px; font-weight: 700; margin-bottom: 18px; }
-  .tabs { display: flex; border-bottom: 2px solid #e0e0e0; margin-bottom: 20px; }
-  .tab { padding: 8px 0; margin-right: 24px; font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; margin-bottom: -2px; }
-  .tab.active { color: #0841B4; border-bottom-color: #0841B4; }
-  .intro-text { color: #444; margin-bottom: 26px; line-height: 1.5; }
-  .intro-text a { color: #0841B4; text-decoration: none; }
+  .title-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .back-chevron { font-size: 22px; color: var(--dim); }
+  h1 { font-size: 26px; font-weight: 700; }
+  .intro-text { color: #444; margin-bottom: 20px; line-height: 1.5; font-size: 14px; }
+  .intro-text strong { font-weight: 700; }
+  .intro-text a { color: var(--blue); text-decoration: none; }
 
-  .block { position: relative; margin-bottom: 24px; }
+  .block { position: relative; margin-bottom: 0; }
 
-  .field-label { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
-  .field-input {
-    width: 100%;
-    max-width: 460px;
-    padding: 9px 12px;
-    font-size: 14px;
-    border: 1px solid #b8bfc9;
-    border-radius: 4px;
-    color: var(--ink);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    background: #fff;
-  }
-  .field-help { font-size: 12px; color: var(--dim); font-style: italic; margin-top: 6px; }
-  .field-required { color: var(--red); font-weight: 700; }
-
-  .checkbox-row { display: flex; gap: 10px; align-items: flex-start; }
-  .checkbox-box {
-    width: 18px; height: 18px;
-    border: 2px solid #999;
-    border-radius: 3px;
-    flex-shrink: 0;
-    margin-top: 2px;
-    position: relative;
+  .type-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    border: 1px solid var(--hairline);
+    border-left: 4px solid transparent;
     cursor: pointer;
   }
-  .checkbox-box.checked { background: var(--blue); border-color: var(--blue); }
-  .checkbox-box.checked::after {
-    content: "";
-    position: absolute;
-    top: 2px; left: 5px;
-    width: 4px; height: 8px;
-    border: solid #fff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+  .type-card + .type-card { border-top: none; }
+  .type-card:first-child { border-radius: 6px 6px 0 0; }
+  .type-card:last-child { border-radius: 0 0 6px 6px; }
+  .type-card.selected { border-left-color: var(--blue); background: #F7F9FD; }
+  .type-icon-box { color: var(--ink); flex-shrink: 0; }
+  .type-icon-box svg { width: 26px; height: 26px; }
+  .type-text { flex: 1; }
+  .type-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .info-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    background: #c7ccd4;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    font-style: normal;
+    cursor: help;
   }
-  .checkbox-desc { font-size: 13px; color: #444; line-height: 1.5; }
+  .type-desc { font-size: 13px; color: #555; margin-top: 2px; line-height: 1.4; }
+  .type-note { font-size: 12px; color: #7A5B00; margin-top: 5px; line-height: 1.4; }
+  .access-cols { display: flex; gap: 22px; flex-shrink: 0; }
+  .access-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #333; white-space: nowrap; }
+  .access-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .access-item.yes svg { color: var(--green); }
+  .access-item.no svg { color: var(--red); }
 
-  .btn {
+  .next-btn {
     display: inline-block;
-    padding: 8px 18px;
+    margin-top: 22px;
+    padding: 9px 22px;
     font-size: 13px;
     font-weight: 700;
     border-radius: 4px;
     border: none;
-    cursor: pointer;
+    cursor: not-allowed;
+    background: #CED9F0;
+    color: #fff;
   }
-  .btn.disabled { background: #CED9F0; color: #fff; cursor: not-allowed; }
-  .btn.active { background: var(--blue); color: #fff; }
-
-  .saved-tag {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--teal);
-    margin-left: 10px;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .saved-tag.show { opacity: 1; }
+  .next-btn.active { cursor: pointer; background: var(--blue); }
 
   .pin {
     position: absolute;
@@ -216,7 +205,7 @@
   .block.highlighted {
     background: #FDF3F5;
     border-radius: 6px;
-    margin: -8px -12px 16px;
+    margin: -8px -12px 10px;
     padding: 8px 12px;
   }
 
@@ -302,11 +291,11 @@
 <div class="showcase-header">
   <div class="breadcrumb">
     <a class="back-link" href="../../index.html">← All issues</a>
-    <span class="path">admin-manager <span class="sep">/</span> authentication <span class="sep">/</span> jwt</span>
+    <span class="path">admin-manager <span class="sep">/</span> user-management <span class="sep">/</span> new-user</span>
   </div>
   <div class="issue-heading">
-    <span class="ticket-chip">Unreported issue 07</span>
-    <h1>JWT authentication page doesn't explain the Disable basic authentication option or field limits</h1>
+    <span class="ticket-chip">Unreported issue 09</span>
+    <h1>New user account-type screen doesn't explain what really differs between types</h1>
   </div>
   <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix</div>
 </div>
@@ -321,43 +310,57 @@
       <span class="stamp redline">REDLINE</span>
       <div class="page-wrapper">
 
-        <div class="block" id="block-intro">
+        <div class="title-row">
+          <span class="back-chevron">‹</span>
+          <h1>New user</h1>
+        </div>
+        <p class="intro-text"><strong>Choose an account type.</strong> <a href="#">Learn more</a></p>
+
+        <div class="block" id="block-user-team">
           <div class="pin" id="pin-1" style="top: -8px; right: -8px;" onclick="openPopover(1, event)">1</div>
-          <h1>Authentication</h1>
-          <div class="tabs">
-            <div class="tab">SSO</div>
-            <div class="tab active">JWT</div>
+
+          <div class="type-card">
+            <div class="type-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M2 21c0-4 3-6 7-6"/><path d="M16 8l3 3-3 3"/><path d="M22 8l-3 3 3 3"/></svg></div>
+            <div class="type-text">
+              <div class="type-title">User account</div>
+              <div class="type-desc">Create, edit and run integrations.</div>
+            </div>
+            <div class="access-cols">
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App access</div>
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>API access</div>
+            </div>
           </div>
-          <p class="intro-text">Use this section to enable JWT authentication for SnapLogic public APIs. This is optional and only required if you plan to authenticate API requests using JWTs from your identity provider. <a href="#">Learn more.</a></p>
+
+          <div class="type-card">
+            <div class="type-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><path d="M16 15.5c3 .3 5 2 5 5.5"/></svg></div>
+            <div class="type-text">
+              <div class="type-title">Team account <span class="info-dot">i</span></div>
+              <div class="type-desc">Shared and managed by multiple people. Create, edit and run integrations.</div>
+            </div>
+            <div class="access-cols">
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App access</div>
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>API access</div>
+            </div>
+          </div>
         </div>
 
-        <div class="block" id="block-fields">
+        <div class="block" id="block-service">
           <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
-          <div class="pin" id="pin-3" style="top: -8px; left: -8px;" onclick="openPopover(3, event)">3</div>
-          <div style="margin-bottom: 22px;">
-            <div class="field-label">Issuer ID</div>
-            <div class="field-input">https://your-idp.example.com/oauth2/default</div>
-            <div class="field-help">The issuer claim expected in incoming JWTs. Must match your identity provider's issuer.</div>
-          </div>
-          <div>
-            <div class="field-label">JWKS endpoint</div>
-            <div class="field-input">https://your-idp.example.com/oauth2/default/v1/keys</div>
-            <div class="field-help">URL used to fetch the public keys for JWT signature verification.</div>
+
+          <div class="type-card">
+            <div class="type-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><polyline points="7 9 10 12 7 15"/><line x1="12" y1="15" x2="16" y2="15"/></svg></div>
+            <div class="type-text">
+              <div class="type-title">Service account</div>
+              <div class="type-desc">Run integrations using APIs.</div>
+            </div>
+            <div class="access-cols">
+              <div class="access-item no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>App access</div>
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>API access</div>
+            </div>
           </div>
         </div>
 
-        <div class="block" id="block-checkbox">
-          <div class="field-label">Disable basic authentication</div>
-          <div class="checkbox-row">
-            <div class="checkbox-box"></div>
-            <div class="checkbox-desc">Disables basic authentication and only allows JWT authentication for SnapLogic public APIs.</div>
-          </div>
-        </div>
-
-        <div class="block" id="block-save" style="margin-bottom: 0;">
-          <div class="pin" id="pin-4" style="top: 0; right: -8px;" onclick="openPopover(4, event)">4</div>
-          <button class="btn disabled" disabled>Save</button>
-        </div>
+        <button class="next-btn" disabled>Next</button>
 
       </div>
     </div>
@@ -366,50 +369,64 @@
   <!-- ── Proposed Redesign ── -->
   <div>
     <div class="compare-col-label proposed">Proposed microcopy</div>
-    <div class="col-instruction proposed">Click a green pin to see the fix</div>
+    <div class="col-instruction proposed">Click a green pin to see the fix, or click a card to select it</div>
     <div class="sheet">
       <span class="stamp proposed-stamp">PROPOSED</span>
       <div class="page-wrapper">
 
-        <h1>Authentication</h1>
-        <div class="tabs">
-          <div class="tab">SSO</div>
-          <div class="tab active">JWT</div>
+        <div class="title-row">
+          <span class="back-chevron">‹</span>
+          <h1>New user</h1>
         </div>
+        <p class="intro-text"><strong>Choose an account type.</strong> <a href="#">Learn more</a></p>
 
-        <div class="block" id="prop-block-intro">
+        <div class="block" id="prop-block-user-team" style="margin-bottom: 0;">
           <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
-          <p class="intro-text">Use this section to enable JWT authentication for SnapLogic public APIs. This is optional and only required if you plan to authenticate API requests using JWTs from your identity provider. Once configured, users can authenticate with either basic auth or JWT unless you select <strong>Disable basic authentication</strong>. <a href="#">Learn more.</a></p>
+
+          <div class="type-card" onclick="selectType(this)">
+            <div class="type-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M2 21c0-4 3-6 7-6"/><path d="M16 8l3 3-3 3"/><path d="M22 8l-3 3 3 3"/></svg></div>
+            <div class="type-text">
+              <div class="type-title">User account</div>
+              <div class="type-desc">Create, edit and run integrations. Signs in individually.</div>
+            </div>
+            <div class="access-cols">
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App access</div>
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>API access</div>
+            </div>
+          </div>
+
+          <div class="type-card" onclick="selectType(this)">
+            <div class="type-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><path d="M16 15.5c3 .3 5 2 5 5.5"/></svg></div>
+            <div class="type-text">
+              <div class="type-title">Team account</div>
+              <div class="type-desc">Shared and managed by multiple people. Create, edit and run integrations.</div>
+              <div class="type-note">One or more members are designated as maintainers. Team accounts always have the User role and can't be assigned Environment Admin.</div>
+            </div>
+            <div class="access-cols">
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App access</div>
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>API access</div>
+            </div>
+          </div>
         </div>
 
-        <div class="block" id="prop-block-fields">
+        <div class="block" id="prop-block-service" style="margin-top: 0;">
           <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
-          <div class="pin green" id="green-pin-3" style="top: -8px; left: -8px;" onclick="openGreenPopover(3, event)">3</div>
-          <div style="margin-bottom: 22px;">
-            <div class="field-label">Issuer ID <span class="field-required">(required)</span></div>
-            <input class="field-input" style="text-overflow: clip;" title="https://your-idp.example.com/oauth2/default" value="https://your-idp.example.com/oauth2/default" oninput="markChanged()">
-            <div class="field-help">The issuer claim expected in incoming JWTs. Must match your identity provider's issuer.</div>
-          </div>
-          <div>
-            <div class="field-label">JWKS endpoint <span class="field-required">(required)</span></div>
-            <input class="field-input" style="text-overflow: clip;" title="https://your-idp.example.com/oauth2/default/v1/keys" value="https://your-idp.example.com/oauth2/default/v1/keys" oninput="markChanged()">
-            <div class="field-help">URL used to fetch the public keys for JWT signature verification.</div>
+
+          <div class="type-card" onclick="selectType(this)">
+            <div class="type-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><polyline points="7 9 10 12 7 15"/><line x1="12" y1="15" x2="16" y2="15"/></svg></div>
+            <div class="type-text">
+              <div class="type-title">Service account</div>
+              <div class="type-desc">Run integrations using APIs.</div>
+              <div class="type-note">Can't sign in through the UI — use for API-driven integrations only.</div>
+            </div>
+            <div class="access-cols">
+              <div class="access-item no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>App access</div>
+              <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>API access</div>
+            </div>
           </div>
         </div>
 
-        <div style="margin-bottom: 24px;">
-          <div class="field-label">Disable basic authentication</div>
-          <div class="checkbox-row" onclick="toggleCheckbox()">
-            <div class="checkbox-box" id="prop-checkbox"></div>
-            <div class="checkbox-desc">Disables basic authentication and only allows JWT authentication for SnapLogic public APIs.</div>
-          </div>
-        </div>
-
-        <div class="block" id="prop-block-save" style="margin-bottom: 0;">
-          <div class="pin green" id="green-pin-4" style="top: 0; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
-          <button class="btn disabled" id="prop-save" disabled>Save</button>
-          <span class="saved-tag" id="saved-tag">Saved</span>
-        </div>
+        <button class="next-btn" id="next-btn" disabled>Next</button>
 
       </div>
     </div>
@@ -439,32 +456,18 @@
 <script>
 const annotations = [
   {
-    title: "Intro doesn't mention what Disable basic authentication does",
-    problem: "The intro explains JWT auth is optional, but says nothing about the checkbox further down that enforces it — users may not realize checking it also turns off Basic auth for the whole org.",
-    fix: "Add a sentence to the intro: “Once configured, users can authenticate with either basic auth or JWT unless you select Disable basic authentication.”",
-    block: "block-intro",
-    propBlock: "prop-block-intro"
+    title: "User and Team accounts look identical except for one vague line",
+    problem: "Both show the same App access and API access checkmarks and both start with “Create, edit and run integrations.” The only difference is “Shared and managed by multiple people,” which doesn't say what that actually means day to day.",
+    fix: "Show what actually differs directly under the description: Team accounts are shared through designated maintainers and always capped at the User role — they can't be assigned Environment Admin.",
+    block: "block-user-team",
+    propBlock: "prop-block-user-team"
   },
   {
-    title: "Field values truncate with no way to see the full text",
-    problem: "Issuer ID and JWKS endpoint both cut off long URLs with no tooltip, wrap, or way to view the full value — users can't verify what they entered or copied.",
-    fix: "Show the full value on hover/focus (or don't truncate at all) so users can confirm what's in the field.",
-    block: "block-fields",
-    propBlock: "prop-block-fields"
-  },
-  {
-    title: "Required fields aren't marked",
-    problem: "Nothing indicates whether Issuer ID and JWKS endpoint are required to enable JWT authentication.",
-    fix: "Label both fields “(required).”",
-    block: "block-fields",
-    propBlock: "prop-block-fields"
-  },
-  {
-    title: "Save is disabled with no explanation",
-    problem: "Save starts out disabled and nothing on the page says why, or what needs to change to enable it.",
-    fix: "Enable Save as soon as a field or the checkbox changes.",
-    block: "block-save",
-    propBlock: "prop-block-save"
+    title: "The type with a real restriction has the least explanation",
+    problem: "Service account is the only type with an actual capability cut (no App access), but it's the one card with no info icon — Team, whose difference is just wording, gets one and Service doesn't.",
+    fix: "Show the same kind of note for Service account, directly under its description: “Can't sign in through the UI — use for API-driven integrations only.”",
+    block: "block-service",
+    propBlock: "prop-block-service"
   }
 ];
 
@@ -592,30 +595,13 @@ document.addEventListener('click', function(e) {
   }
 });
 
-function markChanged() {
-  const btn = document.getElementById('prop-save');
+function selectType(card) {
+  document.querySelectorAll('.sheet:not(.current) .type-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  const btn = document.getElementById('next-btn');
   btn.disabled = false;
-  btn.classList.remove('disabled');
   btn.classList.add('active');
 }
-
-let checkboxChecked = false;
-function toggleCheckbox() {
-  checkboxChecked = !checkboxChecked;
-  document.getElementById('prop-checkbox').classList.toggle('checked', checkboxChecked);
-  markChanged();
-}
-
-document.getElementById('prop-save').addEventListener('click', function() {
-  if (this.disabled) return;
-  this.disabled = true;
-  this.classList.remove('active');
-  this.classList.add('disabled');
-  const tag = document.getElementById('saved-tag');
-  tag.classList.add('show');
-  clearTimeout(window._savedTagTimeout);
-  window._savedTagTimeout = setTimeout(() => tag.classList.remove('show'), 1600);
-});
 </script>
 </body>
 </html>

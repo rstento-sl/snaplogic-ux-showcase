@@ -16,6 +16,8 @@
     --teal-tint: #E6F2F2;
     --red: #E31C3D;
     --red-dark: #B61631;
+    --green: #017D1B;
+    --green-dark: #015c14;
     --blue: #0841B4;
     --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   }
@@ -175,6 +177,9 @@
   }
   .pin:hover { transform: scale(1.15); background: var(--red-dark); }
   .pin.active { background: var(--red-dark); transform: scale(1.15); }
+  .pin.green { background: var(--green); }
+  .pin.green:hover { background: var(--green-dark); }
+  .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
   .block.highlighted {
     background: #FDF3F5;
@@ -197,6 +202,19 @@
     overflow-y: auto;
   }
   .popover-header { background: var(--red); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .popover-header.green { background: var(--green); }
+  .popover-jump-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .popover-jump-btn.to-fix { background: var(--green); color: #fff; }
+  .popover-jump-btn.to-problem { background: var(--red); color: #fff; }
   .popover-header .pin-label {
     width: 22px; height: 22px; border-radius: 50%;
     background: rgba(255,255,255,0.25);
@@ -258,7 +276,7 @@
     <span class="ticket-chip">Unreported issue 06</span>
     <h1>Asset catalog access page doesn't explain the feature or its access options</h1>
   </div>
-  <div class="instruction">Click a red pin to see what's wrong</div>
+  <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix</div>
 </div>
 
 <div class="compare-grid">
@@ -266,6 +284,7 @@
   <!-- ── Current UI ── -->
   <div>
     <div class="compare-col-label current">Current UI</div>
+    <div class="col-instruction current">Click a red pin to see what's wrong</div>
     <div class="sheet current">
       <span class="stamp redline">REDLINE</span>
       <div class="page-wrapper">
@@ -298,23 +317,31 @@
 
   <!-- ── Proposed Redesign ── -->
   <div>
-    <div class="compare-col-label proposed">Proposed design</div>
+    <div class="compare-col-label proposed">Proposed microcopy</div>
+    <div class="col-instruction proposed">Click a green pin to see the fix</div>
     <div class="page-wrapper">
 
-      <h1>Asset catalog</h1>
-      <p class="intro-text">The Asset catalog in Monitor shows all of your assets and the relationships between them. Select which users can view and use the Asset catalog.</p>
-
-      <div class="radio-item" onclick="selectAccess('admin')">
-        <div class="radio-dot" id="prop-radio-admin"></div>
-        <div>
-          <div class="radio-label">Environment Admin<span class="saved-tag" id="saved-admin">Saved</span></div>
-        </div>
+      <div class="block" id="prop-block-intro">
+        <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
+        <h1>Asset catalog</h1>
+        <p class="intro-text">The Asset catalog in Monitor shows all of your assets and the relationships between them. Select which users can view and use the Asset catalog.</p>
       </div>
-      <div class="radio-item" onclick="selectAccess('everyone')">
-        <div class="radio-dot selected" id="prop-radio-everyone"></div>
-        <div>
-          <div class="radio-label">Everyone<span class="saved-tag" id="saved-everyone">Saved</span></div>
-          <div class="radio-desc">Non-admins can only view assets they have at least read access to.</div>
+
+      <div class="block" id="prop-block-options">
+        <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
+        <div class="pin green" id="green-pin-3" style="top: -8px; left: -8px;" onclick="openGreenPopover(3, event)">3</div>
+        <div class="radio-item" onclick="selectAccess('admin')">
+          <div class="radio-dot" id="prop-radio-admin"></div>
+          <div>
+            <div class="radio-label">Environment Admin<span class="saved-tag" id="saved-admin">Saved</span></div>
+          </div>
+        </div>
+        <div class="radio-item" onclick="selectAccess('everyone')">
+          <div class="radio-dot selected" id="prop-radio-everyone"></div>
+          <div>
+            <div class="radio-label">Everyone<span class="saved-tag" id="saved-everyone">Saved</span></div>
+            <div class="radio-desc">Non-admins can only view assets they have at least read access to.</div>
+          </div>
         </div>
       </div>
 
@@ -324,18 +351,14 @@
 </div>
 
 <div class="popover" id="popover">
-  <div class="popover-header">
+  <div class="popover-header" id="pop-header">
     <div class="pin-label" id="pop-num">1</div>
     <h3 id="pop-title"></h3>
     <button class="close-btn" onclick="closePopover()">×</button>
   </div>
   <div class="popover-body">
     <div class="popover-problem" id="pop-problem"></div>
-    <div class="popover-fix-label" id="pop-fix-label">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Proposed fix
-    </div>
-    <div class="popover-fix" id="pop-fix"></div>
+    <button class="popover-jump-btn" id="pop-jump-btn"></button>
   </div>
   <div class="popover-footer">
     <span id="pop-counter"></span>
@@ -352,37 +375,59 @@ const annotations = [
     title: "Intro text doesn't explain the feature",
     problem: "The intro just restates the page title — it doesn't say what the Asset catalog is or why access to it matters.",
     fix: "Expand to: “The Asset catalog in Monitor shows all of your assets and the relationships between them. Select which users can view and use the Asset catalog.”",
-    block: "block-intro"
+    block: "block-intro",
+    propBlock: "prop-block-intro"
   },
   {
     title: "Access options aren't explained",
     problem: "Nothing tells users what “Everyone” actually grants — can non-admins edit assets, or only view them?",
     fix: "Add helper text under Everyone: “Non-admins can only view assets they have at least read access to.”",
-    block: "block-options"
+    block: "block-options",
+    propBlock: "prop-block-options"
   },
   {
     title: "No confirmation that the change was applied",
     problem: "This page auto-saves on selection, but nothing on screen confirms it. Other Admin Manager pages use an explicit Save button, so users may expect one here too and wonder if their change actually took effect.",
     fix: "Show a brief “Saved” confirmation when the selection changes.",
-    block: "block-no-save"
+    block: "block-no-save",
+    propBlock: "prop-block-options"
   }
 ];
 
 let current = null;
+let mode = 'red';
 
 function openPopover(n, e) {
-  e.stopPropagation();
+  if (e) e.stopPropagation();
+  mode = 'red';
   current = n;
-  render(n);
-
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  render();
+  clearHighlights();
 
   const a = annotations[n - 1];
   if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  document.getElementById('pin-' + n).classList.add('active');
+  const pinEl = document.getElementById('pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
 
-  positionPopover(document.getElementById('pin-' + n));
+function openGreenPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'green';
+  current = n;
+  render();
+  clearHighlights();
+
+  const a = annotations[n - 1];
+  if (a.propBlock) document.getElementById(a.propBlock).classList.add('highlighted');
+  const pinEl = document.getElementById('green-pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function clearHighlights() {
+  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
 }
 
 function positionPopover(pinEl) {
@@ -408,44 +453,61 @@ function positionPopover(pinEl) {
   pop.style.left = left + 'px';
 }
 
-function render(n) {
-  const a = annotations[n - 1];
-  document.getElementById('pop-num').textContent = n;
+function render() {
+  const a = annotations[current - 1];
+  const header = document.getElementById('pop-header');
+  const jumpBtn = document.getElementById('pop-jump-btn');
+
+  document.getElementById('pop-num').textContent = current;
   document.getElementById('pop-title').textContent = a.title;
-  document.getElementById('pop-problem').textContent = a.problem;
-  const fixLabel = document.getElementById('pop-fix-label');
-  const fixBox = document.getElementById('pop-fix');
-  if (a.fix) {
-    fixLabel.style.display = 'flex';
-    fixBox.style.display = 'block';
-    fixBox.textContent = a.fix;
+
+  if (mode === 'red') {
+    header.classList.remove('green');
+    document.getElementById('pop-problem').textContent = a.problem;
+    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.className = 'popover-jump-btn to-fix';
+    jumpBtn.onclick = function() { jumpTo('green', current); };
+    document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;
   } else {
-    fixLabel.style.display = 'none';
-    fixBox.style.display = 'none';
+    header.classList.add('green');
+    document.getElementById('pop-problem').textContent = a.fix;
+    jumpBtn.textContent = '← Back to problem';
+    jumpBtn.className = 'popover-jump-btn to-problem';
+    jumpBtn.onclick = function() { jumpTo('red', current); };
+    document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
   }
-  document.getElementById('pop-counter').textContent = 'Issue ' + n + ' of ' + annotations.length;
-  document.getElementById('btn-prev').disabled = n === 1;
-  document.getElementById('btn-next').disabled = n === annotations.length;
+
+  document.getElementById('btn-prev').disabled = current === 1;
+  document.getElementById('btn-next').disabled = current === annotations.length;
 }
 
 function navigate(dir) {
   const next = current + dir;
   if (next < 1 || next > annotations.length) return;
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
-  current = next;
-  render(next);
-  const a = annotations[next - 1];
-  if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  const pinEl = document.getElementById('pin-' + next);
-  pinEl.classList.add('active');
-  positionPopover(pinEl);
+  if (mode === 'red') {
+    openPopover(next);
+  } else {
+    openGreenPopover(next);
+  }
+}
+
+function jumpTo(targetMode, n) {
+  closePopover();
+  const pinId = targetMode === 'green' ? 'green-pin-' + n : 'pin-' + n;
+  const pinEl = document.getElementById(pinId);
+  pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() {
+    if (targetMode === 'green') {
+      openGreenPopover(n);
+    } else {
+      openPopover(n);
+    }
+  }, 300);
 }
 
 function closePopover() {
   document.getElementById('popover').style.display = 'none';
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  clearHighlights();
   current = null;
 }
 

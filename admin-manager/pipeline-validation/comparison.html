@@ -16,6 +16,8 @@
     --teal-tint: #E6F2F2;
     --red: #E31C3D;
     --red-dark: #B61631;
+    --green: #017D1B;
+    --green-dark: #015c14;
     --blue: #0841B4;
     --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   }
@@ -243,6 +245,9 @@
   }
   .pin:hover { transform: scale(1.15); background: var(--red-dark); }
   .pin.active { background: var(--red-dark); transform: scale(1.15); }
+  .pin.green { background: var(--green); }
+  .pin.green:hover { background: var(--green-dark); }
+  .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
   .block.highlighted { background: #FDF3F5; border-radius: 6px; margin: -8px -12px 20px; padding: 8px 12px; }
 
@@ -260,6 +265,19 @@
     overflow-y: auto;
   }
   .popover-header { background: var(--red); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .popover-header.green { background: var(--green); }
+  .popover-jump-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .popover-jump-btn.to-fix { background: var(--green); color: #fff; }
+  .popover-jump-btn.to-problem { background: var(--red); color: #fff; }
   .popover-header .pin-label {
     width: 22px; height: 22px; border-radius: 50%;
     background: rgba(255,255,255,0.25);
@@ -321,7 +339,7 @@
     <span class="ticket-chip">Unreported issue 01</span>
     <h1>Designer pipeline validation screen mixes settings with no explanation</h1>
   </div>
-  <div class="instruction">Click a red pin to see what's wrong</div>
+  <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix</div>
 </div>
 
 <div class="compare-grid">
@@ -329,6 +347,7 @@
   <!-- ── Current UI ── -->
   <div>
     <div class="compare-col-label current">Current UI</div>
+    <div class="col-instruction current">Click a red pin to see what's wrong</div>
     <div class="sheet current">
       <span class="stamp redline">REDLINE</span>
       <div class="page-wrapper">
@@ -386,8 +405,8 @@
 
   <!-- ── Proposed Redesign ── -->
   <div>
-    <div class="compare-col-label proposed">Proposed design</div>
-    <div class="col-instruction proposed">When the user changes the validation toggle or the preview document value, the Update button becomes active.</div>
+    <div class="compare-col-label proposed">Proposed microcopy</div>
+    <div class="col-instruction proposed">Click a green pin to see the fix</div>
     <div class="state-toggle">
       <span>View as:</span>
       <button class="state-btn active" id="btn-initial-state" onclick="setDemoState('initial')">Initial state</button>
@@ -395,9 +414,14 @@
     </div>
     <div class="page-wrapper">
 
-      <h1>Designer pipeline validation and document previews</h1>
+      <div class="block" id="prop-block-title" style="margin-bottom: 20px;">
+        <div class="pin green" id="green-pin-1" style="top: -8px; right: 32px;" onclick="openGreenPopover(1, event)">1</div>
+        <div class="pin green" id="green-pin-2" style="top: -8px; right: 0;" onclick="openGreenPopover(2, event)">2</div>
+        <h1 style="margin-bottom: 0;">Designer pipeline validation and document previews</h1>
+      </div>
 
-      <div class="block">
+      <div class="block" id="prop-block-toggle">
+        <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
         <p class="helper-text">With pipeline validation enabled, the SnapLogic Platform attempts to pass real data through Snaps on validation or save. Snaps that execute successfully provide preview data.</p>
         <div class="toggle-row">
           <div class="toggle-switch" id="prop-validation-toggle" onclick="propToggleValidation()">
@@ -407,7 +431,8 @@
         </div>
       </div>
 
-      <div class="block">
+      <div class="block" id="prop-block-docs">
+        <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
         <p class="helper-text">Preview documents show whether pipeline mappings and transformations are working as expected. The following dropdown sets the environment maximum number of documents (limited to up to 15 MB in total size). Users can change the number of preview documents for their own account in user settings, up to the value set here.</p>
         <div class="field-label">Maximum preview documents</div>
         <div class="dropdown" id="prop-doc-dropdown">
@@ -431,7 +456,10 @@
         </div>
       </div>
 
-      <button class="btn" id="prop-save-btn" disabled onclick="propSave()">Save</button>
+      <div class="block" id="prop-block-save" style="margin-bottom: 0;">
+        <div class="pin green" id="green-pin-5" style="top: -8px; right: -8px;" onclick="openGreenPopover(5, event)">5</div>
+        <button class="btn" id="prop-save-btn" disabled onclick="propSave()">Save</button>
+      </div>
 
     </div>
   </div>
@@ -439,18 +467,14 @@
 </div>
 
 <div class="popover" id="popover">
-  <div class="popover-header">
+  <div class="popover-header" id="pop-header">
     <div class="pin-label" id="pop-num">1</div>
     <h3 id="pop-title"></h3>
     <button class="close-btn" onclick="closePopover()">×</button>
   </div>
   <div class="popover-body">
     <div class="popover-problem" id="pop-problem"></div>
-    <div class="popover-fix-label" id="pop-fix-label">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Proposed fix
-    </div>
-    <div class="popover-fix" id="pop-fix"></div>
+    <button class="popover-jump-btn" id="pop-jump-btn"></button>
   </div>
   <div class="popover-footer">
     <span id="pop-counter"></span>
@@ -467,45 +491,73 @@ const annotations = [
     title: "The page title doesn't match its navigation label",
     problem: "Users click Designer and a screen with a different title opens.",
     fix: "Include the nav section name in the page title, as in the proposed heading: “Designer pipeline validation and document previews.”",
-    block: null
+    block: null,
+    propBlock: "prop-block-title"
   },
   {
     title: "The page title doesn't match what the controls do",
     problem: "The page explains a document limit, not what validation does.",
-    block: null
+    fix: "Rename the heading to describe both settings: “Designer pipeline validation and document previews.”",
+    block: null,
+    propBlock: "prop-block-title"
   },
   {
     title: "The toggle's purpose is never explained",
     problem: "Nothing on the page says what this toggle does.",
-    block: "block-toggle"
+    fix: "Add a helper sentence above the toggle: “With pipeline validation enabled, the SnapLogic Platform attempts to pass real data through Snaps on validation or save. Snaps that execute successfully provide preview data.”",
+    block: "block-toggle",
+    propBlock: "prop-block-toggle"
   },
   {
     title: "No visual relationship between the toggle and the document limit",
     problem: "Nothing shows that the document limit isn't applicable if validation is disabled.",
-    block: "block-relationship"
+    fix: "Disable the document-limit dropdown when validation is off, so the relationship is visible instead of implied.",
+    block: "block-relationship",
+    propBlock: "prop-block-docs"
   },
   {
     title: "Save is disabled with no explanation",
     problem: "Save is disabled and nothing says why.",
-    block: null
+    fix: "Enable the button as soon as the toggle or the document value changes, and relabel it “Update” instead of “Save” to reflect that this is a change to an existing setting.",
+    block: null,
+    propBlock: "prop-block-save"
   }
 ];
 
 let current = null;
+let mode = 'red';
 
 function openPopover(n, e) {
-  e.stopPropagation();
+  if (e) e.stopPropagation();
+  mode = 'red';
   current = n;
-  render(n);
-
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  render();
+  clearHighlights();
 
   const a = annotations[n - 1];
   if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  document.getElementById('pin-' + n).classList.add('active');
+  const pinEl = document.getElementById('pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
 
-  positionPopover(e.target.closest('.pin'));
+function openGreenPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'green';
+  current = n;
+  render();
+  clearHighlights();
+
+  const a = annotations[n - 1];
+  if (a.propBlock) document.getElementById(a.propBlock).classList.add('highlighted');
+  const pinEl = document.getElementById('green-pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function clearHighlights() {
+  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
 }
 
 function positionPopover(pinEl) {
@@ -531,44 +583,61 @@ function positionPopover(pinEl) {
   pop.style.left = left + 'px';
 }
 
-function render(n) {
-  const a = annotations[n - 1];
-  document.getElementById('pop-num').textContent = n;
+function render() {
+  const a = annotations[current - 1];
+  const header = document.getElementById('pop-header');
+  const jumpBtn = document.getElementById('pop-jump-btn');
+
+  document.getElementById('pop-num').textContent = current;
   document.getElementById('pop-title').textContent = a.title;
-  document.getElementById('pop-problem').textContent = a.problem;
-  const fixLabel = document.getElementById('pop-fix-label');
-  const fixBox = document.getElementById('pop-fix');
-  if (a.fix) {
-    fixLabel.style.display = 'flex';
-    fixBox.style.display = 'block';
-    fixBox.textContent = a.fix;
+
+  if (mode === 'red') {
+    header.classList.remove('green');
+    document.getElementById('pop-problem').textContent = a.problem;
+    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.className = 'popover-jump-btn to-fix';
+    jumpBtn.onclick = function() { jumpTo('green', current); };
+    document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;
   } else {
-    fixLabel.style.display = 'none';
-    fixBox.style.display = 'none';
+    header.classList.add('green');
+    document.getElementById('pop-problem').textContent = a.fix;
+    jumpBtn.textContent = '← Back to problem';
+    jumpBtn.className = 'popover-jump-btn to-problem';
+    jumpBtn.onclick = function() { jumpTo('red', current); };
+    document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
   }
-  document.getElementById('pop-counter').textContent = 'Issue ' + n + ' of ' + annotations.length;
-  document.getElementById('btn-prev').disabled = n === 1;
-  document.getElementById('btn-next').disabled = n === annotations.length;
+
+  document.getElementById('btn-prev').disabled = current === 1;
+  document.getElementById('btn-next').disabled = current === annotations.length;
 }
 
 function navigate(dir) {
   const next = current + dir;
   if (next < 1 || next > annotations.length) return;
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
-  current = next;
-  render(next);
-  const a = annotations[next - 1];
-  if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  const pinEl = document.getElementById('pin-' + next);
-  pinEl.classList.add('active');
-  positionPopover(pinEl);
+  if (mode === 'red') {
+    openPopover(next);
+  } else {
+    openGreenPopover(next);
+  }
+}
+
+function jumpTo(targetMode, n) {
+  closePopover();
+  const pinId = targetMode === 'green' ? 'green-pin-' + n : 'pin-' + n;
+  const pinEl = document.getElementById(pinId);
+  pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() {
+    if (targetMode === 'green') {
+      openGreenPopover(n);
+    } else {
+      openPopover(n);
+    }
+  }, 300);
 }
 
 function closePopover() {
   document.getElementById('popover').style.display = 'none';
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  clearHighlights();
   current = null;
 }
 

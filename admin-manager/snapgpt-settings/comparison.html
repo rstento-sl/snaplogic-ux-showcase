@@ -16,6 +16,8 @@
     --teal-tint: #E6F2F2;
     --red: #E31C3D;
     --red-dark: #B61631;
+    --green: #017D1B;
+    --green-dark: #015c14;
     --blue: #0841B4;
     --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   }
@@ -241,6 +243,9 @@
   }
   .pin:hover { transform: scale(1.15); background: var(--red-dark); }
   .pin.active { background: var(--red-dark); transform: scale(1.15); }
+  .pin.green { background: var(--green); }
+  .pin.green:hover { background: var(--green-dark); }
+  .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
   .block.highlighted, .toggle-item.highlighted {
     background: #FDF3F5;
@@ -263,6 +268,19 @@
     overflow-y: auto;
   }
   .popover-header { background: var(--red); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .popover-header.green { background: var(--green); }
+  .popover-jump-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .popover-jump-btn.to-fix { background: var(--green); color: #fff; }
+  .popover-jump-btn.to-problem { background: var(--red); color: #fff; }
   .popover-header .pin-label {
     width: 22px; height: 22px; border-radius: 50%;
     background: rgba(255,255,255,0.25);
@@ -324,7 +342,7 @@
     <span class="ticket-chip">Unreported issue 02</span>
     <h1>SnapGPT settings don't show which controls depend on the master toggle</h1>
   </div>
-  <div class="instruction">Click a red pin to see what's wrong</div>
+  <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix</div>
 </div>
 
 <div class="compare-grid">
@@ -332,6 +350,7 @@
   <!-- ── Current UI ── -->
   <div>
     <div class="compare-col-label current">Current UI</div>
+    <div class="col-instruction current">Click a red pin to see what's wrong</div>
     <div class="sheet current">
       <span class="stamp redline">REDLINE</span>
       <div class="page-wrapper">
@@ -407,8 +426,8 @@
 
   <!-- ── Proposed Redesign ── -->
   <div>
-    <div class="compare-col-label proposed">Proposed design</div>
-    <div class="col-instruction proposed">Turning off Enable SnapGPT visibly disables everything that depends on it.</div>
+    <div class="compare-col-label proposed">Proposed microcopy</div>
+    <div class="col-instruction proposed">Click a green pin to see the fix</div>
     <div class="state-toggle">
       <span>View as:</span>
       <button class="state-btn active" id="btn-enabled-state" onclick="setDemoState('enabled')">SnapGPT enabled</button>
@@ -416,15 +435,19 @@
     </div>
     <div class="page-wrapper">
 
-      <h1>SnapGPT</h1>
-      <p class="intro-text">Select the SnapGPT settings that best fit your users' workflow. Credentials are never sent to SnapGPT regardless of which settings are enabled. <a href="#">Learn more</a></p>
+      <div class="block" id="prop-block-intro">
+        <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
+        <h1>SnapGPT</h1>
+        <p class="intro-text">Select the SnapGPT settings that best fit your users' workflow. Credentials are never sent to SnapGPT regardless of which settings are enabled. <a href="#">Learn more</a></p>
+      </div>
 
       <div class="info-banner">
         <span class="info-icon">i</span>
         <span>New to SnapGPT? Read the <a href="#">SnapGPT overview</a>.</span>
       </div>
 
-      <div class="block">
+      <div class="block" id="prop-block-toggles">
+        <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
         <div class="toggle-item">
           <div class="toggle-switch" id="prop-master-toggle" onclick="propToggleMaster()"><div class="knob"></div></div>
           <div>
@@ -458,7 +481,8 @@
             </div>
           </div>
 
-          <div class="toggle-item">
+          <div class="toggle-item" id="prop-block-inconsistent" style="position: relative;">
+            <div class="pin green" id="green-pin-3" style="top: -6px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
             <div class="toggle-switch"><div class="knob"></div></div>
             <div>
               <div class="toggle-label">Use preview data for contextual metadata</div>
@@ -467,7 +491,8 @@
           </div>
 
           <hr class="section-divider">
-          <div>
+          <div class="block" id="prop-block-dropdown" style="position: relative; margin-bottom: 0;">
+            <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
             <div class="section-title">Use pipelines for enhanced generation</div>
             <p class="helper-text-sm">Sets how SnapGPT uses existing pipelines as examples for Retrieval Augmented Generation (RAG): selected automatically (Auto), selected manually by users (Manual), or turned off (Disable). This sets the environment default — users can choose a more restrictive option in their personal settings.</p>
             <div class="field-label">Mode</div>
@@ -485,18 +510,14 @@
 </div>
 
 <div class="popover" id="popover">
-  <div class="popover-header">
+  <div class="popover-header" id="pop-header">
     <div class="pin-label" id="pop-num">1</div>
     <h3 id="pop-title"></h3>
     <button class="close-btn" onclick="closePopover()">×</button>
   </div>
   <div class="popover-body">
     <div class="popover-problem" id="pop-problem"></div>
-    <div class="popover-fix-label" id="pop-fix-label">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Proposed fix
-    </div>
-    <div class="popover-fix" id="pop-fix"></div>
+    <button class="popover-jump-btn" id="pop-jump-btn"></button>
   </div>
   <div class="popover-footer">
     <span id="pop-counter"></span>
@@ -513,43 +534,66 @@ const annotations = [
     title: "“Never sent” doesn't say where",
     problem: "Credentials are never sent — where?",
     fix: "“Credentials are never sent to SnapGPT regardless of which settings are enabled.”",
-    block: "block-intro"
+    block: "block-intro",
+    propBlock: "prop-block-intro"
   },
   {
     title: "Dependent toggles aren't visually grouped",
     problem: "Nothing shows that the four toggles below depend on Enable SnapGPT.",
     fix: "Indent the dependent toggles under a shared left border, and grey them out when Enable SnapGPT is off.",
-    block: "block-toggles"
+    block: "block-toggles",
+    propBlock: "prop-block-toggles"
   },
   {
     title: "Toggle copy switches voice mid-list",
     problem: "Four toggles say “When disabled,” this one says “When enabled.”",
     fix: "Rewrite to explain the benefit: “Provides insights into key fields, business and validation rules, and Personally Identifiable Information (PII).”",
-    block: "block-inconsistent"
+    block: "block-inconsistent",
+    propBlock: "prop-block-inconsistent"
   },
   {
     title: "Dropdown has no explanatory copy",
     problem: "No helper text explains what this setting controls, and it's not grouped with the toggles above.",
     fix: "Add a helper line and move the control into the same grouped section as the toggles.",
-    block: "block-dropdown"
+    block: "block-dropdown",
+    propBlock: "prop-block-dropdown"
   }
 ];
 
 let current = null;
+let mode = 'red';
 
 function openPopover(n, e) {
-  e.stopPropagation();
+  if (e) e.stopPropagation();
+  mode = 'red';
   current = n;
-  render(n);
-
-  document.querySelectorAll('.block, .toggle-item').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  render();
+  clearHighlights();
 
   const a = annotations[n - 1];
   if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  document.getElementById('pin-' + n).classList.add('active');
+  const pinEl = document.getElementById('pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
 
-  positionPopover(e.target.closest('.pin'));
+function openGreenPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'green';
+  current = n;
+  render();
+  clearHighlights();
+
+  const a = annotations[n - 1];
+  if (a.propBlock) document.getElementById(a.propBlock).classList.add('highlighted');
+  const pinEl = document.getElementById('green-pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function clearHighlights() {
+  document.querySelectorAll('.block, .toggle-item, #prop-block-dropdown').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
 }
 
 function positionPopover(pinEl) {
@@ -575,44 +619,61 @@ function positionPopover(pinEl) {
   pop.style.left = left + 'px';
 }
 
-function render(n) {
-  const a = annotations[n - 1];
-  document.getElementById('pop-num').textContent = n;
+function render() {
+  const a = annotations[current - 1];
+  const header = document.getElementById('pop-header');
+  const jumpBtn = document.getElementById('pop-jump-btn');
+
+  document.getElementById('pop-num').textContent = current;
   document.getElementById('pop-title').textContent = a.title;
-  document.getElementById('pop-problem').textContent = a.problem;
-  const fixLabel = document.getElementById('pop-fix-label');
-  const fixBox = document.getElementById('pop-fix');
-  if (a.fix) {
-    fixLabel.style.display = 'flex';
-    fixBox.style.display = 'block';
-    fixBox.textContent = a.fix;
+
+  if (mode === 'red') {
+    header.classList.remove('green');
+    document.getElementById('pop-problem').textContent = a.problem;
+    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.className = 'popover-jump-btn to-fix';
+    jumpBtn.onclick = function() { jumpTo('green', current); };
+    document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;
   } else {
-    fixLabel.style.display = 'none';
-    fixBox.style.display = 'none';
+    header.classList.add('green');
+    document.getElementById('pop-problem').textContent = a.fix;
+    jumpBtn.textContent = '← Back to problem';
+    jumpBtn.className = 'popover-jump-btn to-problem';
+    jumpBtn.onclick = function() { jumpTo('red', current); };
+    document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
   }
-  document.getElementById('pop-counter').textContent = 'Issue ' + n + ' of ' + annotations.length;
-  document.getElementById('btn-prev').disabled = n === 1;
-  document.getElementById('btn-next').disabled = n === annotations.length;
+
+  document.getElementById('btn-prev').disabled = current === 1;
+  document.getElementById('btn-next').disabled = current === annotations.length;
 }
 
 function navigate(dir) {
   const next = current + dir;
   if (next < 1 || next > annotations.length) return;
-  document.querySelectorAll('.block, .toggle-item').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
-  current = next;
-  render(next);
-  const a = annotations[next - 1];
-  if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  const pinEl = document.getElementById('pin-' + next);
-  pinEl.classList.add('active');
-  positionPopover(pinEl);
+  if (mode === 'red') {
+    openPopover(next);
+  } else {
+    openGreenPopover(next);
+  }
+}
+
+function jumpTo(targetMode, n) {
+  closePopover();
+  const pinId = targetMode === 'green' ? 'green-pin-' + n : 'pin-' + n;
+  const pinEl = document.getElementById(pinId);
+  pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() {
+    if (targetMode === 'green') {
+      openGreenPopover(n);
+    } else {
+      openPopover(n);
+    }
+  }, 300);
 }
 
 function closePopover() {
   document.getElementById('popover').style.display = 'none';
-  document.querySelectorAll('.block, .toggle-item').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  clearHighlights();
   current = null;
 }
 

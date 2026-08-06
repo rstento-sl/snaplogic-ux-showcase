@@ -16,6 +16,8 @@
     --teal-tint: #E6F2F2;
     --red: #E31C3D;
     --red-dark: #B61631;
+    --green: #017D1B;
+    --green-dark: #015c14;
     --blue: #0841B4;
     --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   }
@@ -250,6 +252,9 @@
   }
   .pin:hover { transform: scale(1.15); background: var(--red-dark); }
   .pin.active { background: var(--red-dark); transform: scale(1.15); }
+  .pin.green { background: var(--green); }
+  .pin.green:hover { background: var(--green-dark); }
+  .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
   .block.highlighted {
     background: #FDF3F5;
@@ -272,6 +277,19 @@
     overflow-y: auto;
   }
   .popover-header { background: var(--red); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .popover-header.green { background: var(--green); }
+  .popover-jump-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .popover-jump-btn.to-fix { background: var(--green); color: #fff; }
+  .popover-jump-btn.to-problem { background: var(--red); color: #fff; }
   .popover-header .pin-label {
     width: 22px; height: 22px; border-radius: 50%;
     background: rgba(255,255,255,0.25);
@@ -333,7 +351,7 @@
     <span class="ticket-chip">Unreported issue 05</span>
     <h1>AutoSync page intro doesn't match its General tab, and a lone toggle requires an unnecessary Save</h1>
   </div>
-  <div class="instruction">Click a red pin to see what's wrong. Click the Versions tab to see its pin and proposed fix.</div>
+  <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix. Click the Versions tab to see its pins.</div>
 </div>
 
 <div class="compare-grid">
@@ -341,6 +359,7 @@
   <!-- ── Current UI ── -->
   <div>
     <div class="compare-col-label current">Current UI</div>
+    <div class="col-instruction current">Click a red pin to see what's wrong</div>
     <div class="sheet current">
       <span class="stamp redline">REDLINE</span>
       <div class="page-wrapper">
@@ -416,11 +435,15 @@
 
   <!-- ── Proposed Redesign ── -->
   <div>
-    <div class="compare-col-label proposed">Proposed design</div>
+    <div class="compare-col-label proposed">Proposed microcopy</div>
+    <div class="col-instruction proposed">Click a green pin to see the fix</div>
     <div class="page-wrapper">
 
-      <h1>AutoSync</h1>
-      <p class="intro-text">Manage AutoSync general settings and versions.</p>
+      <div class="block" id="prop-block-intro">
+        <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
+        <h1>AutoSync</h1>
+        <p class="intro-text">Manage AutoSync general settings and versions.</p>
+      </div>
 
       <div class="tabs">
         <button class="tab-btn active" id="prop-tab-btn-general" onclick="switchTab('prop','general')">General</button>
@@ -428,11 +451,15 @@
       </div>
 
       <div class="tab-panel active" id="prop-tab-general">
-        <div class="toggle-item">
-          <div class="toggle-switch" id="prop-toggle" onclick="propToggle()"><div class="knob"></div></div>
-          <div>
-            <div class="toggle-label">Allow nullable for last modified date<span class="saved-tag" id="prop-saved-tag">Saved</span></div>
-            <div class="toggle-desc">Allows null values in the last modified timestamp, for records that don't always have a modification date.</div>
+        <div class="block" id="prop-block-toggle">
+          <div class="pin green" id="green-pin-2" style="top: -8px; right: 32px;" onclick="openGreenPopover(2, event)">2</div>
+          <div class="pin green" id="green-pin-3" style="top: -8px; right: 0;" onclick="openGreenPopover(3, event)">3</div>
+          <div class="toggle-item">
+            <div class="toggle-switch" id="prop-toggle" onclick="propToggle()"><div class="knob"></div></div>
+            <div>
+              <div class="toggle-label">Allow nullable for last modified date<span class="saved-tag" id="prop-saved-tag">Saved</span></div>
+              <div class="toggle-desc">Allows null values in the last modified timestamp, for records that don't always have a modification date.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -440,17 +467,24 @@
       <div class="tab-panel" id="prop-tab-versions">
         <p class="intro-text" style="margin-bottom: 20px;">Configure the AutoSync Snap Pack to use for data pipelines.</p>
 
-        <div class="field-label">Environment default Snap Pack version</div>
-        <p class="helper-text-sm">The default version applies to new AutoSync data pipelines. To change it, select a version and click Save.</p>
-        <div class="select-trigger">
-          <span>445rc35411 (default)</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <button class="btn" disabled>Save</button>
+        <div class="block" id="prop-block-versions">
+          <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
+          <div class="field-label">Environment default Snap Pack version</div>
+          <p class="helper-text-sm">The default version applies to new AutoSync data pipelines. To change it, select a version and click Save.</p>
+          <div class="select-trigger">
+            <span>445rc35411 (default)</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <button class="btn" disabled>Save</button>
 
-        <div class="versions-heading">Snap Pack version for existing data pipelines</div>
-        <p class="helper-text-sm">Select a specific version, or click Upgrade now to change to the default version.</p>
-        <div class="versions-heading" style="margin-top: 20px;">1 data pipeline</div>
+          <div class="versions-heading">Snap Pack version for existing data pipelines</div>
+          <p class="helper-text-sm">Select a specific version, or click Upgrade now to change to the default version.</p>
+        </div>
+
+        <div class="versions-heading" id="prop-block-pipeline-heading" style="margin-top: 20px; position: relative;">
+          <div class="pin green" id="green-pin-5" style="top: -8px; right: -8px;" onclick="openGreenPopover(5, event)">5</div>
+          1 data pipeline
+        </div>
         <div class="table-toolbar">
           <input class="search-input" placeholder="Search by name" readonly>
           <div class="select-trigger" style="width: 180px;">
@@ -478,18 +512,14 @@
 </div>
 
 <div class="popover" id="popover">
-  <div class="popover-header">
+  <div class="popover-header" id="pop-header">
     <div class="pin-label" id="pop-num">1</div>
     <h3 id="pop-title"></h3>
     <button class="close-btn" onclick="closePopover()">×</button>
   </div>
   <div class="popover-body">
     <div class="popover-problem" id="pop-problem"></div>
-    <div class="popover-fix-label" id="pop-fix-label">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Proposed fix
-    </div>
-    <div class="popover-fix" id="pop-fix"></div>
+    <button class="popover-jump-btn" id="pop-jump-btn"></button>
   </div>
   <div class="popover-footer">
     <span id="pop-counter"></span>
@@ -507,6 +537,7 @@ const annotations = [
     problem: "The intro describes upgrading pipelines — the Versions tab's job — but General loads first and has nothing to do with upgrading.",
     fix: "Change the intro to “Manage AutoSync general settings and versions.”",
     block: "block-intro",
+    propBlock: "prop-block-intro",
     tab: "general"
   },
   {
@@ -514,6 +545,7 @@ const annotations = [
     problem: "The description restates “allows null values in the last modified timestamp” in three different sentences without adding new information.",
     fix: "Rewrite to: “Allows null values in the last modified timestamp, for records that don't always have a modification date.”",
     block: "block-toggle",
+    propBlock: "prop-block-toggle",
     tab: "general"
   },
   {
@@ -521,6 +553,7 @@ const annotations = [
     problem: "A standalone toggle doesn't need a separate Save step.",
     fix: "Auto-save the toggle on change, with a brief “Saved” confirmation instead of a Save button.",
     block: "block-save",
+    propBlock: "prop-block-toggle",
     tab: "general"
   },
   {
@@ -528,6 +561,7 @@ const annotations = [
     problem: "The selector shows a raw build string (“445rc35411”) with no explanation of what it controls, and the table's “Current version” uses a completely different format (“4.39.0.0”) with nothing tying the two together or explaining what Upgrade now actually does.",
     fix: "Label the selector “Environment default Snap Pack version” with helper text: “The default version applies to new AutoSync data pipelines. To change it, select a version and click Save.” Above the table, add: “Snap Pack version for existing data pipelines. Select a specific version, or click Upgrade now to change to the default version.”",
     block: "block-versions",
+    propBlock: "prop-block-versions",
     tab: "versions"
   },
   {
@@ -535,26 +569,47 @@ const annotations = [
     problem: "“1 Data Pipeline” uses title case, inconsistent with sentence-case labels everywhere else on the page.",
     fix: "Change to sentence case: “1 data pipeline.”",
     block: "block-pipeline-heading",
+    propBlock: "prop-block-pipeline-heading",
     tab: "versions"
   }
 ];
 
 let current = null;
+let mode = 'red';
 
 function openPopover(n, e) {
-  e.stopPropagation();
+  if (e) e.stopPropagation();
+  mode = 'red';
   current = n;
-  render(n);
-
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  render();
+  clearHighlights();
 
   const a = annotations[n - 1];
   if (a.tab) { switchTab('cur', a.tab); switchTab('prop', a.tab); }
   if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  document.getElementById('pin-' + n).classList.add('active');
+  const pinEl = document.getElementById('pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
 
-  positionPopover(document.getElementById('pin-' + n));
+function openGreenPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'green';
+  current = n;
+  render();
+  clearHighlights();
+
+  const a = annotations[n - 1];
+  if (a.tab) { switchTab('cur', a.tab); switchTab('prop', a.tab); }
+  if (a.propBlock) document.getElementById(a.propBlock).classList.add('highlighted');
+  const pinEl = document.getElementById('green-pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function clearHighlights() {
+  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
 }
 
 function positionPopover(pinEl) {
@@ -580,45 +635,62 @@ function positionPopover(pinEl) {
   pop.style.left = left + 'px';
 }
 
-function render(n) {
-  const a = annotations[n - 1];
-  document.getElementById('pop-num').textContent = n;
+function render() {
+  const a = annotations[current - 1];
+  const header = document.getElementById('pop-header');
+  const jumpBtn = document.getElementById('pop-jump-btn');
+
+  document.getElementById('pop-num').textContent = current;
   document.getElementById('pop-title').textContent = a.title;
-  document.getElementById('pop-problem').textContent = a.problem;
-  const fixLabel = document.getElementById('pop-fix-label');
-  const fixBox = document.getElementById('pop-fix');
-  if (a.fix) {
-    fixLabel.style.display = 'flex';
-    fixBox.style.display = 'block';
-    fixBox.textContent = a.fix;
+
+  if (mode === 'red') {
+    header.classList.remove('green');
+    document.getElementById('pop-problem').textContent = a.problem;
+    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.className = 'popover-jump-btn to-fix';
+    jumpBtn.onclick = function() { jumpTo('green', current); };
+    document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;
   } else {
-    fixLabel.style.display = 'none';
-    fixBox.style.display = 'none';
+    header.classList.add('green');
+    document.getElementById('pop-problem').textContent = a.fix;
+    jumpBtn.textContent = '← Back to problem';
+    jumpBtn.className = 'popover-jump-btn to-problem';
+    jumpBtn.onclick = function() { jumpTo('red', current); };
+    document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
   }
-  document.getElementById('pop-counter').textContent = 'Issue ' + n + ' of ' + annotations.length;
-  document.getElementById('btn-prev').disabled = n === 1;
-  document.getElementById('btn-next').disabled = n === annotations.length;
+
+  document.getElementById('btn-prev').disabled = current === 1;
+  document.getElementById('btn-next').disabled = current === annotations.length;
 }
 
 function navigate(dir) {
   const next = current + dir;
   if (next < 1 || next > annotations.length) return;
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
-  current = next;
-  render(next);
-  const a = annotations[next - 1];
-  if (a.tab) { switchTab('cur', a.tab); switchTab('prop', a.tab); }
-  if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  const pinEl = document.getElementById('pin-' + next);
-  pinEl.classList.add('active');
-  positionPopover(pinEl);
+  if (mode === 'red') {
+    openPopover(next);
+  } else {
+    openGreenPopover(next);
+  }
+}
+
+function jumpTo(targetMode, n) {
+  closePopover();
+  if (annotations[n - 1].tab) { switchTab('cur', annotations[n - 1].tab); switchTab('prop', annotations[n - 1].tab); }
+  const pinId = targetMode === 'green' ? 'green-pin-' + n : 'pin-' + n;
+  const pinEl = document.getElementById(pinId);
+  pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() {
+    if (targetMode === 'green') {
+      openGreenPopover(n);
+    } else {
+      openPopover(n);
+    }
+  }, 300);
 }
 
 function closePopover() {
   document.getElementById('popover').style.display = 'none';
-  document.querySelectorAll('.block').forEach(b => b.classList.remove('highlighted'));
-  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+  clearHighlights();
   current = null;
 }
 

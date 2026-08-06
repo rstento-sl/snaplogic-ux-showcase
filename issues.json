@@ -313,6 +313,146 @@
           "callout": "Save is disabled by default with no explanation of why."
         }
       ]
+    },
+    {
+      "id": "issue-09",
+      "area": "Admin Manager",
+      "title": "Users table doesn't clarify type icons, group membership, or who a role-change confirmation applies to",
+      "screen": "Admin Manager > User Management > Users",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 08",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "Type icons have no label, the role-change confirmation dialog doesn't name the user, the Groups count isn't clickable, and bulk actions (including Delete) are invisible until a row is selected.",
+      "mockups": {
+        "comparison": "admin-manager/users/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Type column",
+          "callout": "The Type column shows a user or service-account icon with no text and no tooltip, even though the Type filter menu already uses text labels for the same values."
+        },
+        {
+          "target": "Role change confirmation dialog",
+          "callout": "Changing a role to Env admin opens a dialog that says \"this user\" instead of naming them, giving no way to catch a wrong-row click before confirming."
+        },
+        {
+          "target": "Groups column",
+          "callout": "The Groups column shows only a number (or \"-\"). It isn't clickable and has no tooltip, so users can't tell which groups someone belongs to without leaving the page."
+        },
+        {
+          "target": "Bulk actions toolbar",
+          "callout": "Delete only appears in each row's kebab menu, or after selecting one or more rows, which swaps the toolbar to reveal Access, Update auth, and Delete — with no hint beforehand that those actions exist."
+        }
+      ]
+    },
+    {
+      "id": "issue-10",
+      "area": "Admin Manager",
+      "title": "New user account-type screen doesn't explain what really differs between types",
+      "screen": "Admin Manager > User Management > Users > New user",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 09",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "User and Team accounts look identical apart from one vague line, and Service account—the one type with a real capability restriction—has the least explanation of the three.",
+      "mockups": {
+        "comparison": "admin-manager/add-user-select-type/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "User / Team account cards",
+          "callout": "Both show identical App access and API access checkmarks and near-identical description text; the only difference (\"shared and managed by multiple people\") doesn't explain what that means day to day."
+        },
+        {
+          "target": "Service account card",
+          "callout": "Service account is the only type with an actual capability cut (no App access), but it's the card with the least explanation of the three."
+        }
+      ]
+    },
+    {
+      "id": "issue-11",
+      "area": "Admin Manager",
+      "title": "New user account dialog doesn't explain its Access sentence or what each checkbox grants",
+      "screen": "Admin Manager > User Management > Users > New user > User account",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 10",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "The Access sentence has a dangling conditional that misreads as applying to the whole list, none of the Access checkboxes explain what they grant, and the dialog has no Learn more link or tooltips anywhere.",
+      "mockups": {
+        "comparison": "admin-manager/add-user-dialog/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Access intro sentence",
+          "callout": "\"Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)\" reads as if the whole list is conditional, when only Admin Manager depends on being an Environment admin."
+        },
+        {
+          "target": "Access checkboxes",
+          "callout": "Designer, AutoSync, and API access only have no helper text — an admin has to already know what each one grants before they can choose correctly."
+        },
+        {
+          "target": "Full dialog",
+          "callout": "Unlike the account-type screen, nothing here offers more explanation for Role, Access, or Authentication methods."
+        }
+      ]
+    },
+    {
+      "id": "issue-12",
+      "area": "Admin Manager",
+      "title": "New team account dialog breaks the Role pattern and never explains what a maintainer does",
+      "screen": "Admin Manager > User Management > Users > New user > Team account",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 11",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "Maintainers has no explanation of what it does, Role is shown as plain text instead of the radio control used everywhere else, and the dialog has no Learn more link or tooltips anywhere.",
+      "mockups": {
+        "comparison": "admin-manager/add-team-dialog/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Maintainers field",
+          "callout": "The field just says \"Maintainers\" with a search box — nothing explains what selecting someone here actually does for them or the account."
+        },
+        {
+          "target": "Role field",
+          "callout": "The User and Service account dialogs both show Role as a radio control. Here it's plain text instead, so the same concept looks like two different features depending on which dialog you're in."
+        },
+        {
+          "target": "Full dialog",
+          "callout": "Unlike the account-type screen, nothing here offers more explanation for Maintainers, Role, Access, or Authentication methods."
+        }
+      ]
+    },
+    {
+      "id": "issue-13",
+      "area": "Admin Manager",
+      "title": "New service account dialog drops Access and Authentication with no explanation, and gives no Role guidance",
+      "screen": "Admin Manager > User Management > Users > New user > Service account",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 12",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "Role offers no guidance for a non-interactive account, the Access and Authentication sections present in the other dialogs disappear here with no explanation, and there's no Learn more link or tooltips anywhere.",
+      "mockups": {
+        "comparison": "admin-manager/add-service-dialog/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Role field",
+          "callout": "Environment admin and User are both selectable, but nothing explains what granting admin rights to a service account — which can't sign in through the UI — actually means in practice."
+        },
+        {
+          "target": "Missing Access / Authentication sections",
+          "callout": "The User and Team dialogs both have Access and Authentication methods sections. This one has neither, and nothing says why."
+        },
+        {
+          "target": "Full dialog",
+          "callout": "Unlike the account-type screen, nothing here offers more explanation for Role or the missing Access/Authentication sections."
+        }
+      ]
     }
   ]
 }

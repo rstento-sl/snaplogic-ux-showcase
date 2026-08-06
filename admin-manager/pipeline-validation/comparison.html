@@ -360,8 +360,7 @@
       <span class="stamp redline">REDLINE</span>
       <div class="page-wrapper">
 
-        <div class="pin" id="pin-1" style="top: 4px; right: 40px;" onclick="openPopover(1, event)">1</div>
-        <div class="pin" id="pin-2" style="top: 4px; right: 8px;" onclick="openPopover(2, event)">2</div>
+        <div class="pin" id="pin-1" style="top: 4px; right: 8px;" onclick="openPopover(1, event)">1</div>
         <h1>Pipeline validation</h1>
 
         <p class="intro-text">
@@ -369,7 +368,7 @@
         </p>
 
         <div class="block" id="block-toggle">
-          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
           <div class="toggle-row">
             <div class="toggle-switch" id="cur-validation-toggle" onclick="toggleValidation('cur-validation-toggle')">
               <div class="knob"></div>
@@ -379,7 +378,7 @@
         </div>
 
         <div class="block" id="block-relationship">
-          <div class="pin" id="pin-4" style="top: -8px; right: -8px;" onclick="openPopover(4, event)">4</div>
+          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
           <div class="field-label">Maximum preview documents</div>
           <div class="dropdown" id="cur-doc-dropdown">
             <div class="dropdown-trigger" onclick="toggleDropdown('cur-doc-dropdown')">
@@ -403,7 +402,7 @@
         </div>
 
         <div style="position:relative;">
-          <div class="pin" id="pin-5" style="top: -8px; right: -8px;" onclick="openPopover(5, event)">5</div>
+          <div class="pin" id="pin-4" style="top: -8px; right: -8px;" onclick="openPopover(4, event)">4</div>
           <button class="btn" id="cur-save-btn" disabled>Save</button>
         </div>
 
@@ -423,14 +422,13 @@
     <div class="page-wrapper">
 
       <div class="block" id="prop-block-title" style="margin-bottom: 20px;">
-        <div class="pin green" id="green-pin-1" style="top: -8px; right: 32px;" onclick="openGreenPopover(1, event)">1</div>
-        <div class="pin green" id="green-pin-2" style="top: -8px; right: 0;" onclick="openGreenPopover(2, event)">2</div>
-        <h1 style="margin-bottom: 0;">Designer pipeline validation and document previews</h1>
+        <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
+        <h1 style="margin-bottom: 0;">Designer pipeline validation</h1>
         <p class="intro-text" style="margin-top: 6px; margin-bottom: 0;">Configure the number of documents that Snaps can display in the data preview. <a href="#">Learn more.</a></p>
       </div>
 
       <div class="block" id="prop-block-toggle">
-        <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
+        <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
         <p class="helper-text">On validation or save, pipeline validation passes real data through Snaps and successful Snaps provide preview documents.</p>
         <div class="toggle-row">
           <div class="toggle-switch" id="prop-validation-toggle" onclick="propToggleValidation()">
@@ -441,7 +439,7 @@
       </div>
 
       <div class="block depends-on-toggle" id="prop-block-docs">
-        <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
+        <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
         <div class="field-label">Maximum preview documents</div>
         <p class="helper-text">The environment maximum number of preview documents (limited to up to 15 MB in total size) created during validation. Users can change the number of preview documents for their own account in user settings, up to the value set here.</p>
         <div class="dropdown" id="prop-doc-dropdown">
@@ -466,7 +464,7 @@
       </div>
 
       <div class="block" id="prop-block-save" style="margin-bottom: 0;">
-        <div class="pin green" id="green-pin-5" style="top: -8px; right: -8px;" onclick="openGreenPopover(5, event)">5</div>
+        <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
         <button class="btn" id="prop-save-btn" disabled onclick="propSave()">Save</button>
       </div>
 
@@ -499,14 +497,7 @@ const annotations = [
   {
     title: "The page title doesn't match its navigation label",
     problem: "Users click Designer and a page with a different title opens.",
-    fix: "Include the nav section name in the page title, as in the proposed heading: “Designer pipeline validation and document previews.”",
-    block: null,
-    propBlock: "prop-block-title"
-  },
-  {
-    title: "The page title doesn't match what the controls do",
-    problem: "The page explains a document limit, not what validation does.",
-    fix: "Rename the heading to describe both settings: “Designer pipeline validation and document previews.”",
+    fix: "Include the nav section name in the page title, as in the proposed heading: “Designer pipeline validation.”",
     block: null,
     propBlock: "prop-block-title"
   },
@@ -518,9 +509,9 @@ const annotations = [
     propBlock: "prop-block-toggle"
   },
   {
-    title: "No visual relationship between the toggle and the document limit",
-    problem: "Nothing shows that the document limit isn't applicable if validation is disabled.",
-    fix: "Disable the document-limit dropdown when validation is off, so the relationship is visible instead of implied.",
+    title: "The relationship between the toggle and preview documents isn't clear",
+    problem: "Nothing shows that Maximum preview documents isn't applicable if validation is disabled.",
+    fix: "Indent Maximum preview documents under a shared left border beneath the toggle, and dim/disable it when validation is off, so the dependency is visible instead of implied.",
     block: "block-relationship",
     propBlock: "prop-block-docs"
   },

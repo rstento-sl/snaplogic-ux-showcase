@@ -36,16 +36,12 @@
           "callout": "Users click Designer and a page with a different title opens."
         },
         {
-          "target": "Page heading",
-          "callout": "The page explains a document limit, not what validation does."
-        },
-        {
           "target": "Enable pipeline validation toggle",
           "callout": "Nothing on the page says what this toggle does."
         },
         {
           "target": "Maximum preview documents field",
-          "callout": "Nothing shows that the document limit isn't applicable if validation is disabled."
+          "callout": "Nothing shows that the relationship between the toggle and Maximum preview documents isn't clear — the document limit doesn't apply if validation is disabled."
         },
         {
           "target": "Save button",

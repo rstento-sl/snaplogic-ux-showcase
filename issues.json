@@ -5,7 +5,7 @@
     {
       "id": "issue-02",
       "area": "Admin Manager",
-      "title": "Designer pipeline validation screen mixes settings with no explanation",
+      "title": "Designer pipeline validation page mixes settings with no explanation",
       "screen": "Admin Manager > Application Settings > Designer > Pipeline validation",
       "jira": "",
       "unreportedLabel": "Unreported issue 01",
@@ -33,7 +33,7 @@
       "annotations": [
         {
           "target": "Page heading vs. navigation label",
-          "callout": "Users click Designer and a screen with a different title opens."
+          "callout": "Users click Designer and a page with a different title opens."
         },
         {
           "target": "Page heading",
@@ -207,12 +207,12 @@
     {
       "id": "issue-01",
       "area": "Admin Manager",
-      "title": "SSO configuration screen confusing and sections in wrong order",
+      "title": "SSO configuration page confusing and sections in wrong order",
       "screen": "Admin Manager > Organization > Authentication > SSO tab",
       "jira": "APP-2297",
       "severity": "High",
       "category": "Information architecture / sequencing",
-      "summary": "The screen shows the paste-back step before the copy-out step, so users hit a dead end before they have anything to enter — with no indication they need to leave and return.",
+      "summary": "The page shows the paste-back step before the copy-out step, so users hit a dead end before they have anything to enter — with no indication they need to leave and return.",
       "mockups": {
         "comparison": "admin-manager/sso-config/comparison.html",
         "possibleBug": "admin-manager/sso-config/possible-bug.html"
@@ -349,7 +349,7 @@
     {
       "id": "issue-10",
       "area": "Admin Manager",
-      "title": "New user account-type screen doesn't explain what really differs between types",
+      "title": "New user account-type page doesn't explain what really differs between types",
       "screen": "Admin Manager > User Management > Users > New user",
       "jira": "",
       "unreportedLabel": "Unreported issue 09",
@@ -394,7 +394,7 @@
         },
         {
           "target": "Full dialog",
-          "callout": "Unlike the account-type screen, nothing here offers more explanation for Role, Access, or Authentication methods."
+          "callout": "Unlike the account-type page, nothing here offers more explanation for Role, Access, or Authentication methods."
         }
       ]
     },
@@ -422,7 +422,7 @@
         },
         {
           "target": "Full dialog",
-          "callout": "Unlike the account-type screen, nothing here offers more explanation for Maintainers, Role, Access, or Authentication methods."
+          "callout": "Unlike the account-type page, nothing here offers more explanation for Maintainers, Role, Access, or Authentication methods."
         }
       ]
     },
@@ -450,7 +450,7 @@
         },
         {
           "target": "Full dialog",
-          "callout": "Unlike the account-type screen, nothing here offers more explanation for Role or the missing Access/Authentication sections."
+          "callout": "Unlike the account-type page, nothing here offers more explanation for Role or the missing Access/Authentication sections."
         }
       ]
     }

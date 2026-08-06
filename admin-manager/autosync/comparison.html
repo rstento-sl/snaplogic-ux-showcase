@@ -372,7 +372,7 @@
 
         <div class="tabs">
           <button class="tab-btn active" id="cur-tab-btn-general" onclick="switchTab('cur','general')">General</button>
-          <button class="tab-btn" id="cur-tab-btn-versions" onclick="switchTab('cur','versions')">Versions<span class="tab-pin-count">2</span></button>
+          <button class="tab-btn" id="cur-tab-btn-versions" onclick="switchTab('cur','versions')">Versions<span class="tab-pin-count">3</span></button>
         </div>
 
         <div class="tab-panel active" id="cur-tab-general">
@@ -402,11 +402,15 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <button class="btn" disabled>Save</button>
+          </div>
 
           <div class="versions-heading" id="block-pipeline-heading" style="position: relative;">
             <div class="pin" id="pin-5" style="top: -8px; right: -8px;" onclick="openPopover(5, event)">5</div>
             1 Data Pipeline
           </div>
+
+          <div class="block" id="block-table-relation" style="position: relative;">
+          <div class="pin" id="pin-6" style="top: -8px; right: -8px;" onclick="openPopover(6, event)">6</div>
           <div class="table-toolbar">
             <input class="search-input" placeholder="Search by name" readonly>
             <div class="select-trigger" style="width: 180px;">
@@ -476,33 +480,36 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <button class="btn" disabled>Save</button>
-
-          <div class="versions-heading">Snap Pack version for existing data pipelines</div>
-          <p class="helper-text-sm">Select a specific version, or click Upgrade now to change to the default version.</p>
         </div>
 
         <div class="versions-heading" id="prop-block-pipeline-heading" style="margin-top: 20px; position: relative;">
           <div class="pin green" id="green-pin-5" style="top: -8px; right: -8px;" onclick="openGreenPopover(5, event)">5</div>
           1 data pipeline
         </div>
-        <div class="table-toolbar">
-          <input class="search-input" placeholder="Search by name" readonly>
-          <div class="select-trigger" style="width: 180px;">
-            <span>Version</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+
+        <div class="block" id="prop-block-table-relation" style="position: relative;">
+          <div class="pin green" id="green-pin-6" style="top: -8px; right: -8px;" onclick="openGreenPopover(6, event)">6</div>
+          <div class="versions-heading">Snap Pack version for existing data pipelines</div>
+          <p class="helper-text-sm">Select a specific version, or click Upgrade now to change to the default version.</p>
+          <div class="table-toolbar">
+            <input class="search-input" placeholder="Search by name" readonly>
+            <div class="select-trigger" style="width: 180px;">
+              <span>Version</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
           </div>
-        </div>
-        <table class="pipeline-table">
-          <thead>
-            <tr><th></th><th>Data pipeline ↑</th><th>Current version</th><th>Action</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><input type="checkbox"></td><td>S3 to GBQ</td><td>4.39.0.0</td><td><a href="#">Upgrade now</a></td></tr>
-          </tbody>
-        </table>
-        <div class="table-footer">
-          <span>Go to page: 1 of 1</span>
-          <span>25 Rows per page</span>
+          <table class="pipeline-table">
+            <thead>
+              <tr><th></th><th>Data pipeline ↑</th><th>Current version</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><input type="checkbox"></td><td>S3 to GBQ</td><td>4.39.0.0</td><td><a href="#">Upgrade now</a></td></tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <span>Go to page: 1 of 1</span>
+            <span>25 Rows per page</span>
+          </div>
         </div>
       </div>
 
@@ -557,9 +564,9 @@ const annotations = [
     tab: "general"
   },
   {
-    title: "No explanation of how the two Snap Pack versions relate",
-    problem: "The selector shows a raw build string (“445rc35411”) with no explanation of what it controls, and the table's “Current version” uses a completely different format (“4.39.0.0”) with nothing tying the two together or explaining what Upgrade now actually does.",
-    fix: "Label the selector “Environment default Snap Pack version” with helper text: “The default version applies to new AutoSync data pipelines. To change it, select a version and click Save.” Above the table, add: “Snap Pack version for existing data pipelines. Select a specific version, or click Upgrade now to change to the default version.”",
+    title: "Selector shows a raw build string with no explanation",
+    problem: "The selector shows a raw build string (“445rc35411”) with no explanation of what it controls.",
+    fix: "Label the selector “Environment default Snap Pack version” with helper text: “The default version applies to new AutoSync data pipelines. To change it, select a version and click Save.”",
     block: "block-versions",
     propBlock: "prop-block-versions",
     tab: "versions"
@@ -570,6 +577,14 @@ const annotations = [
     fix: "Change to sentence case: “1 data pipeline.”",
     block: "block-pipeline-heading",
     propBlock: "prop-block-pipeline-heading",
+    tab: "versions"
+  },
+  {
+    title: "Table doesn't explain its relationship to the selector above",
+    problem: "The table's “Current version” uses a completely different format (“4.39.0.0”) than the selector above, with nothing tying the two together or explaining what Upgrade now actually does.",
+    fix: "Above the table, add: “Snap Pack version for existing data pipelines. Select a specific version, or click Upgrade now to change to the default version.”",
+    block: "block-table-relation",
+    propBlock: "prop-block-table-relation",
     tab: "versions"
   }
 ];

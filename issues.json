@@ -167,12 +167,16 @@
           "callout": "A standalone toggle doesn't need a separate Save step."
         },
         {
-          "target": "AutoSync Snap Pack version / pipeline table",
-          "callout": "The selector shows a raw build string with no explanation of what it controls, and the table's Current version uses a completely different format with nothing tying the two together or explaining what Upgrade now does."
+          "target": "AutoSync Snap Pack version selector",
+          "callout": "The selector shows a raw build string with no explanation of what it controls."
         },
         {
           "target": "1 Data Pipeline heading",
           "callout": "Uses title case, inconsistent with sentence-case labels everywhere else on the page."
+        },
+        {
+          "target": "Pipeline table",
+          "callout": "Uses a completely different version format than the selector above, with nothing tying the two together or explaining what Upgrade now does."
         }
       ]
     },

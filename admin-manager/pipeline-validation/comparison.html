@@ -146,6 +146,14 @@
   .block { position: relative; margin-bottom: 28px; }
   .helper-text { font-size: 13px; color: #444; line-height: 1.55; margin-bottom: 12px; }
 
+  .depends-on-toggle {
+    border-left: 2px solid var(--hairline);
+    padding-left: 20px;
+    margin-left: 18px;
+    transition: opacity 0.15s;
+  }
+  .depends-on-toggle.dimmed { opacity: 0.5; }
+
   .toggle-row { display: flex; align-items: center; gap: 12px; }
   .toggle-switch {
     width: 40px; height: 22px;
@@ -418,6 +426,7 @@
         <div class="pin green" id="green-pin-1" style="top: -8px; right: 32px;" onclick="openGreenPopover(1, event)">1</div>
         <div class="pin green" id="green-pin-2" style="top: -8px; right: 0;" onclick="openGreenPopover(2, event)">2</div>
         <h1 style="margin-bottom: 0;">Designer pipeline validation and document previews</h1>
+        <p class="intro-text" style="margin-top: 6px; margin-bottom: 0;">Configure the number of documents that Snaps can display in the data preview. <a href="#">Learn more.</a></p>
       </div>
 
       <div class="block" id="prop-block-toggle">
@@ -431,7 +440,7 @@
         </div>
       </div>
 
-      <div class="block" id="prop-block-docs">
+      <div class="block depends-on-toggle" id="prop-block-docs">
         <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
         <div class="field-label">Maximum preview documents</div>
         <p class="helper-text">The environment maximum number of preview documents (limited to up to 15 MB in total size) created during validation. Users can change the number of preview documents for their own account in user settings, up to the value set here.</p>
@@ -679,6 +688,8 @@ let propSavedDoc = '50';
 function propToggleValidation() {
   propValidationEnabled = !propValidationEnabled;
   document.getElementById('prop-validation-toggle').classList.toggle('off', !propValidationEnabled);
+  document.getElementById('prop-doc-dropdown').classList.toggle('disabled', !propValidationEnabled);
+  document.getElementById('prop-block-docs').classList.toggle('dimmed', !propValidationEnabled);
   propUpdateDirtyState();
 }
 

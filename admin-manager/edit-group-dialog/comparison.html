@@ -176,26 +176,44 @@
   .btn-filled.disabled { background: #CED9F0; cursor: not-allowed; }
   .unsaved-note { font-size: 12px; color: #b26a00; font-weight: 600; }
 
-  /* Add users modal — current (plain, one-off styling) */
+  /* Add users modal — shared bits */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(20,22,26,0.45); align-items: center; justify-content: center; z-index: 500; }
   .modal-overlay.show { display: flex; }
-  .modal-current { width: 90%; max-width: 420px; background: #fff; border-radius: 4px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+
+  .avatar-circle { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+  .avatar-rt { background: #E3A008; }
+  .avatar-pn { background: #6B46C1; }
+  .avatar-jl { background: #2563EB; }
+  .avatar-so { background: #059669; }
+
+  .chip-input-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; border: 1px solid var(--hairline); border-radius: 4px; padding: 6px 8px; margin-bottom: 12px; }
+  .chip-input-row input { flex: 1; min-width: 120px; border: none; outline: none; font-size: 13px; padding: 4px 2px; }
+  .selected-chip { display: flex; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--hairline); border-radius: 20px; padding: 2px 8px 2px 2px; font-size: 13px; font-weight: 600; color: var(--ink); }
+  .selected-chip .avatar-circle { width: 20px; height: 20px; font-size: 9px; }
+  .selected-chip .chip-remove { color: var(--dim); font-size: 13px; cursor: default; margin-left: 2px; }
+  .chip-caret { color: var(--dim); font-size: 12px; padding: 0 4px; }
+
+  .candidate-list { max-height: 220px; overflow-y: auto; margin-bottom: 16px; border: 1px solid var(--hairline); border-radius: 6px; }
+  .candidate-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #f2f2f2; cursor: pointer; }
+  .candidate-item:last-child { border-bottom: none; }
+  .candidate-item:hover { background: #fafbfc; }
+  .candidate-item input { pointer-events: none; margin-right: 2px; }
+  .candidate-text .candidate-name { font-weight: 600; color: var(--ink); display: block; }
+  .candidate-text .candidate-email { color: var(--dim); display: block; font-size: 12px; }
+
+  /* Current: plain, one-off styling */
+  .modal-current { width: 92%; max-width: 440px; background: #fff; border-radius: 4px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
   .modal-current .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
   .modal-current .modal-head h3 { font-size: 16px; font-weight: 700; }
   .modal-current .modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--dim); }
-  .modal-current .modal-search { width: 100%; padding: 8px 10px; border: 1px solid var(--hairline); border-radius: 4px; font-size: 13px; margin-bottom: 12px; }
-  .candidate-list { max-height: 200px; overflow-y: auto; margin-bottom: 16px; }
-  .candidate-item { display: flex; align-items: center; gap: 10px; padding: 8px 4px; font-size: 13px; border-bottom: 1px solid #f2f2f2; cursor: pointer; }
-  .candidate-item input { pointer-events: none; }
   .modal-current .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 
-  /* Add users modal — proposed (matches account-creation dialog language) */
-  .modal-proposed { width: 90%; max-width: 440px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+  /* Proposed: matches account-creation dialog language */
+  .modal-proposed { width: 92%; max-width: 460px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
   .modal-proposed .modal-head { background: var(--teal); color: #fff; padding: 16px 22px; display: flex; justify-content: space-between; align-items: center; }
   .modal-proposed .modal-head h3 { font-size: 16px; font-weight: 700; }
   .modal-proposed .modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: #fff; }
   .modal-proposed .modal-body { padding: 20px 22px; }
-  .modal-proposed .modal-search { width: 100%; padding: 9px 12px; border: 1px solid #b8bfc9; border-radius: 4px; font-size: 14px; margin-bottom: 14px; }
   .modal-proposed .modal-actions { display: flex; justify-content: flex-end; gap: 10px; padding: 16px 22px; background: #fafbfc; border-top: 1px solid var(--hairline); }
 
   .pin {
@@ -271,9 +289,12 @@
       <span class="stamp redline">REDLINE</span>
       <div class="page-wrapper">
 
-        <div class="title-row">
-          <span class="back-chevron">‹</span>
-          <h1>00001TestGroup</h1>
+        <div class="block" id="block-title" style="margin-bottom: 20px;">
+          <div class="pin" id="pin-1" style="top: -10px; right: -10px;" onclick="openPopover(1, event)">1</div>
+          <div class="title-row" style="margin-bottom: 0;">
+            <span class="back-chevron">‹</span>
+            <h1>00001TestGroup</h1>
+          </div>
         </div>
 
         <div class="two-col">
@@ -291,7 +312,7 @@
 
           <div>
             <div class="block" id="block-toolbar">
-              <div class="pin" id="pin-1" style="top: -10px; right: -10px;" onclick="openPopover(1, event)">1</div>
+              <div class="pin" id="pin-2" style="top: -10px; right: -10px;" onclick="openPopover(2, event)">2</div>
               <div class="users-panel-title" id="cur-users-title">2 Users</div>
               <div class="member-toolbar">
                 <input placeholder="Search users by email or name">
@@ -316,7 +337,7 @@
         </div>
 
         <div class="block" id="block-save" style="margin-bottom: 0;">
-          <div class="pin" id="pin-2" style="top: -10px; right: -10px;" onclick="openPopover(2, event)">2</div>
+          <div class="pin" id="pin-3" style="top: -10px; right: -10px;" onclick="openPopover(3, event)">3</div>
           <div class="save-row">
             <button class="btn-outline" onclick="cancelCur()">Cancel</button>
             <button class="btn-filled disabled" id="cur-save-btn" onclick="saveCur()">Save</button>
@@ -336,9 +357,12 @@
       <span class="stamp proposed-stamp">PROPOSED</span>
       <div class="page-wrapper">
 
-        <div class="title-row">
-          <span class="back-chevron">‹</span>
-          <h1>00001TestGroup</h1>
+        <div class="block" id="prop-block-title" style="margin-bottom: 20px;">
+          <div class="pin green" id="green-pin-1" style="top: -10px; right: -10px;" onclick="openGreenPopover(1, event)">1</div>
+          <div class="title-row" style="margin-bottom: 0;">
+            <span class="back-chevron">‹</span>
+            <h1>Edit 00001TestGroup</h1>
+          </div>
         </div>
 
         <div class="two-col">
@@ -356,13 +380,13 @@
 
           <div>
             <div class="block" id="prop-block-toolbar">
-              <div class="pin green" id="green-pin-1" style="top: -10px; right: -10px;" onclick="openGreenPopover(1, event)">1</div>
+              <div class="pin green" id="green-pin-2" style="top: -10px; right: -10px;" onclick="openGreenPopover(2, event)">2</div>
               <div class="users-panel-title" id="prop-users-title">2 Users</div>
               <div class="member-toolbar" style="margin-bottom: 6px;">
                 <button class="add-users-btn" onclick="openModal('proposed')">+ Add users</button>
               </div>
               <div class="member-toolbar">
-                <input placeholder="Filter this list by name or email">
+                <input placeholder="Search members by name or email">
               </div>
               <table class="member-table">
                 <thead><tr><th style="width:24px;"><input type="checkbox" disabled></th><th>Name</th><th>Email</th></tr></thead>
@@ -383,7 +407,7 @@
         </div>
 
         <div class="block" id="prop-block-save" style="margin-bottom: 0;">
-          <div class="pin green" id="green-pin-2" style="top: -10px; right: -10px;" onclick="openGreenPopover(2, event)">2</div>
+          <div class="pin green" id="green-pin-3" style="top: -10px; right: -10px;" onclick="openGreenPopover(3, event)">3</div>
           <div class="save-row">
             <button class="btn-outline" onclick="cancelProp()">Cancel</button>
             <button class="btn-filled disabled" id="prop-save-btn" onclick="saveProp()">Save</button>
@@ -404,11 +428,15 @@
       <h3>Add users</h3>
       <button class="modal-close" onclick="closeModal('current')">×</button>
     </div>
-    <input class="modal-search" placeholder="Search users by email or name">
+    <div class="chip-input-row">
+      <span class="selected-chip"><span class="avatar-circle avatar-rt">RT</span>Ruth Test<span class="chip-remove">×</span></span>
+      <input placeholder="Search users by email o…">
+      <span class="chip-caret">⌄</span>
+    </div>
     <div class="candidate-list">
-      <div class="candidate-item" onclick="toggleCandidate(this)"><input type="checkbox"> Priya Nair — pnair+basic@example.com</div>
-      <div class="candidate-item" onclick="toggleCandidate(this)"><input type="checkbox"> Jordan Lee — jlee@example.com</div>
-      <div class="candidate-item" onclick="toggleCandidate(this)"><input type="checkbox"> Sam Okafor — sokafor+test@example.com</div>
+      <div class="candidate-item" onclick="toggleCandidate(this)" data-name="Priya Nair" data-email="pnair+basic@example.com"><input type="checkbox"><span class="avatar-circle avatar-pn">PN</span><span class="candidate-text"><span class="candidate-name">Priya Nair</span><span class="candidate-email">pnair+basic@example.com</span></span></div>
+      <div class="candidate-item" onclick="toggleCandidate(this)" data-name="Jordan Lee" data-email="jlee@example.com"><input type="checkbox"><span class="avatar-circle avatar-jl">JL</span><span class="candidate-text"><span class="candidate-name">Jordan Lee</span><span class="candidate-email">jlee@example.com</span></span></div>
+      <div class="candidate-item" onclick="toggleCandidate(this)" data-name="Sam Okafor" data-email="sokafor+test@example.com"><input type="checkbox"><span class="avatar-circle avatar-so">SO</span><span class="candidate-text"><span class="candidate-name">Sam Okafor</span><span class="candidate-email">sokafor+test@example.com</span></span></div>
     </div>
     <div class="modal-actions">
       <button class="btn-outline" onclick="closeModal('current')">Cancel</button>
@@ -425,11 +453,15 @@
       <button class="modal-close" onclick="closeModal('proposed')">×</button>
     </div>
     <div class="modal-body">
-      <input class="modal-search" placeholder="Search users by email or name">
+      <div class="chip-input-row">
+        <span class="selected-chip"><span class="avatar-circle avatar-rt">RT</span>Ruth Test<span class="chip-remove">×</span></span>
+        <input placeholder="Search users by email o…">
+        <span class="chip-caret">⌄</span>
+      </div>
       <div class="candidate-list">
-        <div class="candidate-item" onclick="toggleCandidate(this)"><input type="checkbox"> Priya Nair — pnair+basic@example.com</div>
-        <div class="candidate-item" onclick="toggleCandidate(this)"><input type="checkbox"> Jordan Lee — jlee@example.com</div>
-        <div class="candidate-item" onclick="toggleCandidate(this)"><input type="checkbox"> Sam Okafor — sokafor+test@example.com</div>
+        <div class="candidate-item" onclick="toggleCandidate(this)" data-name="Priya Nair" data-email="pnair+basic@example.com"><input type="checkbox"><span class="avatar-circle avatar-pn">PN</span><span class="candidate-text"><span class="candidate-name">Priya Nair</span><span class="candidate-email">pnair+basic@example.com</span></span></div>
+        <div class="candidate-item" onclick="toggleCandidate(this)" data-name="Jordan Lee" data-email="jlee@example.com"><input type="checkbox"><span class="avatar-circle avatar-jl">JL</span><span class="candidate-text"><span class="candidate-name">Jordan Lee</span><span class="candidate-email">jlee@example.com</span></span></div>
+        <div class="candidate-item" onclick="toggleCandidate(this)" data-name="Sam Okafor" data-email="sokafor+test@example.com"><input type="checkbox"><span class="avatar-circle avatar-so">SO</span><span class="candidate-text"><span class="candidate-name">Sam Okafor</span><span class="candidate-email">sokafor+test@example.com</span></span></div>
       </div>
     </div>
     <div class="modal-actions">
@@ -460,6 +492,13 @@
 
 <script>
 const annotations = [
+  {
+    title: "The heading doesn't say this is an edit screen",
+    problem: "The page heading just shows the group's name — nothing indicates this is an edit screen, so it can appear to an admin as a read-only detail view.",
+    fix: "Prefix the heading with the action: \"Edit 00001TestGroup\", so the screen's purpose is clear at a glance.",
+    block: "block-title",
+    propBlock: "prop-block-title"
+  },
   {
     title: "Member search and Add users look like two ways to do the same thing",
     problem: "The \"Search users by email or name\" box and \"+ Add users\" link sit side by side, but they do unrelated things: the search box only filters the group's existing members, while \"+ Add users\" is the only way to add someone new. The \"Add users\" modal it opens also looks and behaves differently from the account-creation dialogs elsewhere in Admin Manager (different chrome, spacing, button styling), and its trigger is a plain text link rather than a button, unlike the primary \"+ New user\" button on the Users page. Try opening \"+ Add users\" here to see the mismatch.",
@@ -629,8 +668,8 @@ function saveModal(which) {
   if (checked.length === 0) { closeModal(which); return; }
 
   checked.forEach(item => {
-    const text = item.textContent.trim();
-    const [name, email] = text.split(' — ');
+    const name = item.dataset.name;
+    const email = item.dataset.email;
     if (which === 'current') {
       curMemberCount++;
       const tbody = document.getElementById('cur-member-tbody');

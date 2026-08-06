@@ -518,11 +518,15 @@
       "unreportedLabel": "Unreported issue 15",
       "severity": "High",
       "category": "Information architecture / sequencing",
-      "summary": "Adding a user to a group requires a save inside the Add users modal and a second save on the Edit group screen, or the change is silently lost, and the modal itself looks and behaves differently from the account-creation dialogs elsewhere in Admin Manager.",
+      "summary": "The Edit group heading gives no indication this is an edit screen, adding a user to a group requires a save inside the Add users modal and a second save on the Edit group screen (or the change is silently lost), and the modal itself looks and behaves differently from the account-creation dialogs elsewhere in Admin Manager.",
       "mockups": {
         "comparison": "admin-manager/edit-group-dialog/comparison.html"
       },
       "annotations": [
+        {
+          "target": "Page heading",
+          "callout": "The page heading just shows the group's name — nothing indicates this is an edit screen, so it can appear to an admin as a read-only detail view."
+        },
         {
           "target": "Member search and Add users",
           "callout": "The \"Search users by email or name\" box and \"+ Add users\" link sit side by side but do unrelated things — search only filters existing members, while \"+ Add users\" is the only way to add someone new. The modal it opens also looks and behaves differently from the account-creation dialogs, and its trigger is a plain text link rather than a button."

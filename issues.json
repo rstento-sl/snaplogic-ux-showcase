@@ -246,14 +246,21 @@
             "step": 1,
             "heading": "Copy SnapLogic values for your identity provider",
             "body": "Copy the values below and use them to create a SAML application in your identity provider (Okta, Azure AD, etc.). Then return to this page to complete Step 2.",
-            "elements": ["Entity ID (with copy button)", "Reply URL (with copy button)", "Logout URL (with copy button)", "Download metadata file (alternative for IdPs that accept file format)"]
+            "elements": [
+              "Entity ID (with copy button)",
+              "Reply URL (with copy button)",
+              "Logout URL (with copy button)",
+              "Download metadata file (alternative for IdPs that accept file format)"
+            ]
           },
           {
             "step": 2,
             "heading": "Upload your identity provider metadata",
             "subheading": "Complete after finishing Step 1 in your identity provider",
             "body": "After creating your SAML application in your IdP, export the metadata file and upload it here.",
-            "elements": ["Upload file button"]
+            "elements": [
+              "Upload file button"
+            ]
           }
         ]
       },
@@ -321,7 +328,7 @@
       "screen": "Admin Manager > User Management > Users",
       "jira": "",
       "unreportedLabel": "Unreported issue 08",
-      "severity": "Medium",
+      "severity": "Low",
       "category": "Content clarity / labeling",
       "summary": "Type icons have no label, the role-change confirmation dialog doesn't name the user, the Groups count isn't clickable, and bulk actions (including Delete) are invisible until a row is selected.",
       "mockups": {
@@ -377,7 +384,7 @@
       "screen": "Admin Manager > User Management > Users > New user > User account",
       "jira": "",
       "unreportedLabel": "Unreported issue 10",
-      "severity": "Medium",
+      "severity": "High",
       "category": "Content clarity / labeling",
       "summary": "The Access sentence has a dangling conditional that misreads as applying to the whole list, none of the Access checkboxes explain what they grant, and the dialog has no Learn more link or tooltips anywhere.",
       "mockups": {
@@ -385,33 +392,37 @@
       },
       "annotations": [
         {
+          "target": "Full dialog",
+          "callout": "Unlike the account-type page, nothing here offers more explanation for Role, Access, or Authentication methods."
+        },
+        {
           "target": "Access intro sentence",
-          "callout": "\"Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)\" reads as if the whole list is conditional, when only Admin Manager depends on being an Environment admin."
+          "callout": "\"Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)\" reads as if the whole list is conditional, when only Admin Manager depends on being an Environment admin. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it."
         },
         {
           "target": "Access checkboxes",
           "callout": "Designer, AutoSync, and API access only have no helper text — an admin has to already know what each one grants before they can choose correctly."
-        },
-        {
-          "target": "Full dialog",
-          "callout": "Unlike the account-type page, nothing here offers more explanation for Role, Access, or Authentication methods."
         }
       ]
     },
     {
       "id": "issue-12",
       "area": "Admin Manager",
-      "title": "New team account dialog breaks the Role pattern and never explains what a maintainer does",
+      "title": "New team account dialog breaks the Role pattern, never explains what a maintainer does, and leaves Access unexplained",
       "screen": "Admin Manager > User Management > Users > New user > Team account",
       "jira": "",
       "unreportedLabel": "Unreported issue 11",
-      "severity": "Medium",
+      "severity": "High",
       "category": "Content clarity / labeling",
-      "summary": "Maintainers has no explanation of what it does, Role is shown as plain text instead of the radio control used everywhere else, and the dialog has no Learn more link or tooltips anywhere.",
+      "summary": "Role breaks the radio-control pattern used elsewhere, the Maintainers field never says what a maintainer does, the Access sentence has a dangling conditional and never explains that \"app access\" means Designer access, and the dialog has no Learn more link or tooltips anywhere.",
       "mockups": {
         "comparison": "admin-manager/add-team-dialog/comparison.html"
       },
       "annotations": [
+        {
+          "target": "Full dialog",
+          "callout": "Unlike the account-type page, nothing here offers more explanation for Maintainers, Role, Access, or Authentication methods."
+        },
         {
           "target": "Maintainers field",
           "callout": "The field just says \"Maintainers\" with a search box — nothing explains what selecting someone here actually does for them or the account."
@@ -421,8 +432,8 @@
           "callout": "The User and Service account dialogs both show Role as a radio control. Here it's plain text instead, so the same concept looks like two different features depending on which dialog you're in."
         },
         {
-          "target": "Full dialog",
-          "callout": "Unlike the account-type page, nothing here offers more explanation for Maintainers, Role, Access, or Authentication methods."
+          "target": "Access section",
+          "callout": "\"Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)\" references Environment admin, but team accounts are always locked to the User role — that clause can never apply here and only adds confusion. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it."
         }
       ]
     },
@@ -433,24 +444,20 @@
       "screen": "Admin Manager > User Management > Users > New user > Service account",
       "jira": "",
       "unreportedLabel": "Unreported issue 12",
-      "severity": "Medium",
+      "severity": "High",
       "category": "Content clarity / labeling",
-      "summary": "Role offers no guidance for a non-interactive account, the Access and Authentication sections present in the other dialogs disappear here with no explanation, and there's no Learn more link or tooltips anywhere.",
+      "summary": "Role offers no guidance for a non-interactive account, the Access and Authentication sections present in the other dialogs disappear here with no explanation, and there is no Learn more link or tooltips anywhere.",
       "mockups": {
         "comparison": "admin-manager/add-service-dialog/comparison.html"
       },
       "annotations": [
         {
+          "target": "Dialog header",
+          "callout": "This account can't sign in through the UI, but nothing on the dialog says so — and unlike the User and Team dialogs, it has no Access or Authentication methods sections, with no explanation why. There's also no Learn more link for more detail."
+        },
+        {
           "target": "Role field",
-          "callout": "Environment admin and User are both selectable, but nothing explains what granting admin rights to a service account — which can't sign in through the UI — actually means in practice."
-        },
-        {
-          "target": "Missing Access / Authentication sections",
-          "callout": "The User and Team dialogs both have Access and Authentication methods sections. This one has neither, and nothing says why."
-        },
-        {
-          "target": "Full dialog",
-          "callout": "Unlike the account-type page, nothing here offers more explanation for Role or the missing Access/Authentication sections."
+          "callout": "The default role is User, yet many APIs require Environment admin permission — nothing on this screen tells admins that before they create the account."
         }
       ]
     }

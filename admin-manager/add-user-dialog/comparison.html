@@ -270,7 +270,7 @@
       <div class="page-wrapper">
 
         <div class="block" id="block-help">
-          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-1" style="top: -8px; right: -8px;" onclick="openPopover(1, event)">1</div>
         <div class="title-row">
           <span class="back-chevron">‹</span>
           <h1>New user account</h1>
@@ -309,13 +309,13 @@
         </div>
 
         <div class="block" id="block-access-intro">
-          <div class="pin" id="pin-1" style="top: -8px; right: -8px;" onclick="openPopover(1, event)">1</div>
+          <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
           <div class="field-label">Access</div>
           <p class="access-intro">Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin).</p>
         </div>
 
         <div class="block" id="block-access-checks">
-          <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
+          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
           <div class="checkbox-item"><div class="checkbox-box"></div><div class="checkbox-label">Designer</div></div>
           <div class="checkbox-item"><div class="checkbox-box"></div><div class="checkbox-label">AutoSync</div></div>
           <div class="checkbox-item"><div class="checkbox-box"></div><div class="checkbox-label">API access only</div></div>
@@ -350,10 +350,11 @@
       <div class="page-wrapper">
 
         <div class="block" id="prop-block-help">
-          <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
+          <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
         <div class="title-row">
           <span class="back-chevron">‹</span>
           <h1>New user account</h1>
+          <a href="#" style="margin-left: auto; margin-right: 24px; font-size: 13px; font-weight: 700; color: var(--teal); text-decoration: none;">Learn more</a>
         </div>
 
         <div class="summary-row">
@@ -388,20 +389,20 @@
         </div>
 
         <div class="block" id="prop-block-access-intro">
-          <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
+          <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
           <div class="field-label">Access</div>
-          <p class="access-intro">Users with app access can also access APIs and Monitor. They can access Admin Manager only if they're also an Environment admin.</p>
+          <p class="access-intro">Users with Designer access can also access APIs and Monitor. They can access Admin Manager only if they're also an Environment admin.</p>
         </div>
 
         <div class="block" id="prop-block-access-checks">
-          <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
+          <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
           <div class="checkbox-item">
             <div class="checkbox-box"></div>
             <div><div class="checkbox-label">Designer</div><div class="checkbox-help">Build, edit, and run pipelines.</div></div>
           </div>
-          <div class="checkbox-item">
+          <div class="checkbox-item" style="margin-left: 27px;">
             <div class="checkbox-box"></div>
-            <div><div class="checkbox-label">AutoSync</div><div class="checkbox-help">Set up and manage AutoSync data pipelines.</div></div>
+            <div><div class="checkbox-label">AutoSync</div><div class="checkbox-help">Set up and manage AutoSync data pipelines. Requires Designer access.</div></div>
           </div>
           <div class="checkbox-item">
             <div class="checkbox-box"></div>
@@ -453,9 +454,16 @@
 <script>
 const annotations = [
   {
-    title: "Access sentence has a dangling conditional",
-    problem: "“Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)” reads as if the whole list is conditional, when only Admin Manager actually depends on being an Environment admin.",
-    fix: "Split it: “Users with app access can also access APIs and Monitor. They can access Admin Manager only if they're also an Environment admin.”",
+    title: "No Learn more link or tooltips anywhere in this dialog",
+    problem: "Someone creating a user account is deciding whether that person gets access to the platform — they'd want to know they're choosing the right options. But unlike the account-type page (which has a Learn more link), nothing here offers more explanation for Role, Access, or Authentication methods.",
+    fix: "Add a Learn more link near the dialog title, consistent with the account-type page.",
+    block: "block-help",
+    propBlock: "prop-block-help"
+  },
+  {
+    title: "Access sentence has a dangling conditional, and \"app access\" is never explained",
+    problem: "“Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)” reads as if the whole list is conditional, when only Admin Manager actually depends on being an Environment admin. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it, but the flat checkbox list below doesn't show that dependency.",
+    fix: "Split it: “Users with Designer access can also access APIs and Monitor. They can access Admin Manager only if they're also an Environment admin.” Indent AutoSync beneath Designer in the checkbox list to show that AutoSync depends on it.",
     block: "block-access-intro",
     propBlock: "prop-block-access-intro"
   },
@@ -465,13 +473,6 @@ const annotations = [
     fix: "Add a short helper line under each checkbox describing what it grants.",
     block: "block-access-checks",
     propBlock: "prop-block-access-checks"
-  },
-  {
-    title: "No Learn more link or tooltips anywhere in this dialog",
-    problem: "Someone creating a user account is deciding whether that person gets access to the platform — they'd want to know they're choosing the right options. But unlike the account-type page (which has a Learn more link), nothing here offers more explanation for Role, Access, or Authentication methods.",
-    fix: "Add a Learn more link near the dialog title, consistent with the account-type page.",
-    block: "block-help",
-    propBlock: "prop-block-help"
   }
 ];
 

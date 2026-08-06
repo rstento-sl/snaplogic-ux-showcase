@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New team account dialog breaks the Role pattern and never explains what a maintainer does</title>
+<title>New team account dialog breaks the Role pattern, never explains what a maintainer does, and leaves Access unexplained</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -189,6 +189,7 @@
     border-radius: 50%;
     background: var(--blue);
   }
+  .radio-item.disabled { opacity: 0.5; cursor: not-allowed; }
   .radio-item.disabled .radio-label { color: var(--dim); }
   .radio-label { font-size: 14px; color: var(--ink); }
   .field-help { font-size: 12px; color: var(--dim); margin-top: 6px; line-height: 1.4; }
@@ -265,7 +266,7 @@
   </div>
   <div class="issue-heading">
     <span class="ticket-chip">Unreported issue 11</span>
-    <h1>New team account dialog breaks the Role pattern and never explains what a maintainer does</h1>
+    <h1>New team account dialog breaks the Role pattern, never explains what a maintainer does, and leaves Access unexplained</h1>
   </div>
   <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix</div>
 </div>
@@ -281,7 +282,7 @@
       <div class="page-wrapper">
 
         <div class="block" id="block-help">
-          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-1" style="top: -8px; right: -8px;" onclick="openPopover(1, event)">1</div>
         <div class="title-row">
           <span class="back-chevron">‹</span>
           <h1>New team account</h1>
@@ -308,7 +309,7 @@
         </div>
 
         <div class="block" id="block-maintainers">
-          <div class="pin" id="pin-1" style="top: -8px; right: -8px;" onclick="openPopover(1, event)">1</div>
+          <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
           <div class="field-label">Maintainers</div>
           <div class="field-input select"><span>Search users by email or name</span><span>⌄</span></div>
         </div>
@@ -319,12 +320,13 @@
         </div>
 
         <div class="block" id="block-role">
-          <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
+          <div class="pin" id="pin-3" style="top: -8px; right: -8px;" onclick="openPopover(3, event)">3</div>
           <div class="field-label">Role</div>
           <div class="role-note">Team accounts only have User permissions.</div>
         </div>
 
-        <div style="margin-bottom: 20px; margin-top: 20px;">
+        <div class="block" id="block-access" style="margin-top: 20px;">
+          <div class="pin" id="pin-4" style="top: -8px; right: -8px;" onclick="openPopover(4, event)">4</div>
           <div class="field-label">Access</div>
           <p class="access-intro">Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin).</p>
           <div class="checkbox-item"><div class="checkbox-box"></div><div class="checkbox-label">Designer</div></div>
@@ -360,10 +362,11 @@
       <div class="page-wrapper">
 
         <div class="block" id="prop-block-help">
-          <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
+          <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
         <div class="title-row">
           <span class="back-chevron">‹</span>
           <h1>New team account</h1>
+          <a href="#" style="margin-left: auto; margin-right: 24px; font-size: 13px; font-weight: 700; color: var(--teal); text-decoration: none;">Learn more</a>
         </div>
 
         <div class="summary-row">
@@ -386,10 +389,10 @@
         </div>
 
         <div class="block" id="prop-block-maintainers">
-          <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
+          <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
           <div class="field-label">Maintainers</div>
+          <div class="field-help" style="margin-top: -3px; margin-bottom: 10px;">Maintainers receive the initial login and password reset emails for this account.</div>
           <div class="field-input select"><span>Search users by email or name</span><span>⌄</span></div>
-          <div class="field-help">Maintainers receive the initial login and password reset emails for this account.</div>
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -398,18 +401,19 @@
         </div>
 
         <div class="block" id="prop-block-role">
-          <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
+          <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
           <div class="field-label">Role</div>
+          <div class="field-help" style="margin-top: -3px; margin-bottom: 10px;">Team accounts always have the User role.</div>
           <div class="radio-item disabled"><div class="radio-dot"></div><div class="radio-label">Environment admin</div></div>
           <div class="radio-item"><div class="radio-dot selected"></div><div class="radio-label">User</div></div>
-          <div class="field-help">Team accounts always have the User role.</div>
         </div>
 
-        <div style="margin-bottom: 20px;">
+        <div class="block" id="prop-block-access">
+          <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
           <div class="field-label">Access</div>
-          <p class="access-intro">Users with app access can also access APIs and Monitor. They can access Admin Manager only if they're also an Environment admin.</p>
+          <p class="access-intro">Users with Designer access can also access APIs and Monitor.</p>
           <div class="checkbox-item"><div class="checkbox-box"></div><div class="checkbox-label">Designer</div></div>
-          <div class="checkbox-item"><div class="checkbox-box"></div><div class="checkbox-label">AutoSync</div></div>
+          <div class="checkbox-item" style="margin-left: 27px;"><div class="checkbox-box"></div><div><div class="checkbox-label">AutoSync</div><div class="checkbox-help">Requires Designer access.</div></div></div>
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -456,6 +460,13 @@
 <script>
 const annotations = [
   {
+    title: "No Learn more link or tooltips anywhere in this dialog",
+    problem: "Someone creating a team account is deciding whether multiple people get access to the platform through it — they'd want to know they're choosing the right options. But unlike the account-type page (which has a Learn more link), nothing here offers more explanation for Maintainers, Role, Access, or Authentication methods.",
+    fix: "Add a Learn more link near the dialog title, consistent with the account-type page.",
+    block: "block-help",
+    propBlock: "prop-block-help"
+  },
+  {
     title: "Maintainers doesn't say what a maintainer does",
     problem: "The field just says “Maintainers” with a search box — nothing explains what selecting someone here actually does for them or the account.",
     fix: "Add helper text: “Maintainers receive the initial login and password reset emails for this account.”",
@@ -470,11 +481,11 @@ const annotations = [
     propBlock: "prop-block-role"
   },
   {
-    title: "No Learn more link or tooltips anywhere in this dialog",
-    problem: "Someone creating a team account is deciding whether multiple people get access to the platform through it — they'd want to know they're choosing the right options. But unlike the account-type page (which has a Learn more link), nothing here offers more explanation for Maintainers, Role, Access, or Authentication methods.",
-    fix: "Add a Learn more link near the dialog title, consistent with the account-type page.",
-    block: "block-help",
-    propBlock: "prop-block-help"
+    title: "Access sentence mentions a role team accounts can never have, and \"app access\" is never explained",
+    problem: "“Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)” references Environment admin, but team accounts are always locked to the User role — that clause can never apply here and only adds confusion. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it, but the flat checkbox list below doesn't show that dependency.",
+    fix: "Drop the Admin Manager/Environment admin clause, since it can never apply to a team account: “Users with Designer access can also access APIs and Monitor.” Indent AutoSync beneath Designer in the checkbox list to show that AutoSync depends on it.",
+    block: "block-access",
+    propBlock: "prop-block-access"
   }
 ];
 

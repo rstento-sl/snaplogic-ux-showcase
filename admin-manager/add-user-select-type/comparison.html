@@ -387,7 +387,7 @@
             <div class="type-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M2 21c0-4 3-6 7-6"/><path d="M16 8l3 3-3 3"/><path d="M22 8l-3 3 3 3"/></svg></div>
             <div class="type-text">
               <div class="type-title">User account</div>
-              <div class="type-desc">Create, edit and run integrations. Signs in individually.</div>
+              <div class="type-desc">Create, edit and run integrations.</div>
             </div>
             <div class="access-cols">
               <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App access</div>
@@ -399,8 +399,8 @@
             <div class="type-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><path d="M16 15.5c3 .3 5 2 5 5.5"/></svg></div>
             <div class="type-text">
               <div class="type-title">Team account</div>
-              <div class="type-desc">Shared and managed by multiple people. Create, edit and run integrations.</div>
-              <div class="type-note">One or more members are designated as maintainers. Team accounts always have the User role and can't be assigned Environment Admin.</div>
+              <div class="type-desc">Shared and managed by multiple people to create, edit, and run integrations.</div>
+              <div class="type-note">One or more members are designated as maintainers. Team accounts have a User role.</div>
             </div>
             <div class="access-cols">
               <div class="access-item yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>App access</div>
@@ -458,7 +458,7 @@ const annotations = [
   {
     title: "User and Team accounts look identical except for one vague line",
     problem: "Both show the same App access and API access checkmarks and both start with “Create, edit and run integrations.” The only difference is “Shared and managed by multiple people,” which doesn't say what that actually means day to day.",
-    fix: "Show what actually differs directly under the description: Team accounts are shared through designated maintainers and always capped at the User role — they can't be assigned Environment Admin.",
+    fix: "Show what actually differs directly under the description: one or more members are designated as maintainers, and Team accounts have a User role.",
     block: "block-user-team",
     propBlock: "prop-block-user-team"
   },

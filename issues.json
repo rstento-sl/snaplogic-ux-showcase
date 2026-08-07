@@ -592,13 +592,13 @@
     {
       "id": "issue-19",
       "area": "Admin Manager",
-      "title": "Environment page gives no summary before the tabs",
+      "title": "Environment page gives no summary, and two fields go nowhere in the product",
       "screen": "Admin Manager > System Configuration > Environment",
       "jira": "",
       "unreportedLabel": "Unreported issue 18",
       "severity": "Medium",
       "category": "Content clarity / labeling",
-      "summary": "The Environment page shows four tabs with no summary explaining what an environment is, a \"Read-only\" note that misleadingly implies the whole tab is uneditable even though the description field is not, and an Environment ID field with no explanation of why it matters and no copy button.",
+      "summary": "The Environment page shows four tabs with no summary explaining what an environment is, a misleading \"Read-only\" note, an Environment ID with no context or copy button, and both the Environment description and Tag fields are dead ends — neither is ever displayed anywhere in the product.",
       "mockups": {
         "comparison": "admin-manager/environment-page-summary/comparison.html"
       },
@@ -614,6 +614,18 @@
         {
           "target": "Environment ID field",
           "callout": "The Environment ID is just a long string with no explanation of why it matters, and no copy affordance — admins have to select and copy the text by hand."
+        },
+        {
+          "target": "Environment description field",
+          "callout": "Admins can type a description and save it, but nothing in the product ever displays it — not this page, not the environment selector, nowhere. Admins have no way to know it's a dead end."
+        },
+        {
+          "target": "Tag field",
+          "callout": "Same issue as the description field: admins can name a custom tag and save it, but that name is never displayed anywhere — including the environment selector, which only ever reads the icon and color, never the tag name."
+        },
+        {
+          "target": "Icon & color field",
+          "callout": "Nothing on this tab says what the icon and color are for or where admins will see them — they have to pick something and guess."
         }
       ]
     }

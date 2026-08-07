@@ -132,12 +132,26 @@
   .page-wrapper {
     background: #fff;
     border: 1px solid #ddd;
-    border-top: none;
-    border-radius: 0 0 6px 6px;
+    border-radius: 6px;
     padding: 28px 32px 40px;
     box-shadow: 0 6px 20px rgba(31,33,37,0.08);
     position: relative;
   }
+  .sheet .page-wrapper:first-of-type { border-radius: 0 0 6px 6px; border-top: none; }
+
+  .flow-connector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 14px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .flow-connector::before { content: "↓"; font-size: 14px; }
+
   h1 { font-size: 26px; font-weight: 700; margin-bottom: 18px; }
   .tabs { display: flex; border-bottom: 2px solid #e0e0e0; margin-bottom: 20px; }
   .tab { padding: 8px 0; margin-right: 24px; font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; margin-bottom: -2px; }
@@ -158,6 +172,43 @@
   .copy-icon svg { width: 16px; height: 16px; display: block; }
   .copy-icon.copied { color: var(--green); }
   .id-note { font-size: 12px; color: var(--dim); margin-bottom: 18px; }
+
+  .tag-input {
+    width: 100%;
+    max-width: 460px;
+    font-family: inherit;
+    font-style: italic;
+    font-size: 13px;
+    color: #888;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+  }
+  .tag-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 200px;
+    font-size: 13px;
+    color: #1a1a1a;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+  }
+  .icon-color-note { font-size: 12px; color: var(--dim); margin-bottom: 18px; max-width: 460px; line-height: 1.5; }
+
+  .removed-note {
+    font-size: 13px;
+    color: var(--dim);
+    font-style: italic;
+    border: 1px dashed var(--hairline);
+    border-radius: 4px;
+    padding: 10px 12px;
+    max-width: 460px;
+    margin-bottom: 18px;
+  }
 
   .desc-textarea {
     width: 100%;
@@ -209,15 +260,13 @@
   .pin.green:hover { background: var(--green-dark); }
   .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
-  #block-header.highlighted, #prop-block-header.highlighted,
-  #block-tab-note.highlighted, #prop-block-tab-note.highlighted,
-  #block-env-id.highlighted, #prop-block-env-id.highlighted {
+  .pin-block.highlighted {
     background: #FDF3F5;
     border-radius: 6px;
     margin: -8px -12px 0;
     padding: 8px 12px;
   }
-  #prop-block-header.highlighted, #prop-block-tab-note.highlighted, #prop-block-env-id.highlighted {
+  .pin-block.green.highlighted {
     background: #EAF6EE;
     box-shadow: 0 0 0 2px var(--green);
   }
@@ -326,7 +375,7 @@
     <div class="col-instruction current">Click the red pin to see what's wrong</div>
     <div class="page-wrapper">
 
-      <div id="block-header" style="position: relative;">
+      <div id="block-header" class="pin-block" style="position: relative;">
         <div class="pin" id="pin-1" style="top: -8px; right: 0;" onclick="openPopover(1, event)">1</div>
         <h1>Environment</h1>
         <div class="tabs">
@@ -337,12 +386,12 @@
         </div>
       </div>
 
-      <div id="block-tab-note" style="position: relative;">
+      <div id="block-tab-note" class="pin-block" style="position: relative;">
         <div class="pin" id="pin-2" style="top: -6px; right: 0;" onclick="openPopover(2, event)">2</div>
         <p class="tab-note">Read-only attributes for identification include a unique ID, name, and type. <a href="#">Learn more.</a></p>
       </div>
 
-      <div id="block-env-id" style="position: relative;">
+      <div id="block-env-id" class="pin-block" style="position: relative;">
         <div class="pin" id="pin-3" style="top: -6px; right: 0;" onclick="openPopover(3, event)">3</div>
         <div class="field-label">Environment ID</div>
         <div class="field-value">a1b2c3d4e5f6a7b8c9d0e1f2</div>
@@ -354,12 +403,45 @@
       <div class="field-label">Environment type (purchased)</div>
       <div class="field-value">N/A</div>
 
-      <div class="field-label">Environment description (Optional)</div>
-      <textarea class="desc-textarea" rows="2">1712345678901</textarea>
+      <div id="block-env-desc" class="pin-block" style="position: relative;">
+        <div class="pin" id="pin-4" style="top: -6px; right: 0;" onclick="openPopover(4, event)">4</div>
+        <div class="field-label">Environment description (Optional)</div>
+        <textarea class="desc-textarea" rows="2">1712345678901</textarea>
+      </div>
 
       <button class="btn-save">Save</button>
 
     </div>
+    </div>
+
+    <div class="flow-connector">Admin clicks the Environment tag tab</div>
+
+    <div class="page-wrapper">
+
+      <h1>Environment</h1>
+      <div class="tabs">
+        <div class="tab">Environment details</div>
+        <div class="tab active">Environment tag</div>
+        <div class="tab">API limits</div>
+        <div class="tab">Pattern catalog</div>
+      </div>
+
+      <p class="tab-note">Assign an optional custom tag and icon. <a href="#">Learn more.</a></p>
+
+      <div id="block-tag-name" class="pin-block" style="position: relative;">
+        <div class="pin" id="pin-5" style="top: -6px; right: 0;" onclick="openPopover(5, event)">5</div>
+        <div class="field-label">Tag</div>
+        <input class="tag-input" placeholder="Environment tag" readonly>
+      </div>
+
+      <div id="block-icon-color" class="pin-block" style="position: relative;">
+        <div class="pin" id="pin-6" style="top: -6px; right: 0;" onclick="openPopover(6, event)">6</div>
+        <div class="field-label">Icon &amp; color</div>
+        <div class="tag-dropdown"><span>None</span><span>⌄</span></div>
+      </div>
+
+      <button class="btn-save">Save</button>
+
     </div>
   </div>
 
@@ -371,7 +453,7 @@
     <div class="col-instruction proposed">Click the green pin to see the fix</div>
     <div class="page-wrapper">
 
-      <div id="prop-block-header" style="position: relative;">
+      <div id="prop-block-header" class="pin-block green" style="position: relative;">
         <div class="pin green" id="green-pin-1" style="top: -8px; right: 0;" onclick="openGreenPopover(1, event)">1</div>
         <h1>Environment</h1>
         <p class="intro-text">View environment details, configure the environment selector, view API limits, and configure Pattern catalog visibility. <a href="#">Learn more.</a></p>
@@ -383,12 +465,12 @@
         </div>
       </div>
 
-      <div id="prop-block-tab-note" style="position: relative;">
+      <div id="prop-block-tab-note" class="pin-block green" style="position: relative;">
         <div class="pin green" id="green-pin-2" style="top: -6px; right: 0;" onclick="openGreenPopover(2, event)">2</div>
-        <p class="tab-note">View your environment's ID, name, and type, or edit its description. <a href="#">Learn more.</a></p>
+        <p class="tab-note">View your environment's ID, name, and type. <a href="#">Learn more.</a></p>
       </div>
 
-      <div id="prop-block-env-id" style="position: relative;">
+      <div id="prop-block-env-id" class="pin-block green" style="position: relative;">
         <div class="pin green" id="green-pin-3" style="top: -6px; right: 0;" onclick="openGreenPopover(3, event)">3</div>
         <div class="field-label">Environment ID</div>
         <div class="field-row">
@@ -408,12 +490,42 @@
       <div class="field-label">Environment type (purchased)</div>
       <div class="field-value">N/A</div>
 
-      <div class="field-label">Environment description (Optional)</div>
-      <textarea class="desc-textarea" rows="2">1712345678901</textarea>
+      <div id="prop-block-env-desc" class="pin-block green" style="position: relative;">
+        <div class="pin green" id="green-pin-4" style="top: -6px; right: 0;" onclick="openGreenPopover(4, event)">4</div>
+        <p class="removed-note">Environment description field removed — it wasn't used anywhere in the product.</p>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="flow-connector">Admin clicks the Environment tag tab</div>
+
+    <div class="page-wrapper">
+
+      <h1>Environment</h1>
+      <div class="tabs">
+        <div class="tab">Environment details</div>
+        <div class="tab active">Environment tag</div>
+        <div class="tab">API limits</div>
+        <div class="tab">Pattern catalog</div>
+      </div>
+
+      <p class="tab-note">Assign an optional custom tag and icon. <a href="#">Learn more.</a></p>
+
+      <div id="prop-block-tag-name" class="pin-block green" style="position: relative;">
+        <div class="pin green" id="green-pin-5" style="top: -6px; right: 0;" onclick="openGreenPopover(5, event)">5</div>
+        <p class="removed-note">Tag field removed — it wasn't used anywhere in the product.</p>
+      </div>
+
+      <div id="prop-block-icon-color" class="pin-block green" style="position: relative;">
+        <div class="pin green" id="green-pin-6" style="top: -6px; right: 0;" onclick="openGreenPopover(6, event)">6</div>
+        <div class="field-label">Icon &amp; color</div>
+        <div class="tag-dropdown"><span>None</span><span>⌄</span></div>
+        <p class="icon-color-note">This icon and color appear next to your environment name in the environment selector at the top of the app.</p>
+      </div>
 
       <button class="btn-save">Save</button>
 
-    </div>
     </div>
   </div>
 
@@ -447,7 +559,7 @@ const annotations = [
   {
     title: "“Read-only” note makes the whole tab sound uneditable",
     problem: "The note under the tabs says “Read-only attributes for identification include a unique ID, name, and type” — but it never mentions the Environment description field below, which admins can actually edit. Leading with “read-only” makes the entire tab sound uneditable.",
-    fix: "Reword to “View your environment's ID, name, and type, or edit its description,” so the note accounts for every field on the tab instead of only the read-only ones.",
+    fix: "Reword to “View your environment's ID, name, and type” — accurate once the unused description field below is removed (see the next pin).",
     block: "block-tab-note",
     propBlock: "prop-block-tab-note"
   },
@@ -457,6 +569,27 @@ const annotations = [
     fix: "Add a note explaining that some Public APIs require this value, and a copy icon so admins can grab it in one click.",
     block: "block-env-id",
     propBlock: "prop-block-env-id"
+  },
+  {
+    title: "Environment description isn't used anywhere in the product",
+    problem: "Admins can type a description and save it, but nothing in the product ever displays it — not this page, not the environment selector, nowhere. Admins have no way to know it's a dead end.",
+    fix: "Remove the Environment description field. A field that quietly goes nowhere is more confusing than no field at all.",
+    block: "block-env-desc",
+    propBlock: "prop-block-env-desc"
+  },
+  {
+    title: "Tag isn't used anywhere in the product either",
+    problem: "Same issue as the description field: admins can name a custom tag and save it, but that name is never displayed anywhere — including the environment selector, which only ever reads the icon and color, never the tag name.",
+    fix: "Remove the Tag field. Only keep what actually shows up somewhere.",
+    block: "block-tag-name",
+    propBlock: "prop-block-tag-name"
+  },
+  {
+    title: "Icon & color gives no indication of where it will appear",
+    problem: "Nothing on this tab says what the icon and color are for or where admins will see them — they have to pick something and guess.",
+    fix: "Add a note: “This icon and color appear next to your environment name in the environment selector at the top of the app.”",
+    block: "block-icon-color",
+    propBlock: "prop-block-icon-color"
   }
 ];
 
@@ -492,7 +625,7 @@ function openGreenPopover(n, e) {
 }
 
 function clearHighlights() {
-  document.querySelectorAll('#block-header, #prop-block-header, #block-tab-note, #prop-block-tab-note, #block-env-id, #prop-block-env-id').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.pin-block').forEach(s => s.classList.remove('highlighted'));
   document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
 }
 

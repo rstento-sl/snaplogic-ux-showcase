@@ -210,7 +210,7 @@
       "title": "SSO configuration page confusing and sections in wrong order",
       "screen": "Admin Manager > Organization > Authentication > SSO tab",
       "jira": "APP-2297",
-      "severity": "High",
+      "severity": "Highest",
       "category": "Information architecture / sequencing",
       "summary": "The page shows the paste-back step before the copy-out step, so users hit a dead end before they have anything to enter — with no indication they need to leave and return.",
       "mockups": {

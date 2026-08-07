@@ -387,7 +387,7 @@
         <div class="block" id="prop-block-list-intro">
           <div class="pin green" id="green-pin-1" style="top: -10px; right: -10px;" onclick="openGreenPopover(1, event)">1</div>
           <h1>Roles</h1>
-          <p class="intro-text">View roles and their members. <a href="#">Learn more.</a></p>
+          <p class="intro-text">Click a role to view members.</p>
           <div class="count-label">2 roles</div>
           <div class="table-scroll">
             <table class="data-table">
@@ -412,7 +412,6 @@
               </tbody>
             </table>
           </div>
-          <p class="context-note" style="margin-top: 10px;">Click a role to view its members.</p>
         </div>
 
         <div class="flow-connector">Click "Environment admin" opens</div>
@@ -484,7 +483,7 @@ const annotations = [
   {
     title: "Nothing signals that a role row is clickable",
     problem: "Role names in the table look like plain text, and nothing says clicking one opens its member list — admins have to discover it by trial and error.",
-    fix: "Style role names as links and add a short instruction: “Click a role to view its members.”",
+    fix: "Style role names as links, and change the intro text to: “Click a role to view members.”",
     block: "block-list-intro",
     propBlock: "prop-block-list-intro"
   },

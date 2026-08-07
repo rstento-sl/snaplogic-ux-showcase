@@ -553,7 +553,7 @@
       "annotations": [
         {
           "target": "Roles list",
-          "callout": "Role names in the table look like plain text, and nothing says clicking one opens its member list — admins have to discover it by trial and error."
+          "callout": "Role names in the table look like plain text, and the intro (\"View roles and their members\") doesn't say clicking one opens its member list — admins have to discover it by trial and error."
         },
         {
           "target": "Member search",

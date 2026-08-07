@@ -489,7 +489,7 @@
         <div class="block" id="prop-block-default-view">
           <div class="pin green" id="green-pin-1" style="top: -10px; right: -10px;" onclick="openGreenPopover(1, event)">1</div>
           <h1>Users</h1>
-          <p class="intro-text">Add, edit, or delete user accounts. <a href="#">Learn more.</a></p>
+          <p class="intro-text">Add, edit, or delete user accounts, and manage APIM 3.0 Developer Portal users. <a href="#">Learn more.</a></p>
 
           <div class="toolbar">
             <strong>5 users</strong>
@@ -628,7 +628,7 @@ const annotations = [
   {
     title: "Pending Portal requests are invisible without filtering",
     problem: "Portal user signups are mixed into the same Users table as everyone else, with no default indicator. A pending request only shows as the word “Pending” in the Access column — admins have to already know to set the Type filter to “Portal user” to find it.",
-    fix: "Show a “pending Portal requests” chip in the toolbar whenever there are any, so admins don't need to know to build the filter themselves.",
+    fix: "Show a “pending Developer Portal requests” chip in the toolbar whenever there are any, and mention Developer Portal users in the page intro, so admins don't need to know to build the filter themselves.",
     block: "block-default-view",
     propBlock: "prop-block-default-view"
   },

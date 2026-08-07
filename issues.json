@@ -560,6 +560,30 @@
           "callout": "This list is read-only — there's no add or remove control, and nothing tells the admin that role membership is set per-user rather than from here, so the screen looks like a dead end."
         }
       ]
+    },
+    {
+      "id": "issue-18",
+      "area": "Admin Manager",
+      "title": "Pending Portal user requests are buried in the Users table and hard to act on",
+      "screen": "Admin Manager > User Management > Users",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 17",
+      "severity": "Medium",
+      "category": "Information architecture / sequencing",
+      "summary": "Portal user signups are mixed into the main Users table with no default indicator, so admins have to know to filter by Type to find pending requests — and even then, approving or rejecting one requires selecting the row or digging into its ⋮ menu.",
+      "mockups": {
+        "comparison": "admin-manager/portal-user-approvals/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Users table",
+          "callout": "Portal users are mixed into the same Users table as everyone else, with no default indicator. A pending request only shows as the word \"Pending\" in the Access column — admins have to already know to set the Type filter to \"Portal user\" to find it."
+        },
+        {
+          "target": "Filtered Portal user list",
+          "callout": "Even after filtering to Portal users, Approve and Reject aren't visible on the row. Admins have to select the row's checkbox to reveal the actions in the toolbar, or open that row's ⋮ menu instead."
+        }
+      ]
     }
   ]
 }

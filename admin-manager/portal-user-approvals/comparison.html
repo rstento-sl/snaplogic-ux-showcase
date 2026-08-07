@@ -224,6 +224,19 @@
 
   .context-note { font-size: 12px; color: var(--dim); line-height: 1.5; margin: 10px 0 4px; }
 
+  .inset-modal-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dim); margin: 16px 0 6px; }
+  .filter-dropdown-mock {
+    display: inline-block;
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    font-size: 12px;
+  }
+  .filter-dropdown-mock div { padding: 8px 16px; }
+  .filter-dropdown-mock div.filter-option-active { background: var(--teal-tint); color: var(--teal); font-weight: 700; }
+
   .pin {
     position: absolute;
     width: 26px;
@@ -403,6 +416,16 @@
               </tbody>
             </table>
           </div>
+
+          <div class="block" id="block-type-filter" style="margin-top: 20px;">
+            <div class="pin" id="pin-3" style="top: -10px; right: -10px;" onclick="openPopover(3, event)">3</div>
+            <div class="inset-modal-label">Shown after opening the Type filter:</div>
+            <div class="filter-dropdown-mock">
+              <div>User</div>
+              <div>Service account</div>
+              <div class="filter-option-active">Portal user</div>
+            </div>
+          </div>
         </div>
 
         <div class="flow-connector">Admin manually sets Type filter to "Portal user"</div>
@@ -471,7 +494,7 @@
           <div class="toolbar">
             <strong>5 users</strong>
             <span class="link">No filters set</span>
-            <button class="pending-chip">🔔 2 pending Portal requests</button>
+            <button class="pending-chip">🔔 2 pending Developer Portal requests</button>
           </div>
 
           <div class="table-scroll">
@@ -518,14 +541,24 @@
               </tbody>
             </table>
           </div>
+
+          <div class="block" id="prop-block-type-filter" style="margin-top: 20px;">
+            <div class="pin green" id="green-pin-3" style="top: -10px; right: -10px;" onclick="openGreenPopover(3, event)">3</div>
+            <div class="inset-modal-label">Shown after opening the Type filter:</div>
+            <div class="filter-dropdown-mock">
+              <div>User</div>
+              <div>Service account</div>
+              <div class="filter-option-active">Developer Portal user</div>
+            </div>
+          </div>
         </div>
 
-        <div class="flow-connector">Click "2 pending Portal requests" jumps straight to them</div>
+        <div class="flow-connector">Click "2 pending Developer Portal requests" jumps straight to them</div>
 
         <div class="page-wrapper">
 
           <div class="toolbar">
-            <span class="filter-chip">Type: Portal user ✕</span>
+            <span class="filter-chip">Type: Developer Portal user ✕</span>
             <strong>3 users</strong>
           </div>
 
@@ -605,6 +638,13 @@ const annotations = [
     fix: "Show Approve and Reject buttons directly on each pending row, so no selection step is needed.",
     block: "block-filtered-view",
     propBlock: "prop-block-filtered-view"
+  },
+  {
+    title: "“Portal user” doesn't say which portal",
+    problem: "The Type filter and every reference to this account type use the bare word “Portal,” with nothing to clarify it means the APIM 3.0 Developer Portal specifically. Admins who aren't familiar with that product area have no way to know what kind of account this is.",
+    fix: "Rename “Portal user” to “Developer Portal user” everywhere it appears — the Type filter, the pending-requests chip, and the filter label — so it's unambiguous without requiring prior product knowledge.",
+    block: "block-type-filter",
+    propBlock: "prop-block-type-filter"
   }
 ];
 

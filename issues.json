@@ -570,7 +570,7 @@
       "unreportedLabel": "Unreported issue 17",
       "severity": "Medium",
       "category": "Information architecture / sequencing",
-      "summary": "Portal user signups are mixed into the main Users table with no default indicator, so admins have to know to filter by Type to find pending requests — and even then, approving or rejecting one requires selecting the row or digging into its ⋮ menu.",
+      "summary": "Portal user signups are mixed into the main Users table with no default indicator, the bare label \"Portal\" never says it means the APIM 3.0 Developer Portal, and even after finding a request, approving or rejecting it requires selecting the row or digging into its ⋮ menu.",
       "mockups": {
         "comparison": "admin-manager/portal-user-approvals/comparison.html"
       },
@@ -582,6 +582,10 @@
         {
           "target": "Filtered Portal user list",
           "callout": "Even after filtering to Portal users, Approve and Reject aren't visible on the row. Admins have to select the row's checkbox to reveal the actions in the toolbar, or open that row's ⋮ menu instead."
+        },
+        {
+          "target": "Type filter",
+          "callout": "The Type filter and every reference to this account type use the bare word \"Portal,\" with nothing to clarify it means the APIM 3.0 Developer Portal specifically — admins unfamiliar with that product area have no way to know what kind of account this is."
         }
       ]
     }

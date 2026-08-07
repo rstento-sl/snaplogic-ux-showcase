@@ -540,24 +540,20 @@
     {
       "id": "issue-17",
       "area": "Admin Manager",
-      "title": "Roles list and detail page don't explain what a role grants or how to change who has it",
+      "title": "Role rows don't look clickable, and there's no way to see how to change who has a role",
       "screen": "Admin Manager > User Management > Roles",
       "jira": "",
       "unreportedLabel": "Unreported issue 16",
-      "severity": "Medium",
+      "severity": "Low",
       "category": "Content clarity / labeling",
-      "summary": "The Roles list gives no preview of what each role can do, the Environment admin description leaves out permissions the role actually grants elsewhere in Admin Manager, and nothing tells an admin that role membership is changed on the user's profile, not from this read-only list.",
+      "summary": "Role names in the table look like plain text with no cue that clicking one opens its member list, and the read-only member list gives no indication that role membership is changed on the user's profile, not from here.",
       "mockups": {
         "comparison": "admin-manager/roles/comparison.html"
       },
       "annotations": [
         {
           "target": "Roles list",
-          "callout": "\"View roles and their members\" tells you what the page shows, not what a role grants. Admins have to click into each role to compare permissions before deciding who to assign."
-        },
-        {
-          "target": "Role description",
-          "callout": "The description says Environment admin can manage users and groups, but elsewhere in Admin Manager, Environment admin permission also covers asset catalog access, API access, and runtime statistics — none of that is mentioned here."
+          "callout": "Role names in the table look like plain text, and nothing says clicking one opens its member list — admins have to discover it by trial and error."
         },
         {
           "target": "Member search",

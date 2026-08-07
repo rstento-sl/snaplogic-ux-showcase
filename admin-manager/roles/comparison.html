@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roles list and detail page don't explain what a role grants or how to change who has it</title>
+<title>Role rows don't look clickable, and there's no way to see how to change who has a role</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -162,7 +162,6 @@
   table.data-table tr.clickable:hover { background: #FAFBFC; }
   .role-name-plain { color: var(--ink); font-weight: 600; }
   .role-name-link { color: var(--blue); font-weight: 600; }
-  .role-desc-note { display: block; font-size: 11px; color: var(--dim); font-weight: 400; margin-top: 2px; }
 
   .back-chevron { display: inline-flex; align-items: center; gap: 6px; color: var(--dim); font-size: 13px; margin-bottom: 14px; }
   .back-chevron svg { width: 16px; height: 16px; }
@@ -290,7 +289,7 @@
   </div>
   <div class="issue-heading">
     <span class="ticket-chip">Unreported issue 16</span>
-    <h1>Roles list and detail page don't explain what a role grants or how to change who has it</h1>
+    <h1>Role rows don't look clickable, and there's no way to see how to change who has a role</h1>
   </div>
   <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix</div>
 </div>
@@ -343,7 +342,6 @@
           </div>
 
           <div class="block" id="block-detail-desc">
-            <div class="pin" id="pin-2" style="top: -10px; right: -10px;" onclick="openPopover(2, event)">2</div>
             <h1>Environment admin</h1>
             <p class="intro-text">Environment admin can manage users and groups in the environment.</p>
           </div>
@@ -351,7 +349,7 @@
           <div class="count-label">1286 Users</div>
 
           <div class="block" id="block-detail-search">
-            <div class="pin" id="pin-3" style="top: -10px; right: -10px;" onclick="openPopover(3, event)">3</div>
+            <div class="pin" id="pin-2" style="top: -10px; right: -10px;" onclick="openPopover(2, event)">2</div>
             <div class="search-row">
               <input value="Search users by email or name" readonly>
             </div>
@@ -401,7 +399,6 @@
                   <td>
                     <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>
                     <span class="role-name-link">Environment admin</span>
-                    <span class="role-desc-note">Manage users, groups, asset catalog access, and API permissions</span>
                   </td>
                   <td>1286</td>
                 </tr>
@@ -409,13 +406,13 @@
                   <td>
                     <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>
                     <span class="role-name-link">User</span>
-                    <span class="role-desc-note">Create, edit and run integrations</span>
                   </td>
                   <td>5147</td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <p class="context-note" style="margin-top: 10px;">Click a role to view its members.</p>
         </div>
 
         <div class="flow-connector">Click "Environment admin" opens</div>
@@ -426,15 +423,14 @@
           </div>
 
           <div class="block" id="prop-block-detail-desc">
-            <div class="pin green" id="green-pin-2" style="top: -10px; right: -10px;" onclick="openGreenPopover(2, event)">2</div>
             <h1>Environment admin</h1>
-            <p class="intro-text">Environment admin can manage users, groups, asset catalog access, and API permissions in the environment.</p>
+            <p class="intro-text">Environment admin can manage users and groups in the environment.</p>
           </div>
 
           <div class="count-label">1286 Users</div>
 
           <div class="block" id="prop-block-detail-search">
-            <div class="pin green" id="green-pin-3" style="top: -10px; right: -10px;" onclick="openGreenPopover(3, event)">3</div>
+            <div class="pin green" id="green-pin-2" style="top: -10px; right: -10px;" onclick="openGreenPopover(2, event)">2</div>
             <div class="search-row">
               <input value="Search users by email or name" readonly>
             </div>
@@ -486,18 +482,11 @@
 <script>
 const annotations = [
   {
-    title: "Role list doesn't show what each role can actually do",
-    problem: "“View roles and their members” tells you what the page shows, not what a role grants. Admins have to click into each role to compare permissions before deciding who to assign.",
-    fix: "Add a one-line capability summary under each role name in the table, so admins can compare roles without leaving the list.",
+    title: "Nothing signals that a role row is clickable",
+    problem: "Role names in the table look like plain text, and nothing says clicking one opens its member list — admins have to discover it by trial and error.",
+    fix: "Style role names as links and add a short instruction: “Click a role to view its members.”",
     block: "block-list-intro",
     propBlock: "prop-block-list-intro"
-  },
-  {
-    title: "Role description undersells what Environment admin actually grants",
-    problem: "The description says Environment admin can manage users and groups, but elsewhere in Admin Manager, Environment admin permission also covers asset catalog access, API access, and runtime statistics — none of that is mentioned here.",
-    fix: "Expand the description to name everything the role grants: “Environment admin can manage users, groups, asset catalog access, and API permissions in the environment.”",
-    block: "block-detail-desc",
-    propBlock: "prop-block-detail-desc"
   },
   {
     title: "No indication of how to change who has this role",

@@ -588,6 +588,26 @@
           "callout": "The Type filter and every reference to this account type use the bare word \"Portal,\" with nothing to clarify it means the APIM 3.0 Developer Portal specifically — admins unfamiliar with that product area have no way to know what kind of account this is."
         }
       ]
+    },
+    {
+      "id": "issue-19",
+      "area": "Admin Manager",
+      "title": "Environment page gives no summary before the tabs",
+      "screen": "Admin Manager > System Configuration > Environment",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 18",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "The Environment page shows four tabs — Environment details, Environment tag, API limits, Pattern catalog — with no text anywhere explaining what an environment is or what each tab covers, so admins have to click into each one just to find out.",
+      "mockups": {
+        "comparison": "admin-manager/environment-page-summary/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Environment page header",
+          "callout": "The page shows \"Environment\" and four tabs with no summary explaining what an environment is or what the tabs cover — admins have to click into each tab just to find out what it does."
+        }
+      ]
     }
   ]
 }

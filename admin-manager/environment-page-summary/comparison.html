@@ -151,6 +151,14 @@
   .field-label { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 5px; }
   .field-value { font-size: 13px; color: #1a1a1a; margin-bottom: 18px; }
 
+  .field-row { display: flex; align-items: center; gap: 8px; max-width: 460px; margin-bottom: 6px; }
+  .field-row-text { flex: 1; }
+  .copy-icon { color: #888; cursor: pointer; padding: 4px; border-radius: 3px; flex-shrink: 0; }
+  .copy-icon:hover { background: #f0f0f0; }
+  .copy-icon svg { width: 16px; height: 16px; display: block; }
+  .copy-icon.copied { color: var(--green); }
+  .id-note { font-size: 12px; color: var(--dim); margin-bottom: 18px; }
+
   .desc-textarea {
     width: 100%;
     max-width: 460px;
@@ -201,13 +209,18 @@
   .pin.green:hover { background: var(--green-dark); }
   .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
-  #block-header.highlighted, #prop-block-header.highlighted {
+  #block-header.highlighted, #prop-block-header.highlighted,
+  #block-tab-note.highlighted, #prop-block-tab-note.highlighted,
+  #block-env-id.highlighted, #prop-block-env-id.highlighted {
     background: #FDF3F5;
     border-radius: 6px;
     margin: -8px -12px 0;
     padding: 8px 12px;
   }
-  #prop-block-header.highlighted { background: #EAF6EE; box-shadow: 0 0 0 2px var(--green); }
+  #prop-block-header.highlighted, #prop-block-tab-note.highlighted, #prop-block-env-id.highlighted {
+    background: #EAF6EE;
+    box-shadow: 0 0 0 2px var(--green);
+  }
 
   .popover {
     display: none;
@@ -324,10 +337,16 @@
         </div>
       </div>
 
-      <p class="tab-note">Read-only attributes for identification include a unique ID, name, and type. <a href="#">Learn more.</a></p>
+      <div id="block-tab-note" style="position: relative;">
+        <div class="pin" id="pin-2" style="top: -6px; right: 0;" onclick="openPopover(2, event)">2</div>
+        <p class="tab-note">Read-only attributes for identification include a unique ID, name, and type. <a href="#">Learn more.</a></p>
+      </div>
 
-      <div class="field-label">Environment ID</div>
-      <div class="field-value">a1b2c3d4e5f6a7b8c9d0e1f2</div>
+      <div id="block-env-id" style="position: relative;">
+        <div class="pin" id="pin-3" style="top: -6px; right: 0;" onclick="openPopover(3, event)">3</div>
+        <div class="field-label">Environment ID</div>
+        <div class="field-value">a1b2c3d4e5f6a7b8c9d0e1f2</div>
+      </div>
 
       <div class="field-label">Environment name</div>
       <div class="field-value">automation</div>
@@ -364,10 +383,24 @@
         </div>
       </div>
 
-      <p class="tab-note">Read-only attributes for identification include a unique ID, name, and type. <a href="#">Learn more.</a></p>
+      <div id="prop-block-tab-note" style="position: relative;">
+        <div class="pin green" id="green-pin-2" style="top: -6px; right: 0;" onclick="openGreenPopover(2, event)">2</div>
+        <p class="tab-note">View your environment's ID, name, and type, or edit its description. <a href="#">Learn more.</a></p>
+      </div>
 
-      <div class="field-label">Environment ID</div>
-      <div class="field-value">a1b2c3d4e5f6a7b8c9d0e1f2</div>
+      <div id="prop-block-env-id" style="position: relative;">
+        <div class="pin green" id="green-pin-3" style="top: -6px; right: 0;" onclick="openGreenPopover(3, event)">3</div>
+        <div class="field-label">Environment ID</div>
+        <div class="field-row">
+          <div class="field-row-text">
+            <div class="field-value" style="margin-bottom: 0;">a1b2c3d4e5f6a7b8c9d0e1f2</div>
+          </div>
+          <div class="copy-icon" onclick="copyEnvId(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </div>
+        </div>
+        <p class="id-note">Some Public APIs require this value.</p>
+      </div>
 
       <div class="field-label">Environment name</div>
       <div class="field-value">automation</div>
@@ -410,6 +443,20 @@ const annotations = [
     fix: "Add a one-sentence intro above the tabs that explains what an environment is, with a Learn more link for detail — the same pattern used on other Admin Manager pages.",
     block: "block-header",
     propBlock: "prop-block-header"
+  },
+  {
+    title: "“Read-only” note makes the whole tab sound uneditable",
+    problem: "The note under the tabs says “Read-only attributes for identification include a unique ID, name, and type” — but it never mentions the Environment description field below, which admins can actually edit. Leading with “read-only” makes the entire tab sound uneditable.",
+    fix: "Reword to “View your environment's ID, name, and type, or edit its description,” so the note accounts for every field on the tab instead of only the read-only ones.",
+    block: "block-tab-note",
+    propBlock: "prop-block-tab-note"
+  },
+  {
+    title: "Environment ID gives no reason to care about it, and no way to copy it",
+    problem: "The Environment ID is just a long string with no explanation of why it matters, and no copy affordance — admins have to select and copy the text by hand.",
+    fix: "Add a note explaining that some Public APIs require this value, and a copy icon so admins can grab it in one click.",
+    block: "block-env-id",
+    propBlock: "prop-block-env-id"
   }
 ];
 
@@ -445,7 +492,7 @@ function openGreenPopover(n, e) {
 }
 
 function clearHighlights() {
-  document.querySelectorAll('#block-header, #prop-block-header').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('#block-header, #prop-block-header, #block-tab-note, #prop-block-tab-note, #block-env-id, #prop-block-env-id').forEach(s => s.classList.remove('highlighted'));
   document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
 }
 
@@ -523,6 +570,16 @@ document.addEventListener('click', function(e) {
     closePopover();
   }
 });
+
+function copyEnvId(el) {
+  navigator.clipboard.writeText('a1b2c3d4e5f6a7b8c9d0e1f2').catch(() => {});
+  el.classList.add('copied');
+  el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
+  setTimeout(() => {
+    el.classList.remove('copied');
+    el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+  }, 2000);
+}
 </script>
 </body>
 </html>

@@ -598,7 +598,7 @@
       "unreportedLabel": "Unreported issue 18",
       "severity": "Medium",
       "category": "Content clarity / labeling",
-      "summary": "The Environment page shows four tabs — Environment details, Environment tag, API limits, Pattern catalog — with no text anywhere explaining what an environment is or what each tab covers, so admins have to click into each one just to find out.",
+      "summary": "The Environment page shows four tabs with no summary explaining what an environment is, a \"Read-only\" note that misleadingly implies the whole tab is uneditable even though the description field is not, and an Environment ID field with no explanation of why it matters and no copy button.",
       "mockups": {
         "comparison": "admin-manager/environment-page-summary/comparison.html"
       },
@@ -606,6 +606,14 @@
         {
           "target": "Environment page header",
           "callout": "The page shows \"Environment\" and four tabs with no summary explaining what an environment is or what the tabs cover — admins have to click into each tab just to find out what it does."
+        },
+        {
+          "target": "Tab note",
+          "callout": "The note under the tabs says \"Read-only attributes for identification include a unique ID, name, and type\" — but it never mentions the Environment description field, which admins can actually edit. Leading with \"read-only\" makes the entire tab sound uneditable."
+        },
+        {
+          "target": "Environment ID field",
+          "callout": "The Environment ID is just a long string with no explanation of why it matters, and no copy affordance — admins have to select and copy the text by hand."
         }
       ]
     }

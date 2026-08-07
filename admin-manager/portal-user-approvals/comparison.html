@@ -211,7 +211,14 @@
   }
   .kebab-menu.show { display: block; }
 
-  .row-actions { display: flex; gap: 8px; }
+  .access-pending-link {
+    color: var(--orange);
+    font-weight: 700;
+    cursor: pointer;
+    border-bottom: 1px dashed var(--orange);
+  }
+  .review-actions { display: none; gap: 8px; }
+  .review-actions.show { display: inline-flex; }
   .btn-approve, .btn-reject {
     font-size: 11px;
     font-weight: 700;
@@ -574,15 +581,21 @@
                     <td><input type="checkbox" disabled></td>
                     <td class="name-cell">Alex Rivera</td>
                     <td class="email-cell">arivera@example.com</td>
-                    <td class="access-pending">Pending</td>
-                    <td><div class="row-actions"><button class="btn-approve">Approve</button><button class="btn-reject">Reject</button></div></td>
+                    <td>
+                      <span class="access-pending-link" onclick="toggleReview(event, this)">Pending</span>
+                      <span class="review-actions"><button class="btn-approve" onclick="event.stopPropagation()">Approve</button><button class="btn-reject" onclick="event.stopPropagation()">Reject</button></span>
+                    </td>
+                    <td class="kebab-cell">⋮</td>
                   </tr>
                   <tr>
                     <td><input type="checkbox" disabled></td>
                     <td class="name-cell">Morgan Diaz</td>
                     <td class="email-cell">mdiaz@example.com</td>
-                    <td class="access-pending">Pending</td>
-                    <td><div class="row-actions"><button class="btn-approve">Approve</button><button class="btn-reject">Reject</button></div></td>
+                    <td>
+                      <span class="access-pending-link" onclick="toggleReview(event, this)">Pending</span>
+                      <span class="review-actions"><button class="btn-approve" onclick="event.stopPropagation()">Approve</button><button class="btn-reject" onclick="event.stopPropagation()">Reject</button></span>
+                    </td>
+                    <td class="kebab-cell">⋮</td>
                   </tr>
                   <tr>
                     <td><input type="checkbox" disabled></td>
@@ -635,7 +648,7 @@ const annotations = [
   {
     title: "Approving or rejecting a request takes extra steps",
     problem: "Even after filtering to Portal users, Approve and Reject aren't visible on the row. Admins have to select the row's checkbox to reveal the actions in the toolbar, or open that row's ⋮ menu instead.",
-    fix: "Show Approve and Reject buttons directly on each pending row, so no selection step is needed.",
+    fix: "Make “Pending” itself clickable — clicking it reveals Approve and Reject inline in the same cell, no extra column and no selection step needed.",
     block: "block-filtered-view",
     propBlock: "prop-block-filtered-view"
   },
@@ -763,6 +776,18 @@ function closePopover() {
   document.getElementById('popover').style.display = 'none';
   clearHighlights();
   current = null;
+}
+
+function toggleReview(e, el) {
+  e.stopPropagation();
+  const actions = el.nextElementSibling;
+  const showing = actions.classList.contains('show');
+  document.querySelectorAll('.review-actions.show').forEach(a => a.classList.remove('show'));
+  document.querySelectorAll('.access-pending-link').forEach(l => l.style.display = '');
+  if (!showing) {
+    actions.classList.add('show');
+    el.style.display = 'none';
+  }
 }
 
 document.addEventListener('click', function(e) {

@@ -379,7 +379,7 @@
 
         <div class="block" id="prop-block-intro">
           <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
-          <p class="intro-text">Use this section to enable JWT authentication for SnapLogic public APIs. This is optional and only required if you plan to authenticate API requests using JWTs from your identity provider. Once configured, users can authenticate with either basic auth or JWT unless you select <strong>Disable basic authentication</strong>. <a href="#">Learn more.</a></p>
+          <p class="intro-text">Optionally, enable JWT authentication for SnapLogic public APIs. Once configured, users can authenticate with either basic auth or JWT unless you select <strong>Disable basic authentication</strong>. <a href="#">Learn more.</a></p>
         </div>
 
         <div class="block" id="prop-block-fields">
@@ -388,7 +388,7 @@
           <div style="margin-bottom: 22px;">
             <div class="field-label">Issuer ID <span class="field-required">(required)</span></div>
             <input class="field-input" style="text-overflow: clip;" title="https://your-idp.example.com/oauth2/default" value="https://your-idp.example.com/oauth2/default" oninput="markChanged()">
-            <div class="field-help">The issuer claim expected in incoming JWTs. Must match your identity provider's issuer.</div>
+            <div class="field-help">The issuer claim expected in incoming JWTs must match your identity provider's issuer.</div>
           </div>
           <div>
             <div class="field-label">JWKS endpoint <span class="field-required">(required)</span></div>

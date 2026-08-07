@@ -397,7 +397,7 @@
         },
         {
           "target": "Access intro sentence",
-          "callout": "\"Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)\" reads as if the whole list is conditional, when only Admin Manager depends on being an Environment admin. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it."
+          "callout": "\"Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)\" reads as if Admin Manager access is an add-on, but Role is either User or Environment admin, not both. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it."
         },
         {
           "target": "Access checkboxes",

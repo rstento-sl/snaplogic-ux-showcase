@@ -391,7 +391,7 @@
         <div class="block" id="prop-block-access-intro">
           <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
           <div class="field-label">Access</div>
-          <p class="access-intro">Users with Designer access can also access APIs and Monitor. They can access Admin Manager only if they're also an Environment admin.</p>
+          <p class="access-intro">Users with Designer access can also use APIs and Monitor.</p>
         </div>
 
         <div class="block" id="prop-block-access-checks">
@@ -462,8 +462,8 @@ const annotations = [
   },
   {
     title: "Access sentence has a dangling conditional, and \"app access\" is never explained",
-    problem: "“Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)” reads as if the whole list is conditional, when only Admin Manager actually depends on being an Environment admin. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it, but the flat checkbox list below doesn't show that dependency.",
-    fix: "Split it: “Users with Designer access can also access APIs and Monitor. They can access Admin Manager only if they're also an Environment admin.” Indent AutoSync beneath Designer in the checkbox list to show that AutoSync depends on it.",
+    problem: "“Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)” reads as if Admin Manager access is an add-on for some users, but Role is either User or Environment admin, not both — the conditional doesn't match how Role actually works. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it, but the flat checkbox list below doesn't show that dependency.",
+    fix: "Drop the Admin Manager/Environment admin clause, since Role already determines Admin Manager access separately: “Users with Designer access can also use APIs and Monitor.” Indent AutoSync beneath Designer in the checkbox list to show that AutoSync depends on it.",
     block: "block-access-intro",
     propBlock: "prop-block-access-intro"
   },

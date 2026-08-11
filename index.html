@@ -83,17 +83,17 @@
   .sub { color: var(--color-text-subtle); margin-bottom: var(--space-10); line-height: 1.5; font-size: var(--type-body-size); max-width: 52ch; }
 
   .area-title {
-    font-family: var(--font-mono);
-    font-size: var(--type-small-size);
-    font-weight: 600;
-    color: var(--color-text-subtle);
-    letter-spacing: 0.01em;
-    margin: var(--space-10) 0 var(--space-2);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--sl-blue-600);
+    letter-spacing: 0.03em;
+    margin: var(--space-10) 0 var(--space-3);
     padding-bottom: var(--space-2);
     border-bottom: 1px solid var(--color-border-subtle);
   }
   .area-title:first-of-type { margin-top: 0; }
-  .area-title::after { content: "/"; color: var(--color-border-subtle); margin-left: 2px; }
 
   .section-title {
     font-size: var(--type-label-size);
@@ -101,6 +101,19 @@
     font-weight: var(--type-label-weight);
     color: var(--color-text-heading);
     margin: var(--space-6) 0 var(--space-2);
+  }
+
+  .list-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 42px 4px 0;
+  }
+  .list-header span {
+    font-size: var(--type-small-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-subtle);
   }
 
   .empty {
@@ -191,7 +204,7 @@ const SECTION_ORDER = ["Application Settings", "User Management", "System Config
 const PAGE_ORDER = {
   "Application Settings": ["Pipeline validation", "SnapGPT", "Optimized Dashboard", "API Management", "AutoSync", "Asset catalog"],
   "User Management": ["Users", "New user", "Groups", "Roles"],
-  "System Configuration": ["Environment"],
+  "System Configuration": ["Environment", "Snaplexes"],
   "Security": ["Authentication"]
 };
 
@@ -274,7 +287,9 @@ fetch("issues.json")
           return `<li class="page-item"><a class="page-link" href="${href}"><span class="title">${page}</span><span class="right">${sevLabel}<span class="chevron">→</span></span></a></li>`;
         }).join("");
 
-        return `<div class="section-title">${section}</div><ul class="page-list">${itemsHtml}</ul>`;
+        const listHeader = `<div class="list-header"><span>Severity</span></div>`;
+
+        return `<div class="section-title">${section}</div>${listHeader}<ul class="page-list">${itemsHtml}</ul>`;
       }).join("");
 
       return `<div class="area-title">${area}</div>${sectionsHtml}`;

@@ -631,6 +631,31 @@
         }
       ],
       "page": "Environment"
+    },
+    {
+      "id": "issue-20",
+      "area": "Admin Manager",
+      "title": "Snaplex type shows an undocumented value, and stale connections crowd out active ones",
+      "screen": "Admin Manager > System Configuration > Snaplexes",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 19",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "page": "Snaplexes",
+      "summary": "The Snaplex Type column shows the undocumented internal value \"sidekick\" instead of \"Groundplex,\" and the Cloudplex secure connectivity tab has no default status filter, so the 29 of 30 connections that are permanently-listed Deleted records bury the one Active connection.",
+      "mockups": {
+        "comparison": "admin-manager/snaplexes/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Snaplex Type column",
+          "callout": "The Type column shows \"sidekick\" for on-premises Snaplexes — a raw internal value that never appears anywhere in SnapLogic's own documentation. The docs describe exactly three types: Cloudplex, Groundplex, and AutoSync Snaplex. Admins have no way to know \"sidekick\" means Groundplex."
+        },
+        {
+          "target": "Cloudplex secure connectivity table",
+          "callout": "The tab loads showing every connection with no Status filter applied — 29 of 30 rows here are Deleted. Deleted connections stay listed forever with no available actions, so this list only grows noisier over time, and admins have to manually filter every time just to see what's actually connected."
+        }
+      ]
     }
   ]
 }

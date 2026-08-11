@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Authentication — UX Issue Showcase</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 400; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 800; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-extrabold.woff2") format("woff2");
+  }
+
+  :root {
+    /* JellyRoll (SnapLogic Design System 2.0) tokens â sl-design-team.github.io/jellyroll */
+    --sl-teal-600: #09817F;
+    --sl-teal-700: #076766;
+    --sl-teal-100: #E6F2F2;
+    --sl-red-600: #E31C3D;
+    --sl-red-700: #B61631;
+    --sl-red-100: #FCE8EC;
+    --sl-orange-700: #C75209;
+    --sl-orange-100: #FEF0E7;
+    --sl-grey-100: #F5F6F8;
+    --sl-grey-200: #EBEDF1;
+    --sl-grey-300: #D7DCE3;
+    --sl-grey-700: #7D8695;
+    --sl-grey-800: #5E6470;
+    --sl-indigo-900: #131C35;
+
+    --color-text-heading: var(--sl-indigo-900);
+    --color-text-body: var(--sl-indigo-900);
+    --color-text-subtle: var(--sl-grey-700);
+    --color-text-link: var(--sl-teal-600);
+    --color-surface-raised: #fff;
+    --color-border-subtle: var(--sl-grey-300);
+
+    --font-sans: "Acherus Grotesque", system-ui, "SF Pro", "Segoe UI", sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --type-heading-size: 24px; --type-heading-line: 36px; --type-heading-weight: 800;
+    --type-cardtitle-size: 18px; --type-cardtitle-line: 28px; --type-cardtitle-weight: 800;
+    --type-label-size: 14px; --type-label-line: 22px; --type-label-weight: 800;
+    --type-body-size: 13px; --type-body-line: 20px;
+    --type-small-size: 12px; --type-small-line: 18px;
+    --type-micro-size: 11px; --type-micro-line: 16px;
+    --type-pill-size: 10px; --type-pill-line: 14px; --type-pill-weight: 800; --type-pill-tracking: 0.06em;
+
+    --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-10: 40px;
+
+    --radius-sm: 4px; --radius-md: 6px; --radius-pill: 999px;
+
+    --shadow-raised: 0px 2px 4px rgba(206, 217, 240, 0.8);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--sl-grey-200);
+    color: var(--color-text-body);
+    padding-bottom: var(--space-10);
+  }
+
+  .topbar { height: 4px; background: var(--sl-teal-600); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: var(--space-10) var(--space-6) 0; }
+
+  .back-link { font-size: var(--type-label-size); font-weight: 700; color: var(--sl-teal-600); text-decoration: none; display: inline-block; margin-bottom: var(--space-3); }
+  .back-link:hover { text-decoration: underline; }
+
+  .crumb { font-family: var(--font-mono); font-size: var(--type-micro-size); color: var(--color-text-subtle); margin-bottom: 6px; }
+  header { margin-bottom: 6px; }
+  h1 { font-size: var(--type-heading-size); line-height: var(--type-heading-line); font-weight: var(--type-heading-weight); letter-spacing: -0.01em; color: var(--color-text-heading); margin-bottom: var(--space-6); }
+
+  .empty {
+    border: 1px dashed var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    color: var(--color-text-subtle);
+    font-family: var(--font-mono);
+    font-size: var(--type-small-size);
+  }
+
+  .issue-card {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+    margin-bottom: var(--space-4);
+    box-shadow: var(--shadow-raised);
+  }
+  .issue-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+  .ticket-id {
+    font-family: var(--font-mono);
+    font-size: var(--type-micro-size);
+    font-weight: 600;
+    color: var(--sl-teal-600);
+    border: 1px solid var(--sl-teal-600);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+  .ticket-id:hover { background: var(--sl-teal-100); }
+  span.ticket-id {
+    color: var(--color-text-subtle);
+    border-color: var(--color-border-subtle);
+    cursor: default;
+  }
+  .badges { display: flex; align-items: center; gap: 6px; }
+  .tag {
+    font: 500 var(--type-small-size)/16px var(--font-sans);
+    color: var(--color-text-heading);
+    background: var(--sl-grey-200);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+  }
+  .severity {
+    font-size: var(--type-pill-size);
+    line-height: var(--type-pill-line);
+    font-weight: var(--type-pill-weight);
+    text-transform: uppercase;
+    letter-spacing: var(--type-pill-tracking);
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+  }
+  .severity-highest { background: var(--sl-red-600); color: #fff; }
+  .severity-high { background: var(--sl-red-100); color: var(--sl-red-700); }
+  .severity-medium { background: var(--sl-orange-100); color: var(--sl-orange-700); }
+  .severity-low { background: var(--sl-grey-200); color: var(--sl-grey-800); }
+
+  .issue-card h2 { font-size: var(--type-cardtitle-size); line-height: var(--type-cardtitle-line); font-weight: var(--type-cardtitle-weight); color: var(--color-text-heading); margin-bottom: 4px; }
+  .issue-card .meta { font-family: var(--font-mono); font-size: var(--type-micro-size); color: var(--color-text-subtle); margin-bottom: var(--space-3); }
+  .issue-card .summary { font-size: var(--type-body-size); color: var(--sl-grey-800); line-height: var(--type-body-line); margin-bottom: var(--space-4); }
+
+  .links { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
+  .issue-card a.card-link {
+    font-size: var(--type-body-size);
+    font-weight: 700;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid;
+  }
+  .issue-card a.primary { color: #fff; background: var(--sl-teal-600); border-color: var(--sl-teal-600); }
+  .issue-card a.primary:hover { background: var(--sl-teal-700); border-color: var(--sl-teal-700); }
+  .issue-card a.secondary { color: var(--sl-orange-700); border-color: var(--sl-orange-700); background: transparent; }
+  .issue-card a.secondary:hover { background: var(--sl-orange-100); }
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="wrap">
+  <a class="back-link" href="../../index.html">← All issues</a>
+  <header>
+    <div class="crumb">Admin Manager / Security</div>
+    <h1>Authentication</h1>
+  </header>
+  <div id="app"><p class="empty">// loading issue catalog…</p></div>
+</div>
+
+<script>
+const PAGE_NAME = "Authentication";
+const JIRA_BASE_URL = "https://mysnaplogic.atlassian.net/browse/";
+
+function severityClass(sev) {
+  return "severity-" + (sev || "").toLowerCase();
+}
+
+function renderCard(issue) {
+  const pinCount = (issue.annotations || []).length;
+  const m = issue.mockups || {};
+  const ticketLabel = issue.jira || issue.unreportedLabel || issue.id || "";
+  const ticketEl = issue.jira
+    ? `<a class="ticket-id" href="${JIRA_BASE_URL}${issue.jira}" target="_blank" rel="noopener">Jira ticket ${ticketLabel}</a>`
+    : `<span class="ticket-id">${ticketLabel}</span>`;
+  return `
+    <div class="issue-card">
+      <div class="issue-card-top">
+        ${ticketEl}
+        <div class="badges">
+          <span class="tag">${issue.category || ""}</span>
+          <span class="severity ${severityClass(issue.severity)}">${issue.severity || ""}</span>
+        </div>
+      </div>
+      <h2>${issue.title}</h2>
+      <div class="meta">${issue.screen}</div>
+      <p class="summary">${issue.summary || ""}</p>
+      <div class="links">
+        ${m.comparison ? `<a class="card-link primary" href="../${m.comparison.replace(/^admin-manager\//, "")}">Current UI and proposed design</a>` : ""}
+        ${!m.comparison && m.currentUi ? `<a class="card-link primary" href="../${m.currentUi.replace(/^admin-manager\//, "")}">Current UI (${pinCount} issue${pinCount === 1 ? "" : "s"}) — proposed design pending</a>` : ""}
+        ${m.possibleBug ? `<a class="card-link secondary" href="../${m.possibleBug.replace(/^admin-manager\//, "")}">Possible Bug</a>` : ""}
+      </div>
+    </div>
+  `;
+}
+
+fetch("../../issues.json")
+  .then(r => r.json())
+  .then(data => {
+    const issues = (data.issues || []).filter(i => i.page === PAGE_NAME);
+    document.getElementById("app").innerHTML = issues.length
+      ? issues.map(renderCard).join("")
+      : `<p class="empty">— no issues found for this page —</p>`;
+  })
+  .catch(err => {
+    document.getElementById("app").innerHTML =
+      `<p class="empty">Couldn't load issues.json (${err.message}). If you're viewing this file directly from disk, open it via the live site instead — browsers block local file fetches.</p>`;
+  });
+</script>
+</body>
+</html>

@@ -7,129 +7,155 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 400; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 800; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-extrabold.woff2") format("woff2");
+  }
+
   :root {
-    --ink: #1F2125;
-    --dim: #7D8695;
-    --paper: #FAFAFB;
-    --canvas: #EBEDF1;
-    --hairline: #D7DCE3;
-    --teal: #09817F;
-    --teal-tint: #E6F2F2;
-    --red: #E31C3D;
-    --red-tint: #FDF3F5;
-    --red-ink: #B61631;
-    --orange: #C75209;
-    --orange-tint: #FEF0E7;
-    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+    /* JellyRoll (SnapLogic Design System 2.0) tokens — sl-design-team.github.io/jellyroll */
+    --sl-blue-600: #0841B4;
+    --sl-teal-600: #09817F;
+    --sl-teal-700: #076766;
+    --sl-red-600: #E31C3D;
+    --sl-red-700: #B61631;
+    --sl-red-100: #FCE8EC;
+    --sl-red-50:  #FDF3F5;
+    --sl-orange-700: #C75209;
+    --sl-orange-100: #FEF0E7;
+    --sl-grey-100: #F5F6F8;
+    --sl-grey-200: #EBEDF1;
+    --sl-grey-300: #D7DCE3;
+    --sl-grey-700: #7D8695;
+    --sl-grey-800: #5E6470;
+    --sl-indigo-900: #131C35;
+
+    --color-text-heading: var(--sl-indigo-900);
+    --color-text-body: var(--sl-indigo-900);
+    --color-text-subtle: var(--sl-grey-700);
+    --color-text-link-hover: var(--sl-teal-600);
+    --color-surface-raised: #fff;
+    --color-border-subtle: var(--sl-grey-300);
+    --color-border-hover: var(--sl-blue-600);
+
+    --font-sans: "Acherus Grotesque", system-ui, "SF Pro", "Segoe UI", sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --type-title-size: 32px;  --type-title-line: 38px;  --type-title-weight: 800;
+    --type-label-size: 14px;  --type-label-line: 22px;  --type-label-weight: 800;
+    --type-body-size: 14px;   --type-body-line: 22px;   --type-body-weight: 400;
+    --type-small-size: 12px;  --type-small-line: 18px;  --type-small-weight: 400;
+    --type-pill-size: 10px;   --type-pill-line: 14px;   --type-pill-weight: 800;  --type-pill-tracking: 0.06em;
+
+    --space-2: 8px;  --space-3: 12px;  --space-4: 16px;  --space-6: 24px;  --space-10: 40px;
+
+    --radius-sm: 4px;  --radius-md: 6px;  --radius-pill: 999px;
+
+    --shadow-raised: 0px 2px 4px rgba(206, 217, 240, 0.8);
+    --shadow-raised-hover: 0px 4px 8px rgba(206, 217, 240, 1);
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--canvas);
-    color: var(--ink);
-    padding-bottom: 64px;
+    font-family: var(--font-sans);
+    background: var(--sl-grey-200);
+    color: var(--color-text-body);
+    padding-bottom: var(--space-10);
   }
 
-  .topbar { height: 4px; background: var(--teal); }
+  .topbar { height: 4px; background: var(--sl-teal-600); }
 
-  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 0; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: var(--space-10) var(--space-6) 0; }
 
-  header { margin-bottom: 6px; }
-  h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
-  .sub { color: var(--dim); margin-bottom: 36px; line-height: 1.5; font-size: 14px; max-width: 52ch; }
+  header { margin-bottom: var(--space-2); }
+  h1 {
+    font-size: var(--type-title-size);
+    line-height: var(--type-title-line);
+    font-weight: var(--type-title-weight);
+    letter-spacing: -0.01em;
+    color: var(--color-text-heading);
+  }
+  .sub { color: var(--color-text-subtle); margin-bottom: var(--space-10); line-height: 1.5; font-size: var(--type-body-size); max-width: 52ch; }
 
   .area-title {
-    font-family: var(--mono);
-    font-size: 12px;
+    font-family: var(--font-mono);
+    font-size: var(--type-small-size);
     font-weight: 600;
-    color: var(--dim);
+    color: var(--color-text-subtle);
     letter-spacing: 0.01em;
-    margin: 36px 0 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--hairline);
+    margin: var(--space-10) 0 var(--space-2);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-subtle);
   }
   .area-title:first-of-type { margin-top: 0; }
-  .area-title::after { content: "/"; color: var(--hairline); margin-left: 2px; }
+  .area-title::after { content: "/"; color: var(--color-border-subtle); margin-left: 2px; }
+
+  .section-title {
+    font-size: var(--type-label-size);
+    line-height: var(--type-label-line);
+    font-weight: var(--type-label-weight);
+    color: var(--color-text-heading);
+    margin: var(--space-6) 0 var(--space-2);
+  }
 
   .empty {
-    border: 1px dashed var(--hairline);
-    border-radius: 6px;
-    padding: 18px 20px;
-    color: var(--dim);
-    font-family: var(--mono);
-    font-size: 12px;
+    border: 1px dashed var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-4);
+    color: var(--color-text-subtle);
+    font-family: var(--font-mono);
+    font-size: var(--type-small-size);
   }
 
-  .issue-card {
-    background: var(--paper);
-    border: 1px solid var(--hairline);
-    border-radius: 6px;
-    padding: 20px 24px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 4px rgba(206, 217, 240, 0.6);
-  }
-  .issue-card-top {
+  .page-list { list-style: none; }
+  .page-item { margin-bottom: var(--space-2); }
+  .page-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .ticket-id {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--teal);
-    border: 1px solid var(--teal);
-    padding: 2px 8px;
-    border-radius: 4px;
+    gap: var(--space-3);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    box-shadow: var(--shadow-raised);
     text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .ticket-id:hover { background: var(--teal-tint); }
-  span.ticket-id {
-    color: var(--dim);
-    border-color: var(--hairline);
-    cursor: default;
+  .page-link:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-raised-hover);
   }
-  .badges { display: flex; align-items: center; gap: 6px; }
-  .tag {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--dim);
-    background: var(--canvas);
-    padding: 3px 9px;
-    border-radius: 999px;
+  .page-link .title {
+    font-size: var(--type-label-size);
+    line-height: var(--type-label-line);
+    font-weight: var(--type-label-weight);
+    color: var(--color-text-heading);
   }
+  .page-link:hover .title { color: var(--color-text-link-hover); }
+  .page-link .right { display: flex; align-items: center; gap: var(--space-3); }
+  .chevron { color: var(--color-text-subtle); font-size: var(--type-label-size); line-height: 1; }
+  .page-link:hover .chevron { color: var(--color-text-link-hover); }
   .severity {
-    font-size: 10px;
-    font-weight: 800;
+    font-size: var(--type-pill-size);
+    line-height: var(--type-pill-line);
+    font-weight: var(--type-pill-weight);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: var(--type-pill-tracking);
     padding: 3px 9px;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
   }
-  .severity-highest { background: var(--red); color: #fff; }
-  .severity-high { background: var(--red-tint); color: var(--red-ink); }
-  .severity-medium { background: var(--orange-tint); color: var(--orange); }
-  .severity-low { background: var(--canvas); color: var(--dim); }
-
-  .issue-card h2 { font-size: 17px; font-weight: 800; margin-bottom: 4px; line-height: 1.3; }
-  .issue-card .meta { font-family: var(--mono); font-size: 11px; color: var(--dim); margin-bottom: 12px; }
-  .issue-card .summary { font-size: 13px; color: #444; line-height: 1.55; margin-bottom: 18px; }
-
-  .links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .issue-card a {
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 4px;
-    border: 1px solid;
-  }
-  .issue-card a.primary { color: #fff; background: var(--teal); border-color: var(--teal); }
-  .issue-card a.primary:hover { background: #076766; border-color: #076766; }
-  .issue-card a.secondary { color: var(--orange); border-color: var(--orange); background: transparent; }
-  .issue-card a.secondary:hover { background: var(--orange-tint); }
+  .severity-highest { background: var(--sl-red-600); color: #fff; }
+  .severity-high { background: var(--sl-red-100); color: var(--sl-red-700); }
+  .severity-medium { background: var(--sl-orange-100); color: var(--sl-orange-700); }
+  .severity-low { background: var(--sl-grey-200); color: var(--sl-grey-800); }
 </style>
 </head>
 <body>
@@ -144,38 +170,34 @@
 
 <script>
 const AREAS = ["Admin Manager", "Monitor", "SnapGPT"];
-const JIRA_BASE_URL = "https://mysnaplogic.atlassian.net/browse/";
+
+// Pages with more than one issue get a landing page listing them.
+// Pages with exactly one issue link straight to that issue's comparison.html.
+const LANDING_PAGES = {
+  "Authentication": "admin-manager/authentication/index.html",
+  "Users": "admin-manager/users/index.html",
+  "New user": "admin-manager/new-user/index.html",
+  "Groups": "admin-manager/groups/index.html"
+};
+
+function sectionOf(issue) {
+  const parts = (issue.screen || "").split(" > ");
+  return parts[1] || "Other";
+}
+
+const SEVERITY_RANK = { highest: 3, high: 2, medium: 1, low: 0 };
 
 function severityClass(sev) {
   return "severity-" + (sev || "").toLowerCase();
 }
 
-function renderCard(issue) {
-  const pinCount = (issue.annotations || []).length;
-  const m = issue.mockups || {};
-  const ticketLabel = issue.jira || issue.unreportedLabel || issue.id || "";
-  const ticketEl = issue.jira
-    ? `<a class="ticket-id" href="${JIRA_BASE_URL}${issue.jira}" target="_blank" rel="noopener">Jira ticket ${ticketLabel}</a>`
-    : `<span class="ticket-id">${ticketLabel}</span>`;
-  return `
-    <div class="issue-card">
-      <div class="issue-card-top">
-        ${ticketEl}
-        <div class="badges">
-          <span class="tag">${issue.category || ""}</span>
-          <span class="severity ${severityClass(issue.severity)}">${issue.severity || ""}</span>
-        </div>
-      </div>
-      <h2>${issue.title}</h2>
-      <div class="meta">${issue.screen}</div>
-      <p class="summary">${issue.summary || ""}</p>
-      <div class="links">
-        ${m.comparison ? `<a class="primary" href="${m.comparison}">Current UI and proposed design</a>` : ""}
-        ${!m.comparison && m.currentUi ? `<a class="primary" href="${m.currentUi}">Current UI (${pinCount} issue${pinCount === 1 ? "" : "s"}) — proposed design pending</a>` : ""}
-        ${m.possibleBug ? `<a class="secondary" href="${m.possibleBug}">Possible Bug</a>` : ""}
-      </div>
-    </div>
-  `;
+function highestSeverity(pageIssues) {
+  return pageIssues.reduce((worst, issue) => {
+    const sev = issue.severity || "";
+    const rank = SEVERITY_RANK[sev.toLowerCase()] ?? -1;
+    const worstRank = SEVERITY_RANK[(worst || "").toLowerCase()] ?? -1;
+    return rank > worstRank ? sev : worst;
+  }, pageIssues[0] && pageIssues[0].severity);
 }
 
 fetch("issues.json")
@@ -191,10 +213,48 @@ fetch("issues.json")
 
     const html = AREAS.map(area => {
       const areaIssues = byArea[area] || [];
-      const body = areaIssues.length
-        ? areaIssues.map(renderCard).join("")
-        : `<p class="empty">— no tickets filed —</p>`;
-      return `<div class="area-title">${area}</div>${body}`;
+      if (!areaIssues.length) {
+        return `<div class="area-title">${area}</div><p class="empty">— no tickets filed —</p>`;
+      }
+
+      const bySection = {};
+      const sectionOrder = [];
+      areaIssues.forEach(issue => {
+        const section = sectionOf(issue);
+        if (!bySection[section]) {
+          bySection[section] = [];
+          sectionOrder.push(section);
+        }
+        bySection[section].push(issue);
+      });
+
+      const sectionsHtml = sectionOrder.map(section => {
+        const byPage = {};
+        const pageOrder = [];
+        bySection[section].forEach(issue => {
+          const page = issue.page || issue.title;
+          if (!byPage[page]) {
+            byPage[page] = [];
+            pageOrder.push(page);
+          }
+          byPage[page].push(issue);
+        });
+
+        const itemsHtml = pageOrder.map(page => {
+          const pageIssues = byPage[page];
+          const count = pageIssues.length;
+          const href = count > 1
+            ? (LANDING_PAGES[page] || "#")
+            : (pageIssues[0].mockups || {}).comparison || (pageIssues[0].mockups || {}).currentUi || "#";
+          const sev = highestSeverity(pageIssues);
+          const sevLabel = sev ? `<span class="severity ${severityClass(sev)}">${sev}</span>` : "";
+          return `<li class="page-item"><a class="page-link" href="${href}"><span class="title">${page}</span><span class="right">${sevLabel}<span class="chevron">→</span></span></a></li>`;
+        }).join("");
+
+        return `<div class="section-title">${section}</div><ul class="page-list">${itemsHtml}</ul>`;
+      }).join("");
+
+      return `<div class="area-title">${area}</div>${sectionsHtml}`;
     }).join("");
 
     document.getElementById("app").innerHTML = html;

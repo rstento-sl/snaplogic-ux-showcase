@@ -47,7 +47,8 @@
           "target": "Save button",
           "callout": "Save is disabled and nothing says why."
         }
-      ]
+      ],
+      "page": "Pipeline validation"
     },
     {
       "id": "issue-03",
@@ -79,22 +80,8 @@
           "target": "Pipeline generation dropdown",
           "callout": "No helper text explains what this setting controls, and it's not grouped with the toggles above."
         }
-      ]
-    },
-    {
-      "id": "issue-04",
-      "area": "Admin Manager",
-      "title": "Optimized Dashboard settings reference things that don't exist for customers",
-      "screen": "Admin Manager > Application Settings > Optimized Dashboard",
-      "jira": "",
-      "unreportedLabel": "Unreported issue 03",
-      "severity": "High",
-      "category": "Content clarity / labeling",
-      "summary": "Shipping November 2026. \"Optimized Dashboard\" isn't a concept that exists anywhere else in the product, and the only control's description references an undocumented data warehouse. Pins pending more information.",
-      "mockups": {
-        "comparison": "admin-manager/optimized-dashboard/comparison.html"
-      },
-      "annotations": []
+      ],
+      "page": "SnapGPT"
     },
     {
       "id": "issue-05",
@@ -134,7 +121,8 @@
           "target": "Allow Access to APIM 3.0 Portal pages without login toggle",
           "callout": "Uses title case, inconsistent with sentence-case labels everywhere else on the page."
         }
-      ]
+      ],
+      "page": "API Management"
     },
     {
       "id": "issue-06",
@@ -174,7 +162,8 @@
           "target": "Pipeline table",
           "callout": "Uses a completely different version format than the selector above, with nothing tying the two together or explaining what Upgrade now does."
         }
-      ]
+      ],
+      "page": "AutoSync"
     },
     {
       "id": "issue-07",
@@ -202,13 +191,14 @@
           "target": "Save behavior",
           "callout": "This page auto-saves on selection with no confirmation, unlike other Admin Manager pages that use an explicit Save button — users may wonder if their change took effect."
         }
-      ]
+      ],
+      "page": "Asset catalog"
     },
     {
       "id": "issue-01",
       "area": "Admin Manager",
       "title": "SSO configuration page confusing and sections in wrong order",
-      "screen": "Admin Manager > Organization > Authentication > SSO tab",
+      "screen": "Admin Manager > Security > Authentication > SSO tab",
       "jira": "APP-2297",
       "severity": "Highest",
       "category": "Information architecture / sequencing",
@@ -287,13 +277,14 @@
           "target": "Full page",
           "callout": "This page plays two roles at two different times — source and destination — but nothing on the page communicates that."
         }
-      ]
+      ],
+      "page": "Authentication"
     },
     {
       "id": "issue-08",
       "area": "Admin Manager",
       "title": "JWT authentication page doesn't explain the Disable basic authentication option or field limits",
-      "screen": "Admin Manager > Organization > Authentication > JWT tab",
+      "screen": "Admin Manager > Security > Authentication > JWT tab",
       "jira": "",
       "unreportedLabel": "Unreported issue 07",
       "severity": "Low",
@@ -319,7 +310,8 @@
           "target": "Save button",
           "callout": "Save is disabled by default with no explanation of why."
         }
-      ]
+      ],
+      "page": "Authentication"
     },
     {
       "id": "issue-09",
@@ -351,7 +343,8 @@
           "target": "Bulk actions toolbar",
           "callout": "Delete only appears in each row's kebab menu, or after selecting one or more rows, which swaps the toolbar to reveal Access, Update auth, and Delete — with no hint beforehand that those actions exist."
         }
-      ]
+      ],
+      "page": "Users"
     },
     {
       "id": "issue-10",
@@ -375,7 +368,8 @@
           "target": "Service account card",
           "callout": "Service account is the only type with an actual capability cut (no App access), but it's the card with the least explanation of the three."
         }
-      ]
+      ],
+      "page": "New user"
     },
     {
       "id": "issue-11",
@@ -403,7 +397,8 @@
           "target": "Access checkboxes",
           "callout": "Designer, AutoSync, and API access only have no helper text — an admin has to already know what each one grants before they can choose correctly."
         }
-      ]
+      ],
+      "page": "New user"
     },
     {
       "id": "issue-12",
@@ -435,7 +430,8 @@
           "target": "Access section",
           "callout": "\"Users with app access also have access to APIs, Monitor and Admin Manager (if they are an Environment admin)\" references Environment admin, but team accounts are always locked to the User role — that clause can never apply here and only adds confusion. \"App access\" itself is never defined — it really means Designer access, and AutoSync isn't available without it."
         }
-      ]
+      ],
+      "page": "New user"
     },
     {
       "id": "issue-13",
@@ -459,7 +455,8 @@
           "target": "Role field",
           "callout": "The default role is User, yet many APIs require Environment admin permission — nothing on this screen tells admins that before they create the account."
         }
-      ]
+      ],
+      "page": "New user"
     },
     {
       "id": "issue-14",
@@ -487,7 +484,8 @@
           "target": "Group row",
           "callout": "Clicking anywhere on the row opens it for editing, but the group name isn't styled as a link, so nothing signals it's clickable. There's also no way to select multiple groups for deletion, unlike the Users table's row checkboxes and bulk delete."
         }
-      ]
+      ],
+      "page": "Groups"
     },
     {
       "id": "issue-15",
@@ -507,7 +505,8 @@
           "target": "Group name helper text",
           "callout": "This line sits under an empty, active Group name field on the creation screen — it reads like a warning about a restriction that's already in effect, when nothing has been created yet."
         }
-      ]
+      ],
+      "page": "Groups"
     },
     {
       "id": "issue-16",
@@ -535,7 +534,8 @@
           "target": "Save behavior",
           "callout": "Adding a user requires clicking Save inside the Add users modal, then clicking Save again on this screen — skip the second Save and the added user is lost, with no warning that this is required."
         }
-      ]
+      ],
+      "page": "Groups"
     },
     {
       "id": "issue-17",
@@ -559,7 +559,8 @@
           "target": "Member search",
           "callout": "This list is read-only — there's no add or remove control, and nothing tells the admin that role membership is set per-user rather than from here, so the screen looks like a dead end."
         }
-      ]
+      ],
+      "page": "Roles"
     },
     {
       "id": "issue-18",
@@ -587,7 +588,8 @@
           "target": "Type filter",
           "callout": "The Type filter and every reference to this account type use the bare word \"Portal,\" with nothing to clarify it means the APIM 3.0 Developer Portal specifically — admins unfamiliar with that product area have no way to know what kind of account this is."
         }
-      ]
+      ],
+      "page": "Users"
     },
     {
       "id": "issue-19",
@@ -627,7 +629,8 @@
           "target": "Icon & color field",
           "callout": "Nothing on this tab says what the icon and color are for or where admins will see them — they have to pick something and guess."
         }
-      ]
+      ],
+      "page": "Environment"
     }
   ]
 }

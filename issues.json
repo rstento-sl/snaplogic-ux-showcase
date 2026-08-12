@@ -673,8 +673,8 @@
       },
       "annotations": [
         {
-          "target": "Git Integration type dropdown",
-          "callout": "Every provider requires registering SnapLogic as an app in the provider's own console first, then pasting values back into this screen. Only Bitbucket gets any in-product explanation of that; the other five providers get a blank form with no indication a setup step happens somewhere else first."
+          "target": "GitHub Enterprise Server fields",
+          "callout": "This screen requires registering SnapLogic as an app in GitHub Enterprise Server's own console first, then pasting the resulting values back here — but nothing on the page says so. The same gap exists on every non-GitHub provider except Bitbucket."
         },
         {
           "target": "Microsoft Azure with Entra ID fields",

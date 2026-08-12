@@ -429,12 +429,12 @@
     <div class="page-wrapper" data-side="cur">
 
       <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="#">Learn more.</a></p>
 
       <div id="block-dropdown" class="pin-block">
         <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
         <div class="pin" id="pin-2" style="right: 22px;" onclick="openPopover(2, event)">2</div>
         <div class="pin" id="pin-3" style="right: 56px;" onclick="openPopover(3, event)">3</div>
+        <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="#">Learn more.</a></p>
         <div class="field-label">Git Integration type</div>
         <div class="git-dropdown-wrap">
           <div class="git-dropdown-button" onclick="toggleGitDropdown(this, event)">
@@ -453,13 +453,15 @@
 
       <div class="provider-fields" data-key="github"></div>
 
-      <div class="provider-fields" data-key="ghes" style="display:none;">
-        <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="lv1.XXXXXXXXXXXXXXXX" readonly></div>
-        <div class="field-group"><div class="field-label">Client secret</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">GHES URL</div><input class="field-input" value="https://github.your-org.com" readonly></div>
-        <div class="field-group"><div class="field-label">Auth URL</div><input class="field-input" value="https://github.your-org.com" readonly></div>
-        <div class="field-group"><div class="field-label">App ID</div><input class="field-input" value="7" readonly></div>
-        <div class="field-group"><div class="field-label">Private key</div><textarea class="field-input" readonly></textarea></div>
+      <div id="block-ghes" class="pin-block" style="display:none;">
+        <div class="provider-fields" data-key="ghes">
+          <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="lv1.XXXXXXXXXXXXXXXX" readonly></div>
+          <div class="field-group"><div class="field-label">Client secret</div><input class="field-input" value="" readonly></div>
+          <div class="field-group"><div class="field-label">GHES URL</div><input class="field-input" value="https://github.your-org.com" readonly></div>
+          <div class="field-group"><div class="field-label">Auth URL</div><input class="field-input" value="https://github.your-org.com" readonly></div>
+          <div class="field-group"><div class="field-label">App ID</div><input class="field-input" value="7" readonly></div>
+          <div class="field-group"><div class="field-label">Private key</div><textarea class="field-input" readonly></textarea></div>
+        </div>
       </div>
 
       <div id="block-azure" class="pin-block" style="display:none;">
@@ -528,11 +530,11 @@
     <div class="page-wrapper" data-side="prop">
 
       <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="#">Learn more.</a></p>
 
       <div id="block-dropdown-prop" class="pin-block green">
         <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
         <div class="pin green" id="green-pin-2" style="right: 22px;" onclick="openGreenPopover(2, event)">2</div>
+        <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="#">Learn more.</a></p>
         <div class="pin green" id="green-pin-3" style="right: 56px;" onclick="openGreenPopover(3, event)">3</div>
         <div class="field-label">Git Integration type</div>
         <div class="git-dropdown-wrap">
@@ -700,11 +702,11 @@ document.addEventListener('click', function(e) {
 
 const annotations = [
   {
-    title: "No in-product guidance for the two-system setup this page requires",
-    problem: "Every provider here requires registering SnapLogic as an app in the provider's own console first, then pasting values back into this screen — SnapLogic's own docs confirm this two-system handshake for every provider. But only Bitbucket gets any in-product explanation of that (its info box about basic authentication). The other five providers — GitHub Enterprise Server, Microsoft Azure, GitLab cloud, GitLab on-premises — get a blank form with no indication that a setup step happens somewhere else first, or where to find the values these fields are asking for.",
-    fix: "Add a short contextual note above each non-GitHub provider's fields pointing to the setup guide for that provider, e.g. “Register SnapLogic in GitHub Enterprise Server, then paste the values below. Setup guide →” — applied consistently across all five providers, not just Bitbucket.",
-    block: "block-dropdown",
-    propBlock: "block-dropdown-prop"
+    title: "No setup guidance for GitHub Enterprise Server",
+    problem: "This screen requires registering SnapLogic as an app in GitHub Enterprise Server's own console first, then pasting the resulting values back here — but nothing on the page says so. Admins get a blank form with no indication a setup step happens somewhere else, or where these values come from. The same gap exists on every non-GitHub provider except Bitbucket.",
+    fix: "Move this guidance up to the page's own intro so it's visible before an admin even opens the dropdown, and repeat a short version on each provider's fields for reinforcement, e.g. “Register SnapLogic in GitHub Enterprise Server, then paste the values below.”",
+    block: "block-ghes",
+    propBlock: "prop-block-ghes"
   },
   {
     title: "Azure's Base url and Authorized Scopes aren't pre-filled, even though GitLab's equivalent fields are",

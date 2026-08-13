@@ -563,7 +563,8 @@
       <div id="prop-block-intro" class="pin-block green">
         <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
         <h1 class="page-title">Git Integration</h1>
-        <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. You must register SnapLogic with the provider first to obtain the information to enter below. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
+        <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
+        <p class="intro-text">All providers other than GitHub.com and GitHub Enterprise Cloud require you to register SnapLogic to obtain the configuration information.</p>
       </div>
 
       <div class="field-label">Git Integration type</div>
@@ -686,7 +687,7 @@
 const annotations = [
   {
     title: "No setup guidance for registering SnapLogic with the provider",
-    problem: "Non-GitHub providers require registering SnapLogic in the provider's own console first — but nothing on the page says so. Admins hit a blank form with no idea where these values come from.",
+    problem: "Every provider other than GitHub.com and GitHub Enterprise Cloud requires registering SnapLogic first, but nothing on the page says so — admins hit a blank form with no idea where these values come from.",
     fix: "State this in the page's intro, and repeat a short reminder on each provider's fields.",
     block: "block-intro",
     propBlock: "prop-block-intro"

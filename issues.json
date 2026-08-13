@@ -667,14 +667,14 @@
       "severity": "High",
       "category": "Content clarity / labeling",
       "page": "Git Integration",
-      "summary": "Every Git provider requires registering SnapLogic as an app externally, then pasting values back into this screen — but only Bitbucket gets any in-product explanation of that. Azure leaves its fixed, non-customer-specific Base URL and Authorized Scopes blank instead of pre-filling them the way GitLab cloud already does, and the GitLab Namespaces field accepts a real wildcard syntax with zero in-product explanation. Customers have consistently had trouble configuring these integrations.",
+      "summary": "Every provider other than GitHub.com and GitHub Enterprise Cloud requires registering SnapLogic as an app externally, then pasting values back into this screen — but nothing on the page says so. Azure leaves its fixed, non-customer-specific Base URL and Authorized Scopes blank instead of pre-filling them the way GitLab cloud already does, and the GitLab Namespaces field accepts a real wildcard syntax with zero in-product explanation. Customers have consistently had trouble configuring these integrations.",
       "mockups": {
         "comparison": "admin-manager/git-integration/comparison.html"
       },
       "annotations": [
         {
           "target": "Git Integration page intro",
-          "callout": "Non-GitHub providers require registering SnapLogic in the provider's own console first — but nothing on the page says so. Admins hit a blank form with no idea where these values come from."
+          "callout": "Every provider other than GitHub.com and GitHub Enterprise Cloud requires registering SnapLogic first, but nothing on the page says so — admins hit a blank form with no idea where these values come from."
         },
         {
           "target": "Azure \"Base url\" label",

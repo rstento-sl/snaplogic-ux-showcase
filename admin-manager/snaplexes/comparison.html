@@ -338,6 +338,64 @@
   }
   .info-icon:hover .tooltip { display: block; }
 
+  /* JellyRoll tooltip primitive — sl-design-team.github.io/jellyroll/preview/components-tooltip.html */
+  .sl-tooltip-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+  }
+  .sl-tooltip-trigger {
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dim);
+    color: var(--dim);
+    font-size: 10px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+  }
+  .sl-tooltip {
+    position: absolute;
+    z-index: 100;
+    background: var(--ink);
+    color: #fff;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    width: max-content;
+    max-width: 240px;
+    white-space: normal;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(3,26,72,0.18);
+    opacity: 0;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    transition: opacity 120ms ease-out 300ms, transform 120ms ease-out 300ms;
+  }
+  .sl-tooltip::after {
+    content: "";
+    position: absolute;
+    width: 0; height: 0;
+    border: 5px solid transparent;
+    bottom: 100%; left: 50%;
+    transform: translateX(-50%);
+    border-bottom-color: var(--ink);
+    border-top: none;
+  }
+  .sl-tooltip-wrap:hover .sl-tooltip,
+  .sl-tooltip-wrap:focus-within .sl-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
   table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   table.data-table th {
     text-align: left;
@@ -911,7 +969,7 @@
         <div id="prop-block-add-dialog-environment" class="pin-block green">
           <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
           <div class="field-group">
-            <div class="field-label">Runtime environment ID <span class="info-icon">i<span class="tooltip" style="width: 220px;">Combined with Location, this forms the Snaplex's runtime path and must match each node's local config. All nodes in a Groundplex share the same ID — this isn't the SnapLogic Environment shown elsewhere in Admin Manager.</span></span></div>
+            <div class="field-label">Runtime environment ID <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">A component of the Groundplex runtime path, which is shared by all of its nodes.</span></span></div>
             <input class="field-input" readonly>
           </div>
         </div>

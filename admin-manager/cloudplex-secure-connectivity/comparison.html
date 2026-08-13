@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Snaplex type shows an undocumented value, "sidekick," in two places</title>
+<title>Cloudplex secure connectivity has no default filter, so deleted connections bury active ones</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -152,19 +152,6 @@
   }
   .sheet .page-wrapper:first-of-type { border-radius: 0 0 6px 6px; border-top: none; }
 
-  .flow-connector {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 14px 4px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--dim);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .flow-connector::before { content: "↓"; font-size: 14px; }
-
   h1.page-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
   .intro-text { color: #444; margin-bottom: 18px; line-height: 1.5; font-size: 13px; }
   .intro-text a { color: var(--blue); text-decoration: none; }
@@ -172,34 +159,6 @@
   .tabs { display: flex; border-bottom: 2px solid #e0e0e0; margin-bottom: 18px; }
   .tab { padding: 8px 0; margin-right: 24px; font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; margin-bottom: -2px; }
   .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
-
-  .dialog-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
-  .dialog-back { font-size: 22px; color: var(--dim); }
-  .dialog-title { font-size: 24px; font-weight: 800; }
-
-  .dialog-field-row { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 18px; }
-  .field-group { flex: 1; min-width: 180px; }
-  .field-label { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-  .field-input {
-    width: 100%;
-    font-size: 13px;
-    color: var(--ink);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px 12px;
-    font-family: inherit;
-  }
-  .git-dropdown-static {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px 12px;
-    font-size: 13px;
-    background: #fff;
-  }
-  .git-dropdown-static .arrow { color: var(--dim); }
 
   .list-header-row {
     display: flex;
@@ -240,61 +199,6 @@
     border-radius: 4px;
     padding: 8px 12px;
   }
-  .toolbar-spacer { flex: 1; }
-  .toggle-control {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--ink);
-    white-space: nowrap;
-  }
-  .toggle-switch {
-    width: 34px;
-    height: 19px;
-    border-radius: 999px;
-    background: #C4CAD6;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .toggle-switch .knob {
-    position: absolute;
-    top: 2px; left: 2px;
-    width: 15px; height: 15px;
-    border-radius: 50%;
-    background: #fff;
-  }
-  .toggle-switch.on { background: var(--blue); }
-  .toggle-switch.on .knob { left: 17px; }
-  .info-icon {
-    width: 15px; height: 15px;
-    border-radius: 50%;
-    border: 1.5px solid var(--dim);
-    color: var(--dim);
-    font-size: 10px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: default;
-    position: relative;
-  }
-  .info-icon .tooltip {
-    display: none;
-    position: absolute;
-    bottom: 22px;
-    right: -6px;
-    width: 160px;
-    background: #1a1a1a;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 400;
-    line-height: 1.4;
-    padding: 8px 10px;
-    border-radius: 6px;
-    z-index: 50;
-  }
-  .info-icon:hover .tooltip { display: block; }
 
   table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   table.data-table th {
@@ -312,7 +216,6 @@
     white-space: nowrap;
   }
   table.data-table td.truncate, table.data-table th.truncate { max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
-  .type-value { text-transform: none; }
   .status-active { color: var(--green); font-weight: 600; }
   .status-deleted { color: var(--red); font-weight: 600; }
   .kebab-cell { text-align: center; color: #888; cursor: pointer; width: 30px; }
@@ -467,11 +370,11 @@
 <div class="showcase-header">
   <div class="breadcrumb">
     <a class="back-link" href="../../index.html">← All issues</a>
-    <span class="path">admin-manager <span class="sep">/</span> system-configuration <span class="sep">/</span> snaplexes</span>
+    <span class="path">admin-manager <span class="sep">/</span> system-configuration <span class="sep">/</span> snaplexes <span class="sep">/</span> cloudplex-secure-connectivity</span>
   </div>
   <div class="issue-heading">
-    <span class="ticket-chip">Unreported issue 19</span>
-    <h1>Snaplex type shows an undocumented value, "sidekick," in two places</h1>
+    <span class="ticket-chip">Unreported issue 22</span>
+    <h1>Cloudplex secure connectivity has no default filter, so deleted connections bury active ones</h1>
   </div>
   <div class="header-row">
     <span class="instruction">Click a pin to see the issue and the fix</span>
@@ -492,49 +395,44 @@
       <p class="intro-text">Manage Snaplex versions, edit Cloudplex properties, or create and configure Groundplexes. <a href="#">Learn more.</a></p>
 
       <div class="tabs">
-        <div class="tab active">Snaplex management</div>
-        <div class="tab">Cloudplex secure connectivity</div>
+        <div class="tab">Snaplex management</div>
+        <div class="tab active">Cloudplex secure connectivity</div>
       </div>
 
       <div class="list-header-row">
-        <div class="list-count">26 Snaplexes</div>
-        <a class="add-link" href="#">+ Add Snaplex</a>
+        <div class="list-count">30 connections</div>
+        <a class="add-link" href="#">+ New connection</a>
       </div>
 
       <div class="toolbar-row">
-        <input class="search-input" placeholder="Search by name, project, or type" readonly>
-        <div class="filter-dropdown"><span>All owners</span><span>⌄</span></div>
-        <div class="filter-dropdown"><span>All projects</span><span>⌄</span></div>
-        <div class="toolbar-spacer"></div>
-        <div class="toggle-control">
-          <div class="toggle-switch"><div class="knob"></div></div>
-          Auto upgrade Snaplexes
-          <span class="info-icon">i<span class="tooltip">This setting applies to the entire environment.</span></span>
-        </div>
+        <input class="search-input" placeholder="Search by connection name" readonly>
+        <div class="filter-dropdown"><span>Cloudplex</span><span>⌄</span></div>
+        <div class="filter-dropdown"><span>Status</span><span>⌄</span></div>
       </div>
 
-      <div id="block-type-table" class="pin-block">
+      <div id="block-connections-table" class="pin-block">
         <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
         <table class="data-table">
           <thead>
             <tr>
-              <th><input type="checkbox"></th>
-              <th>Snaplex name</th>
-              <th>Type</th>
-              <th>Owner</th>
-              <th class="truncate">Project</th>
-              <th>Version</th>
+              <th>Connection name</th>
+              <th class="truncate">Cloudplex</th>
+              <th>Connection type</th>
+              <th>Status</th>
+              <th>Last modified</th>
+              <th>Modified by</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr><td><input type="checkbox"></td><td>ProdCloudplex</td><td class="type-value">cloud</td><td>admin1@example.com</td><td class="truncate">myorg/shared</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>AutoSyncPlex</td><td class="type-value">cloud</td><td>admin2@example.com</td><td class="truncate">myorg/shared</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>MainCloud</td><td class="type-value">cloud</td><td>admin3@example.com</td><td class="truncate">myorg/shared</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>AssetSnaplex</td><td class="type-value">cloud</td><td>admin4@example.com</td><td class="truncate">myorg/AssetSearchSpace…</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>GroundFeedMaster</td><td class="type-value">sidekick</td><td>admin5@example.com</td><td class="truncate">myorg/shared</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>Groundplex</td><td class="type-value">sidekick</td><td>admin6@example.com</td><td class="truncate">myorg/shared</td><td>—</td></tr>
-            <tr><td><input type="checkbox"></td><td>Groundplex1</td><td class="type-value">sidekick</td><td>admin6@example.com</td><td class="truncate">myorg/shared</td><td>—</td></tr>
-            <tr><td><input type="checkbox"></td><td>NodeActivities</td><td class="type-value">sidekick</td><td>admin7@example.com</td><td class="truncate">myorg/shared</td><td>—</td></tr>
+            <tr><td>conn-a</td><td class="truncate">/myorg/shared/Cloud</td><td>AWS PrivateLink</td><td class="status-deleted">Deleted</td><td>May 09, 2025</td><td>admin1@example.com</td><td class="kebab-cell"></td></tr>
+            <tr><td>conn-b</td><td class="truncate">/myorg/shared/Cloud</td><td>AWS PrivateLink</td><td class="status-deleted">Deleted</td><td>Apr 24, 2025</td><td>admin2@example.com</td><td class="kebab-cell"></td></tr>
+            <tr><td>conn-c</td><td class="truncate">/myorg/shared/Cloud</td><td>AWS PrivateLink</td><td class="status-deleted">Deleted</td><td>May 09, 2025</td><td>admin1@example.com</td><td class="kebab-cell"></td></tr>
+            <tr><td>prod-connection</td><td class="truncate">/myorg/shared/Cloud</td><td>AWS PrivateLink</td><td class="status-active">Active</td><td>May 14, 2025</td><td>admin1@example.com</td><td class="kebab-cell">⋮</td></tr>
+            <tr><td>conn-d</td><td class="truncate">/myorg/shared/Cloud</td><td>AWS PrivateLink</td><td class="status-deleted">Deleted</td><td>May 13, 2025</td><td>admin1@example.com</td><td class="kebab-cell"></td></tr>
+            <tr><td>conn-e</td><td class="truncate">/myorg/shared/Auto…</td><td>AWS PrivateLink</td><td class="status-deleted">Deleted</td><td>Apr 17, 2025</td><td>admin1@example.com</td><td class="kebab-cell"></td></tr>
+            <tr><td>conn-f</td><td class="truncate">/myorg/shared/Auto…</td><td>AWS PrivateLink</td><td class="status-deleted">Deleted</td><td>Mar 28, 2025</td><td>SnapLogic</td><td class="kebab-cell"></td></tr>
+            <tr><td>conn-g</td><td class="truncate">/myorg/shared/Clou…</td><td>AWS PrivateLink</td><td class="status-deleted">Deleted</td><td>Mar 28, 2025</td><td>SnapLogic</td><td class="kebab-cell"></td></tr>
           </tbody>
         </table>
       </div>
@@ -546,35 +444,6 @@
       </div>
 
     </div>
-    </div>
-
-    <div class="flow-connector">Admin clicks + Add Snaplex</div>
-
-    <div class="page-wrapper">
-
-      <div class="dialog-header">
-        <span class="dialog-back">‹</span>
-        <h1 class="dialog-title">Untitled Groundplex</h1>
-      </div>
-
-      <div class="tabs">
-        <div class="tab active">Settings</div>
-        <div class="tab">Logging</div>
-        <div class="tab">Node properties</div>
-        <div class="tab">Node proxies</div>
-      </div>
-
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
-
-      <div class="dialog-field-row">
-        <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
-        <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
-        <div id="block-add-dialog-location" class="pin-block">
-          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
-          <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>sidekick</span><span class="arrow">⌄</span></div></div>
-        </div>
-      </div>
-
     </div>
   </div>
 
@@ -590,89 +459,48 @@
       <p class="intro-text">Manage Snaplex versions, edit Cloudplex properties, or create and configure Groundplexes. <a href="#">Learn more.</a></p>
 
       <div class="tabs">
-        <div class="tab active">Snaplex management</div>
-        <div class="tab">Cloudplex secure connectivity</div>
+        <div class="tab">Snaplex management</div>
+        <div class="tab active">Cloudplex secure connectivity</div>
       </div>
 
       <div class="list-header-row">
-        <div class="list-count">26 Snaplexes</div>
-        <a class="add-link" href="#">+ Add Snaplex</a>
+        <div class="list-count">1 connection</div>
+        <a class="add-link" href="#">+ New connection</a>
       </div>
 
       <div class="toolbar-row">
-        <input class="search-input" placeholder="Search by name, project, or type" readonly>
-        <div class="filter-dropdown"><span>All owners</span><span>⌄</span></div>
-        <div class="filter-dropdown"><span>All projects</span><span>⌄</span></div>
-        <div class="toolbar-spacer"></div>
-        <div class="toggle-control">
-          <div class="toggle-switch"><div class="knob"></div></div>
-          Auto upgrade Snaplexes
-          <span class="info-icon">i<span class="tooltip">This setting applies to the entire environment.</span></span>
-        </div>
+        <input class="search-input" placeholder="Search by connection name" readonly>
+        <div class="filter-dropdown"><span>Cloudplex</span><span>⌄</span></div>
+        <div class="filter-chip">Status: Active <span>✕</span></div>
       </div>
 
-      <div id="prop-block-type-table" class="pin-block green">
+      <div id="prop-block-connections-table" class="pin-block green">
         <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
         <table class="data-table">
           <thead>
             <tr>
-              <th><input type="checkbox"></th>
-              <th>Snaplex name</th>
-              <th>Type</th>
-              <th>Owner</th>
-              <th class="truncate">Project</th>
-              <th>Version</th>
+              <th>Connection name</th>
+              <th class="truncate">Cloudplex</th>
+              <th>Connection type</th>
+              <th>Status</th>
+              <th>Last modified</th>
+              <th>Modified by</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr><td><input type="checkbox"></td><td>ProdCloudplex</td><td class="type-value">cloud</td><td>admin1@example.com</td><td class="truncate">myorg/shared</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>AutoSyncPlex</td><td class="type-value">cloud</td><td>admin2@example.com</td><td class="truncate">myorg/shared</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>MainCloud</td><td class="type-value">cloud</td><td>admin3@example.com</td><td class="truncate">myorg/shared</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>AssetSnaplex</td><td class="type-value">cloud</td><td>admin4@example.com</td><td class="truncate">myorg/AssetSearchSpace…</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>GroundFeedMaster</td><td class="type-value">Groundplex</td><td>admin5@example.com</td><td class="truncate">myorg/shared</td><td>4.44 GA Linux/RPM</td></tr>
-            <tr><td><input type="checkbox"></td><td>Groundplex</td><td class="type-value">Groundplex</td><td>admin6@example.com</td><td class="truncate">myorg/shared</td><td>—</td></tr>
-            <tr><td><input type="checkbox"></td><td>Groundplex1</td><td class="type-value">Groundplex</td><td>admin6@example.com</td><td class="truncate">myorg/shared</td><td>—</td></tr>
-            <tr><td><input type="checkbox"></td><td>NodeActivities</td><td class="type-value">Groundplex</td><td>admin7@example.com</td><td class="truncate">myorg/shared</td><td>—</td></tr>
+            <tr><td>prod-connection</td><td class="truncate">/myorg/shared/Cloud</td><td>AWS PrivateLink</td><td class="status-active">Active</td><td>May 14, 2025</td><td>admin1@example.com</td><td class="kebab-cell">⋮</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="pagination-row">
         <div></div>
-        <div>Go to page: <span class="page-select">1 <span class="arrow">⌄</span></span> of 2</div>
+        <div>Go to page: <span class="page-select">1 <span class="arrow">⌄</span></span> of 1</div>
         <div><span class="rows-select">25 <span class="arrow">⌄</span></span> Rows per page</div>
       </div>
 
     </div>
-    </div>
-
-    <div class="flow-connector">Admin clicks + Add Snaplex</div>
-
-    <div class="page-wrapper">
-
-      <div class="dialog-header">
-        <span class="dialog-back">‹</span>
-        <h1 class="dialog-title">Untitled Groundplex</h1>
-      </div>
-
-      <div class="tabs">
-        <div class="tab active">Settings</div>
-        <div class="tab">Logging</div>
-        <div class="tab">Node properties</div>
-        <div class="tab">Node proxies</div>
-      </div>
-
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
-
-      <div class="dialog-field-row">
-        <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
-        <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
-        <div id="prop-block-add-dialog-location" class="pin-block green">
-          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
-          <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>Groundplex</span><span class="arrow">⌄</span></div></div>
-        </div>
-      </div>
-
     </div>
   </div>
 
@@ -697,18 +525,11 @@
 <script>
 const annotations = [
   {
-    title: "Snaplex type shows an internal value, “sidekick,” instead of “Groundplex”",
-    problem: "The Type column shows “sidekick” for on-premises Snaplexes — a raw internal value that never appears anywhere in SnapLogic's own documentation. The docs describe exactly three types: Cloudplex, Groundplex, and AutoSync Snaplex. Admins have no way to know “sidekick” means Groundplex.",
-    fix: "“sidekick” is baked into the underlying code and isn't likely to change, so fix it at the display layer instead — show “Groundplex” in the Type column so it matches the term admins already know from the docs and the rest of the product.",
-    block: "block-type-table",
-    propBlock: "prop-block-type-table"
-  },
-  {
-    title: "Add Snaplex dialog's Location field shows the same undocumented \"sidekick\" value",
-    problem: "The Location dropdown in the Add Snaplex dialog also defaults to \"sidekick\" — the same undocumented value as pin 1, now on a second screen.",
-    fix: "Show \"Groundplex\" here too, consistent with pin 1's fix.",
-    block: "block-add-dialog-location",
-    propBlock: "prop-block-add-dialog-location"
+    title: "Cloudplex secure connectivity has no default filter, so deleted connections bury active ones",
+    problem: "The tab loads with no Status filter applied — 29 of 30 rows here are Deleted. Deleted connections stay listed forever, so admins must manually filter every time just to see what's active.",
+    fix: "Default the Status filter to Active when the tab loads. Admins see only live connections first, and can still switch the filter to see historical ones when they need to.",
+    block: "block-connections-table",
+    propBlock: "prop-block-connections-table"
   }
 ];
 

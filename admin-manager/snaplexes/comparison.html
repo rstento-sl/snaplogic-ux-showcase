@@ -616,9 +616,12 @@
 
       <div class="dialog-field-row">
         <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
-        <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
-        <div id="block-add-dialog-location" class="pin-block">
+        <div id="block-add-dialog-environment" class="pin-block">
           <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+          <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
+        </div>
+        <div id="block-add-dialog-location" class="pin-block">
+          <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
           <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>sidekick</span><span class="arrow">⌄</span></div></div>
         </div>
       </div>
@@ -905,9 +908,15 @@
 
       <div class="dialog-field-row">
         <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
-        <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
-        <div id="prop-block-add-dialog-location" class="pin-block green">
+        <div id="prop-block-add-dialog-environment" class="pin-block green">
           <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+          <div class="field-group">
+            <div class="field-label">Runtime environment ID <span class="info-icon">i<span class="tooltip" style="width: 220px;">Combined with Location, this forms the Snaplex's runtime path and must match each node's local config. All nodes in a Groundplex share the same ID — this isn't the SnapLogic Environment shown elsewhere in Admin Manager.</span></span></div>
+            <input class="field-input" readonly>
+          </div>
+        </div>
+        <div id="prop-block-add-dialog-location" class="pin-block green">
+          <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
           <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>Groundplex</span><span class="arrow">⌄</span></div></div>
         </div>
       </div>
@@ -1138,6 +1147,13 @@ const annotations = [
     fix: "“sidekick” is baked into the underlying code and isn't likely to change, so fix it at the display layer instead — show “Groundplex” in the Type column so it matches the term admins already know from the docs and the rest of the product.",
     block: "block-type-table",
     propBlock: "prop-block-type-table"
+  },
+  {
+    title: "\"Environment\" field is easy to confuse with the SnapLogic Environment",
+    problem: "This value is an arbitrary node-binding identifier — combined with Location, it forms the Snaplex's runtime path and must match the JCC's local config — not the SnapLogic Environment shown elsewhere in Admin Manager. Renaming it after nodes are running breaks their binding.",
+    fix: "Rename the field to \"Runtime environment ID\" and add a tooltip explaining what it does.",
+    block: "block-add-dialog-environment",
+    propBlock: "prop-block-add-dialog-environment"
   },
   {
     title: "Add Snaplex dialog's Location field shows the same undocumented \"sidekick\" value",

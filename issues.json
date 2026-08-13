@@ -635,14 +635,14 @@
     {
       "id": "issue-20",
       "area": "Admin Manager",
-      "title": "\"Add Snaplex\" mislabels the control, the auto upgrade toggle is easy to miss, and \"sidekick\" shows in two places",
+      "title": "\"Add Snaplex\" mislabels the control, the auto upgrade toggle is easy to miss, \"Environment\" is confused with the SnapLogic Environment, and \"sidekick\" shows in two places",
       "screen": "Admin Manager > System Configuration > Snaplexes",
       "jira": "",
       "unreportedLabel": "Unreported issue 19",
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Snaplexes",
-      "summary": "\"+ Add Snaplex\" should say \"+ Add Groundplex,\" since that's the only type customers can create; the Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight; and the Snaplex Type column and the Add Snaplex dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex.\"",
+      "summary": "\"+ Add Snaplex\" should say \"+ Add Groundplex,\" since that's the only type customers can create; the Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight; the Add Snaplex dialog's \"Environment\" field is an unrelated node-binding identifier easily confused with the SnapLogic Environment; and the Snaplex Type column and the dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex.\"",
       "mockups": {
         "comparison": "admin-manager/snaplexes/comparison.html"
       },
@@ -658,6 +658,10 @@
         {
           "target": "Snaplex Type column",
           "callout": "The Type column shows \"sidekick\" for on-premises Snaplexes — a raw internal value that never appears anywhere in SnapLogic's own documentation. The docs describe exactly three types: Cloudplex, Groundplex, and AutoSync Snaplex. Admins have no way to know \"sidekick\" means Groundplex."
+        },
+        {
+          "target": "Add Snaplex dialog Environment field",
+          "callout": "This value is an arbitrary node-binding identifier — combined with Location, it forms the Snaplex's runtime path and must match the JCC's local config — not the SnapLogic Environment shown elsewhere in Admin Manager. Renaming it after nodes are running breaks their binding."
         },
         {
           "target": "Add Snaplex dialog Location field",

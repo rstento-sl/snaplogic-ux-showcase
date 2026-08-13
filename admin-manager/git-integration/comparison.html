@@ -476,9 +476,6 @@
 
     <div class="page-wrapper">
 
-      <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
-
       <div id="block-ghes" class="pin-block">
         <div class="field-label">Git Integration type</div>
         <div class="git-dropdown-static"><span>GitHub Enterprise Server</span><span class="arrow">⌄</span></div>
@@ -502,21 +499,24 @@
 
     <div class="page-wrapper">
 
-      <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
-
-      <div id="block-azure" class="pin-block">
-        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
-        <div class="field-label">Git Integration type</div>
-        <div class="git-dropdown-static"><span>Microsoft Azure with Entra ID</span><span class="arrow">⌄</span></div>
-        <div class="field-group"><div class="field-label">Tenant ID</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Client secret ID</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Client secret</div><textarea class="field-input" readonly></textarea></div>
-        <div class="field-group"><div class="field-label">Base url</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Callback URL</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Authorized scopes</div><input class="field-input" value="" readonly></div>
+      <div class="field-label">Git Integration type</div>
+      <div class="git-dropdown-static"><span>Microsoft Azure with Entra ID</span><span class="arrow">⌄</span></div>
+      <div class="field-group"><div class="field-label">Tenant ID</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">Client secret ID</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">Client secret</div><textarea class="field-input" readonly></textarea></div>
+      <div class="field-group">
+        <div id="block-azure-label" class="pin-block" style="display:inline-block; padding-right:22px;">
+          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+          <div class="field-label">Base url</div>
+        </div>
+        <div id="block-azure-prefill" class="pin-block">
+          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+          <input class="field-input" value="" readonly>
+        </div>
       </div>
+      <div class="field-group"><div class="field-label">Callback URL</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">Authorized scopes</div><input class="field-input" value="" readonly></div>
 
       <p class="validate-note">You must validate the connection before it can be saved.</p>
       <div class="footer-row">
@@ -530,20 +530,17 @@
 
     <div class="page-wrapper">
 
-      <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
-
+      <div class="field-label">Git Integration type</div>
+      <div class="git-dropdown-static"><span>GitLab cloud</span><span class="arrow">⌄</span></div>
+      <div class="field-group"><div class="field-label">App ID</div><input class="field-input" value="8f90e6d2XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" readonly></div>
       <div id="block-gitlab-cloud" class="pin-block">
-        <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
-        <div class="field-label">Git Integration type</div>
-        <div class="git-dropdown-static"><span>GitLab cloud</span><span class="arrow">⌄</span></div>
-        <div class="field-group"><div class="field-label">App ID</div><input class="field-input" value="8f90e6d2XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" readonly></div>
+        <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
         <div class="field-group"><div class="field-label">Namespaces</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Client secret</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">GitLab URL</div><input class="field-input" value="https://gitlab.com" readonly></div>
-        <div class="field-group"><div class="field-label">Authorized scopes</div><input class="field-input" value="api read_api read_user write_repository" readonly></div>
-        <div class="field-group"><div class="field-label">Callback URL</div><input class="field-input" value="https://your-org.snaplogic.com/api/1/rest/asset/app/oauth" readonly></div>
       </div>
+      <div class="field-group"><div class="field-label">Client secret</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">GitLab URL</div><input class="field-input" value="https://gitlab.com" readonly></div>
+      <div class="field-group"><div class="field-label">Authorized scopes</div><input class="field-input" value="api read_api read_user write_repository" readonly></div>
+      <div class="field-group"><div class="field-label">Callback URL</div><input class="field-input" value="https://your-org.snaplogic.com/api/1/rest/asset/app/oauth" readonly></div>
 
       <p class="validate-note">You must validate the connection before it can be saved.</p>
       <div class="footer-row">
@@ -584,9 +581,6 @@
 
     <div class="page-wrapper">
 
-      <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. You must register SnapLogic with the provider first to obtain the information to enter below. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
-
       <div id="prop-block-ghes" class="pin-block green">
         <div class="field-label">Git Integration type</div>
         <div class="git-dropdown-static"><span>GitHub Enterprise Server</span><span class="arrow">⌄</span></div>
@@ -611,22 +605,25 @@
 
     <div class="page-wrapper">
 
-      <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. You must register SnapLogic with the provider first to obtain the information to enter below. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
-
-      <div id="prop-block-azure" class="pin-block green">
-        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
-        <div class="field-label">Git Integration type</div>
-        <div class="git-dropdown-static"><span>Microsoft Azure with Entra ID</span><span class="arrow">⌄</span></div>
-        <p class="setup-note">Register SnapLogic in Microsoft Entra, then paste the values below. <a href="https://docs.snaplogic.com/cicd/git-integration/git-integration-azure.html" target="_blank" rel="noopener">Learn more</a> · <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app" target="_blank" rel="noopener">Register an app in Entra →</a></p>
-        <div class="field-group"><div class="field-label">Tenant ID</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Client secret ID</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Client secret</div><textarea class="field-input" readonly></textarea></div>
-        <div class="field-group"><div class="field-label">Base URL</div><input class="field-input" value="https://dev.azure.com/" readonly></div>
-        <div class="field-group"><div class="field-label">Callback URL</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">Authorized scopes</div><input class="field-input" value="499b84ac-1321-427f-aa17-267ca6975798/.default offline_access" readonly></div>
+      <div class="field-label">Git Integration type</div>
+      <div class="git-dropdown-static"><span>Microsoft Azure with Entra ID</span><span class="arrow">⌄</span></div>
+      <p class="setup-note">Register SnapLogic in Microsoft Entra, then paste the values below. <a href="https://docs.snaplogic.com/cicd/git-integration/git-integration-azure.html" target="_blank" rel="noopener">Learn more</a> · <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app" target="_blank" rel="noopener">Register an app in Entra →</a></p>
+      <div class="field-group"><div class="field-label">Tenant ID</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">Client secret ID</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">Client secret</div><textarea class="field-input" readonly></textarea></div>
+      <div class="field-group">
+        <div id="prop-block-azure-label" class="pin-block green" style="display:inline-block; padding-right:22px;">
+          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+          <div class="field-label">Base URL</div>
+        </div>
+        <div id="prop-block-azure-prefill" class="pin-block green">
+          <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+          <input class="field-input" value="https://dev.azure.com/" readonly>
+        </div>
       </div>
+      <div class="field-group"><div class="field-label">Callback URL</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">Authorized scopes</div><input class="field-input" value="499b84ac-1321-427f-aa17-267ca6975798/.default offline_access" readonly></div>
 
       <p class="validate-note">You must validate the connection before it can be saved.</p>
       <div class="footer-row">
@@ -640,25 +637,22 @@
 
     <div class="page-wrapper">
 
-      <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. You must register SnapLogic with the provider first to obtain the information to enter below. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
-
+      <div class="field-label">Git Integration type</div>
+      <div class="git-dropdown-static"><span>GitLab cloud</span><span class="arrow">⌄</span></div>
+      <p class="setup-note">Register SnapLogic in GitLab, then paste the values below. <a href="https://docs.snaplogic.com/cicd/git-integration/gitlab.html" target="_blank" rel="noopener">Learn more →</a></p>
+      <div class="field-group"><div class="field-label">App ID</div><input class="field-input" value="8f90e6d2XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" readonly></div>
       <div id="prop-block-gitlab-cloud" class="pin-block green">
-        <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
-        <div class="field-label">Git Integration type</div>
-        <div class="git-dropdown-static"><span>GitLab cloud</span><span class="arrow">⌄</span></div>
-        <p class="setup-note">Register SnapLogic in GitLab, then paste the values below. <a href="https://docs.snaplogic.com/cicd/git-integration/gitlab.html" target="_blank" rel="noopener">Learn more →</a></p>
-        <div class="field-group"><div class="field-label">App ID</div><input class="field-input" value="8f90e6d2XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" readonly></div>
+        <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
         <div class="field-group">
           <div class="field-label">Namespaces</div>
           <input class="field-input" value="" readonly>
           <p class="field-hint">Optional, comma-separated. Example: <code>my-group/*, my-group/subgroup/**</code>. <a href="#">See syntax →</a></p>
         </div>
-        <div class="field-group"><div class="field-label">Client secret</div><input class="field-input" value="" readonly></div>
-        <div class="field-group"><div class="field-label">GitLab URL</div><input class="field-input" value="https://gitlab.com" readonly></div>
-        <div class="field-group"><div class="field-label">Authorized scopes</div><input class="field-input" value="api read_api read_user write_repository" readonly></div>
-        <div class="field-group"><div class="field-label">Callback URL</div><input class="field-input" value="https://your-org.snaplogic.com/api/1/rest/asset/app/oauth" readonly></div>
       </div>
+      <div class="field-group"><div class="field-label">Client secret</div><input class="field-input" value="" readonly></div>
+      <div class="field-group"><div class="field-label">GitLab URL</div><input class="field-input" value="https://gitlab.com" readonly></div>
+      <div class="field-group"><div class="field-label">Authorized scopes</div><input class="field-input" value="api read_api read_user write_repository" readonly></div>
+      <div class="field-group"><div class="field-label">Callback URL</div><input class="field-input" value="https://your-org.snaplogic.com/api/1/rest/asset/app/oauth" readonly></div>
 
       <p class="validate-note">You must validate the connection before it can be saved.</p>
       <div class="footer-row">
@@ -691,23 +685,30 @@
 <script>
 const annotations = [
   {
-    title: "No setup guidance anywhere on the page, for any provider",
-    problem: "Every non-GitHub provider (example shown: GitHub Enterprise Server) requires registering SnapLogic as an app in the provider's own console first, then pasting the resulting values back here — but nothing on the page says so, starting with this intro. Admins get a blank form with no indication a setup step happens somewhere else, or where these values come from. The same gap exists on every non-GitHub provider except Bitbucket.",
-    fix: "Add a sentence to the page's own intro, visible before an admin even opens the dropdown, explaining that providers require registering SnapLogic first — then repeat a short version on each provider's fields for reinforcement, e.g. “Register SnapLogic in GitHub Enterprise Server, then paste the values below.”",
+    title: "No setup guidance for registering SnapLogic with the provider",
+    problem: "Non-GitHub providers require registering SnapLogic in the provider's own console first — but nothing on the page says so. Admins hit a blank form with no idea where these values come from.",
+    fix: "State this in the page's intro, and repeat a short reminder on each provider's fields.",
     block: "block-intro",
     propBlock: "prop-block-intro"
   },
   {
-    title: "Azure's Base url and Authorized Scopes aren't pre-filled, even though GitLab's equivalent fields are",
-    problem: "Base url and Authorized Scopes are identical for every SnapLogic customer using Azure — SnapLogic's own docs say “Accept the default” for Base URL and that the Authorized Scopes string (a fixed Microsoft resource GUID plus offline_access) is “the same for all configurations.” But both fields sit empty, and Authorized Scopes requires typing that exact string by hand. GitLab cloud's equally-fixed GitLab URL and Authorized scopes fields, by contrast, come pre-filled by default. Also, “Base url” is the only field label on this page using lowercase “url” instead of “URL.”",
-    fix: "Pre-fill Base URL and Authorized Scopes with their fixed values by default, the same way GitLab cloud already does — and fix the “Base url” label to match every other field's “URL” capitalization.",
-    block: "block-azure",
-    propBlock: "prop-block-azure"
+    title: "\"Base url\" label doesn't match the page's other field labels",
+    problem: "Every other field says \"URL\" in caps — this one reads \"Base url.\"",
+    fix: "Capitalize it to \"Base URL,\" matching the rest of the page.",
+    block: "block-azure-label",
+    propBlock: "prop-block-azure-label"
   },
   {
-    title: "Namespaces accepts a specific wildcard syntax with zero in-product explanation",
-    problem: "On both GitLab cloud and GitLab on-premises, the Namespaces field filters which repositories show up in Designer using a real, non-trivial syntax — comma-separated paths where group_name/* and group_name/** mean different things, and subgroups can nest arbitrarily deep. None of that is hinted at in the product; it's a bare text input with no placeholder or example.",
-    fix: "Add a short hint below the field with a real example and a link to the syntax reference, e.g. “Optional, comma-separated. Example: my-group/*, my-group/subgroup/**. See syntax →”",
+    title: "Base URL and Authorized scopes aren't pre-filled, even though they're fixed values",
+    problem: "Both fields are the same for every Azure customer per SnapLogic's docs, yet they're empty — Authorized scopes means typing an exact GUID string by hand. GitLab's equivalent fixed fields come pre-filled.",
+    fix: "Pre-fill both fields by default, the same way GitLab cloud already does.",
+    block: "block-azure-prefill",
+    propBlock: "prop-block-azure-prefill"
+  },
+  {
+    title: "Namespaces accepts a specific wildcard syntax with no explanation",
+    problem: "The field filters repos using comma-separated paths where * and ** mean different things — none of that is hinted at in the product.",
+    fix: "Add a hint with a real example and a link to the syntax reference.",
     block: "block-gitlab-cloud",
     propBlock: "prop-block-gitlab-cloud"
   }

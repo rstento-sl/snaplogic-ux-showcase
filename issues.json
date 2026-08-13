@@ -674,15 +674,19 @@
       "annotations": [
         {
           "target": "Git Integration page intro",
-          "callout": "Every non-GitHub provider requires registering SnapLogic as an app in the provider's own console first, then pasting the resulting values back here — but nothing on the page says so, starting with this intro. Only Bitbucket gets any in-product explanation of that."
+          "callout": "Non-GitHub providers require registering SnapLogic in the provider's own console first — but nothing on the page says so. Admins hit a blank form with no idea where these values come from."
         },
         {
-          "target": "Microsoft Azure with Entra ID fields",
-          "callout": "Base url and Authorized Scopes are identical for every SnapLogic customer using Azure, per SnapLogic's own docs — but both fields sit empty, and Authorized Scopes requires typing an exact fixed string by hand. GitLab cloud's equally-fixed fields come pre-filled by default."
+          "target": "Azure \"Base url\" label",
+          "callout": "Every other field says \"URL\" in caps — this one reads \"Base url.\""
+        },
+        {
+          "target": "Azure Base URL and Authorized scopes fields",
+          "callout": "Both fields are the same for every Azure customer per SnapLogic's docs, yet they're empty — Authorized scopes means typing an exact GUID string by hand. GitLab's equivalent fixed fields come pre-filled."
         },
         {
           "target": "GitLab cloud Namespaces field",
-          "callout": "Namespaces filters repositories using a real, non-trivial syntax — comma-separated paths where group_name/* and group_name/** mean different things, and subgroups can nest arbitrarily deep. None of that is hinted at in the product."
+          "callout": "The field filters repos using comma-separated paths where * and ** mean different things — none of that is hinted at in the product."
         }
       ]
     },

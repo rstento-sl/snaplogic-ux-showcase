@@ -685,6 +685,31 @@
           "callout": "Namespaces filters repositories using a real, non-trivial syntax — comma-separated paths where group_name/* and group_name/** mean different things, and subgroups can nest arbitrarily deep. None of that is hinted at in the product."
         }
       ]
+    },
+    {
+      "id": "issue-22",
+      "area": "Admin Manager",
+      "title": "Custom privacy notice gives no URL format guidance, and the liability disclaimer is easy to skip",
+      "screen": "Admin Manager > System Configuration > Custom privacy notice",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 21",
+      "severity": "Low",
+      "category": "Content clarity / labeling",
+      "page": "Custom privacy notice",
+      "summary": "The Privacy notice page URL field gives no indication of the format it expects, even though SnapLogic's own docs confirm the real product validates it (must start with http, https, or www). The liability disclaimer below it is a real legal commitment but is styled as small italic grey fine print, easy to skip past.",
+      "mockups": {
+        "comparison": "admin-manager/custom-privacy-notice/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Privacy notice page URL field",
+          "callout": "The field accepts a URL but gives no indication of the format it expects. SnapLogic's own docs confirm the real product validates this — a valid URL must start with http, https, or www — and shows explicit success or error messages after Save. None of that is hinted at here; admins only learn the rule by getting it wrong first."
+        },
+        {
+          "target": "Liability disclaimer",
+          "callout": "The disclaimer confirms the admin is an authorized representative of their org and that the org \"assumes full responsibility\" and \"will bear all liabilities\" for the submitted URL — a real legal commitment. But it's styled as small italic grey text, the same visual weight as a caption."
+        }
+      ]
     }
   ]
 }

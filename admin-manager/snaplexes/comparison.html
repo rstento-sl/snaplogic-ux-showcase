@@ -540,7 +540,10 @@
 
       <div class="list-header-row">
         <div class="list-count">26 Snaplexes</div>
-        <a class="add-link" href="#">+ Add Snaplex</a>
+        <div id="block-add-link" class="pin-block">
+          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          <a class="add-link" href="#">+ Add Snaplex</a>
+        </div>
       </div>
 
       <div class="toolbar-row">
@@ -549,7 +552,7 @@
         <div class="filter-dropdown"><span>All projects</span><span>⌄</span></div>
         <div class="toolbar-spacer"></div>
         <div id="block-auto-upgrade" class="pin-block">
-          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
           <div class="toggle-control">
             <div class="toggle-switch"><div class="knob"></div></div>
             Auto upgrade Snaplexes
@@ -559,7 +562,7 @@
       </div>
 
       <div id="block-type-table" class="pin-block">
-        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+        <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
         <table class="data-table">
           <thead>
             <tr>
@@ -615,7 +618,7 @@
         <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
         <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
         <div id="block-add-dialog-location" class="pin-block">
-          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
           <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>sidekick</span><span class="arrow">⌄</span></div></div>
         </div>
       </div>
@@ -823,7 +826,7 @@
       </div>
 
       <div id="prop-block-auto-upgrade" class="pin-block green">
-        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
         <div class="auto-upgrade-banner">
           <div class="toggle-control">
             <div class="toggle-switch"><div class="knob"></div></div>
@@ -835,7 +838,10 @@
 
       <div class="list-header-row">
         <div class="list-count">26 Snaplexes</div>
-        <a class="add-link" href="#">+ Add Snaplex</a>
+        <div id="prop-block-add-link" class="pin-block green">
+          <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+          <a class="add-link" href="#">+ Add Groundplex</a>
+        </div>
       </div>
 
       <div class="toolbar-row">
@@ -845,7 +851,7 @@
       </div>
 
       <div id="prop-block-type-table" class="pin-block green">
-        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+        <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
         <table class="data-table">
           <thead>
             <tr>
@@ -879,7 +885,7 @@
     </div>
     </div>
 
-    <div class="flow-connector">Admin clicks + Add Snaplex</div>
+    <div class="flow-connector">Admin clicks + Add Groundplex</div>
 
     <div class="page-wrapper">
 
@@ -901,7 +907,7 @@
         <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
         <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
         <div id="prop-block-add-dialog-location" class="pin-block green">
-          <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
           <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>Groundplex</span><span class="arrow">⌄</span></div></div>
         </div>
       </div>
@@ -1113,9 +1119,16 @@
 <script>
 const annotations = [
   {
+    title: "\"+ Add Snaplex\" should say \"+ Add Groundplex\"",
+    problem: "This control only ever creates a Groundplex — Cloudplex and AutoSync Snaplexes aren't customer-creatable — so \"Add Snaplex\" names the wrong thing.",
+    fix: "Rename the control to \"+ Add Groundplex,\" matching what it actually creates.",
+    block: "block-add-link",
+    propBlock: "prop-block-add-link"
+  },
+  {
     title: "Auto upgrade Snaplexes toggle is easy to miss",
     problem: "The toggle sits in a plain toolbar row below the fold of the page header, with no visual weight — easy to miss even though it applies to the entire environment.",
-    fix: "Move it into a highlighted banner above \"+ Add Snaplex,\" so it's one of the first things an admin sees on the page.",
+    fix: "Move it into a highlighted banner above \"+ Add Groundplex,\" so it's one of the first things an admin sees on the page.",
     block: "block-auto-upgrade",
     propBlock: "prop-block-auto-upgrade"
   },
@@ -1128,8 +1141,8 @@ const annotations = [
   },
   {
     title: "Add Snaplex dialog's Location field shows the same undocumented \"sidekick\" value",
-    problem: "The Location dropdown in the Add Snaplex dialog also defaults to \"sidekick\" — the same undocumented value as pin 2, now on a second screen.",
-    fix: "Show \"Groundplex\" here too, consistent with pin 2's fix.",
+    problem: "The Location dropdown in the Add Snaplex dialog also defaults to \"sidekick\" — the same undocumented value as pin 3, now on a second screen.",
+    fix: "Show \"Groundplex\" here too, consistent with pin 3's fix.",
     block: "block-add-dialog-location",
     propBlock: "prop-block-add-dialog-location"
   }

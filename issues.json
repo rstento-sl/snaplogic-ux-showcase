@@ -635,18 +635,22 @@
     {
       "id": "issue-20",
       "area": "Admin Manager",
-      "title": "Snaplex type shows an undocumented value, \"sidekick,\" in two places, and the auto upgrade toggle is easy to miss",
+      "title": "\"Add Snaplex\" mislabels the control, the auto upgrade toggle is easy to miss, and \"sidekick\" shows in two places",
       "screen": "Admin Manager > System Configuration > Snaplexes",
       "jira": "",
       "unreportedLabel": "Unreported issue 19",
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Snaplexes",
-      "summary": "The Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight, and the Snaplex Type column and the Add Snaplex dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex.\"",
+      "summary": "\"+ Add Snaplex\" should say \"+ Add Groundplex,\" since that's the only type customers can create; the Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight; and the Snaplex Type column and the Add Snaplex dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex.\"",
       "mockups": {
         "comparison": "admin-manager/snaplexes/comparison.html"
       },
       "annotations": [
+        {
+          "target": "\"+ Add Snaplex\" control",
+          "callout": "This control only ever creates a Groundplex — Cloudplex and AutoSync Snaplexes aren't customer-creatable — so \"Add Snaplex\" names the wrong thing."
+        },
         {
           "target": "Auto upgrade Snaplexes toggle",
           "callout": "The toggle sits in a plain toolbar row below the fold of the page header, with no visual weight — easy to miss even though it applies to the entire environment."

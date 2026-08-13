@@ -79,10 +79,11 @@
   .header-row {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
   }
+  .instruction { color: var(--dim); font-size: 12px; }
   .bug-link {
     color: var(--orange);
     font-size: 12px;
@@ -224,6 +225,8 @@
 
   .pin {
     position: absolute;
+    top: -12px;
+    right: -12px;
     width: 26px;
     height: 26px;
     border-radius: 50%;
@@ -247,13 +250,12 @@
   .pin.green:hover { background: var(--green-dark); }
   .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
-  .section.highlighted { background: #FDF3F5; border-radius: 4px; }
+  .section.highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
   .section.highlighted .section-title { color: #B61631; }
-  #block-tabs.highlighted { background: #FDF3F5; border-radius: 4px; margin: -8px -12px 0; padding: 8px 12px; }
+  #block-tabs.highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; margin: -8px -12px 0; padding: 8px 12px; }
   .step-block.highlighted, #prop-block-tabs.highlighted, #prop-block-order.highlighted {
-    background: #EAF6EE;
-    border-radius: 6px;
     box-shadow: 0 0 0 2px var(--green);
+    border-radius: 6px;
   }
 
   .popover {
@@ -360,7 +362,6 @@
     border: 1px solid #e0e0e0;
     border-radius: 6px;
     margin-bottom: 18px;
-    overflow: hidden;
   }
   .step-block .step-number { background: #0841B4; }
   .step-block.locked { opacity: 0.55; }
@@ -373,6 +374,7 @@
     padding: 18px 22px;
     background: #f8f9fa;
     border-bottom: 1px solid #e0e0e0;
+    border-radius: 6px 6px 0 0;
   }
   .step-number {
     width: 28px;
@@ -497,6 +499,7 @@
     <h1>SSO configuration page confusing and sections in wrong order</h1>
   </div>
   <div class="header-row">
+    <span class="instruction">Click a pin to see the issue and the fix</span>
     <a class="bug-link" href="possible-bug.html">⚠ 1 possible bug noted →</a>
   </div>
 </div>
@@ -512,7 +515,7 @@
     <div class="page-wrapper">
 
       <div id="block-tabs" style="position: relative;">
-        <div class="pin" id="pin-1" style="top: -8px; right: 0;" onclick="openPopover(1, event)">1</div>
+        <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
         <h1>Authentication</h1>
         <div class="tabs">
           <div class="tab active">SSO</div>
@@ -524,14 +527,14 @@
       </div>
 
       <div class="section" id="section-A">
-        <div class="pin" id="pin-2" style="top: 18px; right: 0;" onclick="openPopover(2, event)">2</div>
+        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
         <div class="section-title">Upload identity provider metadata</div>
         <p class="section-body">All of your environments must use the same IdP. Upload the metadata file provided by your IdP.</p>
         <button class="btn btn-primary">Upload file</button>
       </div>
 
       <div class="section" id="section-B">
-        <div class="pin" id="pin-3" style="top: 18px; right: 0;" onclick="openPopover(3, event)">3</div>
+        <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
         <div class="section-title">Add SnapLogic application in your identity provider</div>
         <p class="section-body">Copy and paste the links in your identity provider.</p>
 
@@ -559,7 +562,7 @@
       </div>
 
       <div class="section" id="section-C">
-        <div class="pin" id="pin-4" style="top: 18px; right: 0;" onclick="openPopover(4, event)">4</div>
+        <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
         <div class="section-title">Provide SnapLogic metadata to your IdP</div>
         <p class="section-body">Download the metadata file and upload it to your IdP.</p>
         <button class="btn">Download file</button>
@@ -588,7 +591,7 @@
     <div class="page-wrapper">
 
       <div id="prop-block-tabs" style="position: relative;">
-        <div class="pin green" id="green-pin-1" style="top: -8px; right: 0;" onclick="openGreenPopover(1, event)">1</div>
+        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
         <h1>Authentication</h1>
         <p class="intro-text" style="margin-bottom: 12px;">By default, the SnapLogic Platform login and public API requests require Basic auth. You can optionally configure SSO for platform login and JWT for authenticating API requests.</p>
         <div class="tabs">
@@ -601,10 +604,10 @@
       </div>
 
       <div id="prop-block-order" style="position: relative;">
-        <div class="pin green" id="green-pin-4" style="top: -8px; left: -8px;" onclick="openGreenPopover(4, event)">4</div>
+        <div class="pin green" id="green-pin-4" style="left: -12px; right: auto;" onclick="openGreenPopover(4, event)">4</div>
 
       <div class="step-block" id="step1-block" style="position: relative;">
-        <div class="pin green" id="green-pin-3" style="top: -8px; right: -8px;" onclick="openGreenPopover(3, event)">3</div>
+        <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
         <div class="step-header">
           <div class="step-number">1</div>
           <div class="step-header-text">
@@ -655,7 +658,7 @@
       </div>
 
       <div class="step-block" id="step2-block" style="position: relative;">
-        <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
+        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
         <div class="step-header">
           <div class="step-number">2</div>
           <div class="step-header-text">

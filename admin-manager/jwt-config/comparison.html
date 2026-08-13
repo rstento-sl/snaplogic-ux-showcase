@@ -200,6 +200,8 @@
 
   .pin {
     position: absolute;
+    top: -12px;
+    right: -12px;
     width: 26px;
     height: 26px;
     border-radius: 50%;
@@ -223,12 +225,8 @@
   .pin.green:hover { background: var(--green-dark); }
   .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
-  .block.highlighted {
-    background: #FDF3F5;
-    border-radius: 6px;
-    margin: -8px -12px 16px;
-    padding: 8px 12px;
-  }
+  .block.highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
+  .block.green.highlighted { box-shadow: 0 0 0 2px var(--green); }
 
   .popover {
     display: none;
@@ -332,7 +330,7 @@
       <div class="page-wrapper">
 
         <div class="block" id="block-intro">
-          <div class="pin" id="pin-1" style="top: -8px; right: -8px;" onclick="openPopover(1, event)">1</div>
+          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
           <h1>Authentication</h1>
           <div class="tabs">
             <div class="tab">SSO</div>
@@ -342,8 +340,8 @@
         </div>
 
         <div class="block" id="block-fields">
-          <div class="pin" id="pin-2" style="top: -8px; right: -8px;" onclick="openPopover(2, event)">2</div>
-          <div class="pin" id="pin-3" style="top: -8px; left: -8px;" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-3" style="right: 26px;" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
           <div style="margin-bottom: 22px;">
             <div class="field-label">Issuer ID</div>
             <div class="field-input">https://your-idp.example.com/oauth2/default</div>
@@ -365,7 +363,7 @@
         </div>
 
         <div class="block" id="block-save" style="margin-bottom: 0;">
-          <div class="pin" id="pin-4" style="top: 0; right: -8px;" onclick="openPopover(4, event)">4</div>
+          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
           <button class="btn disabled" disabled>Save</button>
         </div>
 
@@ -387,14 +385,14 @@
           <div class="tab active">JWT</div>
         </div>
 
-        <div class="block" id="prop-block-intro">
-          <div class="pin green" id="green-pin-1" style="top: -8px; right: -8px;" onclick="openGreenPopover(1, event)">1</div>
+        <div class="block green" id="prop-block-intro">
+          <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
           <p class="intro-text">Optionally, enable JWT authentication for SnapLogic public APIs. Once configured, users can authenticate with either basic auth or JWT unless you select <strong>Disable basic authentication</strong>. <a href="#">Learn more.</a></p>
         </div>
 
-        <div class="block" id="prop-block-fields">
-          <div class="pin green" id="green-pin-2" style="top: -8px; right: -8px;" onclick="openGreenPopover(2, event)">2</div>
-          <div class="pin green" id="green-pin-3" style="top: -8px; left: -8px;" onclick="openGreenPopover(3, event)">3</div>
+        <div class="block green" id="prop-block-fields">
+          <div class="pin green" id="green-pin-3" style="right: 26px;" onclick="openGreenPopover(3, event)">3</div>
+          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
           <div style="margin-bottom: 22px;">
             <div class="field-label">Issuer ID <span class="field-required">(required)</span></div>
             <input class="field-input" style="text-overflow: clip;" title="https://your-idp.example.com/oauth2/default" value="https://your-idp.example.com/oauth2/default" oninput="markChanged()">
@@ -415,8 +413,8 @@
           </div>
         </div>
 
-        <div class="block" id="prop-block-save" style="margin-bottom: 0;">
-          <div class="pin green" id="green-pin-4" style="top: 0; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
+        <div class="block green" id="prop-block-save" style="margin-bottom: 0;">
+          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
           <button class="btn disabled" id="prop-save" disabled>Save</button>
           <span class="saved-tag" id="saved-tag">Saved</span>
         </div>

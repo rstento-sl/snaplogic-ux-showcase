@@ -455,8 +455,11 @@
     <div class="col-instruction current">Click a red pin to see what's wrong</div>
     <div class="page-wrapper">
 
-      <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="#">Learn more.</a></p>
+      <div id="block-intro" class="pin-block">
+        <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+        <h1 class="page-title">Git Integration</h1>
+        <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
+      </div>
 
       <div class="field-label">Git Integration type</div>
       <div class="git-dropdown-static"><span>GitHub</span><span class="arrow">⌄</span></div>
@@ -474,10 +477,9 @@
     <div class="page-wrapper">
 
       <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="#">Learn more.</a></p>
+      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
 
       <div id="block-ghes" class="pin-block">
-        <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
         <div class="field-label">Git Integration type</div>
         <div class="git-dropdown-static"><span>GitHub Enterprise Server</span><span class="arrow">⌄</span></div>
         <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="lv1.XXXXXXXXXXXXXXXX" readonly></div>
@@ -501,7 +503,7 @@
     <div class="page-wrapper">
 
       <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="#">Learn more.</a></p>
+      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
 
       <div id="block-azure" class="pin-block">
         <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
@@ -529,7 +531,7 @@
     <div class="page-wrapper">
 
       <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="#">Learn more.</a></p>
+      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
 
       <div id="block-gitlab-cloud" class="pin-block">
         <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
@@ -561,8 +563,11 @@
     <div class="col-instruction proposed">Click a green pin to see the fix</div>
     <div class="page-wrapper">
 
-      <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="#">Learn more.</a></p>
+      <div id="prop-block-intro" class="pin-block green">
+        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+        <h1 class="page-title">Git Integration</h1>
+        <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
+      </div>
 
       <div class="field-label">Git Integration type</div>
       <div class="git-dropdown-static"><span>GitHub</span><span class="arrow">⌄</span></div>
@@ -580,13 +585,12 @@
     <div class="page-wrapper">
 
       <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="#">Learn more.</a></p>
+      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
 
       <div id="prop-block-ghes" class="pin-block green">
-        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
         <div class="field-label">Git Integration type</div>
         <div class="git-dropdown-static"><span>GitHub Enterprise Server</span><span class="arrow">⌄</span></div>
-        <p class="setup-note">Register SnapLogic in GitHub Enterprise Server, then paste the values below. <a href="#">Setup guide →</a></p>
+        <p class="setup-note">Register SnapLogic in GitHub Enterprise Server, then paste the values below. <a href="https://docs.snaplogic.com/cicd/git-integration/git-integration-ghes.html" target="_blank" rel="noopener">Learn more</a> · <a href="https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app" target="_blank" rel="noopener">Create a GitHub App →</a></p>
         <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="lv1.XXXXXXXXXXXXXXXX" readonly></div>
         <div class="field-group"><div class="field-label">Client secret</div><input class="field-input" value="" readonly></div>
         <div class="field-group"><div class="field-label">GHES URL</div><input class="field-input" value="https://github.your-org.com" readonly></div>
@@ -608,13 +612,13 @@
     <div class="page-wrapper">
 
       <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="#">Learn more.</a></p>
+      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
 
       <div id="prop-block-azure" class="pin-block green">
         <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
         <div class="field-label">Git Integration type</div>
         <div class="git-dropdown-static"><span>Microsoft Azure with Entra ID</span><span class="arrow">⌄</span></div>
-        <p class="setup-note">Register SnapLogic in Microsoft Entra, then paste the values below. <a href="#">Setup guide →</a></p>
+        <p class="setup-note">Register SnapLogic in Microsoft Entra, then paste the values below. <a href="https://docs.snaplogic.com/cicd/git-integration/git-integration-azure.html" target="_blank" rel="noopener">Learn more</a> · <a href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app" target="_blank" rel="noopener">Register an app in Entra →</a></p>
         <div class="field-group"><div class="field-label">Tenant ID</div><input class="field-input" value="" readonly></div>
         <div class="field-group"><div class="field-label">Client ID</div><input class="field-input" value="" readonly></div>
         <div class="field-group"><div class="field-label">Client secret ID</div><input class="field-input" value="" readonly></div>
@@ -637,13 +641,13 @@
     <div class="page-wrapper">
 
       <h1 class="page-title">Git Integration</h1>
-      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="#">Learn more.</a></p>
+      <p class="intro-text">GitHub.com is the default Git Integration. Additional Git providers are available by subscription, contact your CSM for details. Every provider requires registering SnapLogic as an app in your Git provider's console first, then entering the resulting values below. <a href="https://docs.snaplogic.com/admin-manager/git-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
 
       <div id="prop-block-gitlab-cloud" class="pin-block green">
         <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
         <div class="field-label">Git Integration type</div>
         <div class="git-dropdown-static"><span>GitLab cloud</span><span class="arrow">⌄</span></div>
-        <p class="setup-note">Register SnapLogic in GitLab, then paste the values below. <a href="#">Setup guide →</a></p>
+        <p class="setup-note">Register SnapLogic in GitLab, then paste the values below. <a href="https://docs.snaplogic.com/cicd/git-integration/gitlab.html" target="_blank" rel="noopener">Learn more →</a></p>
         <div class="field-group"><div class="field-label">App ID</div><input class="field-input" value="8f90e6d2XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" readonly></div>
         <div class="field-group">
           <div class="field-label">Namespaces</div>
@@ -687,11 +691,11 @@
 <script>
 const annotations = [
   {
-    title: "No setup guidance for GitHub Enterprise Server",
-    problem: "This screen requires registering SnapLogic as an app in GitHub Enterprise Server's own console first, then pasting the resulting values back here — but nothing on the page says so. Admins get a blank form with no indication a setup step happens somewhere else, or where these values come from. The same gap exists on every non-GitHub provider except Bitbucket.",
-    fix: "Move this guidance up to the page's own intro so it's visible before an admin even opens the dropdown, and repeat a short version on each provider's fields for reinforcement, e.g. “Register SnapLogic in GitHub Enterprise Server, then paste the values below.”",
-    block: "block-ghes",
-    propBlock: "prop-block-ghes"
+    title: "No setup guidance anywhere on the page, for any provider",
+    problem: "Every non-GitHub provider (example shown: GitHub Enterprise Server) requires registering SnapLogic as an app in the provider's own console first, then pasting the resulting values back here — but nothing on the page says so, starting with this intro. Admins get a blank form with no indication a setup step happens somewhere else, or where these values come from. The same gap exists on every non-GitHub provider except Bitbucket.",
+    fix: "Add a sentence to the page's own intro, visible before an admin even opens the dropdown, explaining that providers require registering SnapLogic first — then repeat a short version on each provider's fields for reinforcement, e.g. “Register SnapLogic in GitHub Enterprise Server, then paste the values below.”",
+    block: "block-intro",
+    propBlock: "prop-block-intro"
   },
   {
     title: "Azure's Base url and Authorized Scopes aren't pre-filled, even though GitLab's equivalent fields are",

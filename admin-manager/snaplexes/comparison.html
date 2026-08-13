@@ -201,6 +201,42 @@
   }
   .git-dropdown-static .arrow { color: var(--dim); }
 
+  .field-input::placeholder { font-style: italic; color: #888; }
+
+  .field-unit-row { display: flex; align-items: center; gap: 16px; }
+  .field-unit-row .field-input { width: auto; flex: 1; }
+  .field-unit-row .unit-label { font-size: 13px; color: #444; }
+
+  .repeater-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .repeater-row .field-input { flex: 1; }
+  .link-disabled { font-size: 13px; color: #ccc; white-space: nowrap; }
+  .link-action { font-size: 13px; font-weight: 700; color: var(--blue); text-decoration: none; white-space: nowrap; }
+  .link-action:hover { text-decoration: underline; }
+  .repeater-divider { color: #ccc; }
+
+  .dialog-footer-row { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
+  .btn-cancel {
+    padding: 9px 20px;
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    background: #fff;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-save-dialog {
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 4px;
+    border: none;
+    background: #CED9F0;
+    color: #fff;
+    cursor: not-allowed;
+  }
+  .section-label { font-size: 13px; font-weight: 700; color: var(--ink); margin: 22px 0 10px; }
+
   .list-header-row {
     display: flex;
     align-items: center;
@@ -241,6 +277,12 @@
     padding: 8px 12px;
   }
   .toolbar-spacer { flex: 1; }
+  .auto-upgrade-banner {
+    background: var(--teal-tint);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
   .toggle-control {
     display: flex;
     align-items: center;
@@ -506,15 +548,18 @@
         <div class="filter-dropdown"><span>All owners</span><span>⌄</span></div>
         <div class="filter-dropdown"><span>All projects</span><span>⌄</span></div>
         <div class="toolbar-spacer"></div>
-        <div class="toggle-control">
-          <div class="toggle-switch"><div class="knob"></div></div>
-          Auto upgrade Snaplexes
-          <span class="info-icon">i<span class="tooltip">This setting applies to the entire environment.</span></span>
+        <div id="block-auto-upgrade" class="pin-block">
+          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          <div class="toggle-control">
+            <div class="toggle-switch"><div class="knob"></div></div>
+            Auto upgrade Snaplexes
+            <span class="info-icon">i<span class="tooltip">This setting applies to the entire environment.</span></span>
+          </div>
         </div>
       </div>
 
       <div id="block-type-table" class="pin-block">
-        <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
         <table class="data-table">
           <thead>
             <tr>
@@ -570,9 +615,192 @@
         <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
         <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
         <div id="block-add-dialog-location" class="pin-block">
-          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
           <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>sidekick</span><span class="arrow">⌄</span></div></div>
         </div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Select project</div><div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Version</div><div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Load balancer</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Ultra load balancer</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Notifications email address</div><input class="field-input" readonly></div>
+        <div class="field-group"><div class="field-label">Notifications Slack channel</div><input class="field-input" readonly></div>
+        <div class="field-group"><div class="field-label">Notifications Slack user</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="dialog-footer-row">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-save-dialog">Save</button>
+      </div>
+
+    </div>
+
+    <div class="flow-connector">Admin clicks the Logging tab</div>
+
+    <div class="page-wrapper">
+
+      <div class="dialog-header">
+        <span class="dialog-back">‹</span>
+        <h1 class="dialog-title">Untitled Groundplex</h1>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Settings</div>
+        <div class="tab active">Logging</div>
+        <div class="tab">Node properties</div>
+        <div class="tab">Node proxies</div>
+      </div>
+
+      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Level</div><div class="git-dropdown-static"><span>Info</span><span class="arrow">⌄</span></div></div>
+        <div class="field-group"><div class="field-label">Log file size</div><input class="field-input" value="300" readonly></div>
+        <div class="field-group"><div class="field-label">Metric</div><div class="git-dropdown-static"><span>MiB</span><span class="arrow">⌄</span></div></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Main backup count</div><input class="field-input" value="40" readonly></div>
+        <div class="field-group"><div class="field-label">Error backup count</div><input class="field-input" value="5" readonly></div>
+        <div class="field-group"><div class="field-label">Access backup count</div><input class="field-input" value="5" readonly></div>
+      </div>
+
+      <div class="dialog-footer-row">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-save-dialog">Save</button>
+      </div>
+
+    </div>
+
+    <div class="flow-connector">Admin clicks the Node properties tab</div>
+
+    <div class="page-wrapper">
+
+      <div class="dialog-header">
+        <span class="dialog-back">‹</span>
+        <h1 class="dialog-title">Untitled Groundplex</h1>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Settings</div>
+        <div class="tab">Logging</div>
+        <div class="tab active">Node properties</div>
+        <div class="tab">Node proxies</div>
+      </div>
+
+      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Max. slots</div><input class="field-input" value="4000" readonly></div>
+        <div class="field-group"><div class="field-label">Reserved slot %</div><input class="field-input" value="15" readonly></div>
+        <div class="field-group"><div class="field-label">Max. memory</div><input class="field-input" value="85" readonly></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group">
+          <div class="field-label">Max. restart wait time</div>
+          <div class="field-unit-row">
+            <input class="field-input" value="15" readonly style="max-width: 100px;">
+            <span class="unit-label">Minutes</span>
+            <div class="toggle-control">
+              <div class="toggle-switch"><div class="knob"></div></div>
+              Set restart wait time to "Forever"
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Max. heap size</div><input class="field-input" value="auto" readonly></div>
+        <div class="field-group"><div class="field-label">HTTP Interface</div><div class="git-dropdown-static"><span>Localhost only (127.0.0.1)</span><span class="arrow">⌄</span></div></div>
+        <div class="field-group"><div class="field-label">HTTP Port</div><input class="field-input" value="8090" readonly></div>
+        <div class="field-group"><div class="field-label">HTTPS Port</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="section-label">Snaplex node types</div>
+      <div class="repeater-row">
+        <input class="field-input" placeholder="Hostname" readonly>
+        <div class="git-dropdown-static" style="min-width: 160px;"><span style="font-style: italic; color: #888;">Server type</span><span class="arrow">⌄</span></div>
+        <span class="link-disabled">Remove</span>
+        <span class="repeater-divider">|</span>
+        <a class="link-action" href="#">+ Add new node type</a>
+      </div>
+
+      <div class="section-label">Global properties</div>
+      <div class="repeater-row">
+        <input class="field-input" placeholder="Key" readonly>
+        <input class="field-input" placeholder="Value" readonly>
+        <span class="link-disabled">Remove</span>
+        <span class="repeater-divider">|</span>
+        <a class="link-action" href="#">+ Add new global property</a>
+      </div>
+
+      <div class="dialog-footer-row">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-save-dialog">Save</button>
+      </div>
+
+    </div>
+
+    <div class="flow-connector">Admin clicks the Node proxies tab</div>
+
+    <div class="page-wrapper">
+
+      <div class="dialog-header">
+        <span class="dialog-back">‹</span>
+        <h1 class="dialog-title">Untitled Groundplex</h1>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Settings</div>
+        <div class="tab">Logging</div>
+        <div class="tab">Node properties</div>
+        <div class="tab active">Node proxies</div>
+      </div>
+
+      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 3;"><div class="field-label">HTTP proxy host name</div><input class="field-input" readonly></div>
+        <div class="field-group"><div class="field-label">Port</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="repeater-row">
+        <input class="field-input" placeholder="Host pattern" readonly>
+        <span class="link-disabled">Remove</span>
+        <span class="repeater-divider">|</span>
+        <a class="link-action" href="#">+ Add new non-proxy host</a>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 3;"><div class="field-label">HTTPS proxy host name</div><input class="field-input" readonly></div>
+        <div class="field-group"><div class="field-label">Port</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="repeater-row">
+        <input class="field-input" placeholder="Host pattern" readonly>
+        <span class="link-disabled">Remove</span>
+        <span class="repeater-divider">|</span>
+        <a class="link-action" href="#">+ Add new non-proxy host</a>
+      </div>
+
+      <div class="dialog-footer-row">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-save-dialog">Save</button>
       </div>
 
     </div>
@@ -594,6 +822,17 @@
         <div class="tab">Cloudplex secure connectivity</div>
       </div>
 
+      <div id="prop-block-auto-upgrade" class="pin-block green">
+        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+        <div class="auto-upgrade-banner">
+          <div class="toggle-control">
+            <div class="toggle-switch"><div class="knob"></div></div>
+            Auto upgrade Snaplexes
+            <span class="info-icon">i<span class="tooltip">This setting applies to the entire environment.</span></span>
+          </div>
+        </div>
+      </div>
+
       <div class="list-header-row">
         <div class="list-count">26 Snaplexes</div>
         <a class="add-link" href="#">+ Add Snaplex</a>
@@ -603,16 +842,10 @@
         <input class="search-input" placeholder="Search by name, project, or type" readonly>
         <div class="filter-dropdown"><span>All owners</span><span>⌄</span></div>
         <div class="filter-dropdown"><span>All projects</span><span>⌄</span></div>
-        <div class="toolbar-spacer"></div>
-        <div class="toggle-control">
-          <div class="toggle-switch"><div class="knob"></div></div>
-          Auto upgrade Snaplexes
-          <span class="info-icon">i<span class="tooltip">This setting applies to the entire environment.</span></span>
-        </div>
       </div>
 
       <div id="prop-block-type-table" class="pin-block green">
-        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
         <table class="data-table">
           <thead>
             <tr>
@@ -668,9 +901,192 @@
         <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
         <div class="field-group"><div class="field-label">Environment</div><input class="field-input" readonly></div>
         <div id="prop-block-add-dialog-location" class="pin-block green">
-          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+          <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
           <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>Groundplex</span><span class="arrow">⌄</span></div></div>
         </div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Select project</div><div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Version</div><div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Load balancer</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Ultra load balancer</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Notifications email address</div><input class="field-input" readonly></div>
+        <div class="field-group"><div class="field-label">Notifications Slack channel</div><input class="field-input" readonly></div>
+        <div class="field-group"><div class="field-label">Notifications Slack user</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="dialog-footer-row">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-save-dialog">Save</button>
+      </div>
+
+    </div>
+
+    <div class="flow-connector">Admin clicks the Logging tab</div>
+
+    <div class="page-wrapper">
+
+      <div class="dialog-header">
+        <span class="dialog-back">‹</span>
+        <h1 class="dialog-title">Untitled Groundplex</h1>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Settings</div>
+        <div class="tab active">Logging</div>
+        <div class="tab">Node properties</div>
+        <div class="tab">Node proxies</div>
+      </div>
+
+      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Level</div><div class="git-dropdown-static"><span>Info</span><span class="arrow">⌄</span></div></div>
+        <div class="field-group"><div class="field-label">Log file size</div><input class="field-input" value="300" readonly></div>
+        <div class="field-group"><div class="field-label">Metric</div><div class="git-dropdown-static"><span>MiB</span><span class="arrow">⌄</span></div></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Main backup count</div><input class="field-input" value="40" readonly></div>
+        <div class="field-group"><div class="field-label">Error backup count</div><input class="field-input" value="5" readonly></div>
+        <div class="field-group"><div class="field-label">Access backup count</div><input class="field-input" value="5" readonly></div>
+      </div>
+
+      <div class="dialog-footer-row">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-save-dialog">Save</button>
+      </div>
+
+    </div>
+
+    <div class="flow-connector">Admin clicks the Node properties tab</div>
+
+    <div class="page-wrapper">
+
+      <div class="dialog-header">
+        <span class="dialog-back">‹</span>
+        <h1 class="dialog-title">Untitled Groundplex</h1>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Settings</div>
+        <div class="tab">Logging</div>
+        <div class="tab active">Node properties</div>
+        <div class="tab">Node proxies</div>
+      </div>
+
+      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Max. slots</div><input class="field-input" value="4000" readonly></div>
+        <div class="field-group"><div class="field-label">Reserved slot %</div><input class="field-input" value="15" readonly></div>
+        <div class="field-group"><div class="field-label">Max. memory</div><input class="field-input" value="85" readonly></div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group">
+          <div class="field-label">Max. restart wait time</div>
+          <div class="field-unit-row">
+            <input class="field-input" value="15" readonly style="max-width: 100px;">
+            <span class="unit-label">Minutes</span>
+            <div class="toggle-control">
+              <div class="toggle-switch"><div class="knob"></div></div>
+              Set restart wait time to "Forever"
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group"><div class="field-label">Max. heap size</div><input class="field-input" value="auto" readonly></div>
+        <div class="field-group"><div class="field-label">HTTP Interface</div><div class="git-dropdown-static"><span>Localhost only (127.0.0.1)</span><span class="arrow">⌄</span></div></div>
+        <div class="field-group"><div class="field-label">HTTP Port</div><input class="field-input" value="8090" readonly></div>
+        <div class="field-group"><div class="field-label">HTTPS Port</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="section-label">Snaplex node types</div>
+      <div class="repeater-row">
+        <input class="field-input" placeholder="Hostname" readonly>
+        <div class="git-dropdown-static" style="min-width: 160px;"><span style="font-style: italic; color: #888;">Server type</span><span class="arrow">⌄</span></div>
+        <span class="link-disabled">Remove</span>
+        <span class="repeater-divider">|</span>
+        <a class="link-action" href="#">+ Add new node type</a>
+      </div>
+
+      <div class="section-label">Global properties</div>
+      <div class="repeater-row">
+        <input class="field-input" placeholder="Key" readonly>
+        <input class="field-input" placeholder="Value" readonly>
+        <span class="link-disabled">Remove</span>
+        <span class="repeater-divider">|</span>
+        <a class="link-action" href="#">+ Add new global property</a>
+      </div>
+
+      <div class="dialog-footer-row">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-save-dialog">Save</button>
+      </div>
+
+    </div>
+
+    <div class="flow-connector">Admin clicks the Node proxies tab</div>
+
+    <div class="page-wrapper">
+
+      <div class="dialog-header">
+        <span class="dialog-back">‹</span>
+        <h1 class="dialog-title">Untitled Groundplex</h1>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Settings</div>
+        <div class="tab">Logging</div>
+        <div class="tab">Node properties</div>
+        <div class="tab active">Node proxies</div>
+      </div>
+
+      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 3;"><div class="field-label">HTTP proxy host name</div><input class="field-input" readonly></div>
+        <div class="field-group"><div class="field-label">Port</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="repeater-row">
+        <input class="field-input" placeholder="Host pattern" readonly>
+        <span class="link-disabled">Remove</span>
+        <span class="repeater-divider">|</span>
+        <a class="link-action" href="#">+ Add new non-proxy host</a>
+      </div>
+
+      <div class="dialog-field-row">
+        <div class="field-group" style="flex: 3;"><div class="field-label">HTTPS proxy host name</div><input class="field-input" readonly></div>
+        <div class="field-group"><div class="field-label">Port</div><input class="field-input" readonly></div>
+      </div>
+
+      <div class="repeater-row">
+        <input class="field-input" placeholder="Host pattern" readonly>
+        <span class="link-disabled">Remove</span>
+        <span class="repeater-divider">|</span>
+        <a class="link-action" href="#">+ Add new non-proxy host</a>
+      </div>
+
+      <div class="dialog-footer-row">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-save-dialog">Save</button>
       </div>
 
     </div>
@@ -697,6 +1113,13 @@
 <script>
 const annotations = [
   {
+    title: "Auto upgrade Snaplexes toggle is easy to miss",
+    problem: "The toggle sits in a plain toolbar row below the fold of the page header, with no visual weight — easy to miss even though it applies to the entire environment.",
+    fix: "Move it into a highlighted banner above \"+ Add Snaplex,\" so it's one of the first things an admin sees on the page.",
+    block: "block-auto-upgrade",
+    propBlock: "prop-block-auto-upgrade"
+  },
+  {
     title: "Snaplex type shows an internal value, “sidekick,” instead of “Groundplex”",
     problem: "The Type column shows “sidekick” for on-premises Snaplexes — a raw internal value that never appears anywhere in SnapLogic's own documentation. The docs describe exactly three types: Cloudplex, Groundplex, and AutoSync Snaplex. Admins have no way to know “sidekick” means Groundplex.",
     fix: "“sidekick” is baked into the underlying code and isn't likely to change, so fix it at the display layer instead — show “Groundplex” in the Type column so it matches the term admins already know from the docs and the rest of the product.",
@@ -705,8 +1128,8 @@ const annotations = [
   },
   {
     title: "Add Snaplex dialog's Location field shows the same undocumented \"sidekick\" value",
-    problem: "The Location dropdown in the Add Snaplex dialog also defaults to \"sidekick\" — the same undocumented value as pin 1, now on a second screen.",
-    fix: "Show \"Groundplex\" here too, consistent with pin 1's fix.",
+    problem: "The Location dropdown in the Add Snaplex dialog also defaults to \"sidekick\" — the same undocumented value as pin 2, now on a second screen.",
+    fix: "Show \"Groundplex\" here too, consistent with pin 2's fix.",
     block: "block-add-dialog-location",
     propBlock: "prop-block-add-dialog-location"
   }

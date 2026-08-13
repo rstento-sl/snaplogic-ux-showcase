@@ -635,18 +635,22 @@
     {
       "id": "issue-20",
       "area": "Admin Manager",
-      "title": "Snaplex type shows an undocumented value, \"sidekick,\" in two places",
+      "title": "Snaplex type shows an undocumented value, \"sidekick,\" in two places, and the auto upgrade toggle is easy to miss",
       "screen": "Admin Manager > System Configuration > Snaplexes",
       "jira": "",
       "unreportedLabel": "Unreported issue 19",
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Snaplexes",
-      "summary": "The Snaplex Type column and the Add Snaplex dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex.\"",
+      "summary": "The Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight, and the Snaplex Type column and the Add Snaplex dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex.\"",
       "mockups": {
         "comparison": "admin-manager/snaplexes/comparison.html"
       },
       "annotations": [
+        {
+          "target": "Auto upgrade Snaplexes toggle",
+          "callout": "The toggle sits in a plain toolbar row below the fold of the page header, with no visual weight — easy to miss even though it applies to the entire environment."
+        },
         {
           "target": "Snaplex Type column",
           "callout": "The Type column shows \"sidekick\" for on-premises Snaplexes — a raw internal value that never appears anywhere in SnapLogic's own documentation. The docs describe exactly three types: Cloudplex, Groundplex, and AutoSync Snaplex. Admins have no way to know \"sidekick\" means Groundplex."

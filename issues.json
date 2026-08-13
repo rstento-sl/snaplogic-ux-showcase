@@ -610,16 +610,16 @@
           "callout": "The page shows \"Environment\" and four tabs with no summary explaining what the tabs are for — admins have to click into each tab just to find out what it does."
         },
         {
-          "target": "Environment description field",
-          "callout": "Admins can type a description and save it, but nothing in the product ever displays it — not this page, not the environment selector, nowhere. A field that quietly goes nowhere is very confusing for users, who have no way to know it's a dead end."
-        },
-        {
           "target": "Tab note",
           "callout": "The note under the tabs says \"Read-only attributes for identification include a unique ID, name, and type\" — but it never mentions the Environment description field, which admins can actually edit. Leading with \"read-only\" makes the entire tab sound uneditable."
         },
         {
           "target": "Environment ID field",
           "callout": "The Environment ID is just a long string with no explanation of why it matters, and no copy affordance — admins have to select and copy the text by hand."
+        },
+        {
+          "target": "Environment description field",
+          "callout": "Admins can type a description and save it, but nothing in the product ever displays it — not this page, not the environment selector, nowhere. A field that quietly goes nowhere is very confusing for users, who have no way to know it's a dead end."
         },
         {
           "target": "Tag field",

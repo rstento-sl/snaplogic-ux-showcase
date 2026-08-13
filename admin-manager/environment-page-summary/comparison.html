@@ -397,12 +397,12 @@
       </div>
 
       <div id="block-tab-note" class="pin-block" style="position: relative;">
-        <div class="pin" id="pin-3" style="top: -6px; right: 0;" onclick="openPopover(3, event)">3</div>
+        <div class="pin" id="pin-2" style="top: -6px; right: 0;" onclick="openPopover(2, event)">2</div>
         <p class="tab-note">Read-only attributes for identification include a unique ID, name, and type. <a href="#">Learn more.</a></p>
       </div>
 
       <div id="block-env-id" class="pin-block" style="position: relative;">
-        <div class="pin" id="pin-4" style="top: -6px; right: 0;" onclick="openPopover(4, event)">4</div>
+        <div class="pin" id="pin-3" style="top: -6px; right: 0;" onclick="openPopover(3, event)">3</div>
         <div class="field-label">Environment ID</div>
         <div class="field-value">a1b2c3d4e5f6a7b8c9d0e1f2</div>
       </div>
@@ -414,7 +414,7 @@
       <div class="field-value">N/A</div>
 
       <div id="block-env-desc" class="pin-block" style="position: relative;">
-        <div class="pin" id="pin-2" style="top: -6px; right: 0;" onclick="openPopover(2, event)">2</div>
+        <div class="pin" id="pin-4" style="top: -6px; right: 0;" onclick="openPopover(4, event)">4</div>
         <div class="field-label">Environment description (Optional)</div>
         <textarea class="desc-textarea" rows="2">1712345678901</textarea>
       </div>
@@ -476,12 +476,12 @@
       </div>
 
       <div id="prop-block-tab-note" class="pin-block green" style="position: relative;">
-        <div class="pin green" id="green-pin-3" style="top: -6px; right: 0;" onclick="openGreenPopover(3, event)">3</div>
+        <div class="pin green" id="green-pin-2" style="top: -6px; right: 0;" onclick="openGreenPopover(2, event)">2</div>
         <p class="tab-note">View your environment's ID, name, and type. <a href="#">Learn more.</a></p>
       </div>
 
       <div id="prop-block-env-id" class="pin-block green" style="position: relative;">
-        <div class="pin green" id="green-pin-4" style="top: -6px; right: 0;" onclick="openGreenPopover(4, event)">4</div>
+        <div class="pin green" id="green-pin-3" style="top: -6px; right: 0;" onclick="openGreenPopover(3, event)">3</div>
         <div class="field-label">Environment ID</div>
         <div class="field-row">
           <div class="field-row-text">
@@ -501,7 +501,7 @@
       <div class="field-value">N/A</div>
 
       <div id="prop-block-env-desc" class="pin-block green" style="position: relative;">
-        <div class="pin green" id="green-pin-2" style="top: -6px; right: 0;" onclick="openGreenPopover(2, event)">2</div>
+        <div class="pin green" id="green-pin-4" style="top: -6px; right: 0;" onclick="openGreenPopover(4, event)">4</div>
         <p class="removed-note">Environment description field removed — it wasn't used anywhere in the product.</p>
       </div>
 
@@ -567,16 +567,9 @@ const annotations = [
     propBlock: "prop-block-header"
   },
   {
-    title: "Environment description doesn't appear to be used anywhere",
-    problem: "Admins can type a description and save it, but nothing in the product ever displays it — not this page, not the environment selector, nowhere. A field that quietly goes nowhere is very confusing for users, who have no way to know it's a dead end.",
-    fix: "Remove the Environment description field. Only keep what actually shows up somewhere.",
-    block: "block-env-desc",
-    propBlock: "prop-block-env-desc"
-  },
-  {
     title: "“Read-only” note makes the whole tab sound uneditable",
     problem: "The note under the tabs says “Read-only attributes for identification include a unique ID, name, and type” — but it never mentions the Environment description field below, which admins can actually edit. Leading with “read-only” makes the entire tab sound uneditable.",
-    fix: "Reword to “View your environment's ID, name, and type” — accurate once the unused description field is removed (see the previous pin).",
+    fix: "Reword to “View your environment's ID, name, and type” — phrased in parallel with the intro sentence above the tabs (“View environment details, configure the environment selector...”), and accurate once the unused description field is removed (see the next pin).",
     block: "block-tab-note",
     propBlock: "prop-block-tab-note"
   },
@@ -586,6 +579,13 @@ const annotations = [
     fix: "Add a note explaining that some Public APIs require this value, and a copy icon so admins can grab it in one click.",
     block: "block-env-id",
     propBlock: "prop-block-env-id"
+  },
+  {
+    title: "Environment description doesn't appear to be used anywhere",
+    problem: "Admins can type a description and save it, but nothing in the product ever displays it — not this page, not the environment selector, nowhere. A field that quietly goes nowhere is very confusing for users, who have no way to know it's a dead end.",
+    fix: "Remove the Environment description field. Only keep what actually shows up somewhere.",
+    block: "block-env-desc",
+    propBlock: "prop-block-env-desc"
   },
   {
     title: "Tag isn't used anywhere in the product either",

@@ -768,6 +768,36 @@
           "callout": "An override to a Snap Pack's version in the table overrides the environment default for that Snap Pack, but nothing on the page says so."
         }
       ]
+    },
+    {
+      "id": "issue-25",
+      "area": "Admin Manager",
+      "title": "Password expiration doesn't explain what 0 means, and Expire all passwords hides its real scope and follow-up work",
+      "screen": "Admin Manager > Security > Password expiration",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 24",
+      "severity": "High",
+      "category": "Content clarity / labeling",
+      "page": "Password expiration",
+      "summary": "Expiration period defaults to 0 with no indication that means passwords never expire, and Expire all passwords silently skips SSO users and out-of-scope environments while burying the manual, per-account reset work it creates for service accounts.",
+      "mockups": {
+        "comparison": "admin-manager/password-expiration/comparison.html",
+        "possibleBug": "admin-manager/password-expiration/possible-bug.html"
+      },
+      "annotations": [
+        {
+          "target": "Expiration period",
+          "callout": "Expiration period defaults to 0 with no explanation — admins can't tell whether that means passwords never expire or expire immediately."
+        },
+        {
+          "target": "Expire all passwords button",
+          "callout": "Expire all passwords blocks every service account's credentials too, but since a service account can't log in to reset itself, the admin who created it has to do it manually — request the reset by email, then update whatever app or integration uses that credential. The confirm dialog mentions this only as a trailing clause, with no count of how many service accounts are affected."
+        },
+        {
+          "target": "Expire all passwords button",
+          "callout": "Expire all passwords sounds like it resets everyone's password, but it silently skips SSO users entirely, and also skips users whose accounts span environments you don't administer — none of this is disclosed on the page."
+        }
+      ]
     }
   ]
 }

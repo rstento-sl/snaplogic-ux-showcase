@@ -503,9 +503,9 @@
 <script>
 const annotations = [
   {
-    title: "The heading doesn't say this is an edit screen",
-    problem: "The page heading just shows the group's name — nothing indicates this is an edit screen, so it can appear to an admin as a read-only detail view.",
-    fix: "Prefix the heading with the action: \"Edit 00001TestGroup\", so the screen's purpose is clear at a glance.",
+    title: "The heading doesn't say this is an edit dialog",
+    problem: "The page heading just shows the group's name — nothing indicates this is an edit dialog, so it can appear to an admin as a read-only detail view.",
+    fix: "Prefix the heading with the action: \"Edit 00001TestGroup\", so the dialog's purpose is clear at a glance.",
     block: "block-title",
     propBlock: "prop-block-title"
   },
@@ -518,8 +518,8 @@ const annotations = [
   },
   {
     title: "Adding a user requires two separate saves",
-    problem: "Adding a user requires clicking Save inside the \"Add users\" modal, then clicking Save again on this screen. If you skip the second Save, the added user isn't actually saved to the group — nothing on screen warns you this is required. Try adding a user above: it shows as unsaved until you also click Save down here.",
-    fix: "Make the modal's Save action final — once a user is added via the modal, persist it immediately rather than requiring a second save on the parent screen. Reserve this screen's Save/Cancel for changes made directly here, like Description. Try adding a user above: it's saved immediately, and Save only lights up if you edit Description.",
+    problem: "Adding a user requires clicking Save inside the \"Add users\" modal, then clicking Save again in this dialog. If you skip the second Save, the added user isn't actually saved to the group — nothing warns you this is required. Try adding a user above: it shows as unsaved until you also click Save down here.",
+    fix: "Make the modal's Save action final — once a user is added via the modal, persist it immediately rather than requiring a second save on the parent dialog. Reserve this dialog's Save/Cancel for changes made directly here, like Description. Try adding a user above: it's saved immediately, and Save only lights up if you edit Description.",
     block: "block-save",
     propBlock: "prop-block-save"
   }

@@ -31,6 +31,7 @@ Name issue folders descriptively (`sso-config`), never by ticket number (`app-22
 
 ## Content rules (apply to everything you draft or edit)
 
+- **"Page," not "screen."** Call a full Admin Manager destination (has its own URL/nav entry, e.g. Git Integration, Snaplexes, Roles) a "page" — matches both SnapLogic's own docs terminology and standard SaaS writing convention ("screen" is for mobile/native UI). Call a modal/overlay (Add Snaplex, Edit group, Add users) a "dialog." Tabs within a page are "tabs," not sub-pages.
 - **Active voice, always.** No exceptions. If you catch yourself writing "is used," "are presented," "was configured," rewrite it as who does the action.
 - **Be concise.** Popover `problem`/`fix` text should be a few sentences, not a paragraph. Titles are one line.
 - **Use consistent terminology** for the same concept across all pins/files in an issue (e.g. don't alternate between "SnapLogic values" and "SnapLogic-generated values").

@@ -76,7 +76,8 @@
 
   .crumb { font-family: var(--font-mono); font-size: var(--type-micro-size); color: var(--color-text-subtle); margin-bottom: 6px; }
   header { margin-bottom: 6px; }
-  h1 { font-size: var(--type-heading-size); line-height: var(--type-heading-line); font-weight: var(--type-heading-weight); letter-spacing: -0.01em; color: var(--color-text-heading); margin-bottom: var(--space-6); }
+  h1 { font-size: var(--type-heading-size); line-height: var(--type-heading-line); font-weight: var(--type-heading-weight); letter-spacing: -0.01em; color: var(--color-text-heading); margin-bottom: 4px; }
+  .page-note { font-size: var(--type-body-size); color: var(--color-text-subtle); margin-bottom: var(--space-6); }
 
   .empty {
     border: 1px dashed var(--color-border-subtle);
@@ -166,6 +167,7 @@
   <header>
     <div class="crumb">Admin Manager / Security</div>
     <h1>Authentication</h1>
+    <p class="page-note">SSO and JWT are tabs on this one page, not separate screens.</p>
   </header>
   <div id="app"><p class="empty">// loading issue catalog…</p></div>
 </div>

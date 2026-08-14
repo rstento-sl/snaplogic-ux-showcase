@@ -747,6 +747,27 @@
           "callout": "The disclaimer confirms the admin is an authorized representative of their org and that the org \"assumes full responsibility\" and \"will bear all liabilities\" for the submitted URL — a real legal commitment. But it's styled as small italic grey text, the same visual weight as a caption."
         }
       ]
+    },
+    {
+      "id": "issue-24",
+      "area": "Admin Manager",
+      "title": "Snap Packs page doesn't explain that a version override replaces the environment default",
+      "screen": "Admin Manager > Subscriptions > Snap Packs",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 23",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "page": "Snap Packs",
+      "summary": "Overriding a Snap Pack's version in the table replaces the environment-wide default for that Snap Pack, but nothing on the page says so — and SnapLogic's own docs' warning to consult Support before overriding isn't reflected in the product either.",
+      "mockups": {
+        "comparison": "admin-manager/snap-packs/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Usage setting (Environment-wide) section",
+          "callout": "An override to a Snap Pack's version in the table overrides the environment default for that Snap Pack, but nothing on the page says so."
+        }
+      ]
     }
   ]
 }

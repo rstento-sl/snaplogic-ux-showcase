@@ -169,6 +169,20 @@
   .severity-high { background: var(--sl-red-100); color: var(--sl-red-700); }
   .severity-medium { background: var(--sl-orange-100); color: var(--sl-orange-700); }
   .severity-low { background: var(--sl-grey-200); color: var(--sl-grey-800); }
+
+  .issue-count {
+    font-size: var(--type-pill-size);
+    line-height: var(--type-pill-line);
+    font-weight: var(--type-pill-weight);
+    text-transform: uppercase;
+    letter-spacing: var(--type-pill-tracking);
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    background: transparent;
+    color: var(--color-text-subtle);
+    border: 1px solid var(--color-border-subtle);
+  }
 </style>
 </head>
 <body>
@@ -285,7 +299,8 @@ fetch("issues.json")
             : (pageIssues[0].mockups || {}).comparison || (pageIssues[0].mockups || {}).currentUi || "#";
           const sev = highestSeverity(pageIssues);
           const sevLabel = sev ? `<span class="severity ${severityClass(sev)}">${sev}</span>` : "";
-          return `<li class="page-item"><a class="page-link" href="${href}"><span class="title">${page}</span><span class="right">${sevLabel}<span class="chevron">→</span></span></a></li>`;
+          const countLabel = count > 1 ? `<span class="issue-count">${count} issues</span>` : "";
+          return `<li class="page-item"><a class="page-link" href="${href}"><span class="title">${page}</span><span class="right">${countLabel}${sevLabel}<span class="chevron">→</span></span></a></li>`;
         }).join("");
 
         const listHeader = `<div class="list-header"><span>Severity</span></div>`;

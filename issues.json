@@ -798,6 +798,35 @@
           "callout": "Expire all passwords sounds like it resets everyone's password, but it silently skips SSO users entirely, and also skips users whose accounts span environments you don't administer — none of this is disclosed on the page."
         }
       ]
+    },
+    {
+      "id": "issue-26",
+      "area": "Admin Manager",
+      "title": "Session timeout and Idle timeout look identical, but behave completely differently — and nothing on the page explains it",
+      "screen": "Admin Manager > Security > Session timeout",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 25",
+      "severity": "High",
+      "category": "Content clarity / labeling",
+      "page": "Session timeout",
+      "summary": "Session timeout and Idle timeout share the same range and default with no explanation that one is a silent absolute cutoff and the other warns before logging out, and setting Idle timeout higher than Session timeout silently makes it meaningless.",
+      "mockups": {
+        "comparison": "admin-manager/session-timeout/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Session timeout / Idle timeout fields",
+          "callout": "Both sliders share the same 5–60 range and default to 60 minutes, with no hint that they work completely differently. Session timeout is a fixed, absolute cutoff from login — enforced by a cookie that expires regardless of activity — while Idle timeout only counts real inactivity, tracked across tabs."
+        },
+        {
+          "target": "Idle timeout field",
+          "callout": "Idle timeout shows a 2-minute warning before logging a user out, with a Continue option — but Session timeout gives no warning at all, so unsaved work in an active session can vanish the instant the fixed cutoff hits. Neither behavior is disclosed on the page."
+        },
+        {
+          "target": "Idle timeout field",
+          "callout": "If Idle timeout is set higher than Session timeout, the session's fixed cutoff always happens first, so the idle timer can never fire. Neither the page nor the backend validates or warns about this — unlike Password expiration's enforced notice/expire relationship."
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session timeout and Idle timeout look identical, but behave completely differently — and nothing on the page explains it</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 400; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 800; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-extrabold.woff2") format("woff2");
+  }
+
+  :root {
+    --ink: #131C35;
+    --dim: #7D8695;
+    --paper: #FAFAFB;
+    --canvas: #EBEDF1;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --teal-tint: #E6F2F2;
+    --red: #E31C3D;
+    --red-dark: #B61631;
+    --red-tint: #FCE8EC;
+    --green: #017D1B;
+    --green-tint: #E6F2E8;
+    --blue: #0841B4;
+    --blue-tint: #E6ECF8;
+    --orange: #C75209;
+    --orange-tint: #FEF0E7;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
+  body {
+    font-family: "Acherus Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--canvas);
+  }
+
+  .topbar { height: 4px; background: var(--teal); }
+
+  .showcase-header {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px 32px 16px;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .path { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+  .path .sep { margin: 0 6px; color: var(--hairline); }
+  .back-link { font-size: 12px; font-weight: 700; color: var(--teal); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+
+  .issue-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .ticket-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
+
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .instruction { font-size: 12px; color: var(--dim); font-style: italic; }
+
+  .compare-grid {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 8px 32px 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 1100px) {
+    .compare-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .compare-col-label {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 6px 6px 0 0;
+  }
+  .compare-col-label.current { background: #FDF3F5; color: var(--red-dark); }
+  .compare-col-label.proposed { background: var(--teal); }
+
+  .col-instruction {
+    background: #fff;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 10px 32px;
+    font-size: 12px;
+    font-style: italic;
+  }
+  .col-instruction.current { color: var(--red); }
+  .col-instruction.proposed { color: var(--teal); }
+
+  .state-toggle {
+    background: #fff;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 32px 14px;
+  }
+  .state-toggle span { font-size: 11px; color: var(--dim); margin-right: 2px; }
+  .state-btn {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--hairline);
+    background: #fff;
+    color: var(--dim);
+    cursor: pointer;
+  }
+  .state-btn.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+
+  .sheet { position: relative; }
+  .sheet.current { transform: rotate(-0.2deg); }
+  @media (max-width: 1100px) {
+    .sheet.current { transform: none; }
+  }
+  .stamp {
+    position: absolute;
+    top: -11px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: #fff;
+    padding: 3px 10px;
+    border-radius: 3px;
+    z-index: 5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .stamp.redline { color: var(--red); border: 1.5px solid var(--red); transform: rotate(-3deg); }
+  .stamp.proposed-stamp { color: var(--teal); border: 1.5px solid var(--teal); transform: rotate(2deg); }
+
+  .page-wrapper {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0 0 6px 6px;
+    border-top: none;
+    padding: 28px 32px 36px;
+    box-shadow: 0px 2px 4px rgba(206, 217, 240, 0.8);
+    position: relative;
+  }
+
+  h1.page-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+  .intro-text { color: #444; margin-bottom: 24px; line-height: 1.5; font-size: 13px; max-width: 700px; }
+  .intro-text a { color: var(--blue); text-decoration: none; }
+  .intro-text a:hover { text-decoration: underline; }
+
+  .field-group { margin-bottom: 26px; max-width: 460px; }
+  .field-label { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+
+  .slider-row { display: flex; align-items: center; gap: 16px; }
+  input[type="range"] { flex: 1; accent-color: var(--blue); }
+  .slider-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .field-input-sm {
+    width: 56px;
+    font-size: 13px;
+    color: var(--ink);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: inherit;
+    text-align: center;
+  }
+  .slider-range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 4px;
+    max-width: 260px;
+  }
+  .field-hint { font-size: 12px; color: var(--dim); line-height: 1.5; margin-top: 8px; }
+  .field-hint-top { margin-top: -4px; margin-bottom: 12px; }
+  .field-hint a { color: var(--teal); font-weight: 600; text-decoration: none; }
+  .field-hint a:hover { text-decoration: underline; }
+  .field-error {
+    font-size: 12px;
+    color: var(--red-dark);
+    font-weight: 600;
+    margin-top: 8px;
+    background: var(--red-tint);
+    border-radius: 4px;
+    padding: 6px 10px;
+    max-width: 260px;
+  }
+
+  .btn-save {
+    display: inline-block;
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 4px;
+    border: none;
+    background: #CED9F0;
+    color: #fff;
+    cursor: not-allowed;
+  }
+
+  .pin-block { position: relative; }
+  .pin {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 300;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+    transition: transform 0.15s, background 0.15s;
+    user-select: none;
+    top: -12px;
+    right: -12px;
+  }
+  .pin:hover { transform: scale(1.15); background: var(--red-dark); }
+  .pin.active { background: var(--red-dark); transform: scale(1.15); }
+  .pin.green { background: var(--green); }
+  .pin.green:hover { background: #015c14; }
+  .pin.green.active { background: #015c14; transform: scale(1.15); }
+
+  .pin-block.highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
+  .pin-block.green.highlighted { box-shadow: 0 0 0 2px var(--green); }
+
+  .popover {
+    display: none;
+    position: fixed;
+    width: 380px;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 400;
+    overflow-y: auto;
+  }
+  .popover-header {
+    background: var(--red);
+    color: #fff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .popover-header.green { background: var(--green); }
+  .popover-jump-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .popover-jump-btn.to-fix { background: var(--green); color: #fff; }
+  .popover-jump-btn.to-problem { background: var(--red); color: #fff; }
+  .popover-header .pin-label {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .popover-body { padding: 16px; }
+  .popover-problem {
+    font-size: 13px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eee;
+  }
+  .popover-fix { font-size: 13px; color: #1a1a1a; line-height: 1.6; }
+  .popover-footer {
+    padding: 10px 16px;
+    background: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+    border-top: 1px solid #eee;
+  }
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: auto;
+    line-height: 1;
+    padding: 0 0 0 8px;
+  }
+
+  /* ── Idle-warning preview dialog (real copy from the product) ── */
+  .warn-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(19, 28, 53, 0.4);
+    z-index: 500;
+  }
+  .warn-modal {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    padding: 24px;
+    z-index: 501;
+  }
+  .warn-modal .preview-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .warn-modal h3 { font-size: 16px; font-weight: 800; margin-bottom: 10px; }
+  .warn-modal > p.warn-copy { font-size: 14px; color: var(--ink); line-height: 1.5; margin-bottom: 20px; }
+  .warn-actions { display: flex; justify-content: flex-end; gap: 10px; }
+  .btn-cancel-confirm {
+    padding: 9px 16px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: var(--ink);
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-continue-session {
+    padding: 9px 16px;
+    border: none;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="showcase-header">
+  <div class="breadcrumb">
+    <a class="back-link" href="../../index.html">← All issues</a>
+    <span class="path">admin-manager <span class="sep">/</span> security <span class="sep">/</span> session-timeout</span>
+  </div>
+  <div class="issue-heading">
+    <span class="ticket-chip">Unreported issue 25</span>
+    <h1>Session timeout and Idle timeout look identical, but behave completely differently — and nothing on the page explains it</h1>
+  </div>
+  <div class="header-row">
+    <span class="instruction">Click a pin to see the issue and the fix. On the proposed side, try "Preview warning" and the state toggle.</span>
+  </div>
+</div>
+
+<div class="compare-grid">
+
+  <!-- ── Current UI ── -->
+  <div>
+    <div class="sheet current">
+    <span class="stamp redline">REDLINE</span>
+    <div class="compare-col-label current">Current UI</div>
+    <div class="col-instruction current">Click a red pin to see what's wrong</div>
+    <div class="page-wrapper">
+
+      <h1 class="page-title">Session timeout</h1>
+      <p class="intro-text">Configure the user session and idle timeouts. <a href="https://docs.snaplogic.com/admin-manager/admin-manager-sessions.html" target="_blank" rel="noopener">Learn more.</a></p>
+
+      <div id="block-timeouts" class="pin-block">
+        <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+
+        <div class="field-group">
+          <div class="field-label">Session timeout</div>
+          <div class="slider-row">
+            <input type="range" min="5" max="60" value="60" disabled>
+            <div class="slider-input"><input class="field-input-sm" value="60" readonly> <span>minutes</span></div>
+          </div>
+          <div class="slider-range-labels"><span>5</span><span>60</span></div>
+        </div>
+
+        <div id="block-idle" class="pin-block field-group">
+          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+          <div class="pin" id="pin-3" style="right: 26px;" onclick="openPopover(3, event)">3</div>
+          <div class="field-label">Idle timeout</div>
+          <div class="slider-row">
+            <input type="range" min="5" max="60" value="60" disabled>
+            <div class="slider-input"><input class="field-input-sm" value="60" readonly> <span>minutes</span></div>
+          </div>
+          <div class="slider-range-labels"><span>5</span><span>60</span></div>
+        </div>
+      </div>
+
+      <button class="btn-save" disabled>Save</button>
+
+    </div>
+    </div>
+  </div>
+
+  <!-- ── Proposed Redesign ── -->
+  <div>
+    <div class="sheet proposed">
+    <span class="stamp proposed-stamp">PROPOSED</span>
+    <div class="compare-col-label proposed">Proposed microcopy</div>
+    <div class="col-instruction proposed">Click a green pin to see the fix</div>
+    <div class="state-toggle">
+      <span>View as:</span>
+      <button class="state-btn active" id="btn-state-default" onclick="setTimeoutState('default')">Default</button>
+      <button class="state-btn" id="btn-state-conflict" onclick="setTimeoutState('conflict')">Idle set higher than Session</button>
+    </div>
+    <div class="page-wrapper">
+
+      <h1 class="page-title">Session timeout</h1>
+      <p class="intro-text">Configure the user session and idle timeouts. <a href="https://docs.snaplogic.com/admin-manager/admin-manager-sessions.html" target="_blank" rel="noopener">Learn more.</a></p>
+
+      <div id="prop-block-timeouts" class="pin-block green">
+        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+
+        <div class="field-group">
+          <div class="field-label">Session timeout</div>
+          <p class="field-hint field-hint-top">Ends the session at a fixed time from login — even if you're actively working. No warning before it ends.</p>
+          <div class="slider-row">
+            <input type="range" min="5" max="60" value="60" disabled id="prop-session-range">
+            <div class="slider-input"><input class="field-input-sm" value="60" readonly id="prop-session-value"> <span>minutes</span></div>
+          </div>
+          <div class="slider-range-labels"><span>5</span><span>60</span></div>
+        </div>
+
+        <div id="prop-block-idle" class="pin-block green field-group">
+          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+          <div class="pin green" id="green-pin-3" style="right: 26px;" onclick="openGreenPopover(3, event)">3</div>
+          <div class="field-label">Idle timeout</div>
+          <p class="field-hint field-hint-top">Ends the session after this much inactivity. Warns 2 minutes before logging out, with a Continue option. <a href="#" onclick="previewIdleWarning(event)">Preview warning →</a></p>
+          <div class="slider-row">
+            <input type="range" min="5" max="60" value="60" disabled id="prop-idle-range">
+            <div class="slider-input"><input class="field-input-sm" value="60" readonly id="prop-idle-value"> <span>minutes</span></div>
+          </div>
+          <div class="slider-range-labels"><span>5</span><span>60</span></div>
+          <p class="field-error" id="idle-error" style="display:none;">Idle timeout can't be more than Session timeout (<span id="idle-error-session-val">15</span> min).</p>
+        </div>
+      </div>
+
+      <button class="btn-save" disabled id="prop-save-btn">Save</button>
+
+    </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Popover (shared, positions relative to whichever pin was clicked) -->
+<div class="popover" id="popover">
+  <div class="popover-header" id="pop-header">
+    <div class="pin-label" id="pop-num">1</div>
+    <h3 id="pop-title"></h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <div class="popover-problem" id="pop-problem"></div>
+    <button class="popover-jump-btn" id="pop-jump-btn"></button>
+  </div>
+  <div class="popover-footer">
+    <span id="pop-counter"></span>
+  </div>
+</div>
+
+<!-- Idle-warning preview dialog (real copy, from en.js) -->
+<div class="warn-overlay" id="warn-overlay" onclick="closeIdleWarning()"></div>
+<div class="warn-modal" id="warn-modal">
+  <div class="preview-label">Preview — appears 2 minutes before idle logout</div>
+  <p class="warn-copy">You will be logged out in 2 minutes. Click "Continue" to keep working.</p>
+  <div class="warn-actions">
+    <button class="btn-cancel-confirm" onclick="closeIdleWarning()">Log out now</button>
+    <button class="btn-continue-session" onclick="closeIdleWarning()">Continue</button>
+  </div>
+</div>
+
+<script>
+const annotations = [
+  {
+    title: "Session timeout and Idle timeout look and default identically, with no explanation of how they differ",
+    problem: "Both sliders share the same 5–60 range and default to 60 minutes, with no hint that they work completely differently. Session timeout is a fixed, absolute cutoff from login — enforced by a cookie that expires regardless of activity — while Idle timeout only counts real inactivity, tracked across tabs.",
+    fix: "Add a short line under each label stating the real mechanism: Session timeout ends the session at a fixed time from login, even if you're actively working; Idle timeout ends it only after this much inactivity.",
+    block: "block-timeouts",
+    propBlock: "prop-block-timeouts"
+  },
+  {
+    title: "Idle timeout warns before logging out; Session timeout doesn't — and neither is disclosed",
+    problem: "Idle timeout shows a 2-minute warning before logging a user out, with a Continue option — but Session timeout gives no warning at all, so unsaved work in an active session can vanish the instant the fixed cutoff hits. Neither behavior is disclosed on the page.",
+    fix: "State the warning behavior for each control, and for Idle timeout, show that the last 2 minutes of any value are a warning period — at the 5-minute minimum, that means the warning fires after only 3 minutes of actual inactivity.",
+    block: "block-idle",
+    propBlock: "prop-block-idle"
+  },
+  {
+    title: "Setting Idle timeout higher than Session timeout makes it meaningless, with no validation or warning",
+    problem: "If Idle timeout is set higher than Session timeout, the session's fixed cutoff always happens first, so the idle timer can never fire. Neither the page nor the backend validates or warns about this — unlike Password expiration's enforced notice/expire relationship.",
+    fix: "Block Save with an explanatory message when Idle timeout exceeds Session timeout, matching how Password expiration already validates its two fields.",
+    block: "block-idle",
+    propBlock: "prop-block-idle"
+  }
+];
+
+let current = null;
+let mode = 'red';
+
+function openPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'red';
+  current = n;
+  render();
+  clearHighlights();
+
+  const a = annotations[n - 1];
+  if (a.block) document.getElementById(a.block).classList.add('highlighted');
+  const pinEl = document.getElementById('pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function openGreenPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'green';
+  current = n;
+  render();
+  clearHighlights();
+
+  const a = annotations[n - 1];
+  if (a.propBlock) document.getElementById(a.propBlock).classList.add('highlighted');
+  const pinEl = document.getElementById('green-pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function clearHighlights() {
+  document.querySelectorAll('.pin-block').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+}
+
+function positionPopover(pinEl) {
+  const pop = document.getElementById('popover');
+  pop.style.display = 'block';
+
+  const rect = pinEl.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  const popWidth = popRect.width;
+  const popHeight = popRect.height;
+
+  let top = rect.bottom + margin;
+  if (top + popHeight > window.innerHeight - margin) {
+    top = rect.top - popHeight - margin;
+  }
+  top = Math.max(margin, Math.min(top, window.innerHeight - popHeight - margin));
+
+  let left = rect.left + rect.width / 2 - popWidth / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popWidth - margin));
+
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function render() {
+  const a = annotations[current - 1];
+  const header = document.getElementById('pop-header');
+  const jumpBtn = document.getElementById('pop-jump-btn');
+
+  document.getElementById('pop-num').textContent = current;
+  document.getElementById('pop-title').textContent = a.title;
+
+  if (mode === 'red') {
+    header.classList.remove('green');
+    document.getElementById('pop-problem').textContent = a.problem;
+    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.className = 'popover-jump-btn to-fix';
+    jumpBtn.onclick = function() { jumpTo('green', current); };
+    document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;
+  } else {
+    header.classList.add('green');
+    document.getElementById('pop-problem').textContent = a.fix;
+    jumpBtn.textContent = '← Back to problem';
+    jumpBtn.className = 'popover-jump-btn to-problem';
+    jumpBtn.onclick = function() { jumpTo('red', current); };
+    document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
+  }
+}
+
+function jumpTo(targetMode, n) {
+  closePopover();
+  const pinId = targetMode === 'green' ? 'green-pin-' + n : 'pin-' + n;
+  const pinEl = document.getElementById(pinId);
+  pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() {
+    if (targetMode === 'green') {
+      openGreenPopover(n);
+    } else {
+      openPopover(n);
+    }
+  }, 300);
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+  clearHighlights();
+  current = null;
+}
+
+function previewIdleWarning(e) {
+  e.preventDefault();
+  document.getElementById('warn-overlay').style.display = 'block';
+  document.getElementById('warn-modal').style.display = 'block';
+}
+
+function closeIdleWarning() {
+  document.getElementById('warn-overlay').style.display = 'none';
+  document.getElementById('warn-modal').style.display = 'none';
+}
+
+function setTimeoutState(state) {
+  const btnDefault = document.getElementById('btn-state-default');
+  const btnConflict = document.getElementById('btn-state-conflict');
+  const sessionRange = document.getElementById('prop-session-range');
+  const sessionValue = document.getElementById('prop-session-value');
+  const idleError = document.getElementById('idle-error');
+  const saveBtn = document.getElementById('prop-save-btn');
+
+  if (state === 'conflict') {
+    sessionRange.value = 15;
+    sessionValue.value = 15;
+    document.getElementById('idle-error-session-val').textContent = '15';
+    idleError.style.display = 'block';
+    saveBtn.disabled = true;
+    btnConflict.classList.add('active');
+    btnDefault.classList.remove('active');
+  } else {
+    sessionRange.value = 60;
+    sessionValue.value = 60;
+    idleError.style.display = 'none';
+    saveBtn.disabled = true;
+    btnDefault.classList.add('active');
+    btnConflict.classList.remove('active');
+  }
+}
+</script>
+</body>
+</html>

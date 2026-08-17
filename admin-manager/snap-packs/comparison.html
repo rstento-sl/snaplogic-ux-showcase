@@ -181,6 +181,18 @@
     color: var(--orange); font-size: 12px; font-weight: 700; line-height: 1.5;
   }
   .popover-footer { padding: 10px 16px; background: #f8f8f8; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #888; border-top: 1px solid #eee; }
+  .popover-nav { display: flex; gap: 8px; }
+  .popover-nav button {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    color: #444;
+  }
+  .popover-nav button:hover { background: #f0f0f0; }
+  .popover-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
   .close-btn { background: none; border: none; font-size: 18px; color: #fff; cursor: pointer; margin-left: auto; line-height: 1; padding: 0 0 0 8px; }
 </style>
 </head>
@@ -353,6 +365,10 @@
   </div>
   <div class="popover-footer">
     <span id="pop-counter"></span>
+    <div class="popover-nav">
+      <button id="btn-prev" onclick="navigate(-1)">← Prev</button>
+      <button id="btn-next" onclick="navigate(1)">Next →</button>
+    </div>
   </div>
 </div>
 
@@ -454,6 +470,19 @@ function render() {
     jumpBtn.className = 'popover-jump-btn to-problem';
     jumpBtn.onclick = function() { jumpTo('red', current); };
     document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
+  }
+
+  document.getElementById('btn-prev').disabled = current === 1;
+  document.getElementById('btn-next').disabled = current === annotations.length;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > annotations.length) return;
+  if (mode === 'red') {
+    openPopover(next);
+  } else {
+    openGreenPopover(next);
   }
 }
 

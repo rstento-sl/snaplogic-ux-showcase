@@ -118,15 +118,16 @@
   .compare-col-label.proposed { background: var(--teal); }
 
   .col-instruction {
-    background: #fff;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    padding: 10px 32px;
+    display: inline-block;
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 10px;
     font-size: 12px;
     font-style: italic;
+    font-weight: 600;
   }
-  .col-instruction.current { color: var(--red); }
-  .col-instruction.proposed { color: var(--teal); }
+  .col-instruction.current { background: rgba(227, 28, 61, 0.08); color: var(--red); border: 1px dashed var(--red); }
+  .col-instruction.proposed { background: rgba(9, 129, 127, 0.08); color: var(--teal); border: 1px dashed var(--teal); }
 
   .sheet { position: relative; }
   .sheet.current { transform: rotate(-0.2deg); }
@@ -153,8 +154,7 @@
   .page-wrapper {
     background: #fff;
     border: 1px solid #ddd;
-    border-radius: 0 0 6px 6px;
-    border-top: none;
+    border-radius: 6px;
     padding: 28px 32px 36px;
     box-shadow: 0px 2px 4px rgba(206, 217, 240, 0.8);
     position: relative;
@@ -418,7 +418,7 @@
     <div class="sheet current">
     <span class="stamp redline">REDLINE</span>
     <div class="compare-col-label current">Current UI</div>
-    <div class="col-instruction current">Click a red pin to see what's wrong</div>
+    <div class="col-instruction current">Reviewers: click a red pin to see what's wrong</div>
     <div class="page-wrapper">
 
       <h1 class="page-title">Password expiration</h1>
@@ -465,7 +465,7 @@
     <div class="sheet proposed">
     <span class="stamp proposed-stamp">PROPOSED</span>
     <div class="compare-col-label proposed">Proposed microcopy</div>
-    <div class="col-instruction proposed">Click a green pin to see the fix</div>
+    <div class="col-instruction proposed">Reviewers: click a green pin to see the fix</div>
     <div class="page-wrapper">
 
       <h1 class="page-title">Password expiration</h1>

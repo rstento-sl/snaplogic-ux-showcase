@@ -458,8 +458,8 @@
       <hr class="divider">
 
       <div id="block-expire-all" class="pin-block">
-        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
-        <div class="pin" id="pin-3" style="right: 26px;" onclick="openPopover(3, event)">3</div>
+        <div class="pin" id="pin-2" style="right: 26px;" onclick="openPopover(2, event)">2</div>
+        <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
         <div class="expire-row">
           <button class="btn-expire-all">Expire all passwords</button>
           <p class="expire-caption">Enforce all users, including Enviroment admins, to change their passwords immediately.</p>
@@ -506,8 +506,8 @@
       <hr class="divider">
 
       <div id="prop-block-expire-all" class="pin-block green">
-        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
-        <div class="pin green" id="green-pin-3" style="right: 26px;" onclick="openGreenPopover(3, event)">3</div>
+        <div class="pin green" id="green-pin-2" style="right: 26px;" onclick="openGreenPopover(2, event)">2</div>
+        <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
         <div class="expire-row">
           <button class="btn-expire-all" id="expire-btn" onclick="openExpireConfirm()">Expire all passwords</button>
           <p class="expire-caption">Enforce all users, including Environment admins, to change their passwords immediately.</p>
@@ -570,7 +570,7 @@ const annotations = [
   },
   {
     title: "Expire all passwords doesn't disclose the manual cleanup it creates for service accounts",
-    problem: "Expire all passwords blocks every service account's credentials too, but since a service account can't log in to reset itself, the admin who created it gets an expiration email and has to click the reset link to set a new password, then update whatever app or integration uses that credential. The confirm dialog mentions this only as a trailing clause, with no count of how many service accounts are affected.",
+    problem: "Expire all passwords also expires every service account's credentials, but since they can't log in, their creating admin has to manually reset each one and update the dependent app — none of that is disclosed before confirming.",
     fix: "Show the number of affected service accounts before the admin confirms, and name the follow-up steps directly: click the reset link in the email you'll receive for each service account you created, set a new password, then update the dependent app/integration with the new credential.",
     block: "block-expire-all",
     propBlock: "prop-block-expire-all"

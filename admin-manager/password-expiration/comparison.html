@@ -510,7 +510,7 @@
         <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
         <div class="expire-row">
           <button class="btn-expire-all" id="expire-btn" onclick="openExpireConfirm()">Expire all passwords</button>
-          <p class="expire-caption">Enforce all users, including Environment admins, to change their passwords immediately.</p>
+          <p class="expire-caption">Signs users out, including Environment admins, on their next interaction. Does not sign out SSO users or those who have accounts in environments that you don't administer.</p>
         </div>
         <p class="expire-done" id="expire-done" style="display:none;">✓ Passwords expired. SSO users and users outside your administered environments were skipped. 3 service accounts still need a manual reset — see below.</p>
       </div>
@@ -578,7 +578,7 @@ const annotations = [
   {
     title: "Expire all passwords sounds like it resets everyone's password, but scope is silently limited",
     problem: "Expire all passwords sounds like it resets everyone's password, but it silently skips SSO users entirely, and also skips users whose accounts span environments you don't administer — none of this is disclosed on the page.",
-    fix: "State these exemptions directly on the page, near the button.",
+    fix: "Rewrite the caption next to the button to state these exemptions directly: “Signs users out, including Environment admins, on their next interaction. Does not sign out SSO users or those who have accounts in environments that you don't administer.”",
     block: "block-expire-all",
     propBlock: "prop-block-expire-all"
   }

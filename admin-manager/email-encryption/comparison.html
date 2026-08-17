@@ -121,16 +121,24 @@
   .col-instruction.current { background: rgba(227, 28, 61, 0.08); color: var(--red); border: 1px dashed var(--red); }
   .col-instruction.proposed { background: rgba(9, 129, 127, 0.08); color: var(--teal); border: 1px dashed var(--teal); }
 
-  .state-toggle {
-    background: #fff;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+  .reviewer-toggle {
+    background: var(--orange-tint);
+    border: 1px dashed var(--orange);
+    border-radius: 6px;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 32px 14px;
+    padding: 10px 16px;
+    margin-bottom: 14px;
   }
-  .state-toggle span { font-size: 11px; color: var(--dim); margin-right: 2px; }
+  .reviewer-toggle-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--orange);
+    margin-right: 2px;
+  }
   .state-btn {
     font-size: 12px;
     font-weight: 600;
@@ -340,10 +348,10 @@
 
   <!-- ── Current UI ── -->
   <div>
+    <div class="col-instruction current">Reviewers: click a red pin to see what's wrong</div>
     <div class="sheet current">
     <span class="stamp redline">REDLINE</span>
     <div class="compare-col-label current">Current UI</div>
-    <div class="col-instruction current">Reviewers: click a red pin to see what's wrong</div>
     <div class="page-wrapper">
 
       <div id="block-title" class="pin-block">
@@ -373,15 +381,15 @@
 
   <!-- ── Proposed Redesign ── -->
   <div>
-    <div class="sheet proposed">
-    <span class="stamp proposed-stamp">PROPOSED</span>
-    <div class="compare-col-label proposed">Proposed microcopy</div>
     <div class="col-instruction proposed">Reviewers: click a green pin to see the fix</div>
-    <div class="state-toggle">
-      <span>View as:</span>
+    <div class="reviewer-toggle">
+      <span class="reviewer-toggle-label">Reviewers — view as:</span>
       <button class="state-btn active" id="btn-state-subscribed" onclick="setSubscriptionState('subscribed')">Subscribed</button>
       <button class="state-btn" id="btn-state-unsubscribed" onclick="setSubscriptionState('unsubscribed')">Not subscribed</button>
     </div>
+    <div class="sheet proposed">
+    <span class="stamp proposed-stamp">PROPOSED</span>
+    <div class="compare-col-label proposed">Proposed microcopy</div>
     <div class="page-wrapper">
 
       <div id="prop-block-title" class="pin-block green">

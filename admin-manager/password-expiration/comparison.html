@@ -486,7 +486,7 @@
       <div id="prop-block-period" class="pin-block green field-group">
         <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
         <div class="field-label">Expiration period</div>
-        <p class="field-hint field-hint-top">0 = passwords never expire.</p>
+        <p class="field-hint field-hint-top">Passwords never expire when set to 0.</p>
         <div class="slider-row">
           <input type="range" min="0" max="90" value="0" disabled>
           <div class="slider-input"><input class="field-input-sm" value="0" readonly> <span>days</span></div>
@@ -564,7 +564,7 @@ const annotations = [
   {
     title: "Expiration period defaults to 0 with no explanation",
     problem: "Expiration period defaults to 0 with no explanation — admins can't tell whether that means passwords never expire or expire immediately.",
-    fix: "Add inline help text next to the field: “0 = passwords never expire.”",
+    fix: "Add inline help text next to the field: “Passwords never expire when set to 0.”",
     block: "block-period",
     propBlock: "prop-block-period"
   },

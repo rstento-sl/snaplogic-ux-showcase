@@ -790,8 +790,12 @@
           "callout": "Expiration period defaults to 0 with no explanation — admins can't tell whether that means passwords never expire or expire immediately."
         },
         {
+          "target": "Expiration notice period",
+          "callout": "Nothing on the page explains what Expiration notice period controls or how the notification actually reaches users — admins have to guess whether it's an email, an in-app banner, or something else."
+        },
+        {
           "target": "Expire all passwords button",
-          "callout": "Expire all passwords blocks every service account's credentials too, but since a service account can't log in to reset itself, the admin who created it gets an expiration email and has to click the reset link to set a new password, then update whatever app or integration uses that credential. The confirm dialog mentions this only as a trailing clause, with no count of how many service accounts are affected."
+          "callout": "Expire all passwords also expires every service account's credentials, but since they can't log in, their creating admin has to manually reset each one and update the dependent app — none of that is disclosed before confirming."
         },
         {
           "target": "Expire all passwords button",

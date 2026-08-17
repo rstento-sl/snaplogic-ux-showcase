@@ -198,6 +198,63 @@
   .field-hint { font-size: 12px; color: var(--dim); line-height: 1.5; margin-top: 8px; }
   .field-hint-top { margin-top: -4px; margin-bottom: 12px; }
 
+.sl-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+}
+.sl-tooltip-trigger {
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  border: 1.5px solid var(--dim);
+  color: var(--dim);
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+.sl-tooltip {
+  position: absolute;
+  z-index: 100;
+  background: var(--ink);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  width: max-content;
+  max-width: 240px;
+  white-space: normal;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(3,26,72,0.18);
+  opacity: 0;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  transition: opacity 120ms ease-out 300ms, transform 120ms ease-out 300ms;
+}
+.sl-tooltip::after {
+  content: "";
+  position: absolute;
+  width: 0; height: 0;
+  border: 5px solid transparent;
+  bottom: 100%; left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--ink);
+  border-top: none;
+}
+.sl-tooltip-wrap:hover .sl-tooltip,
+.sl-tooltip-wrap:focus-within .sl-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
   .divider { border: none; border-top: 1px solid var(--hairline); margin: 8px 0 24px; }
 
   .expire-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
@@ -446,7 +503,8 @@
         <div class="slider-range-labels"><span>0</span><span>90</span></div>
       </div>
 
-      <div class="field-group">
+      <div id="block-notice" class="pin-block field-group">
+        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
         <div class="field-label">Expiration notice period</div>
         <div class="slider-row">
           <input type="range" min="1" max="14" value="1" disabled>
@@ -458,8 +516,8 @@
       <hr class="divider">
 
       <div id="block-expire-all" class="pin-block">
-        <div class="pin" id="pin-2" style="right: 26px;" onclick="openPopover(2, event)">2</div>
-        <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+        <div class="pin" id="pin-3" style="right: 26px;" onclick="openPopover(3, event)">3</div>
+        <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
         <div class="expire-row">
           <button class="btn-expire-all">Expire all passwords</button>
           <p class="expire-caption">Enforce all users, including Enviroment admins, to change their passwords immediately.</p>
@@ -485,8 +543,8 @@
 
       <div id="prop-block-period" class="pin-block green field-group">
         <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
-        <div class="field-label">Expiration period</div>
-        <p class="field-hint field-hint-top">Passwords never expire when set to 0.</p>
+        <div class="field-label">Expiration period <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Passwords never expire when set to 0.</span></span></div>
+        <p class="field-hint field-hint-top">How often passwords expire.</p>
         <div class="slider-row">
           <input type="range" min="0" max="90" value="0" disabled>
           <div class="slider-input"><input class="field-input-sm" value="0" readonly> <span>days</span></div>
@@ -494,8 +552,10 @@
         <div class="slider-range-labels"><span>0</span><span>90</span></div>
       </div>
 
-      <div class="field-group">
-        <div class="field-label">Expiration notice period</div>
+      <div id="prop-block-notice" class="pin-block green field-group">
+        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+        <div class="field-label">Expiration notice period <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Users get in-app notifications each time they log in during the period and one email at the start of the period.</span></span></div>
+        <p class="field-hint field-hint-top">Days before expiration to notify users to reset their password.</p>
         <div class="slider-row">
           <input type="range" min="1" max="14" value="1" disabled>
           <div class="slider-input"><input class="field-input-sm" value="1" readonly> <span>days</span></div>
@@ -506,8 +566,8 @@
       <hr class="divider">
 
       <div id="prop-block-expire-all" class="pin-block green">
-        <div class="pin green" id="green-pin-2" style="right: 26px;" onclick="openGreenPopover(2, event)">2</div>
-        <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+        <div class="pin green" id="green-pin-3" style="right: 26px;" onclick="openGreenPopover(3, event)">3</div>
+        <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
         <div class="expire-row">
           <button class="btn-expire-all" id="expire-btn" onclick="openExpireConfirm()">Expire all passwords</button>
           <p class="expire-caption">Signs users out, including Environment admins, on their next interaction. Does not sign out SSO users or those who have accounts in environments that you don't administer.</p>
@@ -564,9 +624,16 @@ const annotations = [
   {
     title: "Expiration period defaults to 0 with no explanation",
     problem: "Expiration period defaults to 0 with no explanation — admins can't tell whether that means passwords never expire or expire immediately.",
-    fix: "Add inline help text next to the field: “Passwords never expire when set to 0.”",
+    fix: "Add microcopy under the label: “How often passwords expire.” Move the 0-value detail into a tooltip: “Passwords never expire when set to 0.”",
     block: "block-period",
     propBlock: "prop-block-period"
+  },
+  {
+    title: "Expiration notice period has no explanation of what it does",
+    problem: "Nothing on the page explains what Expiration notice period controls or how the notification actually reaches users — admins have to guess whether it's an email, an in-app banner, or something else.",
+    fix: "Add microcopy under the label: “Days before expiration to notify users to reset their password.” Add a tooltip explaining the mechanism: “Users get in-app notifications each time they log in during the period and one email at the start of the period.”",
+    block: "block-notice",
+    propBlock: "prop-block-notice"
   },
   {
     title: "Expire all passwords doesn't disclose the manual cleanup it creates for service accounts",

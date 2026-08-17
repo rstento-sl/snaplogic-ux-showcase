@@ -772,19 +772,23 @@
     {
       "id": "issue-25",
       "area": "Admin Manager",
-      "title": "Password expiration doesn't explain what 0 means, and Expire all passwords hides its real scope and follow-up work",
+      "title": "Left nav mislabels Password expiration, and the page doesn't explain what 0 means or how Expire all passwords really behaves",
       "screen": "Admin Manager > Security > Password expiration",
       "jira": "",
       "unreportedLabel": "Unreported issue 24",
       "severity": "High",
       "category": "Content clarity / labeling",
       "page": "Password expiration",
-      "summary": "Expiration period defaults to 0 with no indication that means passwords never expire, and Expire all passwords silently skips SSO users and out-of-scope environments while burying the manual, per-account reset work it creates for service accounts.",
+      "summary": "The left nav item reads \"Password expiry\" — British English, and a mismatch with the page's own \"Password expiration\" title. Expiration period defaults to 0 with no indication that means passwords never expire, and Expire all passwords silently skips SSO users and out-of-scope environments while burying the manual, per-account reset work it creates for service accounts.",
       "mockups": {
         "comparison": "admin-manager/password-expiration/comparison.html",
         "possibleBug": "admin-manager/password-expiration/possible-bug.html"
       },
       "annotations": [
+        {
+          "target": "Left nav item",
+          "callout": "The left nav item reads \"Password expiry,\" but the page it opens is titled \"Password expiration\" — a different word, and one that's British English where the rest of the product uses American English."
+        },
         {
           "target": "Expiration period",
           "callout": "Expiration period defaults to 0 with no explanation — admins can't tell whether that means passwords never expire or expire immediately."

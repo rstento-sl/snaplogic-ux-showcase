@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Password expiration doesn't explain what 0 means, and Expire all passwords hides its real scope and follow-up work</title>
+<title>Left nav mislabels Password expiration, and the page doesn't explain what 0 means or how Expire all passwords really behaves</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -94,7 +94,7 @@
   .bug-link:hover { text-decoration: underline; }
 
   .compare-grid {
-    max-width: 1600px;
+    max-width: 2600px;
     margin: 0 auto;
     padding: 8px 32px 40px;
     display: grid;
@@ -102,7 +102,7 @@
     gap: 32px;
     align-items: start;
   }
-  @media (max-width: 1100px) {
+  @media (max-width: 1500px) {
     .compare-grid { grid-template-columns: 1fr; gap: 40px; }
   }
 
@@ -158,6 +158,79 @@
     padding: 28px 32px 36px;
     box-shadow: 0px 2px 4px rgba(206, 217, 240, 0.8);
     position: relative;
+  }
+
+  /* ── Full Admin Manager app shell (top bar + left nav), for issues about the nav itself ── */
+  .admin-shell {
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+    box-shadow: 0px 2px 4px rgba(206, 217, 240, 0.8);
+  }
+  .admin-topbar {
+    height: 56px;
+    background: #0B1638;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  .admin-topbar-left { display: flex; align-items: center; gap: 14px; }
+  .admin-logo-mark { flex-shrink: 0; }
+  .admin-logo-text { color: #fff; font-size: 16px; font-weight: 800; white-space: nowrap; }
+  .admin-env-dropdown {
+    display: flex; align-items: center; gap: 6px;
+    color: #C7CCDA; font-size: 13px; font-weight: 600;
+    padding: 6px 10px; border-radius: 4px; cursor: default;
+  }
+  .admin-topbar-right { display: flex; align-items: center; gap: 20px; color: #C7CCDA; }
+  .admin-topbar-right .admin-user { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+  .admin-topbar-accent { height: 3px; background: var(--teal); }
+  .admin-body { display: flex; }
+  .admin-sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: #0B1638;
+    padding: 18px 0 12px;
+  }
+  .admin-nav-section {
+    color: #6E7A9B;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 14px 18px 6px;
+  }
+  .admin-nav-section:first-child { padding-top: 0; }
+  .admin-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    color: #D3D7E3;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .admin-nav-icon { width: 14px; height: 14px; border-radius: 3px; background: #4C567A; flex-shrink: 0; }
+  .admin-nav-item.active { background: var(--blue); color: #fff; }
+  .admin-nav-item.active .admin-nav-icon { background: #fff; opacity: 0.85; }
+  .admin-nav-collapse { color: #6E7A9B; font-size: 14px; padding: 10px 18px 0; }
+.admin-sidebar .pin-block .pin { top: 50%; right: 6px; left: auto; transform: translateY(-50%); }
+.admin-sidebar .pin-block .pin:hover { transform: translateY(-50%) scale(1.15); }
+.admin-sidebar .pin-block .pin.active { transform: translateY(-50%) scale(1.15); }
+  .admin-main {
+    flex: 1;
+    min-width: 0;
+    background: var(--canvas);
+    padding: 8px;
+  }
+  .admin-main .page-wrapper {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 22px 26px 30px;
   }
 
   h1.page-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
@@ -472,7 +545,7 @@
   </div>
   <div class="issue-heading">
     <span class="ticket-chip">Unreported issue 24</span>
-    <h1>Password expiration doesn't explain what 0 means, and Expire all passwords hides its real scope and follow-up work</h1>
+    <h1>Left nav mislabels Password expiration, and the page doesn't explain what 0 means or how Expire all passwords really behaves</h1>
   </div>
   <div class="header-row">
     <span class="instruction">Click a pin to see the issue and the fix. On the proposed side, click Expire all passwords.</span>
@@ -488,13 +561,69 @@
     <div class="sheet current">
     <span class="stamp redline">REDLINE</span>
     <div class="compare-col-label current">Current UI</div>
+    <div class="admin-shell">
+      <div class="admin-topbar">
+        <div class="admin-topbar-left">
+          <svg class="admin-logo-mark" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="9" r="6"/><circle cx="15" cy="15" r="6"/></svg>
+          <span class="admin-logo-text">Admin Manager</span>
+          <span class="admin-env-dropdown">automation <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+        <div class="admin-topbar-right">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="admin-user">Test <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg>
+        </div>
+      </div>
+      <div class="admin-topbar-accent"></div>
+      <div class="admin-body">
+        <div class="admin-sidebar">
+          <div class="admin-nav-section">Application Settings</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Designer</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>SnapGPT</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Optimized Dashboard</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>API Management</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>AutoSync</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Asset catalog</div>
+
+          <div class="admin-nav-section">User Management</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Users</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Groups</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Roles</div>
+
+          <div class="admin-nav-section">System Configuration</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Environment</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Snaplexes</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Git Integration</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Slack setup</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Custom privacy notice</div>
+
+          <div class="admin-nav-section">Subscriptions</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Snap Packs</div>
+
+          <div class="admin-nav-section">Security</div>
+          <div id="block-nav" class="pin-block" style="position:relative;">
+            <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+            <div class="admin-nav-item active"><span class="admin-nav-icon"></span>Password expiry</div>
+          </div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Session timeout</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Authentication</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Email encryption</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Allowlists</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Account encryption</div>
+
+          <div class="admin-nav-section">Billing &amp; Customization</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Branding</div>
+
+          <div class="admin-nav-collapse">«</div>
+        </div>
+        <div class="admin-main">
     <div class="page-wrapper">
 
       <h1 class="page-title">Password expiration</h1>
       <p class="intro-text">Configure the password expiration policy for all users in this environment. <a href="https://docs.snaplogic.com/admin-manager/password-expiration.html" target="_blank" rel="noopener">Learn more.</a></p>
 
       <div id="block-period" class="pin-block field-group">
-        <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
         <div class="field-label">Expiration period</div>
         <div class="slider-row">
           <input type="range" min="0" max="90" value="0" disabled>
@@ -504,7 +633,7 @@
       </div>
 
       <div id="block-notice" class="pin-block field-group">
-        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+        <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
         <div class="field-label">Expiration notice period</div>
         <div class="slider-row">
           <input type="range" min="1" max="14" value="1" disabled>
@@ -516,8 +645,8 @@
       <hr class="divider">
 
       <div id="block-expire-all" class="pin-block">
-        <div class="pin" id="pin-3" style="right: 26px;" onclick="openPopover(3, event)">3</div>
-        <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+        <div class="pin" id="pin-4" style="right: 26px;" onclick="openPopover(4, event)">4</div>
+        <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
         <div class="expire-row">
           <button class="btn-expire-all">Expire all passwords</button>
           <p class="expire-caption">Enforce all users, including Enviroment admins, to change their passwords immediately.</p>
@@ -526,6 +655,9 @@
 
       <button class="btn-save" disabled>Save</button>
 
+    </div>
+        </div>
+      </div>
     </div>
     </div>
   </div>
@@ -536,13 +668,69 @@
     <div class="sheet proposed">
     <span class="stamp proposed-stamp">PROPOSED</span>
     <div class="compare-col-label proposed">Proposed microcopy</div>
+    <div class="admin-shell">
+      <div class="admin-topbar">
+        <div class="admin-topbar-left">
+          <svg class="admin-logo-mark" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="9" r="6"/><circle cx="15" cy="15" r="6"/></svg>
+          <span class="admin-logo-text">Admin Manager</span>
+          <span class="admin-env-dropdown">automation <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+        <div class="admin-topbar-right">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="admin-user">Test <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg>
+        </div>
+      </div>
+      <div class="admin-topbar-accent"></div>
+      <div class="admin-body">
+        <div class="admin-sidebar">
+          <div class="admin-nav-section">Application Settings</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Designer</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>SnapGPT</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Optimized Dashboard</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>API Management</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>AutoSync</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Asset catalog</div>
+
+          <div class="admin-nav-section">User Management</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Users</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Groups</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Roles</div>
+
+          <div class="admin-nav-section">System Configuration</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Environment</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Snaplexes</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Git Integration</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Slack setup</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Custom privacy notice</div>
+
+          <div class="admin-nav-section">Subscriptions</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Snap Packs</div>
+
+          <div class="admin-nav-section">Security</div>
+          <div id="prop-block-nav" class="pin-block green" style="position:relative;">
+            <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+            <div class="admin-nav-item active"><span class="admin-nav-icon"></span>Password expiration</div>
+          </div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Session timeout</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Authentication</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Email encryption</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Allowlists</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Account encryption</div>
+
+          <div class="admin-nav-section">Billing &amp; Customization</div>
+          <div class="admin-nav-item"><span class="admin-nav-icon"></span>Branding</div>
+
+          <div class="admin-nav-collapse">«</div>
+        </div>
+        <div class="admin-main">
     <div class="page-wrapper">
 
       <h1 class="page-title">Password expiration</h1>
       <p class="intro-text">Configure the password expiration policy for all users in this environment. <a href="https://docs.snaplogic.com/admin-manager/password-expiration.html" target="_blank" rel="noopener">Learn more.</a></p>
 
       <div id="prop-block-period" class="pin-block green field-group">
-        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
         <div class="field-label">Expiration period <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Passwords never expire when set to 0.</span></span></div>
         <p class="field-hint field-hint-top">How often passwords expire.</p>
         <div class="slider-row">
@@ -553,7 +741,7 @@
       </div>
 
       <div id="prop-block-notice" class="pin-block green field-group">
-        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+        <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
         <div class="field-label">Expiration notice period <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Users get in-app notifications each time they log in during the period and one email at the start of the period.</span></span></div>
         <p class="field-hint field-hint-top">Days before expiration to notify users to reset their password.</p>
         <div class="slider-row">
@@ -566,8 +754,8 @@
       <hr class="divider">
 
       <div id="prop-block-expire-all" class="pin-block green">
-        <div class="pin green" id="green-pin-3" style="right: 26px;" onclick="openGreenPopover(3, event)">3</div>
-        <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+        <div class="pin green" id="green-pin-4" style="right: 26px;" onclick="openGreenPopover(4, event)">4</div>
+        <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
         <div class="expire-row">
           <button class="btn-expire-all" id="expire-btn" onclick="openExpireConfirm()">Expire all passwords</button>
           <p class="expire-caption">Signs users out, including Environment admins, on their next interaction. Does not sign out SSO users or those who have accounts in environments that you don't administer.</p>
@@ -577,6 +765,9 @@
 
       <button class="btn-save" disabled>Save</button>
 
+    </div>
+        </div>
+      </div>
     </div>
     </div>
   </div>
@@ -621,6 +812,13 @@
 
 <script>
 const annotations = [
+  {
+    title: "Left nav says “Password expiry,” not “Password expiration”",
+    problem: "The left nav item reads “Password expiry,” but the page it opens is titled “Password expiration” — a different word, and one that's British English where the rest of the product uses American English.",
+    fix: "Rename the nav item to “Password expiration,” matching the page title and the American English spelling used everywhere else in the product.",
+    block: "block-nav",
+    propBlock: "prop-block-nav"
+  },
   {
     title: "Expiration period defaults to 0 with no explanation",
     problem: "Expiration period defaults to 0 with no explanation — admins can't tell whether that means passwords never expire or expire immediately.",

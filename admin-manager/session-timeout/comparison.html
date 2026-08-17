@@ -490,7 +490,7 @@
           <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
           <div class="pin green" id="green-pin-3" style="right: 26px;" onclick="openGreenPopover(3, event)">3</div>
           <div class="field-label">Idle timeout</div>
-          <p class="field-hint field-hint-top">Ends the session after this much inactivity. Warns 2 minutes before logging out, with a Continue option. <a href="#" onclick="previewIdleWarning(event)">Preview warning →</a></p>
+          <p class="field-hint field-hint-top">Ends the session after inactivity. Warns 2 minutes before logging out, with a Continue option. <a href="#" onclick="previewIdleWarning(event)">Preview warning →</a></p>
           <div class="slider-row">
             <input type="range" min="5" max="60" value="60" disabled id="prop-idle-range">
             <div class="slider-input"><input class="field-input-sm" value="60" readonly id="prop-idle-value"> <span>minutes</span></div>
@@ -540,14 +540,14 @@ const annotations = [
   {
     title: "Session timeout and Idle timeout look and default identically, with no explanation of how they differ",
     problem: "Both sliders share the same 5–60 range and default to 60 minutes, with no hint that they work completely differently. Session timeout is a fixed, absolute cutoff from login — enforced by a cookie that expires regardless of activity — while Idle timeout only counts real inactivity, tracked across tabs.",
-    fix: "Add a short line under each label stating the real mechanism: Session timeout ends the session at a fixed time from login, even if you're actively working; Idle timeout ends it only after this much inactivity.",
+    fix: "Add a short line under each label stating the real mechanism: Session timeout ends the session at a fixed time from login, even if you're actively working; Idle timeout ends the session after inactivity.",
     block: "block-timeouts",
     propBlock: "prop-block-timeouts"
   },
   {
     title: "Idle timeout warns before logging out; Session timeout doesn't — and neither is disclosed",
     problem: "Idle timeout shows a 2-minute warning before logging a user out, with a Continue option — but Session timeout gives no warning at all, so unsaved work in an active session can vanish the instant the fixed cutoff hits. Neither behavior is disclosed on the page.",
-    fix: "State the warning behavior for each control, and for Idle timeout, show that the last 2 minutes of any value are a warning period — at the 5-minute minimum, that means the warning fires after only 3 minutes of actual inactivity.",
+    fix: "State plainly that Session timeout ends with no warning, while Idle timeout warns 2 minutes before logging out — and show that those 2 minutes come out of whatever value is set, so at the 5-minute minimum, the warning fires after only 3 minutes of actual inactivity.",
     block: "block-idle",
     propBlock: "prop-block-idle"
   },

@@ -827,6 +827,35 @@
           "callout": "If Idle timeout is set higher than Session timeout, the session's fixed cutoff always happens first, so the idle timer can never fire. Neither the page nor the backend validates or warns about this — unlike Password expiration's enforced notice/expire relationship."
         }
       ]
+    },
+    {
+      "id": "issue-27",
+      "area": "Admin Manager",
+      "title": "Email encryption skips a real setup step, its toggle only explains disabling, and the feature is invisible when not subscribed",
+      "screen": "Admin Manager > Security > Email encryption",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 26",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "page": "Email encryption",
+      "summary": "The intro omits a real prerequisite (setting up encryption with the email provider) and gives no link to Global user settings, the toggle's helper text only explains disabling, and the page disappears entirely for environments not subscribed to Enhanced Email Encryption instead of surfacing an upsell opportunity.",
+      "mockups": {
+        "comparison": "admin-manager/email-encryption/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Page title",
+          "callout": "SnapLogic's docs confirm Admin Manager only includes this page in environments subscribed to Enhanced Email Encryption — but that means the feature is invisible rather than discoverable. An admin in an unsubscribed environment has no way to learn this capability exists."
+        },
+        {
+          "target": "Intro text",
+          "callout": "The intro tells users to upload a public key in their Global user settings, but skips a real prerequisite confirmed in SnapLogic's docs: users must first set up encryption with their own email provider. There's also no link to Global user settings — just a description of where to go."
+        },
+        {
+          "target": "Enable email encryption toggle",
+          "callout": "The toggle is labeled \"Enable email encryption,\" but turning it on doesn't encrypt anything itself — it only lets users opt in by uploading their own key. The helper text only explains the disable behavior (\"stops the encryption... to all users\"), with nothing describing what enabling actually does."
+        }
+      ]
     }
   ]
 }

@@ -791,7 +791,7 @@
         },
         {
           "target": "Expire all passwords button",
-          "callout": "Expire all passwords blocks every service account's credentials too, but since a service account can't log in to reset itself, the admin who created it has to do it manually — request the reset by email, then update whatever app or integration uses that credential. The confirm dialog mentions this only as a trailing clause, with no count of how many service accounts are affected."
+          "callout": "Expire all passwords blocks every service account's credentials too, but since a service account can't log in to reset itself, the admin who created it gets an expiration email and has to click the reset link to set a new password, then update whatever app or integration uses that credential. The confirm dialog mentions this only as a trailing clause, with no count of how many service accounts are affected."
         },
         {
           "target": "Expire all passwords button",

@@ -196,6 +196,7 @@
     max-width: 260px;
   }
   .field-hint { font-size: 12px; color: var(--dim); line-height: 1.5; margin-top: 8px; }
+  .field-hint-top { margin-top: -4px; margin-bottom: 12px; }
 
   .divider { border: none; border-top: 1px solid var(--hairline); margin: 8px 0 24px; }
 
@@ -473,12 +474,12 @@
       <div id="prop-block-period" class="pin-block green field-group">
         <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
         <div class="field-label">Expiration period</div>
+        <p class="field-hint field-hint-top">0 = passwords never expire.</p>
         <div class="slider-row">
           <input type="range" min="0" max="90" value="0" disabled>
           <div class="slider-input"><input class="field-input-sm" value="0" readonly> <span>days</span></div>
         </div>
         <div class="slider-range-labels"><span>0</span><span>90</span></div>
-        <p class="field-hint">0 = passwords never expire.</p>
       </div>
 
       <div class="field-group">
@@ -532,7 +533,7 @@
   <h3>Expire all passwords?</h3>
   <p>This immediately signs out every affected user, including you, and forces them to reset their password.</p>
   <ul class="confirm-list">
-    <li><strong>3 service accounts</strong> will be affected. Since they can't log in, you'll need to request each one's reset by email, then update the app or integration that uses that credential.</li>
+    <li><strong>3 service accounts</strong> will be affected. You'll get an email for each service account you created — click the reset link in the email to set a new password, then update the app or integration that uses that credential.</li>
     <li>Users who log in with SSO are not affected.</li>
     <li>Users whose accounts are only in environments you don't administer are not affected.</li>
   </ul>
@@ -553,8 +554,8 @@ const annotations = [
   },
   {
     title: "Expire all passwords doesn't disclose the manual cleanup it creates for service accounts",
-    problem: "Expire all passwords blocks every service account's credentials too, but since a service account can't log in to reset itself, the admin who created it has to do it manually — request the reset by email, then update whatever app or integration uses that credential. The confirm dialog mentions this only as a trailing clause, with no count of how many service accounts are affected.",
-    fix: "Show the number of affected service accounts before the admin confirms, and name the follow-up steps directly: reset via email, then update the dependent app/integration with the new credential.",
+    problem: "Expire all passwords blocks every service account's credentials too, but since a service account can't log in to reset itself, the admin who created it gets an expiration email and has to click the reset link to set a new password, then update whatever app or integration uses that credential. The confirm dialog mentions this only as a trailing clause, with no count of how many service accounts are affected.",
+    fix: "Show the number of affected service accounts before the admin confirms, and name the follow-up steps directly: click the reset link in the email you'll receive for each service account you created, set a new password, then update the dependent app/integration with the new credential.",
     block: "block-expire-all",
     propBlock: "prop-block-expire-all"
   },

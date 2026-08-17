@@ -549,7 +549,7 @@
   <h3>Expire all passwords?</h3>
   <p>This immediately signs out every affected user, including you, and forces them to reset their password.</p>
   <ul class="confirm-list">
-    <li><strong>3 service accounts</strong> will be affected. You'll get an email for each service account you created — click the reset link in the email to set a new password, then update the app or integration that uses that credential.</li>
+    <li>You'll receive reset links in individual emails for <strong>3 service accounts</strong>. After setting a new password, don't forget to update the dependent app or integration with the new password.</li>
     <li>Users who log in with SSO are not affected.</li>
     <li>Users whose accounts are only in environments you don't administer are not affected.</li>
   </ul>
@@ -571,7 +571,7 @@ const annotations = [
   {
     title: "Expire all passwords doesn't disclose the manual cleanup it creates for service accounts",
     problem: "Expire all passwords also expires every service account's credentials, but since they can't log in, their creating admin has to manually reset each one and update the dependent app — none of that is disclosed before confirming.",
-    fix: "Show the number of affected service accounts before the admin confirms, and name the follow-up steps directly: click the reset link in the email you'll receive for each service account you created, set a new password, then update the dependent app/integration with the new credential.",
+    fix: "Show the number of affected service accounts in the confirmation dialog: “You'll receive reset links in individual emails for 3 service accounts. After setting a new password, don't forget to update the dependent app or integration with the new password.”",
     block: "block-expire-all",
     propBlock: "prop-block-expire-all"
   },

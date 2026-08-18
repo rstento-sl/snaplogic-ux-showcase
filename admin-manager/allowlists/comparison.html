@@ -211,6 +211,11 @@
   .warn-modal h3 { font-size: 16px; font-weight: 800; margin-bottom: 10px; color: var(--orange); }
   .warn-modal > p { font-size: 13px; color: #444; line-height: 1.5; margin-bottom: 18px; }
   .warn-modal .grace-note { background: var(--orange-tint); color: var(--orange); font-size: 12px; font-weight: 600; border-radius: 6px; padding: 10px 12px; margin-bottom: 18px; }
+  .warn-node-list { list-style: none; margin-bottom: 18px; }
+  .warn-node-list li {
+    font-family: var(--mono); font-size: 12px; color: var(--ink); background: var(--canvas);
+    border-radius: 4px; padding: 8px 10px; margin-bottom: 6px;
+  }
   .warn-actions { display: flex; justify-content: flex-end; gap: 10px; }
   .btn-cancel-confirm { padding: 9px 16px; border: 1px solid #ccc; background: #fff; color: var(--ink); border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; }
   .btn-ack { padding: 9px 16px; border: none; background: var(--blue); color: #fff; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; }
@@ -462,11 +467,15 @@
 <div class="warn-modal" id="warn-modal">
   <div class="preview-label" id="warn-preview-label">Preview — appears when an existing node falls outside a new range</div>
   <h3>Some nodes will lose access</h3>
-  <p>The following Snaplex nodes will be refused access. Any running pipelines will be disconnected.</p>
-  <p class="grace-note" id="warn-grace-note" style="display:none;">These nodes enter a one-day grace period before shutting down. Restore the IP range within 24 hours to keep them running.</p>
+  <p>The following Snaplex nodes will be refused access and any running pipelines will be disconnected:</p>
+  <ul class="warn-node-list">
+    <li>prod-groundplex-01 — 203.0.113.5</li>
+    <li>prod-groundplex-02 — 203.0.113.9</li>
+  </ul>
+  <p class="grace-note" id="warn-grace-note" style="display:none;">Disconnected nodes enter a one-day grace period before shutting down. Restore this IP range within 24 hours to keep them running.</p>
   <div class="warn-actions">
     <button class="btn-cancel-confirm" onclick="closeWarnPreview()">Cancel</button>
-    <button class="btn-ack" onclick="closeWarnPreview()">OK</button>
+    <button class="btn-ack" onclick="closeWarnPreview()">Disconnect</button>
   </div>
 </div>
 
@@ -495,8 +504,8 @@ const annotations = [
   },
   {
     title: "The only warning before a Groundplex node loses access never mentions the 24-hour shutdown",
-    problem: "Removing an IP range can shut down a live Groundplex node after a one-day grace period, but the only warning shown — a modal, and only when an existing node already falls outside the new range — says nodes will be “refused access” and pipelines “disconnected.” It never mentions the shutdown or the 24-hour window to fix it.",
-    fix: "Add the grace-period consequence to that modal's copy: nodes are refused access and running pipelines disconnect immediately, and the node itself shuts down after a one-day grace period unless the range is restored.",
+    problem: "Removing an IP range can shut down a live Groundplex node after a one-day grace period, but the modal that warns about it — which only appears when an existing node falls outside the new range — just says affected nodes will be “refused access” and pipelines “disconnected.” It never mentions the 24-hour grace period, or that clicking Disconnect is what actually starts that countdown.",
+    fix: "Add the grace-period consequence directly to the modal's warning text, next to the existing Disconnect/Cancel choice: “Disconnected nodes enter a one-day grace period before shutting down. Restore this IP range within 24 hours to keep them running.”",
     block: null,
     propBlock: null
   }

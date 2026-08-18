@@ -894,7 +894,7 @@
         },
         {
           "target": "Groundplex node conflict warning",
-          "callout": "Removing an IP range can shut down a live Groundplex node after a one-day grace period, but the only warning shown — a modal, and only when an existing node already falls outside the new range — says nodes will be \"refused access\" and pipelines \"disconnected.\" It never mentions the shutdown or the 24-hour window to fix it."
+          "callout": "Removing an IP range can shut down a live Groundplex node after a one-day grace period, but the modal that warns about it — which only appears when an existing node falls outside the new range — just says affected nodes will be \"refused access\" and pipelines \"disconnected.\" It never mentions the 24-hour grace period, or that clicking Disconnect is what actually starts that countdown."
         }
       ]
     }

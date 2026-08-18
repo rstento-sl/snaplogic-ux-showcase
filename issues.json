@@ -893,6 +893,10 @@
           "callout": "The intro text says domains must be added \"through SnapLogic Support,\" but the UI below it is fully self-service — filling in a domain and clicking Add domain, then Save, works immediately with no Support ticket required. The same stale claim is repeated in SnapLogic's external docs."
         },
         {
+          "target": "CORS domain field",
+          "callout": "The field accepts any text and saves it, but the stored value is used as a Python regex matched against the browser's Origin header (scheme://host[:port]) — with no format hint, an admin typing example.com instead of https://example\\.com saves successfully but the entry never matches anything. Invalid or malformed entries fail silently, with no error shown."
+        },
+        {
           "target": "Groundplex node conflict warning",
           "callout": "Removing an IP range can shut down a live Groundplex node after a one-day grace period, but the modal that warns about it — which only appears when an existing node falls outside the new range — just says affected nodes will be \"refused access\" and pipelines \"disconnected.\" It never mentions the 24-hour grace period, or that clicking Disconnect is what actually starts that countdown."
         }

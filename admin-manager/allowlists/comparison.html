@@ -295,9 +295,12 @@
         </div>
 
         <div class="section-label">CORS Allowlist</div>
-        <div class="ip-row">
-          <input class="ip-input" placeholder="Domain">
-          <button class="btn-add">Add domain</button>
+        <div id="block-cors-domain" class="pin-block">
+          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+          <div class="ip-row">
+            <input class="ip-input" placeholder="Domain">
+            <button class="btn-add">Add domain</button>
+          </div>
         </div>
 
         <button class="btn-save" disabled>Save</button>
@@ -396,9 +399,12 @@
         </div>
 
         <div class="section-label">CORS Allowlist</div>
-        <div class="ip-row">
-          <input class="ip-input" placeholder="Domain">
-          <button class="btn-add">Add domain</button>
+        <div id="prop-block-cors-domain" class="pin-block green">
+          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+          <div class="ip-row">
+            <input class="ip-input" placeholder="Domain">
+            <button class="btn-add">Add domain</button>
+          </div>
         </div>
 
         <button class="btn-save" disabled>Save</button>
@@ -503,6 +509,14 @@ const annotations = [
     fix: "Remove “through SnapLogic Support” from the intro text — this is fully self-service. Update the external docs too, which repeat the same stale claim.",
     block: "block-cors-intro",
     propBlock: "prop-block-cors-intro",
+    tab: "cors"
+  },
+  {
+    title: "CORS domain field gives no hint that it expects a regex, not a plain domain",
+    problem: "The field accepts any text and saves it, but the stored value is used as a Python regex matched against the browser's Origin header (scheme://host[:port]) — with no format hint, an admin typing example.com instead of https://example\\.com saves successfully but the entry never matches anything. Invalid or malformed entries fail silently, with no error shown.",
+    fix: "Add a format hint below the field: “Enter a domain as a regex matching the full origin, including scheme — for example, https://example\\.com. Escape dots and wildcards as needed.”",
+    block: "block-cors-domain",
+    propBlock: "prop-block-cors-domain",
     tab: "cors"
   },
   {

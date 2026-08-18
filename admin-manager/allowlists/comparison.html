@@ -377,7 +377,7 @@
         </div>
         <div id="prop-block-permanent" class="pin-block green">
           <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
-          <p class="ip-hint">IP ranges are validated against existing nodes and permanently stored when <strong>Save</strong> is clicked.</p>
+          <p class="ip-hint">Validates IP ranges against existing nodes.</p>
         </div>
 
         <button class="btn-save" disabled>Save</button>
@@ -482,7 +482,7 @@ const annotations = [
   {
     title: "\"Permanently stored\" overstates what Save actually does",
     problem: "The helper text says IP ranges are “permanently stored,” but the page has its own Remove control for these ranges — they aren't permanent at all. This could make admins hesitate to add a range they're actually free to undo later.",
-    fix: "Drop “permanently” — just “IP ranges are validated against existing nodes and stored when Save is clicked.”",
+    fix: "Reword in active voice, dropping the redundant “and stored” clause: “Validates IP ranges against existing nodes.”",
     block: "block-permanent",
     propBlock: "prop-block-permanent"
   },

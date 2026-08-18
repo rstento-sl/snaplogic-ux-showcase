@@ -387,7 +387,7 @@
       <div class="am-tab-panel" id="tab-proposed-cors">
         <div id="prop-block-cors-intro" class="pin-block green">
           <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
-          <p class="intro-text">When triggering from an external web page not on the SnapLogic domain, Cross-Origin Request Sharing (CORS) controls data access. To enable successful cross-origin requests, add domains to the list of allowed origins through SnapLogic Support. Groundplex requests' CORS header is not adjustable. If using IPs, include them in the allowlist or consider server-side triggering to bypass CORS. <a href="#">Learn more.</a></p>
+          <p class="intro-text">When triggering from an external web page not on the SnapLogic domain, Cross-Origin Request Sharing (CORS) controls data access. To enable successful cross-origin requests, add domains to the list of allowed origins. Groundplex requests' CORS header is not adjustable. If using IPs, include them in the allowlist or consider server-side triggering to bypass CORS. <a href="#">Learn more.</a></p>
         </div>
 
         <div class="section-label">CORS Allowlist</div>
@@ -489,7 +489,7 @@ const annotations = [
   {
     title: "CORS allowlist intro says \"contact Support,\" but the page is fully self-service",
     problem: "The intro text says domains must be added “through SnapLogic Support,” but the UI below it is fully self-service — filling in a domain and clicking Add domain, then Save, works immediately with no Support ticket required. The same stale claim is repeated in SnapLogic's external docs.",
-    fix: "Update the intro text (and the external docs, which repeat the same stale claim) to describe the actual self-service flow: fill in a domain, click Add domain, then Save.",
+    fix: "Remove “through SnapLogic Support” from the intro text — this is fully self-service. Update the external docs too, which repeat the same stale claim.",
     block: "block-cors-intro",
     propBlock: "prop-block-cors-intro"
   },

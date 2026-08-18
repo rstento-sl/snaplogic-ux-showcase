@@ -251,7 +251,7 @@
 
       <h1 class="page-title">Allowlists</h1>
 
-      <div class="am-tabs">
+      <div class="am-tabs" data-side="current">
         <div class="am-tab active" data-tab="cloud" onclick="showTab('current','cloud', this)">Cloud-triggered allowlist</div>
         <div class="am-tab" data-tab="cors" onclick="showTab('current','cors', this)">CORS allowlist</div>
         <div class="am-tab" data-tab="ground" onclick="showTab('current','ground', this)">Groundplex allowlist</div>
@@ -309,7 +309,7 @@
 
         <div class="section-label">The control plane can accept Groundplex node connections from:</div>
         <div class="radio-row"><div class="radio-dot checked"></div><div class="radio-label">Any IP address</div></div>
-        <div class="radio-row"><div class="radio-dot"></div><div class="radio-label">IP allowlist below <a href="#" class="preview-link" onclick="openWarnPreview(event, false)">Preview conflict warning →</a></div></div>
+        <div class="radio-row"><div class="radio-dot"></div><div class="radio-label">IP allowlist below <a href="#" class="preview-link" id="preview-link-current" onclick="openWarnPreview(event, false)">Preview conflict warning →</a></div></div>
 
         <div class="section-label">IP allowlist</div>
         <div class="ip-row">
@@ -349,7 +349,7 @@
 
       <h1 class="page-title">Allowlists</h1>
 
-      <div class="am-tabs">
+      <div class="am-tabs" data-side="proposed">
         <div class="am-tab active" data-tab="cloud" onclick="showTab('proposed','cloud', this)">Cloud-triggered allowlist</div>
         <div class="am-tab" data-tab="cors" onclick="showTab('proposed','cors', this)">CORS allowlist</div>
         <div class="am-tab" data-tab="ground" onclick="showTab('proposed','ground', this)">Groundplex allowlist</div>
@@ -410,7 +410,7 @@
 
         <div class="section-label">The control plane can accept Groundplex node connections from:</div>
         <div class="radio-row"><div class="radio-dot checked"></div><div class="radio-label">Any IP address</div></div>
-        <div class="radio-row"><div class="radio-dot"></div><div class="radio-label">IP allowlist below <a href="#" class="preview-link" onclick="openWarnPreview(event, true)">Preview conflict warning →</a></div></div>
+        <div class="radio-row"><div class="radio-dot"></div><div class="radio-label">IP allowlist below <a href="#" class="preview-link" id="preview-link-proposed" onclick="openWarnPreview(event, true)">Preview conflict warning →</a></div></div>
 
         <div class="section-label">IP allowlist</div>
         <div class="ip-row">
@@ -486,71 +486,90 @@ const annotations = [
     problem: "This checkbox has a real effect — checking it applies this same IP range to Groundplex Trigger and Ultra Tasks too, a different task type — but nothing on the page explains that, and the Learn more text only describes Cloud URL invocation, never mentioning the checkbox at all.",
     fix: "Add a short explanation next to the checkbox: “Also restrict Groundplex Trigger and Ultra Tasks to this same IP range.”",
     block: "block-checkbox",
-    propBlock: "prop-block-checkbox"
+    propBlock: "prop-block-checkbox",
+    tab: "cloud"
   },
   {
     title: "\"Permanently stored\" overstates what Save actually does",
     problem: "The helper text says IP ranges are “permanently stored,” but the page has its own Remove control for these ranges — they aren't permanent at all. This could make admins hesitate to add a range they're actually free to undo later.",
     fix: "Reword in active voice, dropping the redundant “and stored” clause: “Validates IP ranges against existing nodes.”",
     block: "block-permanent",
-    propBlock: "prop-block-permanent"
+    propBlock: "prop-block-permanent",
+    tab: "cloud"
   },
   {
     title: "CORS allowlist intro says \"contact Support,\" but the page is fully self-service",
     problem: "The intro text says domains must be added “through SnapLogic Support,” but the UI below it is fully self-service — filling in a domain and clicking Add domain, then Save, works immediately with no Support ticket required. The same stale claim is repeated in SnapLogic's external docs.",
     fix: "Remove “through SnapLogic Support” from the intro text — this is fully self-service. Update the external docs too, which repeat the same stale claim.",
     block: "block-cors-intro",
-    propBlock: "prop-block-cors-intro"
+    propBlock: "prop-block-cors-intro",
+    tab: "cors"
   },
   {
     title: "The only warning before a Groundplex node loses access never mentions the 24-hour shutdown",
     problem: "Removing an IP range can shut down a live Groundplex node after a one-day grace period, but the modal that warns about it — which only appears when an existing node falls outside the new range — just says affected nodes will be “refused access” and pipelines “disconnected.” It never mentions the 24-hour grace period, or that clicking Disconnect is what actually starts that countdown.",
     fix: "Add the grace-period consequence directly to the modal's warning text, next to the existing Disconnect/Cancel choice: “Disconnected nodes enter a one-day grace period before shutting down. Restore this IP range within 24 hours to keep them running.”",
     block: null,
-    propBlock: null
+    propBlock: null,
+    tab: "ground",
+    anchor: true
   }
 ];
 
 let current = null;
 let mode = 'red';
 
-function showTab(side, name, el) {
+function setActiveTab(side, name) {
   document.querySelectorAll('.am-tab-panel').forEach(p => {
     if (p.id.startsWith('tab-' + side + '-')) p.classList.remove('active');
   });
   document.getElementById('tab-' + side + '-' + name).classList.add('active');
 
-  const tabsBar = el.parentElement;
+  const tabsBar = document.querySelector('.am-tabs[data-side="' + side + '"]');
   tabsBar.querySelectorAll('.am-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
+  tabsBar.querySelector('.am-tab[data-tab="' + name + '"]').classList.add('active');
+}
+
+function showTab(side, name, el) {
+  setActiveTab(side, name);
 }
 
 function openPopover(n, e) {
   if (e) e.stopPropagation();
   mode = 'red';
   current = n;
+  const a = annotations[n - 1];
+  if (a.tab) setActiveTab('current', a.tab);
   render();
   clearHighlights();
 
-  const a = annotations[n - 1];
-  if (a.block) document.getElementById(a.block).classList.add('highlighted');
-  const pinEl = document.getElementById('pin-' + n);
-  pinEl.classList.add('active');
-  positionPopover(pinEl);
+  if (a.block) {
+    document.getElementById(a.block).classList.add('highlighted');
+    const pinEl = document.getElementById('pin-' + n);
+    pinEl.classList.add('active');
+    positionPopover(pinEl);
+  } else if (a.anchor) {
+    positionPopover(document.getElementById('preview-link-current'));
+  }
 }
 
 function openGreenPopover(n, e) {
   if (e) e.stopPropagation();
   mode = 'green';
   current = n;
+  const a = annotations[n - 1];
+  if (a.tab) setActiveTab('proposed', a.tab);
   render();
   clearHighlights();
 
-  const a = annotations[n - 1];
-  if (a.propBlock) document.getElementById(a.propBlock).classList.add('highlighted');
-  const pinEl = document.getElementById('green-pin-' + n);
-  pinEl.classList.add('active');
-  positionPopover(pinEl);
+  if (a.propBlock) {
+    document.getElementById(a.propBlock).classList.add('highlighted');
+    const pinEl = document.getElementById('green-pin-' + n);
+    pinEl.classList.add('active');
+    positionPopover(pinEl);
+  } else if (a.anchor) {
+    positionPopover(document.getElementById('preview-link-proposed'));
+  }
 }
 
 function clearHighlights() {
@@ -622,6 +641,9 @@ function navigate(dir) {
 function jumpTo(targetMode, n) {
   closePopover();
   const a = annotations[n - 1];
+  const side = targetMode === 'green' ? 'proposed' : 'current';
+  if (a.tab) setActiveTab(side, a.tab);
+
   if (!a.block && !a.propBlock) {
     if (targetMode === 'green') { openGreenPopover(n); } else { openPopover(n); }
     return;

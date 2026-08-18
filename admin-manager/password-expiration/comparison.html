@@ -836,7 +836,7 @@ const annotations = [
   {
     title: "Expire all passwords doesn't disclose the manual cleanup it creates for service accounts",
     problem: "Expire all passwords also expires every service account's credentials, but since they can't log in, their creating admin has to manually reset each one and update the dependent app — none of that is disclosed before confirming.",
-    fix: "Show the number of affected service accounts in the confirmation dialog: “You'll receive reset links in individual emails for 3 service accounts. After setting a new password, don't forget to update the dependent app or integration with the new password.”",
+    fix: "Click Expire all passwords to see this in the confirmation dialog that opens: show the number of affected service accounts: “You'll receive reset links in individual emails for 3 service accounts. After setting a new password, don't forget to update the dependent app or integration with the new password.”",
     block: "block-expire-all",
     propBlock: "prop-block-expire-all"
   },

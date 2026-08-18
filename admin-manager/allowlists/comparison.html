@@ -127,6 +127,7 @@
   }
   .checkbox-box { border-radius: 3px; }
   .radio-label, .checkbox-label { font-size: 13px; color: var(--ink); }
+.checkbox-hint { font-size: 12px; color: var(--dim); line-height: 1.5; margin-top: 3px; }
   .checkbox-row.nested { margin-left: 26px; }
   .checkbox-row.disabled .checkbox-label { color: var(--dim); }
   .checkbox-row.disabled .checkbox-box { border-color: #cfd4e0; }
@@ -362,7 +363,10 @@
         <div id="prop-block-checkbox" class="pin-block green checkbox-row nested disabled">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
           <div class="checkbox-box"></div>
-          <div class="checkbox-label">Apply IP Allowlist to Groundplex Trigger and Ultra Tasks</div>
+          <div>
+            <div class="checkbox-label">Apply IP Allowlist to Groundplex Trigger and Ultra Tasks</div>
+            <div class="checkbox-hint">Also restrict Groundplex Trigger and Ultra Tasks to this same IP range.</div>
+          </div>
         </div>
 
         <div class="section-label">IP allowlist</div>

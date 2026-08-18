@@ -420,7 +420,7 @@
           <div class="toggle-switch" id="prop-toggle-switch"><div class="knob"></div></div>
           <div class="toggle-label-text">
             <div class="field-label">Allow users to enable email encryption</div>
-            <p class="toggle-helper" id="prop-toggle-helper"><strong>Enabled:</strong> users who've uploaded a public key get encrypted emails. <strong>Disabled:</strong> no SnapLogic emails are encrypted, even for users who've uploaded a key.</p>
+            <p class="toggle-helper" id="prop-toggle-helper">When on, users who upload a public key get encrypted emails. When off, no SnapLogic emails are encrypted, even for users who upload a key.</p>
           </div>
         </div>
       </div>
@@ -471,7 +471,7 @@ const annotations = [
   {
     title: "Toggle name and helper text only describe what disabling does",
     problem: "The toggle is labeled \"Enable email encryption,\" but turning it on doesn't encrypt anything itself — it only lets users opt in by uploading their own key. The helper text only explains the disable behavior (\"stops the encryption... to all users\"), with nothing describing what enabling actually does.",
-    fixHtml: "Rename the toggle to “Allow users to enable email encryption,” matching what it actually controls, and describe both states: “Enabled: users who've uploaded a public key get encrypted emails. Disabled: no SnapLogic emails are encrypted, even for users who've uploaded a key.”",
+    fixHtml: "Rename the toggle to “Allow users to enable email encryption,” matching what it actually controls, and describe both states: “When on, users who upload a public key get encrypted emails. When off, no SnapLogic emails are encrypted, even for users who upload a key.”",
     block: "block-toggle",
     propBlock: "prop-block-toggle"
   }
@@ -616,7 +616,7 @@ function setSubscriptionState(state) {
   } else {
     toggleRow.classList.remove('disabled');
     toggleSwitch.classList.remove('disabled');
-    toggleHelper.innerHTML = '<strong>Enabled:</strong> users who\'ve uploaded a public key get encrypted emails. <strong>Disabled:</strong> no SnapLogic emails are encrypted, even for users who\'ve uploaded a key.';
+    toggleHelper.innerHTML = 'When on, users who upload a public key get encrypted emails. When off, no SnapLogic emails are encrypted, even for users who upload a key.';
     btnSub.classList.add('active');
     btnUnsub.classList.remove('active');
   }

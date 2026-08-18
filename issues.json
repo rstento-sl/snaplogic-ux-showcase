@@ -787,7 +787,7 @@
       "annotations": [
         {
           "target": "Left nav item",
-          "callout": "The left nav item reads \"Password expiry,\" but the page it opens is titled \"Password expiration\" — a different word, and one that's British English where the rest of the product uses American English."
+          "callout": "The left nav item reads \"Password expiry\" — British English — but the page it opens is titled \"Password expiration,\" the American English term used everywhere else in the product."
         },
         {
           "target": "Expiration period",

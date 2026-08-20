@@ -642,7 +642,7 @@
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Snaplexes",
-      "summary": "Mislabeled controls, an undocumented internal value shown as a Snaplex type, and several Add/Update Snaplex dialog fields — Select project, Load balancer, Ultra load balancer — with real access or reliability consequences that go unexplained, compounded by field tooltips that are hidden behind hover on every tab.",
+      "summary": "Mislabeled controls, an undocumented internal value shown as a Snaplex type, and several Add/Update Snaplex dialog fields — Select project, Load balancer, Ultra load balancer — with real access or reliability consequences that go unexplained. Compounded by field tooltips hidden behind hover on every tab, ungrouped notification fields, and intro text that's identical across all four tabs instead of describing what each one configures.",
       "mockups": {
         "comparison": "admin-manager/snaplexes/comparison.html"
       },
@@ -694,6 +694,26 @@
         {
           "target": "Add Snaplex dialog Ultra load balancer field",
           "callout": "If left blank, no run URL is ever set for Ultra Tasks — unlike the plain Load balancer field, there's no fallback. Ultra Tasks will fail to execute, with no warning on the field that this is a requirement."
+        },
+        {
+          "target": "Add Snaplex dialog notification fields",
+          "callout": "\"Notifications email address,\" \"Notifications Slack channel,\" and \"Notifications Slack user\" all describe the same thing — who gets notified about this Groundplex — but each repeats \"Notifications\" independently with no visual grouping tying them together."
+        },
+        {
+          "target": "Add Snaplex dialog, Settings tab intro text",
+          "callout": "Same issue as the Logging tab — the intro text here is the generic dialog-level description, not specific to what this tab configures."
+        },
+        {
+          "target": "Add Snaplex dialog, Logging tab intro text",
+          "callout": "\"Create a Groundplex to run your pipelines in a self-managed Snaplex\" appears identically on Settings, Logging, Node properties, and Node proxies. It describes the dialog as a whole, not what any individual tab configures — on Logging, for example, it says nothing about log levels, file size, or backup counts."
+        },
+        {
+          "target": "Add Snaplex dialog, Node properties tab intro text",
+          "callout": "Same issue as the Logging tab — the intro text here is the generic dialog-level description, not specific to what this tab configures."
+        },
+        {
+          "target": "Add Snaplex dialog, Node proxies tab intro text",
+          "callout": "Same issue as the Logging tab — the intro text here is the generic dialog-level description, not specific to what this tab configures."
         }
       ]
     },

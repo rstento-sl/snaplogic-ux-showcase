@@ -703,7 +703,10 @@
         </div>
       </div>
 
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      <div id="block-intro-settings" class="pin-block" style="display: inline-block;">
+        <div class="pin" id="pin-14" onclick="openPopover(14, event)">14</div>
+        <p class="intro-text" style="margin: 0;">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      </div>
 
       <div class="dialog-field-row">
         <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
@@ -742,10 +745,13 @@
         </div>
       </div>
 
-      <div class="dialog-field-row">
-        <div class="field-group"><div class="field-label">Notifications email address</div><input class="field-input" readonly></div>
-        <div class="field-group"><div class="field-label">Notifications Slack channel</div><input class="field-input" readonly></div>
-        <div class="field-group"><div class="field-label">Notifications Slack user</div><input class="field-input" readonly></div>
+      <div id="block-notifications" class="pin-block">
+        <div class="pin" id="pin-13" onclick="openPopover(13, event)">13</div>
+        <div class="dialog-field-row">
+          <div class="field-group"><div class="field-label">Notifications email address</div><input class="field-input" readonly></div>
+          <div class="field-group"><div class="field-label">Notifications Slack channel</div><input class="field-input" readonly></div>
+          <div class="field-group"><div class="field-label">Notifications Slack user</div><input class="field-input" readonly></div>
+        </div>
       </div>
 
       <div class="dialog-footer-row">
@@ -774,7 +780,10 @@
         </div>
       </div>
 
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      <div id="block-intro-logging" class="pin-block" style="display: inline-block;">
+        <div class="pin" id="pin-15" onclick="openPopover(15, event)">15</div>
+        <p class="intro-text" style="margin: 0;">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      </div>
 
       <div class="dialog-field-row">
         <div class="field-group"><div class="field-label">Level</div><div class="git-dropdown-static"><span>Info</span><span class="arrow">⌄</span></div></div>
@@ -814,7 +823,10 @@
         </div>
       </div>
 
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      <div id="block-intro-node-properties" class="pin-block" style="display: inline-block;">
+        <div class="pin" id="pin-16" onclick="openPopover(16, event)">16</div>
+        <p class="intro-text" style="margin: 0;">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      </div>
 
       <div class="dialog-field-row">
         <div class="field-group"><div class="field-label">Max. slots</div><input class="field-input" value="4000" readonly></div>
@@ -887,7 +899,10 @@
         </div>
       </div>
 
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      <div id="block-intro-node-proxies" class="pin-block" style="display: inline-block;">
+        <div class="pin" id="pin-17" onclick="openPopover(17, event)">17</div>
+        <p class="intro-text" style="margin: 0;">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      </div>
 
       <div class="dialog-field-row">
         <div class="field-group" style="flex: 3;"><div class="field-label">HTTP proxy host name</div><input class="field-input" readonly></div>
@@ -1019,7 +1034,10 @@
         </div>
       </div>
 
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      <div id="prop-block-intro-settings" class="pin-block green" style="display: inline-block;">
+        <div class="pin green" id="green-pin-14" onclick="openGreenPopover(14, event)">14</div>
+        <p class="intro-text" style="margin: 0;">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      </div>
 
       <div class="dialog-field-row">
         <div class="field-group"><div class="field-label">Name</div><input class="field-input" readonly></div>
@@ -1073,10 +1091,23 @@
         </div>
       </div>
 
-      <div class="dialog-field-row">
-        <div class="field-group"><div class="field-label">Notifications email address</div><input class="field-input" readonly></div>
-        <div class="field-group"><div class="field-label">Notifications Slack channel</div><input class="field-input" readonly></div>
-        <div class="field-group"><div class="field-label">Notifications Slack user</div><input class="field-input" readonly></div>
+      <div class="dialog-field-row" style="border-top: 1px solid #e0e0e0; padding-top: 18px; margin-top: 4px;">
+        <div id="prop-block-notifications" class="pin-block green" style="flex: 1 1 100%; display: inline-block; margin: 0 0 4px;">
+          <div class="pin green" id="green-pin-13" onclick="openGreenPopover(13, event)">13</div>
+          <div class="section-label" style="margin: 0;">Groundplex notifications</div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Emails <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Specify a comma-separated list of emails to receive notifications from this Groundplex.</span></span></div>
+          <input class="field-input" readonly>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Slack channels <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Specify a comma-separated list of Slack channels to receive notifications from this Groundplex.</span></span></div>
+          <input class="field-input" readonly>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Slack users <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Specify a comma-separated list of Slack users to receive notifications from this Groundplex.</span></span></div>
+          <input class="field-input" readonly>
+        </div>
       </div>
 
       <div class="dialog-footer-row">
@@ -1105,7 +1136,10 @@
         </div>
       </div>
 
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      <div id="prop-block-intro-logging" class="pin-block green" style="display: inline-block;">
+        <div class="pin green" id="green-pin-15" onclick="openGreenPopover(15, event)">15</div>
+        <p class="intro-text" style="margin: 0;">Configure log verbosity, file size, and backup retention for this Groundplex. <a href="#">Learn more.</a></p>
+      </div>
 
       <div class="dialog-field-row">
         <div class="field-group"><div class="field-label">Level</div><div class="git-dropdown-static"><span>Info</span><span class="arrow">⌄</span></div></div>
@@ -1145,7 +1179,10 @@
         </div>
       </div>
 
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      <div id="prop-block-intro-node-properties" class="pin-block green" style="display: inline-block;">
+        <div class="pin green" id="green-pin-16" onclick="openGreenPopover(16, event)">16</div>
+        <p class="intro-text" style="margin: 0;">Configure resource limits, node types, and global properties for this Groundplex's nodes. <a href="#">Learn more.</a></p>
+      </div>
 
       <div class="dialog-field-row">
         <div class="field-group"><div class="field-label">Max. slots</div><input class="field-input" value="4000" readonly></div>
@@ -1218,7 +1255,10 @@
         </div>
       </div>
 
-      <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
+      <div id="prop-block-intro-node-proxies" class="pin-block green" style="display: inline-block;">
+        <div class="pin green" id="green-pin-17" onclick="openGreenPopover(17, event)">17</div>
+        <p class="intro-text" style="margin: 0;">Configure HTTP and HTTPS proxy settings for this Groundplex's nodes. <a href="#">Learn more.</a></p>
+      </div>
 
       <div class="dialog-field-row">
         <div class="field-group" style="flex: 3;"><div class="field-label">HTTP proxy host name</div><input class="field-input" readonly></div>
@@ -1359,6 +1399,41 @@ const annotations = [
     fix: "Label the field \"Ultra load balancer (required for Ultra Tasks)\" so the requirement is visible without hovering, and add a tooltip: \"Required for Ultra Tasks. If left blank, no run URL is set and Ultra Tasks will fail to execute.\"",
     block: "block-ultra-load-balancer",
     propBlock: "prop-block-ultra-load-balancer"
+  },
+  {
+    title: "The three notification fields have no visual or semantic grouping",
+    problem: "\"Notifications email address,\" \"Notifications Slack channel,\" and \"Notifications Slack user\" all describe the same thing — who gets notified about this Groundplex — but each repeats \"Notifications\" independently with no visual grouping tying them together.",
+    fix: "Add a \"Groundplex notifications\" section heading above the three fields, shorten the labels to \"Emails,\" \"Slack channels,\" and \"Slack users,\" and add a tooltip to each: \"Specify a comma-separated list of [emails/Slack channels/Slack users] to receive notifications from this Groundplex.\"",
+    block: "block-notifications",
+    propBlock: "prop-block-notifications"
+  },
+  {
+    title: "Settings tab: intro text is identical on every tab instead of tab-specific",
+    problem: "Same issue as pin 15 — the intro text here (\"Create a Groundplex to run your pipelines...\") is the generic dialog-level description, not specific to what this tab configures.",
+    fix: "Same fix as pin 15 — write intro text specific to what this tab actually configures.",
+    block: "block-intro-settings",
+    propBlock: "prop-block-intro-settings"
+  },
+  {
+    title: "Every tab shows the same intro text instead of tab-specific copy",
+    problem: "\"Create a Groundplex to run your pipelines in a self-managed Snaplex\" appears identically on Settings, Logging, Node properties, and Node proxies. It describes the dialog as a whole, not what any individual tab configures — on Logging, for example, it says nothing about log levels, file size, or backup counts.",
+    fix: "Write intro text specific to what each tab actually configures, e.g. \"Configure log verbosity, file size, and backup retention for this Groundplex\" on the Logging tab.",
+    block: "block-intro-logging",
+    propBlock: "prop-block-intro-logging"
+  },
+  {
+    title: "Node properties tab: intro text is identical on every tab instead of tab-specific",
+    problem: "Same issue as pin 15 — the intro text here (\"Create a Groundplex to run your pipelines...\") is the generic dialog-level description, not specific to what this tab configures.",
+    fix: "Same fix as pin 15 — write intro text specific to what this tab actually configures.",
+    block: "block-intro-node-properties",
+    propBlock: "prop-block-intro-node-properties"
+  },
+  {
+    title: "Node proxies tab: intro text is identical on every tab instead of tab-specific",
+    problem: "Same issue as pin 15 — the intro text here (\"Create a Groundplex to run your pipelines...\") is the generic dialog-level description, not specific to what this tab configures.",
+    fix: "Same fix as pin 15 — write intro text specific to what this tab actually configures.",
+    block: "block-intro-node-proxies",
+    propBlock: "prop-block-intro-node-proxies"
   }
 ];
 

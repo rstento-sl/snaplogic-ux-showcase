@@ -397,6 +397,20 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+  .required-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 7px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #9a5b00;
+    background: #fff3e0;
+    border: 1px solid #f0c98a;
+    border-radius: 10px;
+    vertical-align: middle;
+  }
 
   table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   table.data-table th {
@@ -679,11 +693,14 @@
         <h1 class="dialog-title">Untitled Groundplex</h1>
       </div>
 
-      <div class="tabs">
-        <div class="tab active">Settings</div>
-        <div class="tab">Logging</div>
-        <div class="tab">Node properties</div>
-        <div class="tab">Node proxies</div>
+      <div id="block-tabs-settings" class="pin-block" style="display: inline-block;">
+        <div class="pin" id="pin-7" onclick="openPopover(7, event)">7</div>
+        <div class="tabs">
+          <div class="tab active">Settings</div>
+          <div class="tab">Logging</div>
+          <div class="tab">Node properties</div>
+          <div class="tab">Node proxies</div>
+        </div>
       </div>
 
       <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
@@ -712,11 +729,17 @@
       </div>
 
       <div class="dialog-field-row">
-        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Load balancer</div><input class="field-input" readonly></div>
+        <div id="block-load-balancer" class="pin-block" style="flex: 1 1 100%; padding-right: 22px;">
+          <div class="pin" id="pin-11" onclick="openPopover(11, event)">11</div>
+          <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Load balancer</div><input class="field-input" readonly></div>
+        </div>
       </div>
 
       <div class="dialog-field-row">
-        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Ultra load balancer</div><input class="field-input" readonly></div>
+        <div id="block-ultra-load-balancer" class="pin-block" style="flex: 1 1 100%; padding-right: 22px;">
+          <div class="pin" id="pin-12" onclick="openPopover(12, event)">12</div>
+          <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Ultra load balancer</div><input class="field-input" readonly></div>
+        </div>
       </div>
 
       <div class="dialog-field-row">
@@ -741,11 +764,14 @@
         <h1 class="dialog-title">Untitled Groundplex</h1>
       </div>
 
-      <div class="tabs">
-        <div class="tab">Settings</div>
-        <div class="tab active">Logging</div>
-        <div class="tab">Node properties</div>
-        <div class="tab">Node proxies</div>
+      <div id="block-tabs-logging" class="pin-block" style="display: inline-block;">
+        <div class="pin" id="pin-8" onclick="openPopover(8, event)">8</div>
+        <div class="tabs">
+          <div class="tab">Settings</div>
+          <div class="tab active">Logging</div>
+          <div class="tab">Node properties</div>
+          <div class="tab">Node proxies</div>
+        </div>
       </div>
 
       <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
@@ -778,11 +804,14 @@
         <h1 class="dialog-title">Untitled Groundplex</h1>
       </div>
 
-      <div class="tabs">
-        <div class="tab">Settings</div>
-        <div class="tab">Logging</div>
-        <div class="tab active">Node properties</div>
-        <div class="tab">Node proxies</div>
+      <div id="block-tabs-node-properties" class="pin-block" style="display: inline-block;">
+        <div class="pin" id="pin-9" onclick="openPopover(9, event)">9</div>
+        <div class="tabs">
+          <div class="tab">Settings</div>
+          <div class="tab">Logging</div>
+          <div class="tab active">Node properties</div>
+          <div class="tab">Node proxies</div>
+        </div>
       </div>
 
       <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
@@ -848,11 +877,14 @@
         <h1 class="dialog-title">Untitled Groundplex</h1>
       </div>
 
-      <div class="tabs">
-        <div class="tab">Settings</div>
-        <div class="tab">Logging</div>
-        <div class="tab">Node properties</div>
-        <div class="tab active">Node proxies</div>
+      <div id="block-tabs-node-proxies" class="pin-block" style="display: inline-block;">
+        <div class="pin" id="pin-10" onclick="openPopover(10, event)">10</div>
+        <div class="tabs">
+          <div class="tab">Settings</div>
+          <div class="tab">Logging</div>
+          <div class="tab">Node properties</div>
+          <div class="tab active">Node proxies</div>
+        </div>
       </div>
 
       <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
@@ -977,11 +1009,14 @@
         <h1 class="dialog-title">Untitled Groundplex</h1>
       </div>
 
-      <div class="tabs">
-        <div class="tab active">Settings</div>
-        <div class="tab">Logging</div>
-        <div class="tab">Node properties</div>
-        <div class="tab">Node proxies</div>
+      <div id="prop-block-tabs-settings" class="pin-block green" style="display: inline-block;">
+        <div class="pin green" id="green-pin-7" onclick="openGreenPopover(7, event)">7</div>
+        <div class="tabs">
+          <div class="tab active">Settings</div>
+          <div class="tab">Logging</div>
+          <div class="tab">Node properties</div>
+          <div class="tab">Node proxies</div>
+        </div>
       </div>
 
       <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
@@ -997,7 +1032,10 @@
         </div>
         <div id="prop-block-add-dialog-location" class="pin-block green">
           <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
-          <div class="field-group"><div class="field-label">Location</div><div class="git-dropdown-static"><span>Groundplex</span><span class="arrow">⌄</span></div></div>
+          <div class="field-group">
+            <div class="field-label">Location <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Value must be Groundplex.</span></span></div>
+            <div class="git-dropdown-static"><span>Groundplex</span><span class="arrow">⌄</span></div>
+          </div>
         </div>
       </div>
 
@@ -1016,11 +1054,23 @@
       </div>
 
       <div class="dialog-field-row">
-        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Load balancer</div><input class="field-input" readonly></div>
+        <div id="prop-block-load-balancer" class="pin-block green" style="flex: 1 1 100%;">
+          <div class="pin green" id="green-pin-11" onclick="openGreenPopover(11, event)">11</div>
+          <div class="field-group" style="flex: 1 1 100%;">
+            <div class="field-label">Load balancer <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">If left blank, Triggered Tasks run through the Control Plane's cloud URL instead of your Snaplex. For APIM, SnapLogic's best practices require the Snaplex or an Alternative URL — set this field to avoid the cloud URL. Example: https://&lt;groundplex-load-balancer&gt;.com</span></span></div>
+            <input class="field-input" readonly>
+          </div>
+        </div>
       </div>
 
       <div class="dialog-field-row">
-        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Ultra load balancer</div><input class="field-input" readonly></div>
+        <div id="prop-block-ultra-load-balancer" class="pin-block green" style="flex: 1 1 100%;">
+          <div class="pin green" id="green-pin-12" onclick="openGreenPopover(12, event)">12</div>
+          <div class="field-group" style="flex: 1 1 100%;">
+            <div class="field-label">Ultra load balancer <span class="required-badge">Required for Ultra Tasks</span> <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Required for Ultra Tasks. If left blank, no run URL is set and Ultra Tasks will fail to execute.</span></span></div>
+            <input class="field-input" readonly>
+          </div>
+        </div>
       </div>
 
       <div class="dialog-field-row">
@@ -1045,11 +1095,14 @@
         <h1 class="dialog-title">Untitled Groundplex</h1>
       </div>
 
-      <div class="tabs">
-        <div class="tab">Settings</div>
-        <div class="tab active">Logging</div>
-        <div class="tab">Node properties</div>
-        <div class="tab">Node proxies</div>
+      <div id="prop-block-tabs-logging" class="pin-block green" style="display: inline-block;">
+        <div class="pin green" id="green-pin-8" onclick="openGreenPopover(8, event)">8</div>
+        <div class="tabs">
+          <div class="tab">Settings</div>
+          <div class="tab active">Logging</div>
+          <div class="tab">Node properties</div>
+          <div class="tab">Node proxies</div>
+        </div>
       </div>
 
       <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
@@ -1082,11 +1135,14 @@
         <h1 class="dialog-title">Untitled Groundplex</h1>
       </div>
 
-      <div class="tabs">
-        <div class="tab">Settings</div>
-        <div class="tab">Logging</div>
-        <div class="tab active">Node properties</div>
-        <div class="tab">Node proxies</div>
+      <div id="prop-block-tabs-node-properties" class="pin-block green" style="display: inline-block;">
+        <div class="pin green" id="green-pin-9" onclick="openGreenPopover(9, event)">9</div>
+        <div class="tabs">
+          <div class="tab">Settings</div>
+          <div class="tab">Logging</div>
+          <div class="tab active">Node properties</div>
+          <div class="tab">Node proxies</div>
+        </div>
       </div>
 
       <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
@@ -1152,11 +1208,14 @@
         <h1 class="dialog-title">Untitled Groundplex</h1>
       </div>
 
-      <div class="tabs">
-        <div class="tab">Settings</div>
-        <div class="tab">Logging</div>
-        <div class="tab">Node properties</div>
-        <div class="tab active">Node proxies</div>
+      <div id="prop-block-tabs-node-proxies" class="pin-block green" style="display: inline-block;">
+        <div class="pin green" id="green-pin-10" onclick="openGreenPopover(10, event)">10</div>
+        <div class="tabs">
+          <div class="tab">Settings</div>
+          <div class="tab">Logging</div>
+          <div class="tab">Node properties</div>
+          <div class="tab active">Node proxies</div>
+        </div>
       </div>
 
       <p class="intro-text">Create a Groundplex to run your pipelines in a self-managed Snaplex. <a href="#">Learn more.</a></p>
@@ -1248,7 +1307,7 @@ const annotations = [
   {
     title: "Add Snaplex dialog's Location field shows the same undocumented \"sidekick\" value",
     problem: "The Location dropdown in the Add Snaplex dialog also defaults to \"sidekick\" — the same undocumented value as pin 3, now in a dialog too.",
-    fix: "Show \"Groundplex\" here too, consistent with pin 3's fix.",
+    fix: "Show \"Groundplex\" here too, consistent with pin 3's fix. Add a tooltip: \"Value must be Groundplex.\"",
     block: "block-add-dialog-location",
     propBlock: "prop-block-add-dialog-location"
   },
@@ -1258,6 +1317,48 @@ const annotations = [
     fix: "Add a tooltip: \"Select the shared folder to allow access to all users. Select a Project to limit access to users who have permissions for that Project.\"",
     block: "block-select-project",
     propBlock: "prop-block-select-project"
+  },
+  {
+    title: "Settings tab: field tooltips are invisible until hover",
+    problem: "Every field tooltip in this dialog is hidden by default — no icon, no visual cue that one exists. Admins have to hover over a field label and wait for it to appear. This applies across all four tabs: Settings, Logging, Node properties, and Node proxies.",
+    fix: "Add a visible icon next to each field label so tooltips are discoverable at a glance, consistent with the pattern already used for Runtime environment ID, Location, and Select project. Tooltip copy for each remaining field is still being finalized.",
+    block: "block-tabs-settings",
+    propBlock: "prop-block-tabs-settings"
+  },
+  {
+    title: "Logging tab: same hidden-tooltip issue as pin 7",
+    problem: "Same as pin 7 — this tab's field tooltips are hidden by default with no visible cue that one exists.",
+    fix: "Same fix as pin 7 — add a visible icon to each field label on this tab.",
+    block: "block-tabs-logging",
+    propBlock: "prop-block-tabs-logging"
+  },
+  {
+    title: "Node properties tab: same hidden-tooltip issue as pin 7",
+    problem: "Same as pin 7 — this tab's field tooltips are hidden by default with no visible cue that one exists.",
+    fix: "Same fix as pin 7 — add a visible icon to each field label on this tab.",
+    block: "block-tabs-node-properties",
+    propBlock: "prop-block-tabs-node-properties"
+  },
+  {
+    title: "Node proxies tab: same hidden-tooltip issue as pin 7",
+    problem: "Same as pin 7 — this tab's field tooltips are hidden by default with no visible cue that one exists.",
+    fix: "Same fix as pin 7 — add a visible icon to each field label on this tab.",
+    block: "block-tabs-node-proxies",
+    propBlock: "prop-block-tabs-node-proxies"
+  },
+  {
+    title: "\"Load balancer\" field doesn't explain what happens if left blank",
+    problem: "If left blank, Triggered Tasks run through the Control Plane's cloud URL instead of the Snaplex — the path SnapLogic's own APIM best-practices doc warns against, requiring the Snaplex or an Alternative URL instead. Nothing on this field discloses that.",
+    fix: "Add a tooltip: \"If left blank, Triggered Tasks run through the Control Plane's cloud URL instead of your Snaplex. For APIM, SnapLogic's best practices require the Snaplex or an Alternative URL — set this field to avoid the cloud URL. Example: https://<groundplex-load-balancer>.com\"",
+    block: "block-load-balancer",
+    propBlock: "prop-block-load-balancer"
+  },
+  {
+    title: "\"Ultra load balancer\" field doesn't warn that leaving it blank breaks Ultra Tasks",
+    problem: "If left blank, no run URL is ever set for Ultra Tasks — unlike the plain Load balancer field, there's no fallback. Ultra Tasks will fail to execute, with no warning on the field that this is a requirement.",
+    fix: "Label the field \"Ultra load balancer (required for Ultra Tasks)\" so the requirement is visible without hovering, and add a tooltip: \"Required for Ultra Tasks. If left blank, no run URL is set and Ultra Tasks will fail to execute.\"",
+    block: "block-ultra-load-balancer",
+    propBlock: "prop-block-ultra-load-balancer"
   }
 ];
 

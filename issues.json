@@ -642,7 +642,7 @@
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Snaplexes",
-      "summary": "\"+ Add Snaplex\" should say \"+ Add Groundplex,\" since that's the only type customers can create; the Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight; the Add Snaplex dialog's \"Environment\" field is an unrelated node-binding identifier easily confused with the SnapLogic Environment; the Snaplex Type column and the dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex\"; and the dialog's Select project field doesn't explain that choosing a Project instead of shared restricts Groundplex access to users with permissions for that Project.",
+      "summary": "Mislabeled controls, an undocumented internal value shown as a Snaplex type, and several Add/Update Snaplex dialog fields — Select project, Load balancer, Ultra load balancer — with real access or reliability consequences that go unexplained, compounded by field tooltips that are hidden behind hover on every tab.",
       "mockups": {
         "comparison": "admin-manager/snaplexes/comparison.html"
       },
@@ -670,6 +670,30 @@
         {
           "target": "Add Snaplex dialog Select project field",
           "callout": "If the admin selects a Project instead of shared, only users with permissions for that Project can use the Groundplex — the dropdown gives no indication of this."
+        },
+        {
+          "target": "Add Snaplex dialog, Settings tab",
+          "callout": "Every field tooltip in this dialog is hidden by default — no icon, no visual cue that one exists. Admins have to hover over a field label and wait for it to appear. This applies across all four tabs: Settings, Logging, Node properties, and Node proxies."
+        },
+        {
+          "target": "Add Snaplex dialog, Logging tab",
+          "callout": "Same hidden-tooltip issue as the Settings tab — this tab's field tooltips are hidden by default with no visible cue that one exists."
+        },
+        {
+          "target": "Add Snaplex dialog, Node properties tab",
+          "callout": "Same hidden-tooltip issue as the Settings tab — this tab's field tooltips are hidden by default with no visible cue that one exists."
+        },
+        {
+          "target": "Add Snaplex dialog, Node proxies tab",
+          "callout": "Same hidden-tooltip issue as the Settings tab — this tab's field tooltips are hidden by default with no visible cue that one exists."
+        },
+        {
+          "target": "Add Snaplex dialog Load balancer field",
+          "callout": "If left blank, Triggered Tasks run through the Control Plane's cloud URL instead of the Snaplex — the path SnapLogic's own APIM best-practices doc warns against, requiring the Snaplex or an Alternative URL instead. Nothing on this field discloses that."
+        },
+        {
+          "target": "Add Snaplex dialog Ultra load balancer field",
+          "callout": "If left blank, no run URL is ever set for Ultra Tasks — unlike the plain Load balancer field, there's no fallback. Ultra Tasks will fail to execute, with no warning on the field that this is a requirement."
         }
       ]
     },

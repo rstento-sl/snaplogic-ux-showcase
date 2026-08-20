@@ -635,21 +635,21 @@
     {
       "id": "issue-20",
       "area": "Admin Manager",
-      "title": "\"Add Snaplex\" mislabels the control, the auto upgrade toggle is easy to miss, \"Environment\" is confused with the SnapLogic Environment, and \"sidekick\" shows in two places",
+      "title": "Snaplexes page and Add Snaplex dialog, multiple issues",
       "screen": "Admin Manager > System Configuration > Snaplexes",
       "jira": "",
       "unreportedLabel": "Unreported issue 19",
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Snaplexes",
-      "summary": "\"+ Add Snaplex\" should say \"+ Add Groundplex,\" since that's the only type customers can create; the Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight; the Add Snaplex dialog's \"Environment\" field is an unrelated node-binding identifier easily confused with the SnapLogic Environment; and the Snaplex Type column and the dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex.\"",
+      "summary": "\"+ Add Snaplex\" should say \"+ Add Groundplex,\" since that's the only type customers can create; the Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight; the Add Snaplex dialog's \"Environment\" field is an unrelated node-binding identifier easily confused with the SnapLogic Environment; the Snaplex Type column and the dialog's Location field both show the undocumented internal value \"sidekick\" instead of \"Groundplex\"; and the dialog's Select project field doesn't explain that choosing a Project instead of shared restricts Groundplex access to users with permissions for that Project.",
       "mockups": {
         "comparison": "admin-manager/snaplexes/comparison.html"
       },
       "annotations": [
         {
           "target": "\"+ Add Snaplex\" control",
-          "callout": "This control only ever creates a Groundplex — Cloudplex and AutoSync Snaplexes aren't customer-creatable — so \"Add Snaplex\" names the wrong thing."
+          "callout": "This control only ever creates a Groundplex — Cloudplex and AutoSync Snaplexes aren't customer-creatable, so \"Add Snaplex\" names the wrong thing. Admins have to contact their CSM to add a Cloudplex, and the current control gives no hint of that."
         },
         {
           "target": "Auto upgrade Snaplexes toggle",
@@ -666,6 +666,10 @@
         {
           "target": "Add Snaplex dialog Location field",
           "callout": "The Location dropdown in the Add Snaplex dialog also defaults to \"sidekick\" — the same undocumented value, now in a dialog too."
+        },
+        {
+          "target": "Add Snaplex dialog Select project field",
+          "callout": "If the admin selects a Project instead of shared, only users with permissions for that Project can use the Groundplex — the dropdown gives no indication of this."
         }
       ]
     },

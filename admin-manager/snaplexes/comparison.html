@@ -167,6 +167,7 @@
   .flow-connector::before { content: "↓"; font-size: 14px; }
 
   h1.page-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+  h2.dialog-section-heading { font-size: 16px; font-weight: 700; color: var(--ink); margin: 28px 0 14px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
   .intro-text { color: #444; margin-bottom: 18px; line-height: 1.5; font-size: 13px; }
   .intro-text a { color: var(--blue); text-decoration: none; }
 
@@ -669,6 +670,8 @@
 
     <div class="flow-connector">Admin clicks + Add Snaplex</div>
 
+    <h2 class="dialog-section-heading">Add/Update Snaplex dialog</h2>
+
     <div class="page-wrapper">
 
       <div class="dialog-header">
@@ -698,7 +701,10 @@
       </div>
 
       <div class="dialog-field-row">
-        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Select project</div><div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div></div>
+        <div id="block-select-project" class="pin-block" style="flex: 1 1 100%;">
+          <div class="pin" id="pin-6" onclick="openPopover(6, event)">6</div>
+          <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Select project</div><div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div></div>
+        </div>
       </div>
 
       <div class="dialog-field-row">
@@ -912,9 +918,10 @@
 
       <div class="list-header-row">
         <div class="list-count">26 Snaplexes</div>
-        <div id="prop-block-add-link" class="pin-block green">
+        <div id="prop-block-add-link" class="pin-block green" style="padding-right: 22px;">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
           <a class="add-link" href="#">+ Add Groundplex</a>
+          <span class="info-icon">i<span class="tooltip">To add a Cloudplex, contact your CSM.</span></span>
         </div>
       </div>
 
@@ -961,6 +968,8 @@
 
     <div class="flow-connector">Admin clicks + Add Groundplex</div>
 
+    <h2 class="dialog-section-heading">Add/Update Snaplex dialog</h2>
+
     <div class="page-wrapper">
 
       <div class="dialog-header">
@@ -993,7 +1002,13 @@
       </div>
 
       <div class="dialog-field-row">
-        <div class="field-group" style="flex: 1 1 100%;"><div class="field-label">Select project</div><div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div></div>
+        <div id="prop-block-select-project" class="pin-block green" style="flex: 1 1 100%;">
+          <div class="pin green" id="green-pin-6" onclick="openGreenPopover(6, event)">6</div>
+          <div class="field-group" style="flex: 1 1 100%;">
+            <div class="field-label">Select project <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Select the shared folder to allow access to all users. Select a Project to limit access to users who have permissions for that Project.</span></span></div>
+            <div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div>
+          </div>
+        </div>
       </div>
 
       <div class="dialog-field-row">
@@ -1204,8 +1219,8 @@
 const annotations = [
   {
     title: "\"+ Add Snaplex\" should say \"+ Add Groundplex\"",
-    problem: "This control only ever creates a Groundplex — Cloudplex and AutoSync Snaplexes aren't customer-creatable — so \"Add Snaplex\" names the wrong thing.",
-    fix: "Rename the control to \"+ Add Groundplex,\" matching what it actually creates.",
+    problem: "This control only ever creates a Groundplex — Cloudplex and AutoSync Snaplexes aren't customer-creatable, so \"Add Snaplex\" names the wrong thing. Admins have to contact their CSM to add a Cloudplex, and the current control gives no hint of that.",
+    fix: "Rename the control to \"+ Add Groundplex,\" matching what it actually creates. Add a tooltip explaining that adding a Cloudplex requires contacting your CSM.",
     block: "block-add-link",
     propBlock: "prop-block-add-link"
   },
@@ -1236,6 +1251,13 @@ const annotations = [
     fix: "Show \"Groundplex\" here too, consistent with pin 3's fix.",
     block: "block-add-dialog-location",
     propBlock: "prop-block-add-dialog-location"
+  },
+  {
+    title: "\"Select project\" field has no explanation of its access impact",
+    problem: "If the admin selects a Project instead of shared, only users with permissions for that Project can use the Groundplex — the dropdown gives no indication of this.",
+    fix: "Add a tooltip: \"Select the shared folder to allow access to all users. Select a Project to limit access to users who have permissions for that Project.\"",
+    block: "block-select-project",
+    propBlock: "prop-block-select-project"
   }
 ];
 

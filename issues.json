@@ -635,14 +635,14 @@
     {
       "id": "issue-20",
       "area": "Admin Manager",
-      "title": "Snaplexes page and Add Snaplex dialog, multiple issues",
+      "title": "Snaplexes page: mislabeled Add control, undocumented Type value, easy-to-miss toggle",
       "screen": "Admin Manager > System Configuration > Snaplexes",
       "jira": "",
       "unreportedLabel": "Unreported issue 19",
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Snaplexes",
-      "summary": "Mislabeled controls, an undocumented internal value shown as a Snaplex type, and several Add/Update Snaplex dialog fields — Select project, Load balancer, Ultra load balancer — with real access or reliability consequences that go unexplained. Compounded by field tooltips hidden behind hover on every tab, ungrouped notification fields, and intro text that's identical across all four tabs instead of describing what each one configures.",
+      "summary": "\"+ Add Snaplex\" should say \"+ Add Groundplex,\" since that's the only type customers can create; the Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight; and the Snaplex Type column shows the undocumented internal value \"sidekick\" instead of \"Groundplex.\" See the separate Add/Update Snaplex dialog issue for everything inside that dialog.",
       "mockups": {
         "comparison": "admin-manager/snaplexes/comparison.html"
       },
@@ -658,7 +658,24 @@
         {
           "target": "Snaplex Type column",
           "callout": "The Type column shows \"sidekick\" for on-premises Snaplexes — a raw internal value that never appears anywhere in SnapLogic's own documentation. The docs describe exactly three types: Cloudplex, Groundplex, and AutoSync Snaplex. Admins have no way to know \"sidekick\" means Groundplex."
-        },
+        }
+      ]
+    },
+    {
+      "id": "issue-29",
+      "area": "Admin Manager",
+      "title": "Add/Update Snaplex dialog, multiple issues",
+      "screen": "Admin Manager > System Configuration > Snaplexes > Add/Update Snaplex dialog",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 28",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "page": "Add/Update Snaplex dialog",
+      "summary": "Several dialog fields — Select project, Load balancer, Ultra load balancer — have real access or reliability consequences that go unexplained. Compounded by field tooltips hidden behind hover on every tab, ungrouped notification fields, and intro text that's identical across all four tabs instead of describing what each one configures. Split out from the main Snaplexes page issue for readability.",
+      "mockups": {
+        "comparison": "admin-manager/add-update-snaplex-dialog/comparison.html"
+      },
+      "annotations": [
         {
           "target": "Add Snaplex dialog Environment field",
           "callout": "This value is an arbitrary node-binding identifier — combined with Location, it forms the Snaplex's runtime path and must match the JCC's local config — not the SnapLogic Environment shown elsewhere in Admin Manager. Renaming it after nodes are running breaks their binding."

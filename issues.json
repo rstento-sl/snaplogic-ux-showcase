@@ -833,6 +833,10 @@
           "callout": "There's no intro text on the page — nothing explains what the Usage setting, Distribution, and per-Snap-Pack version override do, or how they relate to each other."
         },
         {
+          "target": "Page title",
+          "callout": "The page treats Distribution, Usage setting, and per-Snap-Pack override as three unrelated controls, with no explanation of how they combine — or that task vs. Designer execution also affects which version runs."
+        },
+        {
           "target": "Usage setting label",
           "callout": "Selecting Latest or Stable rewrites this text to describe only the choice just made, so admins can't see what the other option does without selecting it first."
         },

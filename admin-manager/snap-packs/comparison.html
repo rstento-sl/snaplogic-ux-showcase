@@ -243,14 +243,15 @@
 
       <div id="block-title" class="pin-block" style="margin-bottom: 12px;">
         <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+        <div class="pin" id="pin-2" style="right: 26px;" onclick="openPopover(2, event)">2</div>
         <h1 class="page-title" style="margin-bottom: 0;">Snap Packs</h1>
       </div>
 
       <div class="section-title">Usage setting (Environment-wide)</div>
       <div class="usage-row">
         <div id="block-usage-text" class="pin-block">
-          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
-          <div class="pin" id="pin-3" style="right: 26px;" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-4" style="right: 26px;" onclick="openPopover(4, event)">4</div>
           <div class="usage-text">Use the latest Snaps when a pipeline runs. <a href="#">Learn more.</a></div>
         </div>
         <div class="select-input"><span>Latest</span><span class="arrow">⌄</span></div>
@@ -266,7 +267,7 @@
       <div class="toolbar-row">
         <input class="search-input" placeholder="Search by name or type" readonly>
         <div id="block-dist" class="pin-block">
-          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+          <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
           <div class="dist-label">Distribution</div>
         </div>
         <div class="filter-dropdown"><span>New</span><span class="arrow">⌄</span></div>
@@ -274,7 +275,7 @@
 
       <table class="data-table">
         <thead>
-          <tr><th>Snap Pack name</th><th>Type</th><th><div id="block-version" class="pin-block" style="display:inline-block;">Version<div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div></div></th></tr>
+          <tr><th>Snap Pack name</th><th>Type</th><th><div id="block-version" class="pin-block" style="display:inline-block;">Version<div class="pin" id="pin-6" onclick="openPopover(6, event)">6</div></div></th></tr>
         </thead>
         <tbody>
           <tr><td>Active Directory</td><td>Premium</td><td class="version-cell">445rc35815 (default)<span class="arrow">⌄</span></td></tr>
@@ -317,15 +318,17 @@
 
       <div id="prop-block-title" class="pin-block green">
         <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+        <div class="pin green" id="green-pin-2" style="right: 26px;" onclick="openGreenPopover(2, event)">2</div>
         <h1 class="page-title">Snap Packs</h1>
-        <p class="intro-text">Set environment Snap Pack usage, view distributions associated with GA and non-GA Snaplexes, or override the default version for individual Snap Packs.</p>
+        <p class="intro-text" style="margin-bottom: 12px;">Set environment Snap Pack usage, view distributions associated with GA and non-GA Snaplexes, or override the default version for individual Snap Packs.</p>
+        <div class="usage-note">Distribution determines the set of available Snap Pack builds for GA and non-GA Snaplexes. Usage setting picks the default within that set. A per-Snap-Pack version override takes precedence over both. The version a Snaplex uses also depends on whether execution is invoked from a task or in Designer.</div>
       </div>
 
       <div class="section-title">Usage setting (Environment-wide)</div>
       <div class="usage-row">
         <div id="prop-block-usage-text" class="pin-block green">
-          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
-          <div class="pin green" id="green-pin-3" style="right: 26px;" onclick="openGreenPopover(3, event)">3</div>
+          <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+          <div class="pin green" id="green-pin-4" style="right: 26px;" onclick="openGreenPopover(4, event)">4</div>
           <div class="usage-text">Select the environment default: Stable for production, Latest for development. <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">This sets the default Snap Pack versions used by Snaplexes. Overriding a Snap Pack's version in the table below replaces this default for that Snap Pack.</span></span> <a href="#">Learn more.</a></div>
         </div>
         <div class="select-input"><span>Latest</span><span class="arrow">⌄</span></div>
@@ -341,7 +344,7 @@
       <div class="toolbar-row">
         <input class="search-input" placeholder="Search by name or type" readonly>
         <div id="prop-block-dist" class="pin-block green">
-          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+          <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
           <div class="dist-label">Distribution</div>
         </div>
         <div class="filter-dropdown"><span>New</span><span class="arrow">⌄</span></div>
@@ -350,7 +353,7 @@
 
       <table class="data-table">
         <thead>
-          <tr><th>Snap Pack name</th><th>Type</th><th><div id="prop-block-version" class="pin-block green" style="display:inline-block;">Version<div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div></div></th></tr>
+          <tr><th>Snap Pack name</th><th>Type</th><th><div id="prop-block-version" class="pin-block green" style="display:inline-block;">Version<div class="pin green" id="green-pin-6" onclick="openGreenPopover(6, event)">6</div></div></th></tr>
         </thead>
         <tbody>
           <tr><td>Active Directory</td><td>Premium</td><td class="version-cell">445rc35815 (default)<span class="arrow">⌄</span></td></tr>
@@ -412,6 +415,13 @@ const annotations = [
     title: "The page doesn't explain what these controls do or how they relate",
     problem: "There's no intro text on the page — nothing explains what the Usage setting, Distribution, and per-Snap-Pack version override do, or how they relate to each other. Admins have to infer it from the UI alone.",
     fixHtml: "Add an intro paragraph stating the page's purpose: “Set environment Snap Pack usage, view distributions associated with GA and non-GA Snaplexes, or override the default version for individual Snap Packs.”",
+    block: "block-title",
+    propBlock: "prop-block-title"
+  },
+  {
+    title: "Nothing explains how Distribution, Usage setting, and per-Snap-Pack override relate, or that task vs. Designer execution changes the version used",
+    problem: "The page treats Distribution, Usage setting, and the per-Snap-Pack version override as three unrelated controls, with no explanation of how they combine to determine which Snap Pack build actually runs — or that execution context (task vs. Designer) also affects the outcome.",
+    fixHtml: "Add a note stating the precedence and the execution-context dependency: “Distribution determines the set of available Snap Pack builds for GA and non-GA Snaplexes. Usage setting picks the default within that set. A per-Snap-Pack version override takes precedence over both. The version a Snaplex uses also depends on whether execution is invoked from a task or in Designer.”",
     block: "block-title",
     propBlock: "prop-block-title"
   },

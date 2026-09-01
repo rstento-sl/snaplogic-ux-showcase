@@ -829,8 +829,24 @@
       },
       "annotations": [
         {
+          "target": "Page title",
+          "callout": "There's no intro text on the page — nothing explains what the Usage setting, Distribution, and per-Snap-Pack version override do, or how they relate to each other."
+        },
+        {
           "target": "Usage setting (Environment-wide) section",
           "callout": "An override to a Snap Pack's version in the table overrides the environment default for that Snap Pack, but nothing on the page says so."
+        },
+        {
+          "target": "Usage setting label",
+          "callout": "Selecting Latest or Stable rewrites this text to describe only the choice just made, so admins can't see what the other option does without selecting it first."
+        },
+        {
+          "target": "Usage setting label",
+          "callout": "The label explains what Latest and Stable technically are, but not which environment type should pick which — Production should use Stable, Development can use Latest."
+        },
+        {
+          "target": "Distribution label",
+          "callout": "Distribution has no explanatory copy at all, and if any Snaplex in the environment is still on a deprecated version, all Snaplexes silently use the Snap Pack's old builds when a pipeline runs in Designer — with no warning anywhere on the page."
         }
       ]
     },

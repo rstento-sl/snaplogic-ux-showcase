@@ -96,7 +96,8 @@
     padding: 24px 28px 32px; box-shadow: 0px 2px 4px rgba(206, 217, 240, 0.8); position: relative; overflow-x: auto;
   }
 
-  h1.page-title { font-size: 24px; font-weight: 800; margin-bottom: 18px; }
+  h1.page-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+  .intro-text { color: #444; margin-bottom: 24px; line-height: 1.5; font-size: 13px; max-width: 700px; }
   .section-title { font-size: 16px; font-weight: 800; margin-bottom: 10px; }
   .usage-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
   .usage-text { font-size: 13px; color: #444; }
@@ -105,6 +106,24 @@
     font-size: 12px; color: #444; background: var(--orange-tint); border-radius: 6px;
     padding: 10px 12px; margin-top: 12px; max-width: 640px; line-height: 1.5;
   }
+
+  .sl-tooltip-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; margin-left: 4px; }
+  .sl-tooltip-trigger {
+    width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--dim); color: var(--dim);
+    font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; cursor: default;
+  }
+  .sl-tooltip {
+    position: absolute; z-index: 100; background: var(--ink); color: #fff; font-family: inherit; font-weight: 500;
+    font-size: 12px; line-height: 16px; padding: 5px 10px; border-radius: 4px; width: max-content; max-width: 240px;
+    white-space: normal; pointer-events: none; box-shadow: 0 2px 8px rgba(3,26,72,0.18); opacity: 0;
+    top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(-4px);
+    transition: opacity 120ms ease-out 300ms, transform 120ms ease-out 300ms;
+  }
+  .sl-tooltip::after {
+    content: ""; position: absolute; width: 0; height: 0; border: 5px solid transparent;
+    bottom: 100%; left: 50%; transform: translateX(-50%); border-bottom-color: var(--ink); border-top: none;
+  }
+  .sl-tooltip-wrap:hover .sl-tooltip, .sl-tooltip-wrap:focus-within .sl-tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
   .select-input {
     display: flex; align-items: center; justify-content: space-between; gap: 8px;
     min-width: 130px; font-size: 13px; color: var(--ink); border: 1px solid #ccc; border-radius: 4px; padding: 9px 12px; background: #fff;
@@ -222,13 +241,20 @@
     <div class="compare-col-label current">Current UI</div>
     <div class="page-wrapper">
 
-      <h1 class="page-title">Snap Packs</h1>
+      <div id="block-title" class="pin-block" style="margin-bottom: 12px;">
+        <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+        <h1 class="page-title" style="margin-bottom: 0;">Snap Packs</h1>
+      </div>
 
       <div id="block-usage" class="pin-block">
-        <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
         <div class="section-title">Usage setting (Environment-wide)</div>
         <div class="usage-row">
-          <div class="usage-text">Use the latest Snaps when a pipeline runs. <a href="#">Learn more.</a></div>
+          <div id="block-usage-text" class="pin-block">
+            <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+            <div class="pin" id="pin-4" style="right: 26px;" onclick="openPopover(4, event)">4</div>
+            <div class="usage-text">Use the latest Snaps when a pipeline runs. <a href="#">Learn more.</a></div>
+          </div>
           <div class="select-input"><span>Latest</span><span class="arrow">⌄</span></div>
           <button class="btn-save" disabled>Save</button>
         </div>
@@ -242,7 +268,10 @@
 
       <div class="toolbar-row">
         <input class="search-input" placeholder="Search by name or type" readonly>
-        <div class="dist-label">Distribution</div>
+        <div id="block-dist" class="pin-block">
+          <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
+          <div class="dist-label">Distribution</div>
+        </div>
         <div class="filter-dropdown"><span>New</span><span class="arrow">⌄</span></div>
       </div>
 
@@ -289,13 +318,21 @@
     <div class="compare-col-label proposed">Proposed microcopy</div>
     <div class="page-wrapper">
 
-      <h1 class="page-title">Snap Packs</h1>
+      <div id="prop-block-title" class="pin-block green">
+        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+        <h1 class="page-title">Snap Packs</h1>
+        <p class="intro-text">Set the environment default Snap Packs, view distributions associated with GA and older Snaplexes, or override the default for individual Snap Packs.</p>
+      </div>
 
       <div id="prop-block-usage" class="pin-block green">
-        <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
         <div class="section-title">Usage setting (Environment-wide)</div>
         <div class="usage-row">
-          <div class="usage-text">Use the latest Snaps when a pipeline runs. <a href="#">Learn more.</a></div>
+          <div id="prop-block-usage-text" class="pin-block green">
+            <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+            <div class="pin green" id="green-pin-4" style="right: 26px;" onclick="openGreenPopover(4, event)">4</div>
+            <div class="usage-text">Select the environment default: Stable for production, Latest for development. <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">This sets the default Snap Pack versions used by Snaplexes, which can be overridden at the individual Snap Pack level.</span></span> <a href="#">Learn more.</a></div>
+          </div>
           <div class="select-input"><span>Latest</span><span class="arrow">⌄</span></div>
           <button class="btn-save" disabled>Save</button>
         </div>
@@ -310,7 +347,10 @@
 
       <div class="toolbar-row">
         <input class="search-input" placeholder="Search by name or type" readonly>
-        <div class="dist-label">Distribution</div>
+        <div id="prop-block-dist" class="pin-block green">
+          <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+          <div class="dist-label">Distribution <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">New shows the default builds for GA Snaplexes; Old shows the default builds for deprecated Snaplexes. If any Snaplex in the environment is on a deprecated version, all Snaplexes use the old builds when you run a pipeline in Designer.</span></span></div>
+        </div>
         <div class="filter-dropdown"><span>New</span><span class="arrow">⌄</span></div>
       </div>
 
@@ -375,11 +415,39 @@
 <script>
 const annotations = [
   {
+    title: "The page doesn't explain what these controls do or how they relate",
+    problem: "There's no intro text on the page — nothing explains what the Usage setting, Distribution, and per-Snap-Pack version override do, or how they relate to each other. Admins have to infer it from the UI alone.",
+    fixHtml: "Add an intro paragraph stating the page's purpose: “Set the environment default Snap Packs, view distributions associated with GA and older Snaplexes, or override the default for individual Snap Packs.”",
+    block: "block-title",
+    propBlock: "prop-block-title"
+  },
+  {
     title: "A version override replaces the environment default, but nothing says so",
     problem: "An override to a Snap Pack's version in the table overrides the environment default for that Snap Pack, but nothing on the page says so.",
     fixHtml: "Add a note explaining that a version override replaces the environment default for that Snap Pack, and warn admins to consult Support before overriding — matching SnapLogic's own documentation.<span class=\"reviewer-question\">Open question for reviewers: docs say to consult Support before overriding a Snap Pack version — please confirm that guidance is still accurate before we finalize the in-product warning wording.</span>",
     block: "block-usage",
     propBlock: "prop-block-usage"
+  },
+  {
+    title: "The label rewrites itself to describe only the selected option",
+    problem: "Selecting Latest or Stable rewrites this text to describe only the choice just made — unlike every other Admin Manager control, where the label stays put. Admins can't see what the other option does without selecting it first.",
+    fixHtml: "Make the label static, explaining what both Latest and Stable do, instead of rewriting itself based on the current selection.",
+    block: "block-usage-text",
+    propBlock: "prop-block-usage-text"
+  },
+  {
+    title: "Nothing says which environment type should use Stable vs. Latest",
+    problem: "The label explains what Latest and Stable technically are, but not which environment type should pick which. Admins have no way to tell from the page that Production environments should use Stable and Development environments can use Latest.",
+    fixHtml: "State the environment guidance directly in the label: “Select the environment default: Stable for production, Latest for development.” Move the general purpose statement into a tooltip: “This sets the default Snap Pack versions used by Snaplexes, which can be overridden at the individual Snap Pack level.”",
+    block: "block-usage-text",
+    propBlock: "prop-block-usage-text"
+  },
+  {
+    title: "A deprecated Snaplex silently downgrades every pipeline's Snap Pack builds, and Distribution doesn't explain New/Old at all",
+    problem: "Distribution has no explanatory copy at all — nothing says New shows the default builds for GA Snaplexes and Old shows the default builds for deprecated Snaplexes. Worse, if any Snaplex in the environment is still on a deprecated version, all Snaplexes silently use the Snap Pack's old builds when a pipeline runs in Designer — an environment-wide side effect from a single outdated Snaplex, with no warning anywhere on the page.",
+    fixHtml: "Add a tooltip on the Distribution label explaining New vs. Old, and disclosing the cascading behavior: “New shows the default builds for GA Snaplexes; Old shows the default builds for deprecated Snaplexes. If any Snaplex in the environment is on a deprecated version, all Snaplexes use the old builds when you run a pipeline in Designer.”",
+    block: "block-dist",
+    propBlock: "prop-block-dist"
   }
 ];
 

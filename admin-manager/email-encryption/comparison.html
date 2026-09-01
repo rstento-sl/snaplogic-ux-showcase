@@ -457,7 +457,7 @@ const annotations = [
   {
     title: "The page disappears entirely for unsubscribed environments, with no discoverability or upsell",
     problem: "SnapLogic's docs confirm Admin Manager only includes this page in environments subscribed to Enhanced Email Encryption — but that means the feature is invisible rather than discoverable. An admin in an unsubscribed environment has no way to learn this capability exists.",
-    fixHtml: "Keep the page visible for unsubscribed environments, with the toggle greyed out and disabled, and a line explaining why: “An environment must be subscribed to allow Enhanced email encryption.”<span class=\"reviewer-question\">Open question for reviewers: what's the right call to action here — contact sales, an in-app upgrade flow, something else? Flagging the upsell opportunity without asserting the mechanism, since it's unclear how upgrade requests are actually routed today.</span>",
+    fixHtml: "Keep the page visible for unsubscribed environments, with the toggle greyed out and disabled, and a line explaining why: “This environment isn't subscribed to Enhanced Email Encryption.”<span class=\"reviewer-question\">Open question for reviewers: what's the right call to action here — contact sales, an in-app upgrade flow, something else? Flagging the upsell opportunity without asserting the mechanism, since it's unclear how upgrade requests are actually routed today.</span>",
     block: "block-title",
     propBlock: "prop-block-title"
   },
@@ -610,7 +610,7 @@ function setSubscriptionState(state) {
   if (state === 'unsubscribed') {
     toggleRow.classList.add('disabled');
     toggleSwitch.classList.add('disabled');
-    toggleHelper.innerHTML = 'An environment must be subscribed to allow Enhanced email encryption.';
+    toggleHelper.innerHTML = 'This environment isn\'t subscribed to Enhanced Email Encryption.';
     btnUnsub.classList.add('active');
     btnSub.classList.remove('active');
   } else {

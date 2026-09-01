@@ -742,7 +742,7 @@
 
       <div id="prop-block-notice" class="pin-block green field-group">
         <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
-        <div class="field-label">Expiration notice period <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Users get in-app notifications each time they log in during the period and one email at the start of the period.</span></span></div>
+        <div class="field-label">Expiration notice period <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Users get an email reminder when the period starts and an in-app notification each time they log in.</span></span></div>
         <p class="field-hint field-hint-top">Days before expiration to notify users to reset their password.</p>
         <div class="slider-row">
           <input type="range" min="1" max="14" value="1" disabled>
@@ -760,7 +760,7 @@
           <button class="btn-expire-all" id="expire-btn" onclick="openExpireConfirm()">Expire all passwords</button>
           <p class="expire-caption">Signs users out, including Environment admins, on their next interaction. Does not sign out SSO users or those who have accounts in environments that you don't administer.</p>
         </div>
-        <p class="expire-done" id="expire-done" style="display:none;">✓ Passwords expired. SSO users and users outside your administered environments were skipped. 3 service accounts still need a manual reset — see below.</p>
+        <p class="expire-done" id="expire-done" style="display:none;">✓ Passwords expired. SSO users and users who have accounts in environments you don't administer were skipped. 3 service accounts still need a manual reset — check your email for reset links.</p>
       </div>
 
       <button class="btn-save" disabled>Save</button>
@@ -800,9 +800,9 @@
   <h3>Expire all passwords?</h3>
   <p>This immediately signs out every affected user, including you, and forces them to reset their password.</p>
   <ul class="confirm-list">
-    <li>You'll receive reset links in individual emails for <strong>3 service accounts</strong>. After setting a new password, don't forget to update the dependent app or integration with the new password.</li>
+    <li>You'll receive reset links in individual emails for <strong>3 service accounts</strong>. Update dependent apps and integrations after resetting.</li>
     <li>Users who log in with SSO are not affected.</li>
-    <li>Users whose accounts are only in environments you don't administer are not affected.</li>
+    <li>Users who have accounts in environments you don't administer are not affected.</li>
   </ul>
   <div class="confirm-actions">
     <button class="btn-cancel-confirm" onclick="closeExpireConfirm()">Cancel</button>
@@ -829,14 +829,14 @@ const annotations = [
   {
     title: "Expiration notice period has no explanation of what it does",
     problem: "Nothing on the page explains what Expiration notice period controls or how the notification actually reaches users — admins have to guess whether it's an email, an in-app banner, or something else.",
-    fix: "Add microcopy under the label: “Days before expiration to notify users to reset their password.” Add a tooltip explaining the mechanism: “Users get in-app notifications each time they log in during the period and one email at the start of the period.”",
+    fix: "Add microcopy under the label: “Days before expiration to notify users to reset their password.” Add a tooltip explaining the mechanism: “Users get an email reminder when the period starts and an in-app notification each time they log in.”",
     block: "block-notice",
     propBlock: "prop-block-notice"
   },
   {
     title: "Expire all passwords doesn't disclose the manual cleanup it creates for service accounts",
     problem: "Expire all passwords also expires every service account's credentials, but since they can't log in, their creating admin has to manually reset each one and update the dependent app — none of that is disclosed before confirming.",
-    fix: "Click Expire all passwords to see this in the confirmation dialog that opens: show the number of affected service accounts: “You'll receive reset links in individual emails for 3 service accounts. After setting a new password, don't forget to update the dependent app or integration with the new password.”",
+    fix: "Click Expire all passwords to see this in the confirmation dialog that opens: show the number of affected service accounts: “You'll receive reset links in individual emails for 3 service accounts. Update dependent apps and integrations after resetting.”",
     block: "block-expire-all",
     propBlock: "prop-block-expire-all"
   },

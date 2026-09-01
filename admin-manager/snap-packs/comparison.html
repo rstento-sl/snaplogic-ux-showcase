@@ -199,6 +199,10 @@
     display: block; margin-top: 12px; padding: 10px 12px; background: var(--orange-tint); border-radius: 6px;
     color: var(--orange); font-size: 12px; font-weight: 700; line-height: 1.5;
   }
+  .popover-fix .inapp-help-note {
+    display: block; margin-top: 12px; padding: 10px 12px; background: #F1E9FB; border-radius: 6px;
+    color: #6B3FA0; font-size: 12px; font-weight: 700; line-height: 1.5;
+  }
   .popover-footer { padding: 10px 16px; background: #f8f8f8; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #888; border-top: 1px solid #eee; }
   .popover-nav { display: flex; gap: 8px; }
   .popover-nav button {
@@ -321,7 +325,7 @@
         <div class="pin green" id="green-pin-2" style="right: 26px;" onclick="openGreenPopover(2, event)">2</div>
         <h1 class="page-title">Snap Packs</h1>
         <p class="intro-text" style="margin-bottom: 12px;">Set environment Snap Pack usage, view distributions associated with GA and non-GA Snaplexes, or override the default version for individual Snap Packs.</p>
-        <div class="usage-note">Distribution determines the set of available Snap Pack builds for GA and non-GA Snaplexes. Usage setting picks the default within that set. A per-Snap-Pack version override takes precedence over both. The version a Snaplex uses also depends on whether execution is invoked from a task or in Designer.</div>
+        <div class="usage-note">Distribution determines the set of available Snap Pack builds for GA and non-GA Snaplexes. The Usage setting picks the default within that set. A per-Snap-Pack version override takes precedence over both. The version a Snaplex uses also depends on whether execution is invoked from a task or in Designer.</div>
       </div>
 
       <div class="section-title">Usage setting (Environment-wide)</div>
@@ -421,7 +425,7 @@ const annotations = [
   {
     title: "Nothing explains how Distribution, Usage setting, and per-Snap-Pack override relate, or that task vs. Designer execution changes the version used",
     problem: "The page treats Distribution, Usage setting, and the per-Snap-Pack version override as three unrelated controls, with no explanation of how they combine to determine which Snap Pack build actually runs — or that execution context (task vs. Designer) also affects the outcome.",
-    fixHtml: "Add a note stating the precedence and the execution-context dependency: “Distribution determines the set of available Snap Pack builds for GA and non-GA Snaplexes. Usage setting picks the default within that set. A per-Snap-Pack version override takes precedence over both. The version a Snaplex uses also depends on whether execution is invoked from a task or in Designer.”",
+    fixHtml: "Add a note stating the precedence and the execution-context dependency: “Distribution determines the set of available Snap Pack builds for GA and non-GA Snaplexes. The Usage setting picks the default within that set. A per-Snap-Pack version override takes precedence over both. The version a Snaplex uses also depends on whether execution is invoked from a task or in Designer.”<span class=\"inapp-help-note\">In-app help idea: this note is dense as static page copy. An in-app help tutorial/walkthrough could deliver the same precedence explanation more digestibly than a wall of text — worth testing instead of, or alongside, the in-page note.</span>",
     block: "block-title",
     propBlock: "prop-block-title"
   },

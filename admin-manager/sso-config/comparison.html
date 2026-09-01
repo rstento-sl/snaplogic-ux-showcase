@@ -335,6 +335,17 @@
   }
   .popover-fix-label svg { width: 13px; height: 13px; }
   .popover-fix { font-size: 13px; color: #1a1a1a; line-height: 1.6; }
+  .popover-inapp-help {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #F1E9FB;
+    border-radius: 6px;
+    color: #6B3FA0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
   .popover-footer {
     padding: 10px 16px;
     background: #f8f8f8;
@@ -720,6 +731,7 @@
   </div>
   <div class="popover-body">
     <div class="popover-problem" id="pop-problem"></div>
+    <div class="popover-inapp-help" id="pop-inapp-help"></div>
     <button class="popover-jump-btn" id="pop-jump-btn"></button>
   </div>
   <div class="popover-footer">
@@ -758,6 +770,7 @@ const annotations = [
     title: "Sections are out of order, with no indication users must leave and return",
     problem: "Users visit this page twice, at two different times — first to copy values OUT to the IdP, later to paste IdP metadata BACK IN. But the paste-back section appears first, above the copy-out section, so users hit it before they have anything to enter. Nothing marks the sections as sequential or tells users they need to leave and come back.",
     fix: "Reorder the sections to match the real workflow and number them: Step 1 — copy/download SnapLogic values, go set up your IdP. Step 2 — return and upload the IdP metadata.",
+    inAppHelp: "This leave-and-return, multi-step workflow could work better as an in-app help checklist than static step text on the page.",
     section: null,
     propBlock: "prop-block-order"
   }
@@ -830,9 +843,12 @@ function render() {
   document.getElementById('pop-num').textContent = current;
   document.getElementById('pop-title').textContent = a.title;
 
+  const inAppHelpEl = document.getElementById('pop-inapp-help');
+
   if (mode === 'red') {
     header.classList.remove('green');
     document.getElementById('pop-problem').textContent = a.problem;
+    inAppHelpEl.style.display = 'none';
     jumpBtn.textContent = 'See proposed fix →';
     jumpBtn.className = 'popover-jump-btn to-fix';
     jumpBtn.onclick = function() { jumpTo('green', current); };
@@ -840,6 +856,12 @@ function render() {
   } else {
     header.classList.add('green');
     document.getElementById('pop-problem').textContent = a.fix;
+    if (a.inAppHelp) {
+      inAppHelpEl.textContent = 'In-app help idea: ' + a.inAppHelp;
+      inAppHelpEl.style.display = 'block';
+    } else {
+      inAppHelpEl.style.display = 'none';
+    }
     jumpBtn.textContent = '← Back to problem';
     jumpBtn.className = 'popover-jump-btn to-problem';
     jumpBtn.onclick = function() { jumpTo('red', current); };

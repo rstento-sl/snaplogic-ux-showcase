@@ -35,6 +35,8 @@
     --blue-tint: #E6ECF8;
     --orange: #C75209;
     --orange-tint: #FEF0E7;
+    --purple: #6B3FA0;
+    --purple-tint: #F1E9FB;
     --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   }
 
@@ -329,6 +331,41 @@
     border-bottom: 1px solid #eee;
   }
   .popover-fix { font-size: 13px; color: #1a1a1a; line-height: 1.6; }
+
+  /* ── In-app UA badge + popover (a proposal type distinct from the red/green
+     issue pins — not tied to a problem/fix pair, so it isn't numbered) ── */
+  .inapp-ua-row { max-width: 1500px; margin: -8px auto 0; padding: 0 32px 4px; }
+  .inapp-ua-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--purple-tint);
+    color: var(--purple);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: 1px solid rgba(107, 63, 160, 0.3);
+    transition: background 0.15s, transform 0.15s;
+    user-select: none;
+  }
+  .inapp-ua-badge:hover { background: #E6D9F5; transform: translateY(-1px); }
+  .popover-header.inapp-ua { background: var(--purple); }
+  .inapp-ua-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--purple); margin: 0 0 6px;
+  }
+  .inapp-ua-steps {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+  .inapp-ua-steps li { margin-bottom: 8px; }
+  .inapp-ua-steps li:last-child { margin-bottom: 0; }
   .popover-footer {
     padding: 10px 16px;
     background: #f8f8f8;
@@ -432,6 +469,10 @@
   <div class="header-row">
     <span class="instruction">Click a pin to see the issue and the fix. On the proposed side, try "Preview warning" and the state toggle.</span>
   </div>
+</div>
+
+<div class="inapp-ua-row">
+  <div class="inapp-ua-badge" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
 </div>
 
 <div class="compare-grid">
@@ -545,6 +586,22 @@
       <button id="btn-prev" onclick="navigate(-1)">← Prev</button>
       <button id="btn-next" onclick="navigate(1)">Next →</button>
     </div>
+  </div>
+</div>
+
+<div class="popover" id="inapp-ua-popover">
+  <div class="popover-header inapp-ua">
+    <h3>In-app help idea: Tutorial</h3>
+    <button class="close-btn" onclick="closeInAppHelpPopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <div class="popover-problem">Session timeout and Idle timeout look and default identically, but behave completely differently — a short in-app tutorial could make the distinction clear where static labels haven't.</div>
+    <div class="inapp-ua-label">PROPOSED STEPS</div>
+    <ol class="inapp-ua-steps">
+      <li>Point at Session timeout and explain it's a fixed cutoff from login, even if you're actively working, with no warning before it ends the session.</li>
+      <li>Point at Idle timeout and explain it only counts real inactivity, and warns 2 minutes before logging out.</li>
+      <li>Show why setting Idle timeout higher than Session timeout makes it meaningless, and that Save blocks that combination.</li>
+    </ol>
   </div>
 </div>
 
@@ -700,6 +757,46 @@ function closePopover() {
   clearHighlights();
   current = null;
 }
+
+function openInAppHelpPopover(e) {
+  if (e) e.stopPropagation();
+  closePopover();
+  const badgeEl = document.querySelector('.inapp-ua-badge');
+  const pop = document.getElementById('inapp-ua-popover');
+  pop.style.display = 'block';
+  positionPopover2(badgeEl, pop);
+}
+
+function closeInAppHelpPopover() {
+  document.getElementById('inapp-ua-popover').style.display = 'none';
+}
+
+function positionPopover2(anchorEl, pop) {
+  const rect = anchorEl.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  const popWidth = popRect.width;
+  const popHeight = popRect.height;
+
+  let top = rect.bottom + margin;
+  if (top + popHeight > window.innerHeight - margin) {
+    top = rect.top - popHeight - margin;
+  }
+  top = Math.max(margin, Math.min(top, window.innerHeight - popHeight - margin));
+
+  let left = rect.left;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popWidth - margin));
+
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+document.addEventListener('click', function(e) {
+  const uaPop = document.getElementById('inapp-ua-popover');
+  if (uaPop.style.display === 'block' && !uaPop.contains(e.target) && !e.target.closest('.inapp-ua-badge')) {
+    closeInAppHelpPopover();
+  }
+});
 
 function previewIdleWarning(e) {
   e.preventDefault();

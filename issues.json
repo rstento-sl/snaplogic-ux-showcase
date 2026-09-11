@@ -81,7 +81,8 @@
           "callout": "No helper text explains what this setting controls, and it's not grouped with the toggles above."
         }
       ],
-      "page": "SnapGPT"
+      "page": "SnapGPT",
+      "inAppHelp": true
     },
     {
       "id": "issue-05",
@@ -163,7 +164,8 @@
           "callout": "Uses a completely different version format than the selector above, with nothing tying the two together or explaining what Upgrade now does."
         }
       ],
-      "page": "AutoSync"
+      "page": "AutoSync",
+      "inAppHelp": true
     },
     {
       "id": "issue-07",
@@ -278,7 +280,8 @@
           "callout": "This page plays two roles at two different times — source and destination — but nothing on the page communicates that."
         }
       ],
-      "page": "Authentication"
+      "page": "Authentication",
+      "inAppHelp": true
     },
     {
       "id": "issue-08",
@@ -732,7 +735,8 @@
           "target": "Add Snaplex dialog, Node proxies tab intro text",
           "callout": "Same issue as the Logging tab — the intro text here is the generic dialog-level description, not specific to what this tab configures."
         }
-      ]
+      ],
+      "inAppHelp": true
     },
     {
       "id": "issue-23",
@@ -852,7 +856,8 @@
           "target": "Version column",
           "callout": "SnapLogic's own docs say to consult Support before overriding a Snap Pack version in this table, but nothing in the product surfaces that guidance today — open question for reviewers on whether that's still accurate."
         }
-      ]
+      ],
+      "inAppHelp": true
     },
     {
       "id": "issue-25",
@@ -919,7 +924,8 @@
           "target": "Idle timeout field",
           "callout": "If Idle timeout is set higher than Session timeout, the session's fixed cutoff always happens first, so the idle timer can never fire. Neither the page nor the backend validates or warns about this — unlike Password expiration's enforced notice/expire relationship."
         }
-      ]
+      ],
+      "inAppHelp": true
     },
     {
       "id": "issue-27",

@@ -170,6 +170,21 @@
   .severity-medium { background: var(--sl-orange-100); color: var(--sl-orange-700); }
   .severity-low { background: var(--sl-grey-200); color: var(--sl-grey-800); }
 
+  /* In-app UA flag: pages with a purple "💡 In-app UA" badge in their
+     comparison.html (see project's In-app help idea pattern) get the same
+     decorator here, so it's visible without opening the page. */
+  .inapp-ua-flag {
+    font-size: var(--type-pill-size);
+    line-height: var(--type-pill-line);
+    font-weight: var(--type-pill-weight);
+    letter-spacing: var(--type-pill-tracking);
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    background: #F1E9FB;
+    color: #6B3FA0;
+  }
+
   .issue-count {
     font-size: var(--type-pill-size);
     line-height: var(--type-pill-line);
@@ -300,7 +315,9 @@ fetch("issues.json")
           const sev = highestSeverity(pageIssues);
           const sevLabel = sev ? `<span class="severity ${severityClass(sev)}">${sev}</span>` : "";
           const countLabel = count > 1 ? `<span class="issue-count">${count} issues</span>` : "";
-          return `<li class="page-item"><a class="page-link" href="${href}"><span class="title">${page}</span><span class="right">${countLabel}${sevLabel}<span class="chevron">→</span></span></a></li>`;
+          const hasInAppHelp = pageIssues.some(issue => issue.inAppHelp);
+          const inAppHelpLabel = hasInAppHelp ? `<span class="inapp-ua-flag">💡 In-app UA</span>` : "";
+          return `<li class="page-item"><a class="page-link" href="${href}"><span class="title">${page}</span><span class="right">${inAppHelpLabel}${countLabel}${sevLabel}<span class="chevron">→</span></span></a></li>`;
         }).join("");
 
         const listHeader = `<div class="list-header"><span>Severity</span></div>`;

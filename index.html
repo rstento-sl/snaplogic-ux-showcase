@@ -80,7 +80,27 @@
     letter-spacing: -0.01em;
     color: var(--color-text-heading);
   }
-  .sub { color: var(--color-text-subtle); margin-bottom: var(--space-10); line-height: 1.5; font-size: var(--type-body-size); max-width: 52ch; }
+  .sub { color: var(--color-text-subtle); margin-bottom: var(--space-4); line-height: 1.5; font-size: var(--type-body-size); max-width: 52ch; }
+
+  .intro-note {
+    max-width: 70ch;
+    margin-bottom: var(--space-10);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+  }
+  .intro-note p {
+    color: var(--color-text-subtle);
+    line-height: 1.6;
+    font-size: var(--type-body-size);
+    margin-bottom: var(--space-3);
+  }
+  .intro-note p:last-child { margin-bottom: 0; }
+  .pin-ref { font-weight: 700; }
+  .pin-ref.red { color: var(--sl-red-700); }
+  .pin-ref.green { color: #017D1B; }
+  .pin-ref.purple { color: #6B3FA0; }
 
   .area-title {
     font-family: var(--font-sans);
@@ -207,6 +227,11 @@
     <h1>UX issue showcase</h1>
   </header>
   <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin UI, with proposed fixes — for PM and engineering review.</p>
+  <div class="intro-note">
+    <p>Each issue recreates a real screen with two views side by side. Click a <strong class="pin-ref red">red pin</strong> on Current UI to see what's confusing; click the matching <strong class="pin-ref green">green pin</strong> on Proposed microcopy to see the suggested fix.</p>
+    <p>Some pages also flag a <strong class="pin-ref purple">💡 In-app UA</strong> opportunity — a place where in-app user assistance (UA), delivered by a tool like Userpilot or Appcues, could work better than static page text. A short guided walkthrough can explain a multi-step or easily-confused setting more clearly than a dense note or a tooltip, without adding permanent clutter to the page.</p>
+    <p>Existing tooltips only appear after hovering a field for a second or two, so they're easy to miss entirely. Several proposed redesigns add a visible tooltip icon next to the field label instead, so it's discoverable at a glance — see the Add/Update Snaplex dialog for the clearest example.</p>
+  </div>
   <div id="app"><p class="empty">// loading issue catalog…</p></div>
 </div>
 

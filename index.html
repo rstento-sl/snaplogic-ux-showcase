@@ -43,6 +43,16 @@
     font-size: var(--type-body-size);
     margin-bottom: var(--space-3);
   }
+  .intro-note-label {
+    font-size: var(--type-small-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--sl-grey-800);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border-subtle);
+    margin-bottom: var(--space-2);
+  }
   .intro-note p:last-child { margin-bottom: 0; }
   .pin-ref { font-weight: 700; }
   .pin-ref.red { color: var(--sl-red-700); }
@@ -186,6 +196,7 @@
   <div class="intro-note">
     <p>Each linked page shows the real screen on the left and a proposed redesign on the right. Click a <strong class="pin-ref red">red pin</strong> on the left to see what's confusing; click the matching <strong class="pin-ref green">green pin</strong> on the right to see the suggested fix.</p>
     <p>Some pages also flag an <strong class="pin-ref purple"><svg class="ua-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.05V17h6v-2.25c0-.85.4-1.55 1-2.05A7 7 0 0 0 12 2z"/></svg>In-app UA</strong> opportunity — a place where in-app user assistance (UA), delivered by a tool like Userpilot or Appcues, could work better than static page text. A short guided walkthrough can explain a multi-step or easily-confused setting more clearly than a dense note or a tooltip, without adding permanent clutter to the page.</p>
+    <div class="intro-note-label">Cross-cutting issue</div>
     <p>Existing tooltips only appear after hovering a field for a second or two, so they're easy to miss entirely. Several proposed redesigns add a visible tooltip icon next to the field label instead, so it's discoverable at a glance — see the Add/Update Snaplex dialog for the clearest example.</p>
   </div>
   <div id="app"><p class="empty">// loading issue catalog…</p></div>

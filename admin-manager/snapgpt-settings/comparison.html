@@ -372,6 +372,63 @@
   .popover-nav button:hover { background: #f0f0f0; }
   .popover-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
   .close-btn { background: none; border: none; font-size: 18px; color: #fff; cursor: pointer; margin-left: auto; line-height: 1; padding: 0 0 0 8px; }
+
+  .sl-tooltip-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+  }
+  .sl-tooltip-trigger {
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dim);
+    color: var(--dim);
+    font-size: 10px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+  }
+  .sl-tooltip {
+    position: absolute;
+    z-index: 100;
+    background: var(--ink);
+    color: #fff;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    width: max-content;
+    max-width: 240px;
+    white-space: normal;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(3,26,72,0.18);
+    opacity: 0;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    transition: opacity 120ms ease-out 300ms, transform 120ms ease-out 300ms;
+  }
+  .sl-tooltip::after {
+    content: "";
+    position: absolute;
+    width: 0; height: 0;
+    border: 5px solid transparent;
+    bottom: 100%; left: 50%;
+    transform: translateX(-50%);
+    border-bottom-color: var(--ink);
+    border-top: none;
+  }
+  .sl-tooltip-wrap:hover .sl-tooltip,
+  .sl-tooltip-wrap:focus-within .sl-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 </style>
 </head>
 <body>
@@ -532,17 +589,18 @@
             </div>
           </div>
 
+          <div class="inapp-ua-badge" style="margin-top: 4px;" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
+
           <hr class="section-divider">
           <div class="block" id="prop-block-dropdown" style="position: relative; margin-bottom: 0;">
             <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
             <div class="section-title">Use pipelines for enhanced generation</div>
             <p class="helper-text-sm">Sets how SnapGPT uses existing pipelines as examples for Retrieval Augmented Generation (RAG): selected automatically (Auto), selected manually by users (Manual), or turned off (Disable). This sets the environment default — users can choose a more restrictive option in their personal settings.</p>
-            <div class="field-label">Mode</div>
+            <div class="field-label">Mode <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Auto: SnapGPT selects existing pipelines as examples automatically. Manual: users choose which pipelines to use. Disable: SnapGPT doesn't reference existing pipelines as examples.</span></span></div>
             <div class="select-trigger">
               <span>Auto</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
-            <div class="inapp-ua-badge" style="margin-top: 12px;" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
           </div>
         </div>
       </div>
@@ -577,12 +635,11 @@
     <button class="close-btn" onclick="closeInAppHelpPopover()">×</button>
   </div>
   <div class="popover-body">
-    <div class="popover-problem">These settings sound similar but each controls a different kind of data SnapGPT can access. A short in-app tutorial could walk through the real distinctions better than five separately-worded toggles and a dropdown.</div>
+    <div class="popover-problem">These toggles sound similar but each controls a different kind of data SnapGPT can access. A short in-app tutorial could walk through the real distinctions better than four separately-worded toggles.</div>
     <div class="inapp-ua-label">PROPOSED CONTENT</div>
     <ul class="inapp-ua-steps">
       <li>Use schemas when generating SQL queries and Use preview data schema, together — one controls access to table/column structure, the other to actual field names and data types from preview.</li>
       <li>Describe pipeline and Use preview data for contextual metadata, together — one sends the pipeline file itself (no credentials) for documentation, the other surfaces business and PII context from preview data automatically.</li>
-      <li>Use pipelines for enhanced generation, separate from the toggles above — it controls whether SnapGPT uses your org's existing pipelines as examples when generating new ones.</li>
     </ul>
   </div>
 </div>

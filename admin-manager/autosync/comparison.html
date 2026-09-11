@@ -326,8 +326,9 @@
   .popover-fix-label svg { width: 13px; height: 13px; }
   .popover-fix { display: none; font-size: 13px; color: #1a1a1a; line-height: 1.6; }
   /* ── In-app UA badge + popover (a proposal type distinct from the red/green
-     issue pins — not tied to a problem/fix pair, so it isn't numbered) ── */
-  .inapp-ua-row { max-width: 1500px; margin: -8px auto 0; padding: 0 32px 4px; }
+     issue pins — not tied to a problem/fix pair, so it isn't numbered).
+     Positioned next to the specific text it describes (2026-09-11), not at
+     the page top, since this one is tied to one exact block. ── */
   .inapp-ua-badge {
     display: inline-flex;
     align-items: center;
@@ -395,10 +396,6 @@
     <h1>AutoSync page intro doesn't match its General tab, and a lone toggle requires an unnecessary Save</h1>
   </div>
   <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix. Click the Versions tab to see its pins.</div>
-</div>
-
-<div class="inapp-ua-row">
-  <div class="inapp-ua-badge" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
 </div>
 
 <div class="compare-grid">
@@ -538,6 +535,7 @@
           <div class="pin green" id="green-pin-6" style="top: -8px; right: -8px;" onclick="openGreenPopover(6, event)">6</div>
           <div class="versions-heading">Snap Pack version for existing data pipelines</div>
           <p class="helper-text-sm">Select a specific version, or click Upgrade now to change to the default version.</p>
+          <div class="inapp-ua-badge" style="margin-bottom: 12px;" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
           <div class="table-toolbar">
             <input class="search-input" placeholder="Search by name" readonly>
             <div class="select-trigger" style="width: 180px;">

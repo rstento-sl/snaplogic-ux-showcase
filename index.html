@@ -4,83 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UX Issue Showcase</title>
+<link rel="stylesheet" href="https://sl-design-team.github.io/jellyroll/colors_and_type.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  @font-face {
-    font-family: "Acherus Grotesque";
-    font-style: normal; font-weight: 400; font-display: swap;
-    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-regular.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: "Acherus Grotesque";
-    font-style: normal; font-weight: 800; font-display: swap;
-    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-extrabold.woff2") format("woff2");
-  }
-
-  :root {
-    /* JellyRoll (SnapLogic Design System 2.0) tokens — sl-design-team.github.io/jellyroll */
-    --sl-blue-600: #0841B4;
-    --sl-teal-600: #09817F;
-    --sl-teal-700: #076766;
-    --sl-red-600: #E31C3D;
-    --sl-red-700: #B61631;
-    --sl-red-100: #FCE8EC;
-    --sl-red-50:  #FDF3F5;
-    --sl-orange-700: #C75209;
-    --sl-orange-100: #FEF0E7;
-    --sl-grey-100: #F5F6F8;
-    --sl-grey-200: #EBEDF1;
-    --sl-grey-300: #D7DCE3;
-    --sl-grey-700: #7D8695;
-    --sl-grey-800: #5E6470;
-    --sl-indigo-900: #131C35;
-
-    --color-text-heading: var(--sl-indigo-900);
-    --color-text-body: var(--sl-indigo-900);
-    --color-text-subtle: var(--sl-grey-700);
-    --color-text-link-hover: var(--sl-teal-600);
-    --color-surface-raised: #fff;
-    --color-border-subtle: var(--sl-grey-300);
-    --color-border-hover: var(--sl-blue-600);
-
-    --font-sans: "Acherus Grotesque", system-ui, "SF Pro", "Segoe UI", sans-serif;
-    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-
-    --type-title-size: 32px;  --type-title-line: 38px;  --type-title-weight: 800;
-    --type-label-size: 14px;  --type-label-line: 22px;  --type-label-weight: 800;
-    --type-body-size: 14px;   --type-body-line: 22px;   --type-body-weight: 400;
-    --type-small-size: 12px;  --type-small-line: 18px;  --type-small-weight: 400;
-    --type-pill-size: 10px;   --type-pill-line: 14px;   --type-pill-weight: 800;  --type-pill-tracking: 0.06em;
-
-    --space-2: 8px;  --space-3: 12px;  --space-4: 16px;  --space-6: 24px;  --space-10: 40px;
-
-    --radius-sm: 4px;  --radius-md: 6px;  --radius-pill: 999px;
-
-    --shadow-raised: 0px 2px 4px rgba(206, 217, 240, 0.8);
-    --shadow-raised-hover: 0px 4px 8px rgba(206, 217, 240, 1);
-  }
-
-  body {
-    font-family: var(--font-sans);
-    background: var(--sl-grey-200);
-    color: var(--color-text-body);
-    padding-bottom: var(--space-10);
-  }
+  body { background: var(--sl-grey-200); padding-bottom: var(--space-10); }
 
   .topbar { height: 4px; background: var(--sl-teal-600); }
 
-  .wrap { max-width: 760px; margin: 0 auto; padding: var(--space-10) var(--space-6) 0; }
-
-  header { margin-bottom: var(--space-2); }
-  h1 {
-    font-size: var(--type-title-size);
-    line-height: var(--type-title-line);
-    font-weight: var(--type-title-weight);
-    letter-spacing: -0.01em;
-    color: var(--color-text-heading);
+  .hero {
+    background: var(--color-surface-navbar);
+    padding: var(--space-10) var(--space-6) var(--space-8);
   }
-  .sub { color: var(--color-text-subtle); margin-bottom: var(--space-4); line-height: 1.5; font-size: var(--type-body-size); max-width: 52ch; }
+  .hero-inner { max-width: 820px; margin: 0 auto; }
+  .hero h1 { color: var(--color-text-inverse); letter-spacing: -0.01em; }
+  .hero .sub {
+    color: var(--sl-blue-300);
+    margin-top: var(--space-2);
+    line-height: 1.5;
+    max-width: 52ch;
+  }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: var(--space-8) var(--space-6) 0; }
+
+  .sub { font-size: var(--type-body-size); }
 
   .intro-note {
     max-width: 70ch;
@@ -99,8 +46,9 @@
   .intro-note p:last-child { margin-bottom: 0; }
   .pin-ref { font-weight: 700; }
   .pin-ref.red { color: var(--sl-red-700); }
-  .pin-ref.green { color: #017D1B; }
-  .pin-ref.purple { color: #6B3FA0; }
+  .pin-ref.green { color: var(--sl-green-700); }
+  .pin-ref.purple { color: var(--color-text-discovery); }
+  .pin-ref .ua-icon { vertical-align: -2px; margin-right: 2px; }
 
   .area-title {
     font-family: var(--font-sans);
@@ -190,10 +138,15 @@
   .severity-medium { background: var(--sl-orange-100); color: var(--sl-orange-700); }
   .severity-low { background: var(--sl-grey-200); color: var(--sl-grey-800); }
 
-  /* In-app UA flag: pages with a purple "💡 In-app UA" badge in their
-     comparison.html (see project's In-app help idea pattern) get the same
-     decorator here, so it's visible without opening the page. */
+  /* In-app UA flag: pages with an "In-app UA" badge in their comparison.html
+     (see project's In-app help idea pattern) get the same decorator here,
+     so it's visible without opening the page. Uses JellyRoll's "discovery"
+     purple — the semantic ramp for exploratory/AI-adjacent ideas like this
+     one — rather than a one-off color. */
   .inapp-ua-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-size: var(--type-pill-size);
     line-height: var(--type-pill-line);
     font-weight: var(--type-pill-weight);
@@ -201,9 +154,10 @@
     padding: 3px 9px;
     border-radius: var(--radius-pill);
     white-space: nowrap;
-    background: #F1E9FB;
-    color: #6B3FA0;
+    background: var(--color-background-discovery);
+    color: var(--color-text-discovery);
   }
+  .inapp-ua-flag svg { width: 11px; height: 11px; flex-shrink: 0; }
 
   .issue-count {
     font-size: var(--type-pill-size);
@@ -222,14 +176,16 @@
 </head>
 <body>
 <div class="topbar"></div>
-<div class="wrap">
-  <header>
+<div class="hero">
+  <div class="hero-inner">
     <h1>UX issue showcase</h1>
-  </header>
-  <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin UI, with proposed fixes — for PM and engineering review.</p>
+    <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin UI, with proposed fixes — for PM and engineering review.</p>
+  </div>
+</div>
+<div class="wrap">
   <div class="intro-note">
     <p>Each issue recreates a real screen with two views side by side. Click a <strong class="pin-ref red">red pin</strong> on Current UI to see what's confusing; click the matching <strong class="pin-ref green">green pin</strong> on Proposed microcopy to see the suggested fix.</p>
-    <p>Some pages also flag a <strong class="pin-ref purple">💡 In-app UA</strong> opportunity — a place where in-app user assistance (UA), delivered by a tool like Userpilot or Appcues, could work better than static page text. A short guided walkthrough can explain a multi-step or easily-confused setting more clearly than a dense note or a tooltip, without adding permanent clutter to the page.</p>
+    <p>Some pages also flag an <strong class="pin-ref purple"><svg class="ua-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.05V17h6v-2.25c0-.85.4-1.55 1-2.05A7 7 0 0 0 12 2z"/></svg>In-app UA</strong> opportunity — a place where in-app user assistance (UA), delivered by a tool like Userpilot or Appcues, could work better than static page text. A short guided walkthrough can explain a multi-step or easily-confused setting more clearly than a dense note or a tooltip, without adding permanent clutter to the page.</p>
     <p>Existing tooltips only appear after hovering a field for a second or two, so they're easy to miss entirely. Several proposed redesigns add a visible tooltip icon next to the field label instead, so it's discoverable at a glance — see the Add/Update Snaplex dialog for the clearest example.</p>
   </div>
   <div id="app"><p class="empty">// loading issue catalog…</p></div>
@@ -341,7 +297,7 @@ fetch("issues.json")
           const sevLabel = sev ? `<span class="severity ${severityClass(sev)}">${sev}</span>` : "";
           const countLabel = count > 1 ? `<span class="issue-count">${count} issues</span>` : "";
           const hasInAppHelp = pageIssues.some(issue => issue.inAppHelp);
-          const inAppHelpLabel = hasInAppHelp ? `<span class="inapp-ua-flag">💡 In-app UA</span>` : "";
+          const inAppHelpLabel = hasInAppHelp ? `<span class="inapp-ua-flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.05V17h6v-2.25c0-.85.4-1.55 1-2.05A7 7 0 0 0 12 2z"/></svg>In-app UA</span>` : "";
           return `<li class="page-item"><a class="page-link" href="${href}"><span class="title">${page}</span><span class="right">${inAppHelpLabel}${countLabel}${sevLabel}<span class="chevron">→</span></span></a></li>`;
         }).join("");
 

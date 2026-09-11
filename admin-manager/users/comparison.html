@@ -169,6 +169,7 @@
   table.data-table td.email-cell { color: #444; }
 
   .type-icon { width: 18px; height: 18px; display: inline-block; color: var(--dim); vertical-align: middle; }
+  .type-cell { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 
   .role-select {
     font-size: 12px;
@@ -621,7 +622,7 @@
             <tbody>
               <tr>
                 <td><input type="checkbox" onchange="onSelectRow()"></td>
-                <td><svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Service account"><rect x="4" y="7" width="16" height="12" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></td>
+                <td><span class="type-cell"><svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="7" width="16" height="12" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>Service account</span></td>
                 <td class="name-cell">svc-pipeline-01</td>
                 <td class="email-cell">svc-pipeline-01@example.com</td>
                 <td><select class="role-select" disabled><option selected>User</option><option>Env admin</option></select></td>
@@ -636,7 +637,7 @@
               </tr>
               <tr>
                 <td><input type="checkbox" onchange="onSelectRow()"></td>
-                <td><svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="User account"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></td>
+                <td><span class="type-cell"><svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>User account</span></td>
                 <td class="name-cell">Jordan Lee</td>
                 <td class="email-cell">jlee@example.com</td>
                 <td><select class="role-select" disabled><option>User</option><option selected>Env admin</option></select></td>
@@ -654,7 +655,7 @@
               </tr>
               <tr>
                 <td><input type="checkbox" onchange="onSelectRow()"></td>
-                <td><svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="User account"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></td>
+                <td><span class="type-cell"><svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>User account</span></td>
                 <td class="name-cell">Priya Nair</td>
                 <td class="email-cell">pnair+basic@example.com</td>
                 <td>
@@ -675,7 +676,7 @@
               </tr>
               <tr>
                 <td><input type="checkbox" onchange="onSelectRow()"></td>
-                <td><svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="User account"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></td>
+                <td><span class="type-cell"><svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>User account</span></td>
                 <td class="name-cell">Sam Okafor</td>
                 <td class="email-cell">sokafor+test@example.com</td>
                 <td><select class="role-select" disabled><option selected>User</option><option>Env admin</option></select></td>
@@ -738,7 +739,7 @@ const annotations = [
   {
     title: "Type icons have no label",
     problem: "The Type column shows a user or service-account icon with no text and no tooltip. The Type filter menu already uses text labels for the same values, but the table itself only shows the icon.",
-    fix: "Add a tooltip to each icon using the same text already used in the Type filter (e.g., “User account,” “Service account”).",
+    fix: "Show the label next to each icon, using the same text already used in the Type filter (e.g., “User account,” “Service account”) — instead of a tooltip, which requires an extra hover to discover.",
     block: "block-type",
     propBlock: "prop-block-table"
   },

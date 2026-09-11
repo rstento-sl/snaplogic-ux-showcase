@@ -315,8 +315,9 @@
   .popover-fix { display: none; font-size: 13px; color: #1a1a1a; line-height: 1.6; }
 
   /* ── In-app UA badge + popover (a proposal type distinct from the red/green
-     issue pins — not tied to a problem/fix pair, so it isn't numbered) ── */
-  .inapp-ua-row { max-width: 1500px; margin: -8px auto 0; padding: 0 32px 4px; }
+     issue pins — not tied to a problem/fix pair, so it isn't numbered).
+     Positioned after the last of the 5 controls it groups (2026-09-11), not
+     at the page top, since it spans all of them, not one single control. ── */
   .inapp-ua-badge {
     display: inline-flex;
     align-items: center;
@@ -387,10 +388,6 @@
     <h1>SnapGPT settings don't show which controls depend on the master toggle</h1>
   </div>
   <div class="instruction">Click a red pin to see what's wrong, then jump to the matching green pin for the fix</div>
-</div>
-
-<div class="inapp-ua-row">
-  <div class="inapp-ua-badge" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
 </div>
 
 <div class="compare-grid">
@@ -548,6 +545,7 @@
               <span>Auto</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
+            <div class="inapp-ua-badge" style="margin-top: 12px;" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
           </div>
         </div>
       </div>

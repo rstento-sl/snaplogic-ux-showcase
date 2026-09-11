@@ -204,8 +204,9 @@
   .popover-footer { padding: 10px 16px; background: #f8f8f8; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #888; border-top: 1px solid #eee; }
 
   /* ── In-app UA badge + popover (a proposal type distinct from the red/green
-     issue pins — not tied to a problem/fix pair, so it isn't numbered) ── */
-  .inapp-ua-row { max-width: 1500px; margin: -8px auto 0; padding: 0 32px 4px; }
+     issue pins — not tied to a problem/fix pair, so it isn't numbered).
+     Positioned next to the specific dense text it describes (2026-09-11),
+     not at the page top, since this one is tied to one exact note. ── */
   .inapp-ua-badge {
     display: inline-flex;
     align-items: center;
@@ -266,10 +267,6 @@
     <h1>Snap Packs page doesn't explain what Distribution is or that a version override replaces the environment default</h1>
   </div>
   <div class="instruction">Click a pin to see the issue and the fix</div>
-</div>
-
-<div class="inapp-ua-row">
-  <div class="inapp-ua-badge" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
 </div>
 
 <div class="compare-grid">
@@ -363,6 +360,7 @@
         <h1 class="page-title">Snap Packs</h1>
         <p class="intro-text" style="margin-bottom: 12px;">Set environment Snap Pack usage, view distributions associated with GA and non-GA Snaplexes, or override the default version for individual Snap Packs.</p>
         <div class="usage-note">Distribution determines the set of available Snap Pack builds for GA and non-GA Snaplexes. The Usage setting picks the default within that set. A per-Snap-Pack version override takes precedence over both. The version a Snaplex uses also depends on whether execution is invoked from a task or in Designer.</div>
+        <div class="inapp-ua-badge" style="margin-top: 8px;" onclick="openInAppHelpPopover(event)">💡 In-app UA</div>
       </div>
 
       <div class="section-title">Usage setting (Environment-wide)</div>

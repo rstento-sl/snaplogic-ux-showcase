@@ -1017,8 +1017,8 @@
           "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action."
         },
         {
-          "target": "Step 1 stepper label",
-          "callout": "Step 1's label \"Connection setup\" repeats the dialog's own title (\"Create new connection\") instead of naming something specific, while the label is next to the numbered steps. Relabeling it \"Select Cloudplex\" would name the step's real action, the same way \"VPC endpoint setup\" and \"Connection validation\" do for steps 2 and 3."
+          "target": "Stepper and step labels",
+          "callout": "None of the three step captions are verb-led, and there's no \"Steps\" heading next to the numbered circles, so a reader has to infer the row is a step sequence at all. Proposed: add \"Steps:\" inline with the circles, and rename the captions \"Select Cloudplex,\" \"Submit VPC Endpoint,\" \"Validate Connection.\""
         },
         {
           "target": "\"Cloudplexes\" field label",

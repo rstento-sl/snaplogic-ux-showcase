@@ -161,6 +161,7 @@
   .dialog-close { color: var(--dim); font-size: 18px; }
 
   .stepper { display: flex; align-items: center; justify-content: center; gap: 0; margin: 28px 0 24px; }
+  .stepper-prefix { font-size: 13px; font-weight: 700; color: var(--ink); margin-right: 14px; }
   .step-circle {
     width: 30px; height: 30px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -564,14 +565,17 @@
           <div class="dialog-title">Create new connection</div>
           <span class="dialog-close">✕</span>
         </div>
-        <div class="stepper">
-          <div class="step-circle">1</div><div class="step-connector"></div>
-          <div class="step-circle todo">2</div><div class="step-connector"></div>
-          <div class="step-circle todo">3</div>
-        </div>
-        <div id="prop-block-step1-label" class="pin-block green step-labels" style="display: flex;">
+        <div id="prop-block-step1-label" class="pin-block green">
           <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
-          <span>Select Cloudplex</span><span>VPC endpoint setup</span><span>Connection validation</span>
+          <div class="stepper">
+            <span class="stepper-prefix">Steps:</span>
+            <div class="step-circle">1</div><div class="step-connector"></div>
+            <div class="step-circle todo">2</div><div class="step-connector"></div>
+            <div class="step-circle todo">3</div>
+          </div>
+          <div class="step-labels" style="justify-content: center; margin-left: 62px;">
+            <span>Select Cloudplex</span><span>Submit VPC Endpoint</span><span>Validate Connection</span>
+          </div>
         </div>
         <div class="stepper-divider"></div>
 
@@ -600,11 +604,12 @@
           <span class="dialog-close">✕</span>
         </div>
         <div class="stepper">
+          <span class="stepper-prefix">Steps:</span>
           <div class="step-circle">1</div><div class="step-connector"></div>
           <div class="step-circle">2</div><div class="step-connector"></div>
           <div class="step-circle todo">3</div>
         </div>
-        <div class="step-labels"><span>Select Cloudplex</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="step-labels" style="margin-left: 62px;"><span>Select Cloudplex</span><span>Submit VPC Endpoint</span><span>Validate Connection</span></div>
         <div class="stepper-divider"></div>
         <div class="wizard-center">
           <div id="prop-block-vpc-instructions" class="pin-block green">
@@ -626,11 +631,12 @@
           <span class="dialog-close">✕</span>
         </div>
         <div class="stepper">
+          <span class="stepper-prefix">Steps:</span>
           <div class="step-circle">1</div><div class="step-connector"></div>
           <div class="step-circle">2</div><div class="step-connector"></div>
           <div class="step-circle">3</div>
         </div>
-        <div class="step-labels"><span>Select Cloudplex</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="step-labels" style="margin-left: 62px;"><span>Select Cloudplex</span><span>Submit VPC Endpoint</span><span>Validate Connection</span></div>
         <div class="stepper-divider"></div>
 
         <div id="prop-block-pending-refresh" class="pin-block green wizard-center">
@@ -698,9 +704,9 @@ const annotations = [
     propBlock: "prop-block-pending-refresh"
   },
   {
-    title: "Step 1's label repeats the dialog title instead of describing the step",
-    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label repeats \"Connection setup\" — generic and duplicative — while the label is next to the numbered steps. What step 1 actually does is map the new connection to a Cloudplex — selecting which one, naming the connection, picking a type. Unlike step 2 (VPC endpoint setup) and step 3 (Connection validation), which each name their real technical action, step 1's label names neither.",
-    fix: "Relabel the first step \"Select Cloudplex,\" naming the step's actual action the same way the other two steps do.",
+    title: "Step labels aren't verb-led, and nothing marks them as steps",
+    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label just repeats \"Connection setup\" — generic and duplicative — and none of the three labels are verb-led, unlike the rest of this wizard's copy (\"Submit,\" \"Close this window and return later\"). There's also no \"Steps\" heading next to the numbered circles, so a reader has to infer that the row of circles and the row of captions below them are a step sequence at all.",
+    fix: "Add a \"Steps:\" label inline with the numbered circles, and rename the three captions to verb-led actions: \"Select Cloudplex,\" \"Submit VPC Endpoint,\" \"Validate Connection.\"",
     block: "block-step1-label",
     propBlock: "prop-block-step1-label"
   },

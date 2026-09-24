@@ -518,7 +518,7 @@
           <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
           <div class="field-label">Cloudplex</div>
           <div class="field-input">/PlatformQA/shared/SCTest003</div>
-          <div class="field-help">A maximum of 3 connections per Cloudplex.</div>
+          <div class="field-help">A Cloudplex can only have 3 connections at a time (including ones still pending or rejected).</div>
         </div>
         <div class="field-group" style="text-align: center;">
           <div class="field-label">Select a connection type</div>
@@ -635,15 +635,15 @@ const annotations = [
   },
   {
     title: "Step 1's label repeats the dialog title instead of describing the step",
-    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label repeats \"Connection setup\" — generic and duplicative — while the other two steps each name something specific (\"VPC endpoint setup,\" \"Connection validation\").",
+    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label repeats \"Connection setup\" — generic and duplicative — while the label is next to the numbered steps.",
     fix: "Relabel the first step \"Steps.\"",
     block: "block-step1-label",
     propBlock: "prop-block-step1-label"
   },
   {
-    title: "\"Cloudplexes\" field is plural, but you can only select one",
-    problem: "The field is labeled \"Cloudplexes\" (plural) and uses a dropdown, which reads as if multiple selections are possible. It's actually a single-select control — the backend only accepts one Cloudplex per connection (create_secureplex takes a single plex_snode_id, never a list). The field's own placeholder text, \"Select a Cloudplex,\" already correctly uses the singular form, so the label contradicts the rest of the field.",
-    fix: "Relabel the field \"Cloudplex\" (singular), matching the placeholder text and what the control actually lets you do.",
+    title: "\"Cloudplexes\" field is plural, and the connection-limit text doesn't say what counts toward it",
+    problem: "The field is labeled \"Cloudplexes\" (plural) and uses a dropdown, which reads as if multiple selections are possible. It's actually a single-select control — the backend only accepts one Cloudplex per connection (create_secureplex takes a single plex_snode_id, never a list). The field's own placeholder text, \"Select a Cloudplex,\" already correctly uses the singular form, so the label contradicts the rest of the field. Separately, \"A maximum of 3 connections per Cloudplex\" doesn't say what counts toward that limit — per the code, any non-Deleted connection counts, including ones stuck in Pending approval, Rejected, or Failed, not just ones that are actually Active. An admin can be blocked by 3 dead connections without realizing why.",
+    fix: "Relabel the field \"Cloudplex\" (singular), matching the placeholder text and what the control actually lets you do. Reword the helper text to \"A Cloudplex can only have 3 connections at a time (including ones still pending or rejected).\"",
     block: "block-cloudplexes-label",
     propBlock: "prop-block-cloudplexes-label"
   }

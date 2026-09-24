@@ -1002,7 +1002,7 @@
       "unreportedLabel": "Unreported issue 29",
       "severity": "High",
       "category": "Workflow / IA",
-      "page": "Create new connection wizard",
+      "page": "Cloudplex Secure Connectivity",
       "summary": "The 3-step wizard for adding a Cloudplex secure connection ends on a pending-approval screen with no Done button. Finishing requires reopening the connection later in a completely different, differently-titled dialog the wizard never mentions.",
       "mockups": {
         "comparison": "admin-manager/cloudplex-create-connection-wizard/comparison.html"

@@ -699,7 +699,7 @@ const annotations = [
   },
   {
     title: "Step 1's label repeats the dialog title instead of describing the step",
-    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label repeats \"Connection setup\" — generic and duplicative — while the label is next to the numbered steps.",
+    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label repeats \"Connection setup\" — generic and duplicative — while the label is next to the numbered steps. Step 1 doesn't actually configure anything VPC- or connection-related yet; it just maps the new connection to a Cloudplex — which one, what to name it, what type. Unlike step 2 (VPC endpoint setup) and step 3 (Connection validation), which each name a real technical action, step 1 has no equivalent specific action to name.",
     fix: "Relabel the first step \"Steps.\"",
     block: "block-step1-label",
     propBlock: "prop-block-step1-label"

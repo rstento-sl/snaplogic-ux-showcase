@@ -1018,7 +1018,7 @@
         },
         {
           "target": "Step 1 stepper label",
-          "callout": "Step 1's label \"Connection setup\" repeats the dialog's own title (\"Create new connection\") instead of naming something specific, while the label is next to the numbered steps."
+          "callout": "Step 1's label \"Connection setup\" repeats the dialog's own title (\"Create new connection\") instead of naming something specific, while the label is next to the numbered steps. Step 1 just maps the new connection to a Cloudplex — it isn't VPC endpoint work like step 2, so it has no equivalent specific action to name."
         },
         {
           "target": "\"Cloudplexes\" field label",

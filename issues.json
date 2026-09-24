@@ -992,6 +992,31 @@
           "callout": "Removing an IP range can shut down a live Groundplex node after a one-day grace period, but the modal that warns about it — which only appears when an existing node falls outside the new range — just says affected nodes will be \"refused access\" and pipelines \"disconnected.\" It never mentions the 24-hour grace period, or that clicking Disconnect is what actually starts that countdown."
         }
       ]
+    },
+    {
+      "id": "issue-30",
+      "area": "Admin Manager",
+      "title": "Create new connection wizard ends with no way to finish",
+      "screen": "Admin Manager > System Configuration > Snaplexes > Cloudplex secure connectivity > New connection wizard",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 29",
+      "severity": "High",
+      "category": "Workflow / IA",
+      "page": "Create new connection wizard",
+      "summary": "The 3-step wizard for adding a Cloudplex secure connection ends on a pending-approval screen with no Done button. Finishing requires reopening the connection later in a completely different, differently-titled dialog the wizard never mentions.",
+      "mockups": {
+        "comparison": "admin-manager/cloudplex-create-connection-wizard/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Connection validation step (pending approval)",
+          "callout": "The wizard's own step 3 never shows a Done button. Once the connection turns Active, finishing requires reopening it later in an unrelated, differently-titled \"PrivateDNS\" dialog the wizard never mentioned."
+        },
+        {
+          "target": "Refresh button",
+          "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action."
+        }
+      ]
     }
   ]
 }

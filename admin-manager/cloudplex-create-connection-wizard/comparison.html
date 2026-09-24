@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create new connection wizard, multiple issues</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 400; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 800; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-extrabold.woff2") format("woff2");
+  }
+
+  :root {
+    --ink: #131C35;
+    --dim: #7D8695;
+    --paper: #FAFAFB;
+    --canvas: #EBEDF1;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --teal-tint: #E6F2F2;
+    --red: #E31C3D;
+    --red-dark: #B61631;
+    --red-tint: #FCE8EC;
+    --green: #017D1B;
+    --green-tint: #E6F2E8;
+    --blue: #0841B4;
+    --orange: #C75209;
+    --orange-tint: #FEF0E7;
+    --purple: #6B3FA0;
+    --purple-tint: #F1E9FB;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
+  body {
+    font-family: "Acherus Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--canvas);
+  }
+
+  .topbar { height: 4px; background: var(--teal); }
+
+  .showcase-header {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px 32px 16px;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .path { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+  .path .sep { margin: 0 6px; color: var(--hairline); }
+  .back-link { font-size: 12px; font-weight: 700; color: var(--teal); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+
+  .issue-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .ticket-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
+
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .compare-grid {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 8px 32px 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 1100px) {
+    .compare-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .compare-col-label {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 6px 6px 0 0;
+  }
+  .compare-col-label.current { background: #FDF3F5; color: var(--red-dark); }
+  .compare-col-label.proposed { background: var(--teal); }
+
+  .sheet { position: relative; }
+  .sheet.current { transform: rotate(-0.2deg); }
+  @media (max-width: 1100px) {
+    .sheet.current { transform: none; }
+  }
+  .stamp {
+    position: absolute;
+    top: -11px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: #fff;
+    padding: 3px 10px;
+    border-radius: 3px;
+    z-index: 5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .stamp.redline { color: var(--red); border: 1.5px solid var(--red); transform: rotate(-3deg); }
+  .stamp.proposed-stamp { color: var(--teal); border: 1.5px solid var(--teal); transform: rotate(2deg); }
+
+  .page-wrapper {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 24px 28px 32px;
+    box-shadow: 0px 2px 4px rgba(206, 217, 240, 0.8);
+    position: relative;
+    overflow-x: auto;
+  }
+  .sheet .page-wrapper:first-of-type { border-radius: 6px; }
+
+  .flow-connector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 14px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .flow-connector::before { content: "↓"; font-size: 14px; }
+  .flow-connector.warn { color: var(--red-dark); }
+
+  .dialog-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .dialog-title { font-size: 19px; font-weight: 800; }
+  .dialog-close { color: var(--dim); font-size: 18px; }
+
+  .stepper { display: flex; align-items: center; justify-content: center; gap: 0; margin: 28px 0 24px; }
+  .step-circle {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #fff;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+  .step-circle.todo { background: #C6D3F2; }
+  .step-connector { width: 90px; height: 0; border-top: 2px dotted var(--blue); margin: 0 4px; }
+  .step-labels { display: flex; text-align: center; font-size: 12px; color: var(--ink); margin: -18px 0 18px; }
+  .step-labels span { width: 122px; }
+  .stepper-divider { border-top: 1px solid var(--hairline); margin-bottom: 20px; }
+
+  .field-group { margin-bottom: 18px; }
+  .field-label { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .field-help { font-size: 12px; color: var(--dim); margin-top: 6px; }
+  .field-input {
+    width: 100%;
+    font-size: 13px;
+    color: var(--ink);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-family: inherit;
+  }
+  .conn-type-tile {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border: 2px solid var(--blue);
+    border-radius: 6px;
+    padding: 18px 28px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .wizard-center { text-align: center; padding: 8px 0; }
+  .wizard-copy { font-size: 13px; color: var(--ink); line-height: 1.6; max-width: 360px; margin: 0 auto 20px; }
+  .btn-primary {
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 4px;
+    border: none;
+    background: var(--blue);
+    color: #fff;
+    cursor: pointer;
+  }
+  .btn-link { display: block; margin-top: 16px; font-size: 13px; font-weight: 700; color: var(--blue); text-decoration: none; }
+  .btn-link:hover { text-decoration: underline; }
+
+  .approval-status-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--dim); margin-bottom: 6px; }
+  .approval-status-value { font-size: 15px; font-weight: 800; margin-bottom: 18px; }
+  .approval-status-value.pending { color: var(--orange); }
+  .approval-status-value.active { color: var(--green); }
+
+  .dns-box {
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 18px;
+    margin: 0 auto 16px;
+    max-width: 420px;
+  }
+  .dns-box.highlight { border-color: var(--purple); }
+  .dns-label { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .dns-value { font-family: var(--mono); font-size: 12px; color: var(--ink); word-break: break-all; margin-bottom: 10px; }
+  .copy-link { font-size: 12px; font-weight: 700; color: var(--blue); }
+
+  .pin-block { position: relative; }
+  .pin {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 300;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+    transition: transform 0.15s, background 0.15s;
+    user-select: none;
+    top: -12px;
+    right: -12px;
+  }
+  .pin:hover { transform: scale(1.15); background: var(--red-dark); }
+  .pin.active { background: var(--red-dark); transform: scale(1.15); }
+  .pin.green { background: var(--green); }
+  .pin.green:hover { background: #015c14; }
+  .pin.green.active { background: #015c14; transform: scale(1.15); }
+
+  .pin-block.highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
+  .pin-block.green.highlighted { box-shadow: 0 0 0 2px var(--green); }
+
+  .popover {
+    display: none;
+    position: fixed;
+    width: 380px;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 400;
+    overflow-y: auto;
+  }
+  .popover-header {
+    background: var(--red);
+    color: #fff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .popover-header.green { background: var(--green); }
+  .popover-jump-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .popover-jump-btn.to-fix { background: var(--green); color: #fff; }
+  .popover-jump-btn.to-problem { background: var(--red); color: #fff; }
+  .popover-header .pin-label {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .popover-body { padding: 16px; }
+  .popover-problem {
+    font-size: 13px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eee;
+  }
+  .popover-fix { font-size: 13px; color: #1a1a1a; line-height: 1.6; }
+  .popover-footer {
+    padding: 10px 16px;
+    background: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+    border-top: 1px solid #eee;
+  }
+  .popover-nav { display: flex; gap: 8px; }
+  .popover-nav button {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    color: #444;
+  }
+  .popover-nav button:hover { background: #f0f0f0; }
+  .popover-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: auto;
+    line-height: 1;
+    padding: 0 0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="showcase-header">
+  <div class="breadcrumb">
+    <a class="back-link" href="../../index.html">← All issues</a>
+    <span class="path">admin-manager <span class="sep">/</span> system-configuration <span class="sep">/</span> snaplexes <span class="sep">/</span> cloudplex-secure-connectivity <span class="sep">/</span> create-connection-wizard</span>
+  </div>
+  <div class="issue-heading">
+    <span class="ticket-chip">Unreported issue 29</span>
+    <h1>Create new connection wizard, multiple issues</h1>
+  </div>
+  <div class="header-row">
+    <a class="back-link" href="../cloudplex-secure-connectivity/comparison.html">← Back to Cloudplex secure connectivity page</a>
+  </div>
+</div>
+
+<div class="compare-grid">
+
+  <!-- ── Current UI ── -->
+  <div>
+    <div class="sheet current">
+      <span class="stamp redline">REDLINE</span>
+      <div class="compare-col-label current">Current UI</div>
+
+      <div class="page-wrapper">
+        <div class="dialog-header-row">
+          <div class="dialog-title">Create new connection</div>
+          <span class="dialog-close">✕</span>
+        </div>
+        <div class="stepper">
+          <div class="step-circle">1</div><div class="step-connector"></div>
+          <div class="step-circle todo">2</div><div class="step-connector"></div>
+          <div class="step-circle todo">3</div>
+        </div>
+        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="stepper-divider"></div>
+
+        <div class="field-group">
+          <div class="field-label">Cloudplexes</div>
+          <div class="field-input">/PlatformQA/shared/SCTest003</div>
+          <div class="field-help">A maximum of 3 connections per Cloudplex.</div>
+        </div>
+        <div class="field-group" style="text-align: center;">
+          <div class="field-label">Select a connection type</div>
+          <div class="conn-type-tile">🔗 AWS PrivateLink</div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Name this connection</div>
+          <div class="field-input">Test_connection1</div>
+        </div>
+        <div style="text-align: right;"><button class="btn-primary">Next</button></div>
+      </div>
+
+      <div class="flow-connector">Admin enters VPC endpoint service URL, clicks Submit</div>
+
+      <div class="page-wrapper">
+        <div class="dialog-header-row">
+          <div class="dialog-title">Create new connection</div>
+          <span class="dialog-close">✕</span>
+        </div>
+        <div class="stepper">
+          <div class="step-circle">1</div><div class="step-connector"></div>
+          <div class="step-circle">2</div><div class="step-connector"></div>
+          <div class="step-circle todo">3</div>
+        </div>
+        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="stepper-divider"></div>
+        <div class="wizard-center">
+          <div class="wizard-copy">Set up the VPC endpoint service. When it is complete, enter and submit the service URL:</div>
+          <div class="field-input" style="max-width: 400px; margin: 0 auto 8px;">vpce-08f779c9521a7447b-kcsmmlte.vpce-svc-0a4f26a</div>
+          <div class="field-help">To learn more about AWS PrivateLink setup <span style="color: var(--blue); font-weight: 700;">click here.</span></div>
+          <a class="btn-link">Close this window and return later</a>
+          <div style="margin-top: 18px;"><button class="btn-primary">Submit</button></div>
+        </div>
+      </div>
+
+      <div class="flow-connector">Admin waits for AWS approval (10+ minutes, sometimes days)</div>
+
+      <div class="page-wrapper">
+        <div class="dialog-header-row">
+          <div class="dialog-title">Create new connection</div>
+          <span class="dialog-close">✕</span>
+        </div>
+        <div class="stepper">
+          <div class="step-circle">1</div><div class="step-connector"></div>
+          <div class="step-circle">2</div><div class="step-connector"></div>
+          <div class="step-circle">3</div>
+        </div>
+        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="stepper-divider"></div>
+
+        <div id="block-pending-refresh" class="pin-block wizard-center">
+          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+          <div class="wizard-copy">To make the connection active, the connection needs to get approved in AWS. To check the approval status, you need to click on the button below to refresh.</div>
+          <div class="approval-status-label">Approval status</div>
+          <div class="approval-status-value pending">Pending approval</div>
+          <button class="btn-primary">Click here to refresh</button>
+        </div>
+
+        <div id="block-no-done" class="pin-block" style="margin-top: 20px;">
+          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          <div class="dns-box">
+            <div class="dns-label">dns_entries URL:</div>
+            <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
+            <div class="copy-link">📋 Copy link</div>
+          </div>
+          <a class="btn-link" style="text-align: center; display: block;">Close this window and return later</a>
+        </div>
+      </div>
+
+      <div class="flow-connector warn">Days later, admin reopens the connection from the list — a completely different, untitled-step dialog appears</div>
+
+      <div class="page-wrapper">
+        <div class="dialog-header-row">
+          <div class="dialog-title">PrivateDNS</div>
+          <span class="dialog-close">✕</span>
+        </div>
+        <div class="wizard-center" style="margin-top: 10px;">
+          <div class="approval-status-label">Status</div>
+          <div class="approval-status-value active">Active</div>
+          <div class="dns-box">
+            <div class="dns-label">dns_entries URL:</div>
+            <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
+            <div class="copy-link">📋 Copy link</div>
+          </div>
+          <div class="dns-box">
+            <div class="dns-label">private dns name:</div>
+            <div class="dns-value">privatelinkqa.YOUR_ORG.snaplogic.com</div>
+            <div class="copy-link">📋 Copy link</div>
+          </div>
+          <button class="btn-primary" style="background: #fff; color: var(--blue); border: 1px solid var(--blue);">Enable private DNS</button>
+          <div style="margin-top: 18px;"><button class="btn-primary">Done</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Proposed Redesign ── -->
+  <div>
+    <div class="sheet proposed">
+      <span class="stamp proposed-stamp">PROPOSED</span>
+      <div class="compare-col-label proposed">Proposed redesign</div>
+
+      <div class="page-wrapper">
+        <div class="dialog-header-row">
+          <div class="dialog-title">Create new connection</div>
+          <span class="dialog-close">✕</span>
+        </div>
+        <div class="stepper">
+          <div class="step-circle">1</div><div class="step-connector"></div>
+          <div class="step-circle todo">2</div><div class="step-connector"></div>
+          <div class="step-circle todo">3</div>
+        </div>
+        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="stepper-divider"></div>
+
+        <div class="field-group">
+          <div class="field-label">Cloudplexes</div>
+          <div class="field-input">/PlatformQA/shared/SCTest003</div>
+          <div class="field-help">A maximum of 3 connections per Cloudplex.</div>
+        </div>
+        <div class="field-group" style="text-align: center;">
+          <div class="field-label">Select a connection type</div>
+          <div class="conn-type-tile">🔗 AWS PrivateLink</div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Name this connection</div>
+          <div class="field-input">Test_connection1</div>
+        </div>
+        <div style="text-align: right;"><button class="btn-primary">Next</button></div>
+      </div>
+
+      <div class="flow-connector">Admin enters VPC endpoint service URL, clicks Submit</div>
+
+      <div class="page-wrapper">
+        <div class="dialog-header-row">
+          <div class="dialog-title">Create new connection</div>
+          <span class="dialog-close">✕</span>
+        </div>
+        <div class="stepper">
+          <div class="step-circle">1</div><div class="step-connector"></div>
+          <div class="step-circle">2</div><div class="step-connector"></div>
+          <div class="step-circle todo">3</div>
+        </div>
+        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="stepper-divider"></div>
+        <div class="wizard-center">
+          <div class="wizard-copy">Set up the VPC endpoint service. When it is complete, enter and submit the service URL:</div>
+          <div class="field-input" style="max-width: 400px; margin: 0 auto 8px;">vpce-08f779c9521a7447b-kcsmmlte.vpce-svc-0a4f26a</div>
+          <div class="field-help">To learn more about AWS PrivateLink setup <span style="color: var(--blue); font-weight: 700;">click here.</span></div>
+          <a class="btn-link">Close this window and return later</a>
+          <div style="margin-top: 18px;"><button class="btn-primary">Submit</button></div>
+        </div>
+      </div>
+
+      <div class="flow-connector">Admin waits for AWS approval, keeps the same wizard open or reopens it later — same dialog either way</div>
+
+      <div class="page-wrapper">
+        <div class="dialog-header-row">
+          <div class="dialog-title">Create new connection</div>
+          <span class="dialog-close">✕</span>
+        </div>
+        <div class="stepper">
+          <div class="step-circle">1</div><div class="step-connector"></div>
+          <div class="step-circle">2</div><div class="step-connector"></div>
+          <div class="step-circle">3</div>
+        </div>
+        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="stepper-divider"></div>
+
+        <div id="prop-block-pending-refresh" class="pin-block green wizard-center">
+          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+          <div class="wizard-copy">To make the connection active, it needs to get approved in AWS. Check back here for the latest status.</div>
+          <div class="approval-status-label">Approval status</div>
+          <div class="approval-status-value pending">Pending approval</div>
+          <button class="btn-primary">Refresh</button>
+        </div>
+
+        <div id="prop-block-no-done" class="pin-block green" style="margin-top: 20px;">
+          <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+          <div class="dns-box highlight">
+            <div class="dns-label">dns_entries URL:</div>
+            <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
+            <div class="copy-link">📋 Copy link</div>
+          </div>
+          <div class="approval-status-label" style="margin-top: 16px;">Status</div>
+          <div class="approval-status-value active">Active — connection validated</div>
+          <div style="text-align: center;">
+            <button class="btn-primary">Done</button>
+          </div>
+          <div class="field-help" style="text-align: center; margin-top: 14px;">Want to enable a private DNS name for Snowflake? <span style="color: var(--blue); font-weight: 700;">Manage this connection</span> from the connections list.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Popover (shared, positions relative to whichever pin was clicked) -->
+<div class="popover" id="popover">
+  <div class="popover-header" id="pop-header">
+    <div class="pin-label" id="pop-num">1</div>
+    <h3 id="pop-title"></h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <div class="popover-problem" id="pop-problem"></div>
+    <button class="popover-jump-btn" id="pop-jump-btn"></button>
+  </div>
+  <div class="popover-footer">
+    <span id="pop-counter"></span>
+    <div class="popover-nav">
+      <button id="btn-prev" onclick="navigate(-1)">← Prev</button>
+      <button id="btn-next" onclick="navigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const annotations = [
+  {
+    title: "The wizard's own step 3 never shows a way to finish",
+    problem: "The 3-step wizard (Connection setup → VPC endpoint setup → Connection validation) ends on a \"Pending approval\" screen with only a refresh button and a \"Close this window\" link — no Done button anywhere. Once AWS approves the connection and it turns Active, the only way to reach a Done button is to leave, come back later, and reopen the connection from the list — which opens a completely different, untitled dialog called \"PrivateDNS\" that the wizard never mentioned. An admin following the wizard's own step 3 literally has nothing to click to finish.",
+    fix: "Keep the same \"Create new connection\" dialog and step indicator open (or reopened) through approval. When the connection turns Active, show the Active status and Done button inside step 3 of the same wizard — don't hand the admin off to a differently-titled, unrelated-looking dialog to complete something the wizard started.",
+    block: "block-no-done",
+    propBlock: "prop-block-no-done"
+  },
+  {
+    title: "Refresh button bakes the action into its own label",
+    problem: "The button that checks approval status reads \"Click here to refresh\" — telling the admin to click something that says click, instead of just naming the action.",
+    fix: "Shorten the label to \"Refresh.\"",
+    block: "block-pending-refresh",
+    propBlock: "prop-block-pending-refresh"
+  }
+];
+
+let current = null;
+let mode = 'red';
+
+function openPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'red';
+  current = n;
+  render();
+  clearHighlights();
+  const a = annotations[n - 1];
+  if (a.block) document.getElementById(a.block).classList.add('highlighted');
+  const pinEl = document.getElementById('pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function openGreenPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'green';
+  current = n;
+  render();
+  clearHighlights();
+  const a = annotations[n - 1];
+  if (a.propBlock) document.getElementById(a.propBlock).classList.add('highlighted');
+  const pinEl = document.getElementById('green-pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl);
+}
+
+function clearHighlights() {
+  document.querySelectorAll('.pin-block').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+}
+
+function positionPopover(pinEl) {
+  const pop = document.getElementById('popover');
+  pop.style.display = 'block';
+  const rect = pinEl.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  const popWidth = popRect.width;
+  const popHeight = popRect.height;
+  let top = rect.bottom + margin;
+  if (top + popHeight > window.innerHeight - margin) {
+    top = rect.top - popHeight - margin;
+  }
+  top = Math.max(margin, Math.min(top, window.innerHeight - popHeight - margin));
+  let left = rect.left + rect.width / 2 - popWidth / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popWidth - margin));
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function render() {
+  const a = annotations[current - 1];
+  const header = document.getElementById('pop-header');
+  const jumpBtn = document.getElementById('pop-jump-btn');
+  document.getElementById('pop-num').textContent = current;
+  document.getElementById('pop-title').textContent = a.title;
+  if (mode === 'red') {
+    header.classList.remove('green');
+    document.getElementById('pop-problem').textContent = a.problem;
+    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.className = 'popover-jump-btn to-fix';
+    jumpBtn.onclick = function() { jumpTo('green', current); };
+    document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;
+  } else {
+    header.classList.add('green');
+    document.getElementById('pop-problem').textContent = a.fix;
+    jumpBtn.textContent = '← Back to problem';
+    jumpBtn.className = 'popover-jump-btn to-problem';
+    jumpBtn.onclick = function() { jumpTo('red', current); };
+    document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
+  }
+  document.getElementById('btn-prev').disabled = current === 1;
+  document.getElementById('btn-next').disabled = current === annotations.length;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > annotations.length) return;
+  if (mode === 'red') { openPopover(next); } else { openGreenPopover(next); }
+}
+
+function jumpTo(targetMode, n) {
+  closePopover();
+  const pinId = targetMode === 'green' ? 'green-pin-' + n : 'pin-' + n;
+  const pinEl = document.getElementById(pinId);
+  pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() {
+    if (targetMode === 'green') { openGreenPopover(n); } else { openPopover(n); }
+  }, 300);
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+  clearHighlights();
+  current = null;
+}
+
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('popover');
+  if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) {
+    closePopover();
+  }
+});
+</script>
+</body>
+</html>

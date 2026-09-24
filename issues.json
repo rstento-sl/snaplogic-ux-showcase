@@ -1022,7 +1022,7 @@
         },
         {
           "target": "\"Cloudplexes\" field label",
-          "callout": "The field is labeled \"Cloudplexes\" (plural) but is a single-select dropdown — the backend only accepts one Cloudplex per connection. The field's own placeholder text (\"Select a Cloudplex\") already uses the correct singular form. The helper text \"A maximum of 3 connections per Cloudplex\" is also unclear about what counts toward the limit — per the code, any non-Deleted connection counts, including ones still Pending approval or Rejected, not just Active ones."
+          "callout": "The field is labeled \"Cloudplexes\" (plural) but is a single-select dropdown — the backend only accepts one Cloudplex per connection. The field's own placeholder text (\"Select a Cloudplex\") already uses the correct singular form. The helper text is also reworded to \"A Cloudplex can only have 3 connections at a time,\" with a tooltip explaining that pending and rejected connections count toward the limit too."
         }
       ]
     }

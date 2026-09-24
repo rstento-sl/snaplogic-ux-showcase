@@ -347,6 +347,64 @@
     line-height: 1;
     padding: 0 0 0 8px;
   }
+
+  /* JellyRoll tooltip primitive — sl-design-team.github.io/jellyroll/preview/components-tooltip.html */
+  .sl-tooltip-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+  }
+  .sl-tooltip-trigger {
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dim);
+    color: var(--dim);
+    font-size: 10px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+  }
+  .sl-tooltip {
+    position: absolute;
+    z-index: 100;
+    background: var(--ink);
+    color: #fff;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    width: max-content;
+    max-width: 240px;
+    white-space: normal;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(3,26,72,0.18);
+    opacity: 0;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    transition: opacity 120ms ease-out 300ms, transform 120ms ease-out 300ms;
+  }
+  .sl-tooltip::after {
+    content: "";
+    position: absolute;
+    width: 0; height: 0;
+    border: 5px solid transparent;
+    bottom: 100%; left: 50%;
+    transform: translateX(-50%);
+    border-bottom-color: var(--ink);
+    border-top: none;
+  }
+  .sl-tooltip-wrap:hover .sl-tooltip,
+  .sl-tooltip-wrap:focus-within .sl-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 </style>
 </head>
 <body>
@@ -518,7 +576,7 @@
           <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
           <div class="field-label">Cloudplex</div>
           <div class="field-input">/PlatformQA/shared/SCTest003</div>
-          <div class="field-help">A Cloudplex can only have 3 connections at a time (including ones still pending or rejected).</div>
+          <div class="field-help">A Cloudplex can only have 3 connections at a time. <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Includes connections still pending or rejected — not just active ones.</span></span></div>
         </div>
         <div class="field-group" style="text-align: center;">
           <div class="field-label">Select a connection type</div>
@@ -643,7 +701,7 @@ const annotations = [
   {
     title: "\"Cloudplexes\" field is plural, and the connection-limit text doesn't say what counts toward it",
     problem: "The field is labeled \"Cloudplexes\" (plural) and uses a dropdown, which reads as if multiple selections are possible. It's actually a single-select control — the backend only accepts one Cloudplex per connection (create_secureplex takes a single plex_snode_id, never a list). The field's own placeholder text, \"Select a Cloudplex,\" already correctly uses the singular form, so the label contradicts the rest of the field. Separately, \"A maximum of 3 connections per Cloudplex\" doesn't say what counts toward that limit — per the code, any non-Deleted connection counts, including ones stuck in Pending approval, Rejected, or Failed, not just ones that are actually Active. An admin can be blocked by 3 dead connections without realizing why.",
-    fix: "Relabel the field \"Cloudplex\" (singular), matching the placeholder text and what the control actually lets you do. Reword the helper text to \"A Cloudplex can only have 3 connections at a time (including ones still pending or rejected).\"",
+    fix: "Relabel the field \"Cloudplex\" (singular), matching the placeholder text and what the control actually lets you do. Reword the helper text to \"A Cloudplex can only have 3 connections at a time,\" with a tooltip explaining that pending and rejected connections count toward the limit too.",
     block: "block-cloudplexes-label",
     propBlock: "prop-block-cloudplexes-label"
   }

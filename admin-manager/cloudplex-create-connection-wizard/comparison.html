@@ -481,7 +481,10 @@
         <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
         <div class="stepper-divider"></div>
         <div class="wizard-center">
-          <div class="wizard-copy">Set up the VPC endpoint service. When it is complete, enter and submit the service URL:</div>
+          <div id="block-vpc-instructions" class="pin-block">
+            <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
+            <div class="wizard-copy">Set up the VPC endpoint service. When it is complete, enter and submit the service URL:</div>
+          </div>
           <div class="field-input" style="max-width: 400px; margin: 0 auto 8px;">vpce-08f779c9521a7447b-kcsmmlte.vpce-svc-0a4f26a</div>
           <div class="field-help">To learn more about AWS PrivateLink setup <span style="color: var(--blue); font-weight: 700;">click here.</span></div>
           <a class="btn-link">Close this window and return later</a>
@@ -604,7 +607,10 @@
         <div class="step-labels"><span>Steps</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
         <div class="stepper-divider"></div>
         <div class="wizard-center">
-          <div class="wizard-copy">Set up the VPC endpoint service. When it is complete, enter and submit the service URL:</div>
+          <div id="prop-block-vpc-instructions" class="pin-block green">
+            <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+            <div class="wizard-copy">In your AWS account, set up a VPC endpoint service pointing to your network load balancer. Then enter and submit the resulting service URL below:</div>
+          </div>
           <div class="field-input" style="max-width: 400px; margin: 0 auto 8px;">vpce-08f779c9521a7447b-kcsmmlte.vpce-svc-0a4f26a</div>
           <div class="field-help">To learn more about AWS PrivateLink setup <span style="color: var(--blue); font-weight: 700;">click here.</span></div>
           <a class="btn-link">Close this window and return later</a>
@@ -704,6 +710,13 @@ const annotations = [
     fix: "Relabel the field \"Cloudplex\" (singular), matching the placeholder text and what the control actually lets you do. Reword the helper text to \"A Cloudplex can only have 3 connections at a time,\" with a tooltip explaining that pending and rejected connections count toward the limit too.",
     block: "block-cloudplexes-label",
     propBlock: "prop-block-cloudplexes-label"
+  },
+  {
+    title: "Step 2's instructions don't say the setup happens in AWS, outside SnapLogic",
+    problem: "\"Set up the VPC endpoint service. When it is complete, enter and submit the service URL\" doesn't say where this setup happens. Per the docs' prerequisites, the admin has to leave SnapLogic entirely, configure an AWS Network Load Balancer, and create a VPC Endpoint Service in their own AWS account before there's a URL to paste here. The only hint that this is external is the \"To learn more about AWS PrivateLink setup\" link, which reads as optional background reading, not as a required step done elsewhere.",
+    fix: "Reword to \"In your AWS account, set up a VPC endpoint service pointing to your network load balancer. Then enter and submit the resulting service URL below.\"",
+    block: "block-vpc-instructions",
+    propBlock: "prop-block-vpc-instructions"
   }
 ];
 

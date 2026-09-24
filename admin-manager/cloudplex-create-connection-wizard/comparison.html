@@ -571,7 +571,7 @@
         </div>
         <div id="prop-block-step1-label" class="pin-block green step-labels" style="display: flex;">
           <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
-          <span>Steps</span><span>VPC endpoint setup</span><span>Connection validation</span>
+          <span>Select Cloudplex</span><span>VPC endpoint setup</span><span>Connection validation</span>
         </div>
         <div class="stepper-divider"></div>
 
@@ -604,7 +604,7 @@
           <div class="step-circle">2</div><div class="step-connector"></div>
           <div class="step-circle todo">3</div>
         </div>
-        <div class="step-labels"><span>Steps</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="step-labels"><span>Select Cloudplex</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
         <div class="stepper-divider"></div>
         <div class="wizard-center">
           <div id="prop-block-vpc-instructions" class="pin-block green">
@@ -630,7 +630,7 @@
           <div class="step-circle">2</div><div class="step-connector"></div>
           <div class="step-circle">3</div>
         </div>
-        <div class="step-labels"><span>Steps</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="step-labels"><span>Select Cloudplex</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
         <div class="stepper-divider"></div>
 
         <div id="prop-block-pending-refresh" class="pin-block green wizard-center">
@@ -699,8 +699,8 @@ const annotations = [
   },
   {
     title: "Step 1's label repeats the dialog title instead of describing the step",
-    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label repeats \"Connection setup\" — generic and duplicative — while the label is next to the numbered steps. Step 1 doesn't actually configure anything VPC- or connection-related yet; it just maps the new connection to a Cloudplex — which one, what to name it, what type. Unlike step 2 (VPC endpoint setup) and step 3 (Connection validation), which each name a real technical action, step 1 has no equivalent specific action to name.",
-    fix: "Relabel the first step \"Steps.\"",
+    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label repeats \"Connection setup\" — generic and duplicative — while the label is next to the numbered steps. What step 1 actually does is map the new connection to a Cloudplex — selecting which one, naming the connection, picking a type. Unlike step 2 (VPC endpoint setup) and step 3 (Connection validation), which each name their real technical action, step 1's label names neither.",
+    fix: "Relabel the first step \"Select Cloudplex,\" naming the step's actual action the same way the other two steps do.",
     block: "block-step1-label",
     propBlock: "prop-block-step1-label"
   },

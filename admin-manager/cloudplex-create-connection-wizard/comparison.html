@@ -518,7 +518,8 @@
 
         <div id="block-no-done" class="pin-block" style="margin-top: 20px;">
           <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
-          <div class="dns-box">
+          <div id="block-dns-url" class="pin-block dns-box">
+            <div class="pin" id="pin-6" onclick="openPopover(6, event)">6</div>
             <div class="dns-label">dns_entries URL:</div>
             <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
             <div class="copy-link">📋 Copy link</div>
@@ -641,7 +642,7 @@
 
         <div id="prop-block-pending-refresh" class="pin-block green wizard-center">
           <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
-          <div class="wizard-copy">To make the connection active, it needs to get approved in AWS. Check back here for the latest status.</div>
+          <div class="wizard-copy">The connection has been submitted. AWS must approve it before it becomes active.</div>
           <div class="approval-status-label">Approval status</div>
           <div class="approval-status-value pending">Pending approval</div>
           <button class="btn-primary">Refresh</button>
@@ -649,8 +650,9 @@
 
         <div id="prop-block-no-done" class="pin-block green" style="margin-top: 20px;">
           <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
-          <div class="dns-box highlight">
-            <div class="dns-label">dns_entries URL:</div>
+          <div id="prop-block-dns-url" class="pin-block green dns-box highlight">
+            <div class="pin green" id="green-pin-6" onclick="openGreenPopover(6, event)">6</div>
+            <div class="dns-label">dns_entries URL: <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Use this hostname in SnapLogic Accounts for endpoints to use this connection.</span></span></div>
             <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
             <div class="copy-link">📋 Copy link</div>
           </div>
@@ -712,8 +714,8 @@ const annotations = [
   },
   {
     title: "Refresh button bakes the action into its own label",
-    problem: "The button that checks approval status reads \"Click here to refresh\" — telling the admin to click something that says click, instead of just naming the action.",
-    fix: "Shorten the label to \"Refresh.\"",
+    problem: "The button that checks approval status reads \"Click here to refresh\" — telling the admin to click something that says click, instead of just naming the action. The paragraph above it also buries the lede: \"To make the connection active, it needs to get approved in AWS\" leads with the goal rather than what already happened.",
+    fix: "Shorten the button label to \"Refresh.\" Reword the paragraph to lead with status: \"The connection has been submitted. AWS must approve it before it becomes active.\"",
     block: "block-pending-refresh",
     propBlock: "prop-block-pending-refresh"
   },
@@ -723,6 +725,13 @@ const annotations = [
     fix: "Keep the same \"Create new connection\" dialog and step indicator open (or reopened) through approval. When the connection turns Active, show the Active status and Done button inside step 3 of the same wizard — don't hand the admin off to a differently-titled, unrelated-looking dialog to complete something the wizard started.",
     block: "block-no-done",
     propBlock: "prop-block-no-done"
+  },
+  {
+    title: "The dns_entries URL has no explanation of what to do with it",
+    problem: "The dns_entries URL appears with a Copy link button but nothing on screen says what it's for. Per the docs, it's meant to be used as the Hostname when creating a SnapLogic Account for whatever system sits behind this connection — but that's mentioned once, in a single sentence in a separate overview doc, never near the URL itself in the product.",
+    fix: "Add a tooltip: \"Use this hostname in SnapLogic Accounts for endpoints to use this connection.\"",
+    block: "block-dns-url",
+    propBlock: "prop-block-dns-url"
   }
 ];
 

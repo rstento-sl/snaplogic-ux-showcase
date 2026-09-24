@@ -1021,12 +1021,16 @@
           "callout": "\"Set up the VPC endpoint service. When it is complete, enter and submit the service URL\" doesn't say this setup happens in the admin's own AWS account, outside SnapLogic — configuring an NLB and VPC Endpoint Service there is a prerequisite, not something done in this dialog."
         },
         {
-          "target": "Refresh button",
-          "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action."
+          "target": "Refresh button and pending-approval text",
+          "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action. The paragraph above it also leads with the goal instead of the status: reworded to \"The connection has been submitted. AWS must approve it before it becomes active.\""
         },
         {
           "target": "Connection validation step (pending approval)",
           "callout": "The wizard's own step 3 never shows a Done button. Once the connection turns Active, finishing requires reopening it later in an unrelated, differently-titled \"PrivateDNS\" dialog the wizard never mentioned."
+        },
+        {
+          "target": "dns_entries URL",
+          "callout": "The dns_entries URL has a Copy link button but nothing on screen says what it's for. Per the docs, it's meant to be used as the Hostname when creating a SnapLogic Account for whatever system sits behind this connection — mentioned once, in a single sentence in a separate overview doc, never near the URL itself in the product."
         }
       ]
     }

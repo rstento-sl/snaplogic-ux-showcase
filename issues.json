@@ -741,7 +741,7 @@
     {
       "id": "issue-23",
       "area": "Admin Manager",
-      "title": "Cloudplex secure connectivity has no default filter, so deleted connections bury active ones",
+      "title": "The Cloudplex secure connectivity table has no default filter, so deleted connections bury active ones",
       "screen": "Admin Manager > System Configuration > Snaplexes > Cloudplex secure connectivity",
       "jira": "",
       "unreportedLabel": "Unreported issue 22",

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cloudplex secure connectivity has no default filter, so deleted connections bury active ones</title>
+<title>The Cloudplex secure connectivity table has no default filter, so deleted connections bury active ones</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -387,7 +387,7 @@
   </div>
   <div class="issue-heading">
     <span class="ticket-chip">Unreported issue 22</span>
-    <h1>Cloudplex secure connectivity has no default filter, so deleted connections bury active ones</h1>
+    <h1>The Cloudplex secure connectivity table has no default filter, so deleted connections bury active ones</h1>
   </div>
   <div class="header-row">
   </div>
@@ -539,7 +539,7 @@
 <script>
 const annotations = [
   {
-    title: "Cloudplex secure connectivity has no default filter, so deleted connections bury active ones",
+    title: "The Cloudplex secure connectivity table has no default filter, so deleted connections bury active ones",
     problem: "The tab loads with no Status filter applied — 29 of 30 rows here are Deleted. Deleted connections stay listed forever, so admins must manually filter every time just to see what's active.",
     fix: "Default the Status filter to Active when the tab loads. Admins see only live connections first, and can still switch the filter to see historical ones when they need to.",
     block: "block-connections-table",

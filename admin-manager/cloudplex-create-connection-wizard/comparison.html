@@ -445,13 +445,13 @@
           <div class="step-circle todo">3</div>
         </div>
         <div id="block-step1-label" class="pin-block step-labels" style="display: flex;">
-          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
           <span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span>
         </div>
         <div class="stepper-divider"></div>
 
         <div id="block-cloudplexes-label" class="pin-block field-group">
-          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
           <div class="field-label">Cloudplexes</div>
           <div class="field-input">/PlatformQA/shared/SCTest003</div>
           <div class="field-help">A maximum of 3 connections per Cloudplex.</div>
@@ -483,7 +483,7 @@
         <div class="stepper-divider"></div>
         <div class="wizard-center">
           <div id="block-vpc-instructions" class="pin-block">
-            <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
+            <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
             <div class="wizard-copy">Set up the VPC endpoint service. When it is complete, enter and submit the service URL:</div>
           </div>
           <div class="field-input" style="max-width: 400px; margin: 0 auto 8px;">vpce-08f779c9521a7447b-kcsmmlte.vpce-svc-0a4f26a</div>
@@ -509,7 +509,7 @@
         <div class="stepper-divider"></div>
 
         <div id="block-pending-refresh" class="pin-block wizard-center">
-          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
           <div class="wizard-copy">To make the connection active, the connection needs to get approved in AWS. To check the approval status, you need to click on the button below to refresh.</div>
           <div class="approval-status-label">Approval status</div>
           <div class="approval-status-value pending">Pending approval</div>
@@ -517,7 +517,7 @@
         </div>
 
         <div id="block-no-done" class="pin-block" style="margin-top: 20px;">
-          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
           <div class="dns-box">
             <div class="dns-label">dns_entries URL:</div>
             <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
@@ -566,7 +566,7 @@
           <span class="dialog-close">✕</span>
         </div>
         <div id="prop-block-step1-label" class="pin-block green">
-          <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+          <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
           <div class="stepper">
             <span class="stepper-prefix">Steps:</span>
             <div class="step-circle">1</div><div class="step-connector"></div>
@@ -574,13 +574,13 @@
             <div class="step-circle todo">3</div>
           </div>
           <div class="step-labels" style="justify-content: center; margin-left: 62px;">
-            <span>Select Cloudplex</span><span>Submit VPC Endpoint</span><span>Validate Connection</span>
+            <span>Configure connection</span><span>Submit VPC Endpoint</span><span>Request approval</span>
           </div>
         </div>
         <div class="stepper-divider"></div>
 
         <div id="prop-block-cloudplexes-label" class="pin-block green field-group">
-          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
           <div class="field-label">Cloudplex</div>
           <div class="field-input">/PlatformQA/shared/SCTest003</div>
           <div class="field-help">A Cloudplex can only have 3 connections at a time. <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Includes connections still pending or rejected — not just active ones.</span></span></div>
@@ -609,11 +609,11 @@
           <div class="step-circle">2</div><div class="step-connector"></div>
           <div class="step-circle todo">3</div>
         </div>
-        <div class="step-labels" style="margin-left: 62px;"><span>Select Cloudplex</span><span>Submit VPC Endpoint</span><span>Validate Connection</span></div>
+        <div class="step-labels" style="margin-left: 62px;"><span>Configure connection</span><span>Submit VPC Endpoint</span><span>Request approval</span></div>
         <div class="stepper-divider"></div>
         <div class="wizard-center">
           <div id="prop-block-vpc-instructions" class="pin-block green">
-            <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+            <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
             <div class="wizard-copy">In your AWS account, set up a VPC endpoint service pointing to your network load balancer. Then enter and submit the resulting service URL below:</div>
           </div>
           <div class="field-input" style="max-width: 400px; margin: 0 auto 8px;">vpce-08f779c9521a7447b-kcsmmlte.vpce-svc-0a4f26a</div>
@@ -636,11 +636,11 @@
           <div class="step-circle">2</div><div class="step-connector"></div>
           <div class="step-circle">3</div>
         </div>
-        <div class="step-labels" style="margin-left: 62px;"><span>Select Cloudplex</span><span>Submit VPC Endpoint</span><span>Validate Connection</span></div>
+        <div class="step-labels" style="margin-left: 62px;"><span>Configure connection</span><span>Submit VPC Endpoint</span><span>Request approval</span></div>
         <div class="stepper-divider"></div>
 
         <div id="prop-block-pending-refresh" class="pin-block green wizard-center">
-          <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
           <div class="wizard-copy">To make the connection active, it needs to get approved in AWS. Check back here for the latest status.</div>
           <div class="approval-status-label">Approval status</div>
           <div class="approval-status-value pending">Pending approval</div>
@@ -648,7 +648,7 @@
         </div>
 
         <div id="prop-block-no-done" class="pin-block green" style="margin-top: 20px;">
-          <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+          <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
           <div class="dns-box highlight">
             <div class="dns-label">dns_entries URL:</div>
             <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
@@ -690,23 +690,9 @@
 <script>
 const annotations = [
   {
-    title: "The wizard's own step 3 never shows a way to finish",
-    problem: "The 3-step wizard (Connection setup → VPC endpoint setup → Connection validation) ends on a \"Pending approval\" screen with only a refresh button and a \"Close this window\" link — no Done button anywhere. Once AWS approves the connection and it turns Active, the only way to reach a Done button is to leave, come back later, and reopen the connection from the list — which opens a completely different, untitled dialog called \"PrivateDNS\" that the wizard never mentioned. An admin following the wizard's own step 3 literally has nothing to click to finish.",
-    fix: "Keep the same \"Create new connection\" dialog and step indicator open (or reopened) through approval. When the connection turns Active, show the Active status and Done button inside step 3 of the same wizard — don't hand the admin off to a differently-titled, unrelated-looking dialog to complete something the wizard started.",
-    block: "block-no-done",
-    propBlock: "prop-block-no-done"
-  },
-  {
-    title: "Refresh button bakes the action into its own label",
-    problem: "The button that checks approval status reads \"Click here to refresh\" — telling the admin to click something that says click, instead of just naming the action.",
-    fix: "Shorten the label to \"Refresh.\"",
-    block: "block-pending-refresh",
-    propBlock: "prop-block-pending-refresh"
-  },
-  {
     title: "Step labels aren't verb-led, and nothing marks them as steps",
     problem: "The dialog is already titled \"Create new connection.\" Step 1's own label just repeats \"Connection setup\" — generic and duplicative — and none of the three labels are verb-led, unlike the rest of this wizard's copy (\"Submit,\" \"Close this window and return later\"). There's also no \"Steps\" heading next to the numbered circles, so a reader has to infer that the row of circles and the row of captions below them are a step sequence at all.",
-    fix: "Add a \"Steps:\" label inline with the numbered circles, and rename the three captions to verb-led actions: \"Select Cloudplex,\" \"Submit VPC Endpoint,\" \"Validate Connection.\"",
+    fix: "Add a \"Steps:\" label inline with the numbered circles, and rename the three captions to verb-led actions: \"Configure connection,\" \"Submit VPC Endpoint,\" \"Request approval.\"",
     block: "block-step1-label",
     propBlock: "prop-block-step1-label"
   },
@@ -723,6 +709,20 @@ const annotations = [
     fix: "Reword to \"In your AWS account, set up a VPC endpoint service pointing to your network load balancer. Then enter and submit the resulting service URL below.\"",
     block: "block-vpc-instructions",
     propBlock: "prop-block-vpc-instructions"
+  },
+  {
+    title: "Refresh button bakes the action into its own label",
+    problem: "The button that checks approval status reads \"Click here to refresh\" — telling the admin to click something that says click, instead of just naming the action.",
+    fix: "Shorten the label to \"Refresh.\"",
+    block: "block-pending-refresh",
+    propBlock: "prop-block-pending-refresh"
+  },
+  {
+    title: "The wizard's own step 3 never shows a way to finish",
+    problem: "The 3-step wizard (Connection setup → VPC endpoint setup → Connection validation) ends on a \"Pending approval\" screen with only a refresh button and a \"Close this window\" link — no Done button anywhere. Once AWS approves the connection and it turns Active, the only way to reach a Done button is to leave, come back later, and reopen the connection from the list — which opens a completely different, untitled dialog called \"PrivateDNS\" that the wizard never mentioned. An admin following the wizard's own step 3 literally has nothing to click to finish.",
+    fix: "Keep the same \"Create new connection\" dialog and step indicator open (or reopened) through approval. When the connection turns Active, show the Active status and Done button inside step 3 of the same wizard — don't hand the admin off to a differently-titled, unrelated-looking dialog to complete something the wizard started.",
+    block: "block-no-done",
+    propBlock: "prop-block-no-done"
   }
 ];
 

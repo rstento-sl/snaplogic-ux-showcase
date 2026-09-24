@@ -1009,16 +1009,8 @@
       },
       "annotations": [
         {
-          "target": "Connection validation step (pending approval)",
-          "callout": "The wizard's own step 3 never shows a Done button. Once the connection turns Active, finishing requires reopening it later in an unrelated, differently-titled \"PrivateDNS\" dialog the wizard never mentioned."
-        },
-        {
-          "target": "Refresh button",
-          "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action."
-        },
-        {
           "target": "Stepper and step labels",
-          "callout": "None of the three step captions are verb-led, and there's no \"Steps\" heading next to the numbered circles, so a reader has to infer the row is a step sequence at all. Proposed: add \"Steps:\" inline with the circles, and rename the captions \"Select Cloudplex,\" \"Submit VPC Endpoint,\" \"Validate Connection.\""
+          "callout": "None of the three step captions are verb-led, and there's no \"Steps\" heading next to the numbered circles, so a reader has to infer the row is a step sequence at all. Proposed: add \"Steps:\" inline with the circles, and rename the captions \"Configure connection,\" \"Submit VPC Endpoint,\" \"Request approval.\""
         },
         {
           "target": "\"Cloudplexes\" field label",
@@ -1027,6 +1019,14 @@
         {
           "target": "Step 2 instructions",
           "callout": "\"Set up the VPC endpoint service. When it is complete, enter and submit the service URL\" doesn't say this setup happens in the admin's own AWS account, outside SnapLogic — configuring an NLB and VPC Endpoint Service there is a prerequisite, not something done in this dialog."
+        },
+        {
+          "target": "Refresh button",
+          "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action."
+        },
+        {
+          "target": "Connection validation step (pending approval)",
+          "callout": "The wizard's own step 3 never shows a Done button. Once the connection turns Active, finishing requires reopening it later in an unrelated, differently-titled \"PrivateDNS\" dialog the wizard never mentioned."
         }
       ]
     }

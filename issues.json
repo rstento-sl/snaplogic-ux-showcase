@@ -1015,6 +1015,14 @@
         {
           "target": "Refresh button",
           "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action."
+        },
+        {
+          "target": "Step 1 stepper label",
+          "callout": "Step 1's label \"Connection setup\" repeats the dialog's own title (\"Create new connection\") instead of naming something specific, unlike the other two steps."
+        },
+        {
+          "target": "\"Cloudplexes\" field label",
+          "callout": "The field is labeled \"Cloudplexes\" (plural) but is a single-select dropdown — the backend only accepts one Cloudplex per connection. The field's own placeholder text (\"Select a Cloudplex\") already uses the correct singular form."
         }
       ]
     }

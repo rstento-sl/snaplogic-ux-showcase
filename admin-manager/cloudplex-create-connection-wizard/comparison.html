@@ -385,10 +385,14 @@
           <div class="step-circle todo">2</div><div class="step-connector"></div>
           <div class="step-circle todo">3</div>
         </div>
-        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div id="block-step1-label" class="pin-block step-labels" style="display: flex;">
+          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+          <span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span>
+        </div>
         <div class="stepper-divider"></div>
 
-        <div class="field-group">
+        <div id="block-cloudplexes-label" class="pin-block field-group">
+          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
           <div class="field-label">Cloudplexes</div>
           <div class="field-input">/PlatformQA/shared/SCTest003</div>
           <div class="field-help">A maximum of 3 connections per Cloudplex.</div>
@@ -504,11 +508,15 @@
           <div class="step-circle todo">2</div><div class="step-connector"></div>
           <div class="step-circle todo">3</div>
         </div>
-        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div id="prop-block-step1-label" class="pin-block green step-labels" style="display: flex;">
+          <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+          <span>Steps</span><span>VPC endpoint setup</span><span>Connection validation</span>
+        </div>
         <div class="stepper-divider"></div>
 
-        <div class="field-group">
-          <div class="field-label">Cloudplexes</div>
+        <div id="prop-block-cloudplexes-label" class="pin-block green field-group">
+          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+          <div class="field-label">Cloudplex</div>
           <div class="field-input">/PlatformQA/shared/SCTest003</div>
           <div class="field-help">A maximum of 3 connections per Cloudplex.</div>
         </div>
@@ -535,7 +543,7 @@
           <div class="step-circle">2</div><div class="step-connector"></div>
           <div class="step-circle todo">3</div>
         </div>
-        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="step-labels"><span>Steps</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
         <div class="stepper-divider"></div>
         <div class="wizard-center">
           <div class="wizard-copy">Set up the VPC endpoint service. When it is complete, enter and submit the service URL:</div>
@@ -558,7 +566,7 @@
           <div class="step-circle">2</div><div class="step-connector"></div>
           <div class="step-circle">3</div>
         </div>
-        <div class="step-labels"><span>Connection setup</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
+        <div class="step-labels"><span>Steps</span><span>VPC endpoint setup</span><span>Connection validation</span></div>
         <div class="stepper-divider"></div>
 
         <div id="prop-block-pending-refresh" class="pin-block green wizard-center">
@@ -624,6 +632,20 @@ const annotations = [
     fix: "Shorten the label to \"Refresh.\"",
     block: "block-pending-refresh",
     propBlock: "prop-block-pending-refresh"
+  },
+  {
+    title: "Step 1's label repeats the dialog title instead of describing the step",
+    problem: "The dialog is already titled \"Create new connection.\" Step 1's own label repeats \"Connection setup\" — generic and duplicative — while the other two steps each name something specific (\"VPC endpoint setup,\" \"Connection validation\").",
+    fix: "Relabel the first step \"Steps.\"",
+    block: "block-step1-label",
+    propBlock: "prop-block-step1-label"
+  },
+  {
+    title: "\"Cloudplexes\" field is plural, but you can only select one",
+    problem: "The field is labeled \"Cloudplexes\" (plural) and uses a dropdown, which reads as if multiple selections are possible. It's actually a single-select control — the backend only accepts one Cloudplex per connection (create_secureplex takes a single plex_snode_id, never a list). The field's own placeholder text, \"Select a Cloudplex,\" already correctly uses the singular form, so the label contradicts the rest of the field.",
+    fix: "Relabel the field \"Cloudplex\" (singular), matching the placeholder text and what the control actually lets you do.",
+    block: "block-cloudplexes-label",
+    propBlock: "prop-block-cloudplexes-label"
   }
 ];
 

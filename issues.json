@@ -745,17 +745,17 @@
       "screen": "Admin Manager > System Configuration > Snaplexes > Cloudplex secure connectivity",
       "jira": "",
       "unreportedLabel": "Unreported issue 22",
-      "severity": "Medium",
+      "severity": "Low",
       "category": "Content clarity / labeling",
       "page": "Cloudplex Secure Connectivity",
-      "summary": "The Cloudplex secure connectivity tab loads with no Status filter applied, so 29 of 30 permanently-listed Deleted connections bury the one Active connection.",
+      "summary": "The Cloudplex secure connectivity tab loads with no Status filter applied — in the example, 29 of 30 permanently-listed Deleted connections bury the one Active connection.",
       "mockups": {
         "comparison": "admin-manager/cloudplex-secure-connectivity/comparison.html"
       },
       "annotations": [
         {
           "target": "Cloudplex secure connectivity table",
-          "callout": "The tab loads with no Status filter applied — 29 of 30 rows here are Deleted. Deleted connections stay listed forever, so admins must manually filter every time just to see what's active."
+          "callout": "The tab loads with no Status filter applied — in this example, 29 of 30 rows are Deleted. Deleted connections stay listed forever, so admins must manually filter every time just to see what's active."
         }
       ]
     },

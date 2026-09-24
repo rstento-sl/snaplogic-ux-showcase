@@ -540,7 +540,7 @@
 const annotations = [
   {
     title: "The Cloudplex secure connectivity table has no default filter, so deleted connections bury active ones",
-    problem: "The tab loads with no Status filter applied — 29 of 30 rows here are Deleted. Deleted connections stay listed forever, so admins must manually filter every time just to see what's active.",
+    problem: "The tab loads with no Status filter applied — in this example, 29 of 30 rows are Deleted. Deleted connections stay listed forever, so admins must manually filter every time just to see what's active.",
     fix: "Default the Status filter to Active when the tab loads. Admins see only live connections first, and can still switch the filter to see historical ones when they need to.",
     block: "block-connections-table",
     propBlock: "prop-block-connections-table"

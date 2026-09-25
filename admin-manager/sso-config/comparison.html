@@ -809,7 +809,7 @@ const annotations = [
   {
     title: "Sections are out of order, with no indication users must leave and return",
     problem: "Users visit this page twice, at two different times — first to copy values OUT to the IdP, later to paste IdP metadata BACK IN. But the paste-back section appears first, above the copy-out section, so users hit it before they have anything to enter. Nothing marks the sections as sequential or tells users they need to leave and come back.",
-    fix: "Reorder the sections to match the real workflow and number them: Step 1 — copy/download SnapLogic values, go set up your IdP. Step 2 — return and upload the IdP metadata.",
+    fix: "The reordering and step numbering are covered by the fixes above — the one thing still missing is a cue that users leave the page: add a note, “You'll return to this page after configuring your identity provider.”",
     section: null,
     propBlock: "prop-block-order"
   }

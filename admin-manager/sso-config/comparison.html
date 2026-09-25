@@ -562,6 +562,7 @@
 
       <div id="block-tabs" style="position: relative;">
         <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+        <div class="pin" id="pin-2" style="left: -12px; right: auto;" onclick="openPopover(2, event)">2</div>
         <h1>Authentication</h1>
         <div class="tabs">
           <div class="tab active">SSO</div>
@@ -573,14 +574,14 @@
       </div>
 
       <div class="section" id="section-A">
-        <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+        <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
         <div class="section-title">Upload identity provider metadata</div>
         <p class="section-body">All of your environments must use the same IdP. Upload the metadata file provided by your IdP.</p>
         <button class="btn btn-primary">Upload file</button>
       </div>
 
       <div class="section" id="section-B">
-        <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+        <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
         <div class="section-title">Add SnapLogic application in your identity provider</div>
         <p class="section-body">Copy and paste the links in your identity provider.</p>
 
@@ -608,15 +609,14 @@
       </div>
 
       <div class="section" id="section-C">
-        <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
         <div class="section-title">Provide SnapLogic metadata to your IdP</div>
         <p class="section-body">Download the metadata file and upload it to your IdP.</p>
-        <button class="btn">Download file</button>
+        <button class="btn" disabled>Download file</button>
       </div>
 
       <div class="section">
         <div class="section-title">Manage SSO options</div>
-        <button class="btn">Set up SSO options</button>
+        <button class="btn" disabled>Set up SSO options</button>
       </div>
 
     </div>
@@ -650,10 +650,10 @@
       </div>
 
       <div id="prop-block-order" style="position: relative;">
-        <div class="pin green" id="green-pin-4" style="left: -12px; right: auto;" onclick="openGreenPopover(4, event)">4</div>
+        <div class="pin green" id="green-pin-2" style="left: -12px; right: auto;" onclick="openGreenPopover(2, event)">2</div>
 
       <div class="step-block" id="step1-block" style="position: relative;">
-        <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+        <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
         <div class="step-header">
           <div class="step-number">1</div>
           <div class="step-header-text">
@@ -704,7 +704,7 @@
       </div>
 
       <div class="step-block" id="step2-block" style="position: relative;">
-        <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+        <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
         <div class="step-header">
           <div class="step-number">2</div>
           <div class="step-header-text">
@@ -793,6 +793,13 @@ const annotations = [
     propBlock: "prop-block-tabs"
   },
   {
+    title: "Sections are out of order, with no indication users must leave and return",
+    problem: "Users visit this page twice, at two different times — first to copy values OUT to the IdP, later to paste IdP metadata BACK IN. But the paste-back section appears first, above the copy-out section, so users hit it before they have anything to enter. Nothing marks the sections as sequential or tells users they need to leave and come back.",
+    fix: "The reordering and step numbering are covered by the fixes above — the one thing still missing is a cue that users leave the page: add a note, “You'll return to this page after configuring your identity provider.”",
+    section: null,
+    propBlock: "prop-block-order"
+  },
+  {
     title: "Upload section appears before the user has a file to upload",
     problem: "The “Upload identity provider metadata” section is the first thing users see, and its “Upload file” button is fully enabled — but users don't have a metadata file yet. That file only exists after they create a SAML application in their IdP using the SnapLogic values lower on this same page. Users either open the file picker with nothing valid to select, or abandon the page thinking they've missed a step.",
     fix: "Move this section to Step 2, below the SnapLogic values, and disable “Upload file” until Step 1 is complete. Add a subheading: “Complete after finishing Step 1 in your identity provider.”",
@@ -805,13 +812,6 @@ const annotations = [
     fix: "Make this Step 1. Lead with the download option and add an “or copy individual values” divider before listing the URLs. Add copy buttons and explicit instruction: “Copy these values and use them to create a SAML application in your identity provider. Then return here to complete Step 2.”",
     section: "section-B",
     propBlock: "step1-block"
-  },
-  {
-    title: "Sections are out of order, with no indication users must leave and return",
-    problem: "Users visit this page twice, at two different times — first to copy values OUT to the IdP, later to paste IdP metadata BACK IN. But the paste-back section appears first, above the copy-out section, so users hit it before they have anything to enter. Nothing marks the sections as sequential or tells users they need to leave and come back.",
-    fix: "The reordering and step numbering are covered by the fixes above — the one thing still missing is a cue that users leave the page: add a note, “You'll return to this page after configuring your identity provider.”",
-    section: null,
-    propBlock: "prop-block-order"
   }
 ];
 

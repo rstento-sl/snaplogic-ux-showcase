@@ -1022,11 +1022,11 @@
         },
         {
           "target": "Refresh button and pending-approval text",
-          "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action. The paragraph above it also leads with the goal instead of the status: reworded to \"The connection has been submitted. AWS must approve it before it becomes active.\""
+          "callout": "The button reads \"Click here to refresh\" — baking the click instruction into the label instead of just naming the action. The paragraph above it also leads with the goal instead of the status. Proposed: rename the button \"Refresh status\" and reword the paragraph to \"The connection has been submitted. AWS must approve it before it becomes active.\""
         },
         {
           "target": "Connection validation step (pending approval)",
-          "callout": "The wizard's own step 3 never shows a Done button. Once the connection turns Active, finishing requires reopening it later in an unrelated, differently-titled \"PrivateDNS\" dialog the wizard never mentioned."
+          "callout": "The wizard's own step 3 never shows a way to finish — once AWS approves the connection, the only way to reach Done is to reopen it later in an unrelated, differently-titled \"PrivateDNS\" dialog. Proposed: add a second screen — same dialog, same step indicator — showing Active status, dns_entries URL, private DNS name, and Done together."
         },
         {
           "target": "dns_entries URL",

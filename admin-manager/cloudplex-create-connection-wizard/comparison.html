@@ -645,23 +645,43 @@
           <div class="wizard-copy">The connection has been submitted. AWS must approve it before it becomes active.</div>
           <div class="approval-status-label">Approval status</div>
           <div class="approval-status-value pending">Pending approval</div>
-          <button class="btn-primary">Refresh</button>
+          <button class="btn-primary">Refresh status</button>
         </div>
+      </div>
 
-        <div id="prop-block-no-done" class="pin-block green" style="margin-top: 20px;">
+      <div class="flow-connector">AWS approves the connection</div>
+
+      <div class="page-wrapper">
+        <div class="dialog-header-row">
+          <div class="dialog-title">Create new connection</div>
+          <span class="dialog-close">✕</span>
+        </div>
+        <div class="stepper">
+          <span class="stepper-prefix">Steps:</span>
+          <div class="step-circle">1</div><div class="step-connector"></div>
+          <div class="step-circle">2</div><div class="step-connector"></div>
+          <div class="step-circle">3</div>
+        </div>
+        <div class="step-labels" style="margin-left: 62px;"><span>Configure connection</span><span>Submit VPC Endpoint</span><span>Request approval</span></div>
+        <div class="stepper-divider"></div>
+
+        <div id="prop-block-no-done" class="pin-block green wizard-center">
           <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+          <div class="approval-status-label">Status</div>
+          <div class="approval-status-value active">Active — connection validated</div>
           <div id="prop-block-dns-url" class="pin-block green dns-box highlight">
             <div class="pin green" id="green-pin-6" onclick="openGreenPopover(6, event)">6</div>
             <div class="dns-label">dns_entries URL: <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Use this hostname in SnapLogic Accounts for endpoints to use this connection.</span></span></div>
             <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
             <div class="copy-link">📋 Copy link</div>
           </div>
-          <div class="approval-status-label" style="margin-top: 16px;">Status</div>
-          <div class="approval-status-value active">Active — connection validated</div>
-          <div style="text-align: center;">
-            <button class="btn-primary">Done</button>
+          <div class="dns-box">
+            <div class="dns-label">private dns name:</div>
+            <div class="dns-value">privatelinkqa.YOUR_ORG.snaplogic.com</div>
+            <div class="copy-link">📋 Copy link</div>
           </div>
-          <div class="field-help" style="text-align: center; margin-top: 14px;">Want to enable a private DNS name for Snowflake? <span style="color: var(--blue); font-weight: 700;">Manage this connection</span> from the connections list.</div>
+          <button class="btn-primary" style="background: #fff; color: var(--blue); border: 1px solid var(--blue);">Enable private DNS</button>
+          <div style="margin-top: 18px;"><button class="btn-primary">Done</button></div>
         </div>
       </div>
     </div>
@@ -715,14 +735,14 @@ const annotations = [
   {
     title: "Refresh button bakes the action into its own label",
     problem: "The button that checks approval status reads \"Click here to refresh\" — telling the admin to click something that says click, instead of just naming the action. The paragraph above it also buries the lede: \"To make the connection active, it needs to get approved in AWS\" leads with the goal rather than what already happened.",
-    fix: "Shorten the button label to \"Refresh.\" Reword the paragraph to lead with status: \"The connection has been submitted. AWS must approve it before it becomes active.\"",
+    fix: "Rename the button \"Refresh status.\" Reword the paragraph to lead with status: \"The connection has been submitted. AWS must approve it before it becomes active.\"",
     block: "block-pending-refresh",
     propBlock: "prop-block-pending-refresh"
   },
   {
     title: "The wizard's own step 3 never shows a way to finish",
     problem: "The 3-step wizard (Connection setup → VPC endpoint setup → Connection validation) ends on a \"Pending approval\" screen with only a refresh button and a \"Close this window\" link — no Done button anywhere. Once AWS approves the connection and it turns Active, the only way to reach a Done button is to leave, come back later, and reopen the connection from the list — which opens a completely different, untitled dialog called \"PrivateDNS\" that the wizard never mentioned. An admin following the wizard's own step 3 literally has nothing to click to finish.",
-    fix: "Keep the same \"Create new connection\" dialog and step indicator open (or reopened) through approval. When the connection turns Active, show the Active status and Done button inside step 3 of the same wizard — don't hand the admin off to a differently-titled, unrelated-looking dialog to complete something the wizard started.",
+    fix: "Keep the same \"Create new connection\" dialog and step indicator open (or reopened) through approval. When the connection turns Active, show a second screen — same dialog, same step indicator — with the Active status, dns_entries URL, private DNS name, and Done button together, instead of handing the admin off to a differently-titled, unrelated-looking dialog to complete something the wizard started.",
     block: "block-no-done",
     propBlock: "prop-block-no-done"
   },

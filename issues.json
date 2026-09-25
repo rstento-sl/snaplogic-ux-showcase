@@ -645,7 +645,7 @@
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Snaplexes",
-      "summary": "\"+ Add Snaplex\" should say \"+ Add Groundplex,\" since that's the only type customers can create; the Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight; and the Snaplex Type column shows the undocumented internal value \"sidekick\" instead of \"Groundplex.\" See the separate Add/Update Snaplex dialog issue for everything inside that dialog.",
+      "summary": "\"+ Add Snaplex\" is incorrect — customers can only add Groundplexes. The Auto upgrade Snaplexes toggle sits in a plain toolbar row with no visual weight, and the Snaplex Type column shows the undocumented internal value \"sidekick\" instead of \"Groundplex.\"",
       "mockups": {
         "comparison": "admin-manager/snaplexes/comparison.html"
       },
@@ -674,7 +674,7 @@
       "severity": "Medium",
       "category": "Content clarity / labeling",
       "page": "Add/Update Snaplex dialog",
-      "summary": "Several dialog fields — Select project, Load balancer, Ultra load balancer — have real access or reliability consequences that go unexplained. Compounded by field tooltips hidden behind hover on every tab, ungrouped notification fields, and intro text that's identical across all four tabs instead of describing what each one configures. Split out from the main Snaplexes page issue for readability.",
+      "summary": "Several dialog fields — Select project, Load balancer, Ultra load balancer — have real access or reliability consequences that go unexplained, compounded by field tooltips hidden behind hover on every tab, ungrouped notification fields, and intro text that's identical across all four tabs instead of describing what each one configures.",
       "mockups": {
         "comparison": "admin-manager/add-update-snaplex-dialog/comparison.html"
       },
@@ -1003,7 +1003,7 @@
       "severity": "High",
       "category": "Workflow / IA",
       "page": "Cloudplex Secure Connectivity",
-      "summary": "The 3-step wizard for adding a Cloudplex secure connection ends on a pending-approval screen with no Done button. Finishing requires reopening the connection later in a completely different, differently-titled dialog the wizard never mentions.",
+      "summary": "The wizard has several clarity gaps — a plural \"Cloudplexes\" field that's actually single-select, non-verb-led step captions, a Refresh button that bakes in \"click here\" — and one structural one: it ends on a pending-approval screen with no way to finish, requiring the admin to reopen the connection later in a completely different, differently-titled dialog the wizard never mentions.",
       "mockups": {
         "comparison": "admin-manager/cloudplex-create-connection-wizard/comparison.html"
       },

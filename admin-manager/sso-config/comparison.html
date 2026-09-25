@@ -266,7 +266,7 @@
   .section.highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
   .section.highlighted .section-title { color: #B61631; }
   #block-tabs.highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; margin: -8px -12px 0; padding: 8px 12px; }
-  .step-block.highlighted, #prop-block-tabs.highlighted, #prop-block-order.highlighted {
+  .step-block.highlighted, #prop-block-tabs.highlighted, #prop-block-order.highlighted, #prop-block-download.highlighted {
     box-shadow: 0 0 0 2px var(--green);
     border-radius: 6px;
   }
@@ -542,9 +542,6 @@
     <a class="ticket-chip" href="https://mysnaplogic.atlassian.net/browse/APP-2297" target="_blank" rel="noopener">APP-2297</a>
     <h1>SSO configuration page confusing and sections in wrong order</h1>
   </div>
-  <div class="header-row">
-    <a class="bug-link" href="possible-bug.html">⚠ 1 possible bug noted →</a>
-  </div>
 </div>
 
 <div class="inapp-ua-row">
@@ -609,6 +606,7 @@
       </div>
 
       <div class="section" id="section-C">
+        <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
         <div class="section-title">Provide SnapLogic metadata to your IdP</div>
         <p class="section-body">Download the metadata file and upload it to your IdP.</p>
         <button class="btn" disabled>Download file</button>
@@ -662,11 +660,14 @@
           </div>
         </div>
         <div class="step-body">
-          <p class="alt-option">Some identity providers accept a metadata file. If yours does, download and upload it — no need to copy individual values. <a class="inline-learn-more" href="https://docs.snaplogic.com/admin-manager/create-idp-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
-          <button class="download-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download metadata file
-          </button>
+          <div id="prop-block-download" style="position: relative;">
+            <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+            <p class="alt-option">Some identity providers accept a metadata file. If yours does, download and upload it — no need to copy individual values. <a class="inline-learn-more" href="https://docs.snaplogic.com/admin-manager/create-idp-integration.html" target="_blank" rel="noopener">Learn more.</a></p>
+            <button class="download-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download metadata file
+            </button>
+          </div>
 
           <div class="or-divider"><span>or copy individual values</span></div>
 
@@ -812,6 +813,13 @@ const annotations = [
     fix: "Make this Step 1. Lead with the download option and add an “or copy individual values” divider before listing the URLs. Add copy buttons and explicit instruction: “Copy these values and use them to create a SAML application in your identity provider. Then return here to complete Step 2.”",
     section: "section-B",
     propBlock: "step1-block"
+  },
+  {
+    title: "“Download file” is disabled until after the user uploads the IdP's metadata — backward from what it does",
+    problem: "This button downloads SnapLogic's own SAML SP metadata (an XML bundle of the same Entity ID, Reply URL, and Logout URL shown above), which the user gives to their IdP. It has nothing to do with the IdP's metadata. But the button stays disabled until the user has already uploaded that IdP metadata file — the opposite of the order these two files are actually needed in.",
+    fix: "Enable this option from the start, as an alternative to copying the individual values — not gated on anything the user hasn't done yet.",
+    section: "section-C",
+    propBlock: "prop-block-download"
   }
 ];
 
@@ -847,7 +855,7 @@ function openGreenPopover(n, e) {
 }
 
 function clearHighlights() {
-  document.querySelectorAll('.section, #block-tabs, .step-block, #prop-block-tabs, #prop-block-order').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.section, #block-tabs, .step-block, #prop-block-tabs, #prop-block-order, #prop-block-download').forEach(s => s.classList.remove('highlighted'));
   document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
 }
 

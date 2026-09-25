@@ -206,8 +206,7 @@
       "category": "Information architecture / sequencing",
       "summary": "The page shows the paste-back step before the copy-out step, so users hit a dead end before they have anything to enter — with no indication they need to leave and return.",
       "mockups": {
-        "comparison": "admin-manager/sso-config/comparison.html",
-        "possibleBug": "admin-manager/sso-config/possible-bug.html"
+        "comparison": "admin-manager/sso-config/comparison.html"
       },
       "current_state": {
         "labels": [
@@ -228,7 +227,8 @@
           "Metadata upload section (second-visit task) appears at the top, before the SnapLogic-generated URLs the user needs first",
           "No indication that this is a two-pass workflow requiring the user to leave and return",
           "The page acts as both source (copy values out) and destination (paste metadata back) with no explanation of either role",
-          "Users attempt to upload IdP metadata before the IdP app exists, because they cannot yet have the metadata"
+          "Users attempt to upload IdP metadata before the IdP app exists, because they cannot yet have the metadata",
+          "The Download file button (SnapLogic's own metadata, unrelated to the IdP's file) stays disabled until after the user uploads the IdP's metadata"
         ]
       },
       "proposed_fix": {
@@ -278,6 +278,10 @@
         {
           "target": "Full page",
           "callout": "This page plays two roles at two different times — source and destination — but nothing on the page communicates that."
+        },
+        {
+          "target": "Download file button",
+          "callout": "Downloads SnapLogic's own metadata, unrelated to the IdP's file — but stays disabled until after the user uploads that IdP file anyway."
         }
       ],
       "page": "Authentication",

@@ -528,11 +528,11 @@
         </div>
       </div>
 
-      <div class="flow-connector warn">Days later, admin reopens the connection from the list — a completely different, untitled-step dialog appears</div>
+      <div class="flow-connector warn">Days later, admin reopens the connection from the list — the dialog comes back retitled with the connection's name, and the step indicator is gone</div>
 
       <div class="page-wrapper">
         <div class="dialog-header-row">
-          <div class="dialog-title">PrivateDNS</div>
+          <div class="dialog-title">Test_connection1's details</div>
           <span class="dialog-close">✕</span>
         </div>
         <div class="wizard-center" style="margin-top: 10px;">
@@ -741,8 +741,8 @@ const annotations = [
   },
   {
     title: "The wizard's own step 3 never shows a way to finish",
-    problem: "The 3-step wizard (Connection setup → VPC endpoint setup → Connection validation) ends on a \"Pending approval\" screen with only a refresh button and a \"Close this window\" link — no Done button anywhere. Once AWS approves the connection and it turns Active, the only way to reach a Done button is to leave, come back later, and reopen the connection from the list — which opens a completely different, untitled dialog called \"PrivateDNS\" that the wizard never mentioned. An admin following the wizard's own step 3 literally has nothing to click to finish.",
-    fix: "Keep the same \"Create new connection\" dialog and step indicator open (or reopened) through approval. When the connection turns Active, show a second screen — same dialog, same step indicator — with the Active status, dns_entries URL, private DNS name, and Done button together, instead of handing the admin off to a differently-titled, unrelated-looking dialog to complete something the wizard started.",
+    problem: "The 3-step wizard (Connection setup → VPC endpoint setup → Connection validation) ends on a \"Pending approval\" screen with only a Refresh button and a \"Close this window\" link — no Done button anywhere. Refreshing after AWS approves does update this same screen in place to show the Active status and a Done button, but nothing on the screen tells the admin that refreshing is what finishes the wizard, and there's no auto-refresh — so most admins close the window instead. If they later reopen the connection from the list, the dialog comes back retitled with the connection's name (e.g. \"Test_connection1's details\") instead of \"Create new connection,\" and the step indicator is gone — nothing ties it back to the wizard they started.",
+    fix: "On the Pending approval screen, tell the admin that clicking Refresh (or reopening this connection later) will show a Done button once AWS approves. If they do come back later, keep the same dialog title and step indicator instead of relabeling it \"<name>'s details\" — so it still reads as the same wizard finishing, not an unrelated screen.",
     block: "block-no-done",
     propBlock: "prop-block-no-done"
   },

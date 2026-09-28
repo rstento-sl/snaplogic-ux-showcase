@@ -359,7 +359,7 @@
 
       <!-- Cloud-triggered allowlist -->
       <div class="am-tab-panel active" id="tab-proposed-cloud">
-        <p class="intro-text">When an IP address allowlist is enabled for the environment, the Cloud URL can be invoked solely from machines with IP addresses within the specified IP Allowlist range. <a href="#">Learn more.</a></p>
+        <p class="intro-text">Enable an IP address allowlist to restrict Cloud URL invocation to machines within the specified IP range. <a href="#">Learn more.</a></p>
 
         <div class="section-label">Tasks can be invoked from</div>
         <div class="radio-row"><div class="radio-dot checked"></div><div class="radio-label">Any IP address</div></div>
@@ -393,7 +393,7 @@
       <div class="am-tab-panel" id="tab-proposed-cors">
         <div id="prop-block-cors-intro" class="pin-block green">
           <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
-          <p class="intro-text">When triggering from an external web page not on the SnapLogic domain, Cross-Origin Request Sharing (CORS) controls data access. To enable successful cross-origin requests, add domains to the list of allowed origins. Groundplex requests' CORS header is not adjustable. If using IPs, include them in the allowlist or consider server-side triggering to bypass CORS. <a href="#">Learn more.</a></p>
+          <p class="intro-text">Allow data access from external web pages not on the SnapLogic domain using Cross-Origin Resource Sharing (CORS). To enable successful cross-origin requests, add domains to the list of allowed origins. Groundplex requests' CORS header is not adjustable. If using IPs, include them in the allowlist or consider server-side triggering to bypass CORS. <a href="#">Learn more.</a></p>
         </div>
 
         <div class="section-label">CORS Allowlist</div>
@@ -410,7 +410,7 @@
 
       <!-- Groundplex allowlist -->
       <div class="am-tab-panel" id="tab-proposed-ground">
-        <p class="intro-text">For additional security, you can configure an IP address allowlist to control which nodes in a Snaplex can connect to the SnapLogic control plane. The allowlist applies to nodes in a Groundplex. <a href="#">Learn more.</a></p>
+        <p class="intro-text">Configure an IP address allowlist for additional security, to control which nodes in a Snaplex can connect to the SnapLogic control plane. The allowlist applies to nodes in a Groundplex. <a href="#">Learn more.</a></p>
 
         <div class="section-label">The control plane can accept Groundplex node connections from:</div>
         <div class="radio-row"><div class="radio-dot checked"></div><div class="radio-label">Any IP address</div></div>

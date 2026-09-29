@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Manager tooltip coverage audit</title>
+<link rel="stylesheet" href="https://sl-design-team.github.io/jellyroll/colors_and_type.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { background: var(--sl-grey-200); padding-bottom: var(--space-10); }
+
+  .topbar { height: 4px; background: var(--sl-teal-600); }
+
+  .hero {
+    background: var(--color-surface-navbar);
+    padding: var(--space-8) var(--space-6) var(--space-6);
+  }
+  .hero-inner { max-width: 820px; margin: 0 auto; }
+  .breadcrumb { color: var(--sl-blue-300); font-size: var(--type-small-size); margin-bottom: var(--space-2); }
+  .breadcrumb a { color: var(--sl-blue-300); }
+  .hero h1 { color: var(--color-text-inverse); letter-spacing: -0.01em; }
+  .hero .sub { color: var(--sl-blue-300); margin-top: var(--space-2); line-height: 1.5; max-width: 62ch; }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: var(--space-8) var(--space-6) 0; }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: var(--space-6);
+    font-size: var(--type-small-size);
+    font-weight: 700;
+    color: var(--sl-teal-700);
+    text-decoration: none;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  section { margin-bottom: var(--space-10); }
+  section h2 {
+    font-size: var(--type-h4-size);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+  section p { line-height: 1.6; margin-bottom: var(--space-3); color: var(--sl-grey-900); }
+  section p.dim { color: var(--color-text-subtle); }
+
+  .finding {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+  .finding-label {
+    display: inline-block;
+    font-size: var(--type-small-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-3);
+  }
+  .finding-label.mismatch { background: var(--sl-orange-100); color: var(--sl-orange-800); }
+
+  .icon-compare {
+    display: flex;
+    gap: var(--space-6);
+    align-items: center;
+    margin: var(--space-4) 0;
+    flex-wrap: wrap;
+  }
+  .icon-sample { text-align: center; }
+  .icon-sample .swatch {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 50%;
+    margin: 0 auto var(--space-2);
+    background: var(--color-surface-default);
+  }
+  .icon-sample .cap { font-size: var(--type-small-size); color: var(--color-text-subtle); }
+  .icon-sample code { font-size: 11px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: var(--type-body-size); }
+  th, td { text-align: left; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--color-border-subtle); vertical-align: top; }
+  th { font-size: var(--type-small-size); text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-text-subtle); }
+  td code { font-size: 12px; }
+  .screen-group { margin-bottom: var(--space-6); }
+  .screen-group h3 { font-size: var(--type-body-size); font-weight: 700; margin-bottom: var(--space-2); }
+
+  .appendix {
+    background: var(--sl-grey-100);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--type-small-size);
+    color: var(--color-text-subtle);
+  }
+  .appendix summary { cursor: pointer; font-weight: 700; color: var(--sl-grey-900); margin-bottom: var(--space-2); }
+  .appendix ul { margin: var(--space-2) 0 var(--space-2) var(--space-5); }
+  .appendix li { margin-bottom: var(--space-1); }
+  .appendix code { font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="../../index.html">Admin Manager Usability issues</a> &nbsp;/&nbsp; Cross-cutting</div>
+    <h1>Tooltip coverage audit</h1>
+    <p class="sub">A pass through Groups, Users, and SSO configuration to find which fields have no tooltip at all, and whether the tooltip icon in use matches the current design system.</p>
+  </div>
+</div>
+<div class="wrap">
+  <a class="back-link" href="../../index.html">&larr; Back to all issues</a>
+
+  <section>
+    <h2>Icon mismatch</h2>
+    <div class="finding">
+      <span class="finding-label mismatch">Design system gap</span>
+      <p>Admin Manager's tooltip trigger doesn't use the current icon set. The tooltip mechanism itself (<code>Jellyroll/components/Tooltip</code>) is the correct Design System 2.0 component, but every place that pairs it with an icon reuses a legacy asset — <code>SL_UI/v3/icons/info2.svg</code>, a solid gray-filled circle — instead of jellyroll's own <code>CircleInfo</code> or <code>info</code> icon from the jellyroll Icon set. jellyroll-ui doesn't export a ready-made <code>InfoTooltip</code> component, so each page pairs the icon and the tooltip by hand, and every instance made the same outdated choice.</p>
+      <div class="icon-compare">
+        <div class="icon-sample">
+          <div class="swatch" style="background:#9CA7BA; border-color:#9CA7BA;">
+            <span style="color:#fff; font-weight:700; font-family: Georgia, serif;">i</span>
+          </div>
+          <div class="cap">Currently used<br><code>SL_UI/v3/icons/info2.svg</code></div>
+        </div>
+        <div class="icon-sample">
+          <div class="swatch" style="border-color:#3967C3;">
+            <span style="color:#3967C3; font-weight:700; font-family: Georgia, serif;">i</span>
+          </div>
+          <div class="cap">jellyroll <code>CircleInfo</code></div>
+        </div>
+        <div class="icon-sample">
+          <div class="swatch" style="border-color:#26386A;">
+            <span style="color:#26386A; font-weight:700; font-family: Georgia, serif;">i</span>
+          </div>
+          <div class="cap">jellyroll <code>info</code></div>
+        </div>
+      </div>
+      <p class="dim">Fix: swap the <code>&lt;img src={InfoIcon}&gt;</code> in the three existing tooltip usages for jellyroll's <code>CircleInfo</code> icon, and use that pairing as the template for the missing tooltips below rather than reintroducing <code>info2.svg</code>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fields with no tooltip at all</h2>
+    <p>The shared <code>Tooltip</code> component is used in only three places in the whole Admin Manager module. Everywhere else, labeled fields ship with no tooltip — including several non-obvious SSO security settings that would benefit most.</p>
+
+    <div class="screen-group">
+      <h3>Groups — create / details</h3>
+      <table>
+        <tr><th>Field</th><th>Note</th></tr>
+        <tr><td>Group name</td><td>Only a static note string, no tooltip</td></tr>
+        <tr><td>Description</td><td>No tooltip</td></tr>
+        <tr><td>Add users</td><td>No tooltip</td></tr>
+      </table>
+    </div>
+
+    <div class="screen-group">
+      <h3>Users — account form</h3>
+      <table>
+        <tr><th>Field</th><th>Note</th></tr>
+        <tr><td>First name / Last name / Email</td><td>No tooltip</td></tr>
+        <tr><td>Role — Env Admin / User / Portal User</td><td>None of the three options explains what it grants</td></tr>
+        <tr><td>App access checkboxes, API access</td><td>No tooltip on any app or on API access</td></tr>
+        <tr><td>Home directory toggle</td><td>No tooltip</td></tr>
+        <tr><td>Enable password login / Enable MFA login</td><td>No tooltip</td></tr>
+      </table>
+    </div>
+
+    <div class="screen-group">
+      <h3>SSO configuration</h3>
+      <table>
+        <tr><th>Field</th><th>Note</th></tr>
+        <tr><td>Upload IdP file, SAML link fields</td><td>Static descriptive paragraphs only, no tooltip</td></tr>
+        <tr><td>AuthnRequestsSigned</td><td>No tooltip on this SAML security setting</td></tr>
+        <tr><td>RequestedAuthnContext comparison</td><td>No tooltip on this SAML security setting</td></tr>
+        <tr><td>AuthnContextClassRef</td><td>No tooltip on this SAML security setting</td></tr>
+      </table>
+      <p class="dim">These three SAML options are the strongest candidates for a fix: they're technical, non-obvious settings with no inline help at all. One nearby control (the copy-URL button in <code>link.js</code>) uses a plain HTML <code>title</code> attribute instead of the shared component — an inconsistent pattern worth fixing at the same time.</p>
+    </div>
+  </section>
+
+  <details class="appendix">
+    <summary>Code references (engineering)</summary>
+    <ul>
+      <li><code>Jellyroll/components/Tooltip</code> — shared tooltip, backed by <code>jellyroll-ui/components/Tooltip/Tooltip.tsx</code>, also exported as <code>@sl/jellyroll-ui</code></li>
+      <li><code>pages/users/create/accountType/index.js:4,41-52</code> — existing tooltip usage</li>
+      <li><code>pages/snaplexes/list/component.js:7,100-106</code> — existing tooltip usage</li>
+      <li><code>pages/users/list/appAccess.js:3,48-50</code> — existing tooltip usage</li>
+      <li><code>pages/groups/groupForm.js:19-38</code> — Group name, Description</li>
+      <li><code>pages/groups/create/component.js:88-97</code> — Add users</li>
+      <li><code>pages/users/accountForms/userAccount/component.js:86-139</code> — name/email/role/app access/home dir/auth toggles</li>
+      <li><code>pages/users/roleSection.js:20,27,35</code> — role radios</li>
+      <li><code>pages/users/appAccessSection.js:44-58</code> — app checkboxes, API access</li>
+      <li><code>pages/users/authSection.js:66,83</code> — login toggles</li>
+      <li><code>pages/authentication/sso/component.js:182-220</code> — IdP upload, SAML links</li>
+      <li><code>pages/authentication/sso/setupModal/component.js:107,116,121</code> — SAML security selects</li>
+      <li><code>pages/authentication/sso/link.js:17</code> — native <code>title=</code> attribute, not the shared component</li>
+      <li>jellyroll icon set: <code>jellyroll-ui/components/Icon/svgs/CircleInfo.js</code>, <code>info.js</code></li>
+    </ul>
+    <p>Not yet checked: Roles and the Snaplexes settings tab — worth a follow-up sweep.</p>
+  </details>
+</div>
+</body>
+</html>

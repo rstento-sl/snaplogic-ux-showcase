@@ -216,6 +216,8 @@
   .section-divider { border: none; border-top: 1px solid var(--hairline); margin: 24px 0 20px; }
   .section-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
   .helper-text-sm { font-size: 12px; color: var(--dim); line-height: 1.5; margin-bottom: 10px; }
+  .helper-text-sm-list { font-size: 12px; color: var(--dim); line-height: 1.5; margin: 0 0 10px; padding-left: 18px; }
+  .helper-text-sm-list li { margin-bottom: 2px; }
 
   .select-trigger {
     display: inline-flex;
@@ -595,7 +597,12 @@
           <div class="block" id="prop-block-dropdown" style="position: relative; margin-bottom: 0;">
             <div class="pin green" id="green-pin-4" style="top: -8px; right: -8px;" onclick="openGreenPopover(4, event)">4</div>
             <div class="section-title">Use pipelines for enhanced generation</div>
-            <p class="helper-text-sm">Sets how SnapGPT uses existing pipelines as examples for Retrieval Augmented Generation (RAG): selected automatically (Auto), selected manually by users (Manual), or turned off (Disable). This sets the environment default — users can choose a more restrictive option in their personal settings.</p>
+            <p class="helper-text-sm">Sets the environment default for how SnapGPT uses existing pipelines as examples for Retrieval Augmented Generation (RAG). Users can choose a more restrictive option in SnapGPT settings.</p>
+            <ul class="helper-text-sm-list">
+              <li>SnapGPT selects the pipelines automatically (<strong>Auto</strong>)</li>
+              <li>Users select the pipelines (<strong>Manual</strong>)</li>
+              <li>SnapGPT doesn't use pipelines (<strong>Disable</strong>)</li>
+            </ul>
             <div class="field-label">Mode <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Auto: SnapGPT selects existing pipelines as examples automatically. Manual: users choose which pipelines to use. Disable: SnapGPT doesn't reference existing pipelines as examples.</span></span></div>
             <div class="select-trigger">
               <span>Auto</span>

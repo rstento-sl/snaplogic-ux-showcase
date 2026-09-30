@@ -599,9 +599,9 @@
             <div class="section-title">Use pipelines for enhanced generation</div>
             <p class="helper-text-sm">Sets the environment default for how SnapGPT uses existing pipelines as examples for Retrieval Augmented Generation (RAG). Users can choose a more restrictive option in SnapGPT settings.</p>
             <ul class="helper-text-sm-list">
-              <li>SnapGPT selects the pipelines automatically (<strong>Auto</strong>)</li>
-              <li>Users select the pipelines (<strong>Manual</strong>)</li>
-              <li>SnapGPT doesn't use pipelines (<strong>Disable</strong>)</li>
+              <li><strong>Auto:</strong> SnapGPT selects the pipelines automatically</li>
+              <li><strong>Manual:</strong> Users select the pipelines</li>
+              <li><strong>Disable:</strong> SnapGPT doesn't use pipelines</li>
             </ul>
             <div class="field-label">Mode <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Auto: SnapGPT selects existing pipelines as examples automatically. Manual: users choose which pipelines to use. Disable: SnapGPT doesn't reference existing pipelines as examples.</span></span></div>
             <div class="select-trigger">
@@ -642,12 +642,9 @@
     <button class="close-btn" onclick="closeInAppHelpPopover()">×</button>
   </div>
   <div class="popover-body">
-    <div class="popover-problem">These toggles sound similar but each controls a different kind of data SnapGPT can access. A short in-app tutorial could walk through the real distinctions better than four separately-worded toggles.</div>
+    <div class="popover-problem">These toggles sound similar but each controls a different kind of data SnapGPT can access, and the Mode setting adds another layer on top. A short in-app tutorial could walk through what each toggle and mode actually does, so users have a clearer idea of which to choose.</div>
     <div class="inapp-ua-label">PROPOSED CONTENT</div>
-    <ul class="inapp-ua-steps">
-      <li>Use schemas when generating SQL queries and Use preview data schema, together — one controls access to table/column structure, the other to actual field names and data types from preview.</li>
-      <li>Describe pipeline and Use preview data for contextual metadata, together — one sends the pipeline file itself (no credentials) for documentation, the other surfaces business and PII context from preview data automatically.</li>
-    </ul>
+    <div class="inapp-ua-steps">TBD</div>
   </div>
 </div>
 

@@ -553,7 +553,7 @@
           <div class="toggle-switch" id="prop-master-toggle" onclick="propToggleMaster()"><div class="knob"></div></div>
           <div>
             <div class="toggle-label">Enable SnapGPT</div>
-            <div class="toggle-desc">Controls user access to SnapGPT for everyone.</div>
+            <div class="toggle-desc">Controls whether SnapGPT is available to all users.</div>
           </div>
         </div>
 
@@ -570,7 +570,7 @@
             <div class="toggle-switch"><div class="knob"></div></div>
             <div>
               <div class="toggle-label">Use preview data schema</div>
-              <div class="toggle-desc">Preview data schemas give SnapGPT access to field names and data types.</div>
+              <div class="toggle-desc">Preview data schema gives SnapGPT access to field names and data types.</div>
             </div>
           </div>
 
@@ -587,7 +587,7 @@
             <div class="toggle-switch"><div class="knob"></div></div>
             <div>
               <div class="toggle-label">Use preview data for contextual metadata</div>
-              <div class="toggle-desc">Provides insights into key fields, business and validation rules, and Personally Identifiable Information (PII).</div>
+              <div class="toggle-desc">Provides insights into key fields, business rules, validation rules, and Personally Identifiable Information (PII).</div>
             </div>
           </div>
 
@@ -603,7 +603,7 @@
               <li><strong>Manual:</strong> Users select the pipelines</li>
               <li><strong>Disable:</strong> SnapGPT doesn't use pipelines</li>
             </ul>
-            <div class="field-label">Mode <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Auto: SnapGPT selects existing pipelines as examples automatically. Manual: users choose which pipelines to use. Disable: SnapGPT doesn't reference existing pipelines as examples.</span></span></div>
+            <div class="field-label">Mode <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Auto: SnapGPT selects the pipelines automatically. Manual: Users select the pipelines. Disable: SnapGPT doesn't use pipelines.</span></span></div>
             <div class="select-trigger">
               <span>Auto</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -667,14 +667,14 @@ const annotations = [
   {
     title: "Toggle copy switches voice mid-list",
     problem: "Four toggles say “When disabled,” this one says “When enabled.”",
-    fix: "Rewrite to explain the benefit: “Provides insights into key fields, business and validation rules, and Personally Identifiable Information (PII).”",
+    fix: "Rewrite to explain the benefit: “Provides insights into key fields, business rules, validation rules, and Personally Identifiable Information (PII).”",
     block: "block-inconsistent",
     propBlock: "prop-block-inconsistent"
   },
   {
     title: "Dropdown has no explanatory copy",
     problem: "No helper text explains what this setting controls, and it's not grouped with the toggles above.",
-    fix: "Add a helper line and move the control into the same grouped section as the toggles. A tooltip could also provide this information.",
+    fix: "Add a helper line and move the control into the same grouped section as the toggles. Whether this explanation lives on screen or in a tooltip, use the same wording either way.",
     block: "block-dropdown",
     propBlock: "prop-block-dropdown"
   }

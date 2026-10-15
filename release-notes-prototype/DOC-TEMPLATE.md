@@ -57,9 +57,8 @@ the number of those eight months it appeared in:]*
 
 - Admin Manager (7)
 - AgentCreator (7)
-- API Management 3.0 (7)
+- API Management (8) — covers both Classic APIM and APIM 3.0
 - AutoSync (3)
-- Classic API Management (1)
 - Designer (6)
 - Documentation Enhancements (3)
 - Git Integration (6)
@@ -72,6 +71,7 @@ the number of those eight months it appeared in:]*
 - SnapGPT (6)
 - Snaplexes (4)
 - Snaps (8)
+- The SnapLogic MCP Server (4)
 
 *[These recurring sections are Heading 1 too, but they are not products and do
 not take the categories. Keep them in this order, after the products:]*
@@ -80,9 +80,16 @@ not take the categories. Keep them in this order, after the products:]*
 - Snaps: Patch Updates (6 of 8 months)
 - Recommended Snaplex Version (3 of 8 months)
 
-*[Names that have drifted, so pick one and stay with it: **API Management 3.0**
-not *API Management*; **MCP Server** not *MCP* or *The SnapLogic MCP Server*;
-**Documentation Enhancements** not *Documentation Updates*. Check the product
+*[**API Management** is one section covering both Classic APIM and APIM 3.0.
+Say which one an entry applies to in the entry itself rather than splitting the
+section. Past release notes used *API Management 3.0*, *Classic API Management
+(APIM)* and *Classic APIM* as separate Heading 1s; they are one section now.]*
+
+*[**MCP Server** and **The SnapLogic MCP Server** are two different products,
+not two spellings of one. Keep them as separate sections. *MCP* on its own has
+also been used as a Heading 1 — don't, because it doesn't say which.]*
+
+*[**Documentation Enhancements**, not *Documentation Updates*. Check the product
 list against the current month before you start — products come and go, and the
 script does not police product names, only categories.]*
 

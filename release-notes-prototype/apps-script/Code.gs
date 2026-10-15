@@ -175,6 +175,11 @@ function parseDoc_() {
   function target() {
     if (inHighlights) return model.highlights;
     if (category) return category.blocks;
+    // Entries directly under a Heading 1, before any Heading 2. Sections like
+    // "In this Release" and "Recommended Snaplex Version" are written this way
+    // on purpose: they are prose, not a list of changes, so they take no
+    // categories. They publish as a lead paragraph under the section title.
+    if (area) return area.lead;
     return null;
   }
 
@@ -220,7 +225,7 @@ function parseDoc_() {
           inHighlights = true; area = null; category = null;
         } else {
           inHighlights = false;
-          area = { name: text, categories: [] };
+          area = { name: text, lead: [], categories: [] };
           model.areas.push(area);
           category = null;
         }
@@ -424,11 +429,14 @@ function textHtml_(text) {
 function validate_(m) {
   var problems = [];
 
-  if (!m.release) problems.push('No "Release:" line before the first heading.');
-  if (!m.date) problems.push('No "Date:" line before the first heading.');
+  if (!m.release) problems.push('No "Release:" line before the first heading, ' +
+    'or the line is there but empty. Type the release name after the colon.');
+  if (!m.date) problems.push('No "Date:" line before the first heading, ' +
+    'or the line is there but empty. Type the release date after the colon.');
   else if (!/^\d{4}-\d{2}-\d{2}$/.test(m.date))
     problems.push('Date must be YYYY-MM-DD. Found: "' + m.date + '".');
-  if (!m.slug) problems.push('No "Slug:" line before the first heading.');
+  if (!m.slug) problems.push('No "Slug:" line before the first heading, ' +
+    'or the line is there but empty. Type the URL segment after the colon.');
   else if (!/^[a-z0-9-]+$/.test(m.slug))
     problems.push('Slug must be lowercase letters, digits and hyphens. Found: "' + m.slug + '".');
 
@@ -439,8 +447,9 @@ function validate_(m) {
     problems.push('No product areas. Each area is a Heading 1, with categories as Heading 2.');
 
   m.areas.forEach(function (a) {
-    if (!a.categories.length)
-      problems.push('"' + a.name + '" has no categories. Add a Heading 2 such as New Features.');
+    if (!a.categories.length && !a.lead.length)
+      problems.push('"' + a.name + '" is empty. Give it a category as a Heading 2, ' +
+        'or write the section directly under the title, or delete it.');
     a.categories.forEach(function (c) {
       if (CATEGORIES.indexOf(c.name) === -1)
         problems.push('"' + a.name + ' > ' + c.name + '" is not a known category. Use one of: ' +
@@ -531,6 +540,7 @@ function renderPage_(m) {
   m.areas.forEach(function (a) {
     h.push('<section id="' + slug_(a.name) + '" class="rn-area">');
     h.push('<h2 class="title sectiontitle">' + esc_(a.name) + '</h2>');
+    renderBlocks_(h, a.lead);
     a.categories.forEach(function (c) {
       h.push('<h3 class="title">' + esc_(c.name) + '</h3>');
       renderBlocks_(h, c.blocks);

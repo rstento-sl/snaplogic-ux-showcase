@@ -51,22 +51,40 @@ with nothing in it.
 
 - *[...]*
 
-*[Then the same block for each remaining product:]*
+*[Then the same block for each remaining product. This list is every product
+that appeared in the January–October 2026 release notes, alphabetically, with
+the number of those eight months it appeared in:]*
 
-- API Management
-- AutoSync
-- Designer
-- Documentation Enhancements
-- Git Integration
-- MCP Server
-- Monitor
-- Public APIs
-- SnapGPT
-- Snaplexes
-- Snaps
+- Admin Manager (7)
+- AgentCreator (7)
+- API Management 3.0 (7)
+- AutoSync (3)
+- Classic API Management (1)
+- Designer (6)
+- Documentation Enhancements (3)
+- Git Integration (6)
+- MCP Server (5)
+- Monitor (8)
+- Pipelines and Tasks (3)
+- Project Manager (1)
+- Public APIs (7)
+- SnapCode (3)
+- SnapGPT (6)
+- Snaplexes (4)
+- Snaps (8)
 
-*[Check this list against the current month before you start — products come
-and go. The script does not police product names, only categories.]*
+*[These recurring sections are Heading 1 too, but they are not products and do
+not take the categories. Keep them in this order, after the products:]*
+
+- Platform: Patch Updates (7 of 8 months)
+- Snaps: Patch Updates (6 of 8 months)
+- Recommended Snaplex Version (3 of 8 months)
+
+*[Names that have drifted, so pick one and stay with it: **API Management 3.0**
+not *API Management*; **MCP Server** not *MCP* or *The SnapLogic MCP Server*;
+**Documentation Enhancements** not *Documentation Updates*. Check the product
+list against the current month before you start — products come and go, and the
+script does not police product names, only categories.]*
 
 ---
 
@@ -85,10 +103,21 @@ They publish in that order under each product. **Behavior changes** is used
 rarely — include it only when something behaves differently than it did before
 and that is not a fix.
 
-Sentence case throughout: *New features*, not *New Features*. The current
-Confluence page mixes **New Features**, **Features**, **New**, **Enhancement**
-and **Enhancements** for what are really two categories; this is the fix for
-that.
+Sentence case throughout: *New features*, not *New Features*.
+
+This is the fix for a real drift. Across the January–October 2026 release
+notes, the category headings were written as:
+
+- Enhancements 51 times, Enhancement 3 times
+- Fixed Issues 29 times, Fixed issues 3 times
+- Known Issues 19 times, Known issues once, plus Known Issues and
+  Limitations, and Known Limitation
+- Features 10 times, New 6 times, New Features 5 times, New features once —
+  four spellings of one category
+- Behavior change twice, Behavior changes once, UI and Behavior Changes twice
+
+Fifteen spellings for five categories. The script rejecting anything off the
+list is what stops that recurring.
 
 ## Rules the script enforces
 

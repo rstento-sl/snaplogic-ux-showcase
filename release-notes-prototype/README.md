@@ -94,8 +94,10 @@ it — this prototype is a decent argument for why that Worker exists.
 
 **GitHub Pages, not the CDN.** Hence the rebuild delay.
 
-**No image handling.** The script requires alt text but does not yet extract
-embedded images. A document with images publishes without them.
+**Images commit to this repo.** Each one is named for a hash of its bytes and
+stored in `images/`, so the same screenshot used twice is stored once and
+republishing an unchanged image uploads nothing. In production they would go to
+the same store as the pages rather than into a git repo.
 
 ## The sample content is invented
 

@@ -155,11 +155,26 @@ It blocks publication, naming what to fix, when:
 - A product has no categories, or a category has no entries
 - A category name is not in the list above
 - An image has no alt text
+- A table sits somewhere with no category to hold it
+- A heading is Heading 3 or deeper — only Heading 1 and Heading 2 publish
 - Text sits outside any category — usually a bullet that lost its heading
 - A comment thread is unresolved, or a suggestion is still pending
 
 That last one is the point of the whole exercise: a published release note
 cannot have review feedback still open against it.
+
+## What publishes
+
+- **Bullets and numbered lists.** A numbered list in the doc publishes as a
+  numbered list.
+- **Tables.** The first row becomes the header. They are styled like every
+  other table on the docs site.
+- **Images.** Pasted into the doc, they publish with it. Each one is stored
+  under a hash of its contents, so the same screenshot used twice is stored
+  once and republishing an unchanged image uploads nothing. Alt text is
+  required.
+- **Bold, italics, links and monospace**, inline, wherever they appear —
+  including inside a table cell.
 
 ## What it does not enforce
 

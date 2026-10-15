@@ -144,3 +144,16 @@ nav.toc .rn-nav .rn-nav-title:first-child { margin-top: 0; }
 .rn-table th.entry,
 .rn-table td.entry { text-align: left; vertical-align: top; padding: 8px 12px; border: 1px solid #e3e6ea; }
 .rn-table thead th.entry { background: #f5f7fa; font-weight: 600; }
+
+/* Images from Google Docs ------------------------------------------------
+   Docs gives a width in points, which the transform carries through as a
+   width attribute so the layout does not jump while images load. The cap
+   keeps a wide screenshot inside the content column on a narrow window. */
+
+.body.conbody img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #e3e6ea;
+  border-radius: 4px;
+  margin: 8px 0;
+}

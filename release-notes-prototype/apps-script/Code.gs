@@ -116,6 +116,9 @@ function menuPublish() {
     if (!go) return;
   }
 
+  // Images first, so the page never references a file that is not there yet.
+  var uploaded = publishImages_(s, model);
+
   var html = renderPage_(model);
   var pagePath = s.basePath + '/releases/' + model.slug + '.html';
   putFile_(s, pagePath, html, 'Publish ' + model.release + ' release notes');
@@ -128,7 +131,12 @@ function menuPublish() {
     '/' + s.basePath + '/releases/' + model.slug + '.html';
 
   tell_('Published',
-    model.release + ' is committed.\n\n' + url +
+    model.release + ' is committed.' +
+    (model.images.length
+      ? '\n' + model.images.length + ' image' + (model.images.length === 1 ? '' : 's') +
+        ', ' + uploaded + ' newly uploaded.'
+      : '') +
+    '\n\n' + url +
     '\n\nGitHub Pages usually takes under a minute to rebuild.');
 }
 
@@ -200,8 +208,6 @@ function parseDoc_() {
     if (type === DocumentApp.ElementType.PARAGRAPH ||
         type === DocumentApp.ElementType.LIST_ITEM) {
 
-      collectImages_(el, model, place());
-
       var text = el.getText().trim();
       var heading = (type === DocumentApp.ElementType.PARAGRAPH)
         ? el.asParagraph().getHeading()
@@ -241,7 +247,7 @@ function parseDoc_() {
         continue;
       }
 
-      var html = inlineHtml_(el);
+      var html = inlineHtml_(el, model, place());
       var ordered = false;
       if (type === DocumentApp.ElementType.LIST_ITEM) {
         var glyph = el.asListItem().getGlyphType();
@@ -297,8 +303,7 @@ function readTable_(table, model) {
         var t = child.getType();
         if (t === DocumentApp.ElementType.PARAGRAPH ||
             t === DocumentApp.ElementType.LIST_ITEM) {
-          collectImages_(child, model, 'a table cell');
-          var h = inlineHtml_(child);
+          var h = inlineHtml_(child, model, 'a table cell');
           if (h) parts.push(h);
         }
       }
@@ -309,20 +314,73 @@ function readTable_(table, model) {
   return { kind: 'table', rows: rows };
 }
 
-/** Collects images, with where they are, and flags any without alt text. */
-function collectImages_(el, model, where) {
+/**
+ * Renders a paragraph's children in order: text runs with their formatting,
+ * and inline images as <img> pointing at a file we commit alongside the page.
+ *
+ * Walking children rather than just the text is what lets an image keep its
+ * place in the sentence it sits in.
+ */
+function inlineHtml_(el, model, where) {
+  var out = '';
   for (var i = 0; i < el.getNumChildren(); i++) {
     var child = el.getChild(i);
-    if (child.getType() === DocumentApp.ElementType.INLINE_IMAGE) {
-      var img = child.asInlineImage();
-      model.images.push({ alt: img.getAltDescription() || '', where: where || '' });
+    var type = child.getType();
+
+    if (type === DocumentApp.ElementType.TEXT) {
+      out += textHtml_(child.asText());
+      continue;
+    }
+
+    if (type === DocumentApp.ElementType.INLINE_IMAGE) {
+      out += imageHtml_(child.asInlineImage(), model, where);
+      continue;
+    }
+
+    if (type === DocumentApp.ElementType.FOOTNOTE ||
+        type === DocumentApp.ElementType.INLINE_DRAWING ||
+        type === DocumentApp.ElementType.EQUATION) {
+      if (model) {
+        model.unsupported.push('A ' + String(type).toLowerCase().replace(/_/g, ' ') +
+          ' sits in ' + (where || 'the document') + '. The transform cannot publish it.');
+      }
     }
   }
+  return out;
 }
 
-/** Renders a paragraph's text runs, preserving bold, italic, code and links. */
-function inlineHtml_(el) {
-  var text = el.editAsText();
+/**
+ * Registers an image for publication and returns the <img> that references it.
+ *
+ * The filename is a hash of the bytes, so the same screenshot used twice is
+ * stored once, and republishing an unchanged image costs nothing.
+ */
+function imageHtml_(img, model, where) {
+  var blob = img.getBlob();
+  var bytes = blob.getBytes();
+  var digest = Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, bytes);
+  var hash = digest.map(function (b) {
+    return ('0' + (b & 0xff).toString(16)).slice(-2);
+  }).join('').slice(0, 16);
+
+  var ext = ({ 'image/png': 'png', 'image/jpeg': 'jpg', 'image/jpg': 'jpg',
+               'image/gif': 'gif', 'image/webp': 'webp'
+             })[blob.getContentType()] || 'png';
+  var name = hash + '.' + ext;
+  var alt = img.getAltDescription() || '';
+
+  if (model) {
+    var seen = model.images.some(function (x) { return x.name === name; });
+    if (!seen) model.images.push({ name: name, blob: blob, alt: alt, where: where || '' });
+  }
+
+  var w = img.getWidth();
+  return '<img src="../images/' + name + '" alt="' + esc_(alt) + '"' +
+         (w ? ' width="' + Math.round(w) + '"' : '') + ' loading="lazy">';
+}
+
+/** Renders one text run, preserving bold, italic, code and links. */
+function textHtml_(text) {
   var raw = text.getText();
   if (!raw) return '';
   var out = '', run = '', attrs = null;
@@ -388,17 +446,10 @@ function validate_(m) {
     });
   });
 
-  // Images are counted but not published yet, so say so plainly rather than
-  // letting a page go out silently missing its screenshots.
-  if (m.images.length) {
-    problems.push(m.images.length + ' image' + (m.images.length === 1 ? '' : 's') +
-      ' in this document. The prototype does not publish images yet, so they ' +
-      'would be missing from the page. Remove them, or publish without them ' +
-      'knowingly.');
-  }
-  var noAlt = m.images.filter(function (i) { return !i.alt; }).length;
-  if (noAlt) problems.push(noAlt + ' of those image' + (noAlt === 1 ? ' has' : 's have') +
-    ' no alt text either. Right-click the image > Alt text.');
+  m.images.filter(function (i) { return !i.alt; }).forEach(function (i) {
+    problems.push('An image in ' + (i.where || 'the document') +
+      ' has no alt text. Right-click the image > Alt text.');
+  });
 
   m.unsupported.forEach(function (u) { problems.push(u); });
 
@@ -502,6 +553,23 @@ function renderPage_(m) {
   h.push('<script src="../assets/chrome.js"><\/script>');
   h.push('</body></html>');
   return h.join('\n');
+}
+
+/**
+ * Commits any image the repo does not already have, and returns how many were
+ * new. Filenames are content hashes, so an unchanged image is skipped: the
+ * cost of republishing a page with twelve screenshots is twelve cheap checks,
+ * not twelve uploads.
+ */
+function publishImages_(s, model) {
+  var uploaded = 0;
+  model.images.forEach(function (img) {
+    var path = s.basePath + '/images/' + img.name;
+    if (getFileMeta_(s, path)) return; // same bytes, same name — already there
+    putBinary_(s, path, img.blob, 'Add release note image ' + img.name);
+    uploaded++;
+  });
+  return uploaded;
 }
 
 /**
@@ -614,6 +682,26 @@ function putFile_(s, path, content, message) {
     throw new Error('GitHub write failed (' + code + '): ' + res.getContentText().slice(0, 300));
   }
   throw new Error('GitHub write failed after 3 attempts — someone else may be publishing.');
+}
+
+/** Commits a binary blob. Images are write-once, so no SHA dance is needed. */
+function putBinary_(s, path, blob, message) {
+  var res = UrlFetchApp.fetch(api_(s, path), {
+    method: 'put',
+    headers: headers_(s),
+    contentType: 'application/json',
+    payload: JSON.stringify({
+      message: message,
+      content: Utilities.base64Encode(blob.getBytes()),
+      branch: s.branch
+    }),
+    muteHttpExceptions: true
+  });
+  var code = res.getResponseCode();
+  if (code >= 300 && code !== 422) {
+    throw new Error('Image upload failed (' + code + '): ' +
+      res.getContentText().slice(0, 200));
+  }
 }
 
 /* -------------------------------------------------------------------- utils */

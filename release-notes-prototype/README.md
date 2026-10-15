@@ -10,6 +10,35 @@ Confluence process. It is deliberately not the production design — see
 - Index: <https://rstento-sl.github.io/snaplogic-ux-showcase/release-notes-prototype/>
 - Sample page: <https://rstento-sl.github.io/snaplogic-ux-showcase/release-notes-prototype/releases/sample-release.html>
 
+## How it works, end to end
+
+**Create.** A writer opens the month's Google Doc — one doc per release, shared
+with writers and reviewers only. It starts as a skeleton carrying every product
+and every category already styled, so nobody formats headings. The job is
+deleting what has nothing in it and writing what does.
+
+**Review.** Reviewers comment in the Doc, the way they already do. Nothing is
+copied anywhere and there is no second version drifting out of sync, because
+the Doc is the only source. A writer answers each comment and resolves it.
+
+**Check.** Any writer can validate at any time. The script reads the Doc and
+reports what would stop it publishing — a category spelled four different ways,
+an image with no alt text, a bullet that lost its heading, a comment still
+open. Nothing is written anywhere, so it is free to run as often as you like.
+
+**Publish.** One menu click. The release note appears on the site in the site's
+own styling, the index updates itself, and the home page picks up the new
+highlights. Any writer can do it — no ticket, no admin, no build.
+
+**Correct.** Fix the Doc and publish again. The page is replaced in place, at
+the same URL. That is the point of the whole thing: there is one copy to edit,
+so the public page cannot drift from the source, and a correction takes a
+minute instead of a round trip.
+
+The one hard rule: it refuses to publish while any comment or suggestion is
+unresolved. A published release note cannot have open review feedback against
+it.
+
 ## What's here
 
 ```

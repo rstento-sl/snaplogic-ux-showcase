@@ -1,23 +1,70 @@
 {
-  "generated": "2026-10-15T00:00:00.000Z",
+  "generated": "2026-10-15T19:27:16.894Z",
   "latest": {
-    "release": "Sample Release",
-    "date": "2026-09-30",
-    "slug": "sample-release",
-    "url": "releases/sample-release.html",
+    "release": "October 2026 Release Notes",
+    "date": "2026-10-15",
+    "slug": "2026-oct",
+    "url": "releases/2026-oct.html",
     "highlights": [
-      "Invented content. This page exists so the prototype has something to show before anyone connects the script.",
-      "Everything below was produced by the same template the Apps Script uses, so the layout is what a real publish looks like.",
-      "Highlights run the full width of the content column rather than sitting in a narrow box, so a long highlight stays readable without wrapping every few words."
+      "A highlight, written for someone deciding whether to read on.",
+      "Something really interesting for APIM 3.0 customers"
     ],
     "areas": [
+      "In this Release",
+      "Recommended Snaplex Version",
       "Admin Manager",
+      "AgentCreator",
+      "API Management",
+      "AutoSync",
+      "Designer",
+      "Documentation Enhancements",
+      "Git Integration",
+      "MCP Server",
       "Monitor",
-      "Snaps"
+      "Pipelines and Tasks",
+      "Project Manager",
+      "Public APIs",
+      "SnapCode",
+      "SnapGPT",
+      "Snaplexes",
+      "Snaps",
+      "The SnapLogic MCP Server"
     ],
-    "published": "2026-10-15T00:00:00.000Z"
+    "published": "2026-10-15T19:27:16.876Z"
   },
   "releases": [
+    {
+      "release": "October 2026 Release Notes",
+      "date": "2026-10-15",
+      "slug": "2026-oct",
+      "url": "releases/2026-oct.html",
+      "highlights": [
+        "A highlight, written for someone deciding whether to read on.",
+        "Something really interesting for APIM 3.0 customers"
+      ],
+      "areas": [
+        "In this Release",
+        "Recommended Snaplex Version",
+        "Admin Manager",
+        "AgentCreator",
+        "API Management",
+        "AutoSync",
+        "Designer",
+        "Documentation Enhancements",
+        "Git Integration",
+        "MCP Server",
+        "Monitor",
+        "Pipelines and Tasks",
+        "Project Manager",
+        "Public APIs",
+        "SnapCode",
+        "SnapGPT",
+        "Snaplexes",
+        "Snaps",
+        "The SnapLogic MCP Server"
+      ],
+      "published": "2026-10-15T19:27:16.876Z"
+    },
     {
       "release": "Sample Release",
       "date": "2026-09-30",

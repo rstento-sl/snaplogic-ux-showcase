@@ -19,7 +19,16 @@ styles on paste, so the structure arrives intact and nobody has to apply styles 
 Then delete every section and category with nothing in it, and replace the placeholder
 bullets. The patch-update sections are not here — those get added after the release. Deleting is the job — this page is deliberately longer than any real release note.</div>
 <div id="skeleton">
-<p>Release: </p><p>Date: </p><p>Slug: </p>
+<p class="hint">Fill in the three lines below, keeping them as Normal text rather than headings.
+The script reads them before it looks at anything else and refuses to publish if one is
+missing. Everything italic here is instructions — it never publishes, so leave it or delete
+it, whichever you prefer. Type your answer after the colon.</p>
+<p class="hint">Release — the month and year as readers should see it, like October 2026. Becomes the page title.</p>
+<p>Release: </p>
+<p class="hint">Date — the release date as YYYY-MM-DD, like 2026-10-30. Prints under the title, and sorts the index so the newest release is found by date rather than by publish order.</p>
+<p>Date: </p>
+<p class="hint">Slug — lowercase letters, digits and hyphens, like october-2026. Becomes the URL. Republishing with the same slug replaces that release; changing it creates a second page and orphans the first, so don't change it after the first publish.</p>
+<p>Slug: </p>
 <h1>Highlights</h1>
 <ul><li>A highlight, written for someone deciding whether to read on.</li></ul>
 <h1>In this Release</h1>

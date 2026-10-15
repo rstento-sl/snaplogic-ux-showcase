@@ -266,6 +266,10 @@ function parseDoc_() {
         model[meta[1].toLowerCase()] = meta[2].trim();
         continue;
       }
+      // Text before the first heading that is not one of the three metadata
+      // lines is instruction text from the template. It is dropped on purpose:
+      // the skeleton explains each field above the field itself, and a writer
+      // who leaves those notes in place should still be able to publish.
       if (area) { model.strays.push(text); }
       continue;
     }

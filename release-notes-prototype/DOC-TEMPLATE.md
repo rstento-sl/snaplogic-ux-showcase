@@ -18,14 +18,26 @@ never invents a heading and the order is the same every month.
 
 ---
 
+*[Normal text, before the first heading. The skeleton carries an italic note
+above each of these three fields explaining what to type. Those notes never
+publish — text before the first heading that isn't one of the three fields is
+dropped — so a writer who leaves them in place can still publish.]*
+
+*[Release — the month and year as readers should see it. Becomes the page
+title.]*
+
 Release: October 2026
+
+*[Date — YYYY-MM-DD. Prints under the title, and sorts the index so the newest
+release is found by date rather than by publish order.]*
 
 Date: 2026-10-30
 
-Slug: october-2026
+*[Slug — lowercase letters, digits and hyphens. Becomes the URL. Republishing
+with the same slug replaces that release; changing it creates a second page and
+orphans the first, so don't change it after the first publish.]*
 
-*[Normal text, before the first heading. The script reads these three for the
-page title, the release-date check, and the URL.]*
+Slug: october-2026
 
 **Highlights** *[Heading 1 — this exact word]*
 

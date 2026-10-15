@@ -150,21 +150,58 @@ function parseDoc_() {
   var body = DocumentApp.getActiveDocument().getBody();
   var model = {
     release: '', date: '', slug: '',
-    highlights: [], areas: [], images: [], strays: []
+    highlights: [], areas: [], images: [], strays: [], unsupported: []
   };
 
   var area = null, category = null, inHighlights = false;
+
+  /** Where we are, for error messages. */
+  function place() {
+    if (inHighlights) return 'Highlights';
+    if (area && category) return area.name + ' > ' + category.name;
+    if (area) return area.name;
+    return 'before the first heading';
+  }
+
+  /** The block list currently being appended to, or null. */
+  function target() {
+    if (inHighlights) return model.highlights;
+    if (category) return category.blocks;
+    return null;
+  }
+
+  /** Appends a list item, starting a new list block when the kind changes. */
+  function pushItem(list, html, ordered) {
+    var last = list[list.length - 1];
+    if (!last || last.kind !== 'list' || last.ordered !== ordered) {
+      last = { kind: 'list', ordered: ordered, items: [] };
+      list.push(last);
+    }
+    last.items.push(html);
+  }
 
   for (var i = 0; i < body.getNumChildren(); i++) {
     var el = body.getChild(i);
     var type = el.getType();
 
+    // ---------------------------------------------------------------- tables
+    if (type === DocumentApp.ElementType.TABLE) {
+      var list = target();
+      if (!list) {
+        model.unsupported.push('A table sits ' + place() + ', where there is no ' +
+          'category to put it in.');
+        continue;
+      }
+      list.push(readTable_(el.asTable(), model));
+      continue;
+    }
+
+    // ------------------------------------------------- paragraphs and bullets
     if (type === DocumentApp.ElementType.PARAGRAPH ||
         type === DocumentApp.ElementType.LIST_ITEM) {
 
-      collectImages_(el, model);
+      collectImages_(el, model, place());
 
-      var para = el.asParagraph ? el.asParagraph() : el;
       var text = el.getText().trim();
       var heading = (type === DocumentApp.ElementType.PARAGRAPH)
         ? el.asParagraph().getHeading()
@@ -187,16 +224,36 @@ function parseDoc_() {
       if (heading === DocumentApp.ParagraphHeading.HEADING2) {
         inHighlights = false;
         if (!area) { model.strays.push(text); continue; }
-        category = { name: text, entries: [] };
+        category = { name: text, blocks: [] };
         area.categories.push(category);
         continue;
       }
 
-      // Body text.
-      var item = { text: text, html: inlineHtml_(el) };
+      // Heading 3 and deeper have no place in the structure. Say so rather
+      // than letting them fall through and publish as ordinary bullets.
+      if (heading === DocumentApp.ParagraphHeading.HEADING3 ||
+          heading === DocumentApp.ParagraphHeading.HEADING4 ||
+          heading === DocumentApp.ParagraphHeading.HEADING5 ||
+          heading === DocumentApp.ParagraphHeading.HEADING6) {
+        model.unsupported.push('"' + text.slice(0, 50) + '" (' + place() +
+          ') is a Heading 3 or deeper. Only Heading 1 for products and ' +
+          'Heading 2 for categories are published.');
+        continue;
+      }
 
-      if (inHighlights) { model.highlights.push(item); continue; }
-      if (category) { category.entries.push(item); continue; }
+      var html = inlineHtml_(el);
+      var ordered = false;
+      if (type === DocumentApp.ElementType.LIST_ITEM) {
+        var glyph = el.asListItem().getGlyphType();
+        ordered = glyph === DocumentApp.GlyphType.NUMBER ||
+                  glyph === DocumentApp.GlyphType.LATIN_UPPER ||
+                  glyph === DocumentApp.GlyphType.LATIN_LOWER ||
+                  glyph === DocumentApp.GlyphType.ROMAN_UPPER ||
+                  glyph === DocumentApp.GlyphType.ROMAN_LOWER;
+      }
+
+      var here = target();
+      if (here) { pushItem(here, html, ordered); continue; }
 
       var meta = text.match(/^(Release|Date|Slug)\s*:\s*(.+)$/i);
       if (meta && !area) {
@@ -204,18 +261,61 @@ function parseDoc_() {
         continue;
       }
       if (area) { model.strays.push(text); }
+      continue;
     }
+
+    // ----------------------------------------------------------- everything else
+    // Anything the transform cannot render is reported, never dropped quietly.
+    // A page that refuses to publish is recoverable; one that publishes with a
+    // table missing is found by a customer.
+    if (type === DocumentApp.ElementType.HORIZONTAL_RULE ||
+        type === DocumentApp.ElementType.PAGE_BREAK ||
+        type === DocumentApp.ElementType.TABLE_OF_CONTENTS ||
+        type === DocumentApp.ElementType.UNSUPPORTED) {
+      continue; // decorative or generated — safe to skip
+    }
+    model.unsupported.push('A ' + String(type).toLowerCase().replace(/_/g, ' ') +
+      ' sits ' + place() + '. The transform cannot publish it.');
   }
   return model;
 }
 
-/** Collects images and flags any without alt text. */
-function collectImages_(el, model) {
+/**
+ * Reads a Google Docs table into a block. The first row is treated as the
+ * header, which is the convention in the release notes we looked at.
+ */
+function readTable_(table, model) {
+  var rows = [];
+  for (var r = 0; r < table.getNumRows(); r++) {
+    var row = table.getRow(r);
+    var cells = [];
+    for (var c = 0; c < row.getNumCells(); c++) {
+      var cell = row.getCell(c);
+      var parts = [];
+      for (var k = 0; k < cell.getNumChildren(); k++) {
+        var child = cell.getChild(k);
+        var t = child.getType();
+        if (t === DocumentApp.ElementType.PARAGRAPH ||
+            t === DocumentApp.ElementType.LIST_ITEM) {
+          collectImages_(child, model, 'a table cell');
+          var h = inlineHtml_(child);
+          if (h) parts.push(h);
+        }
+      }
+      cells.push(parts.join('<br>'));
+    }
+    rows.push(cells);
+  }
+  return { kind: 'table', rows: rows };
+}
+
+/** Collects images, with where they are, and flags any without alt text. */
+function collectImages_(el, model, where) {
   for (var i = 0; i < el.getNumChildren(); i++) {
     var child = el.getChild(i);
     if (child.getType() === DocumentApp.ElementType.INLINE_IMAGE) {
       var img = child.asInlineImage();
-      model.images.push({ alt: img.getAltDescription() || '' });
+      model.images.push({ alt: img.getAltDescription() || '', where: where || '' });
     }
   }
 }
@@ -283,14 +383,24 @@ function validate_(m) {
       if (CATEGORIES.indexOf(c.name) === -1)
         problems.push('"' + a.name + ' > ' + c.name + '" is not a known category. Use one of: ' +
           CATEGORIES.join(', ') + '.');
-      if (!c.entries.length)
+      if (!c.blocks.length)
         problems.push('"' + a.name + ' > ' + c.name + '" has no entries.');
     });
   });
 
+  // Images are counted but not published yet, so say so plainly rather than
+  // letting a page go out silently missing its screenshots.
+  if (m.images.length) {
+    problems.push(m.images.length + ' image' + (m.images.length === 1 ? '' : 's') +
+      ' in this document. The prototype does not publish images yet, so they ' +
+      'would be missing from the page. Remove them, or publish without them ' +
+      'knowingly.');
+  }
   var noAlt = m.images.filter(function (i) { return !i.alt; }).length;
-  if (noAlt) problems.push(noAlt + ' image' + (noAlt === 1 ? ' has' : 's have') +
-    ' no alt text. Right-click the image > Alt text.');
+  if (noAlt) problems.push(noAlt + ' of those image' + (noAlt === 1 ? ' has' : 's have') +
+    ' no alt text either. Right-click the image > Alt text.');
+
+  m.unsupported.forEach(function (u) { problems.push(u); });
 
   m.strays.forEach(function (s) {
     problems.push('Text outside any category: "' + s.slice(0, 60) + '".');
@@ -359,17 +469,16 @@ function renderPage_(m) {
   h.push('<div class="body conbody">');
 
   h.push('<section id="highlights" class="rn-highlights">' +
-         '<h2 class="title sectiontitle">Highlights</h2><ul>');
-  m.highlights.forEach(function (x) { h.push('<li>' + x.html + '</li>'); });
-  h.push('</ul></section>');
+         '<h2 class="title sectiontitle">Highlights</h2>');
+  renderBlocks_(h, m.highlights);
+  h.push('</section>');
 
   m.areas.forEach(function (a) {
     h.push('<section id="' + slug_(a.name) + '" class="rn-area">');
     h.push('<h2 class="title sectiontitle">' + esc_(a.name) + '</h2>');
     a.categories.forEach(function (c) {
-      h.push('<h3 class="title">' + esc_(c.name) + '</h3><ul>');
-      c.entries.forEach(function (e) { h.push('<li>' + e.html + '</li>'); });
-      h.push('</ul>');
+      h.push('<h3 class="title">' + esc_(c.name) + '</h3>');
+      renderBlocks_(h, c.blocks);
     });
     h.push('</section>');
   });
@@ -395,6 +504,38 @@ function renderPage_(m) {
   return h.join('\n');
 }
 
+/**
+ * Renders a category's blocks in document order, so a table between two
+ * bullets stays between them.
+ */
+function renderBlocks_(h, blocks) {
+  blocks.forEach(function (b) {
+    if (b.kind === 'list') {
+      var tag = b.ordered ? 'ol' : 'ul';
+      h.push('<' + tag + '>');
+      b.items.forEach(function (html) { h.push('<li>' + html + '</li>'); });
+      h.push('</' + tag + '>');
+      return;
+    }
+    if (b.kind === 'table') {
+      if (!b.rows.length) return;
+      // The theme styles .table / .thead / .tbody, so release note tables look
+      // like every other table on the docs site.
+      h.push('<table class="table rn-table"><thead class="thead"><tr>');
+      b.rows[0].forEach(function (cell) {
+        h.push('<th class="entry">' + cell + '</th>');
+      });
+      h.push('</tr></thead><tbody class="tbody">');
+      b.rows.slice(1).forEach(function (row) {
+        h.push('<tr>');
+        row.forEach(function (cell) { h.push('<td class="entry">' + cell + '</td>'); });
+        h.push('</tr>');
+      });
+      h.push('</tbody></table>');
+    }
+  });
+}
+
 /* -------------------------------------------------------------------- index */
 
 function updateIndex_(s, m) {
@@ -404,7 +545,7 @@ function updateIndex_(s, m) {
     date: m.date,
     slug: m.slug,
     url: 'releases/' + m.slug + '.html',
-    highlights: m.highlights.map(function (x) { return x.text; }),
+    highlights: highlightText_(m),
     areas: m.areas.map(function (a) { return a.name; }),
     published: new Date().toISOString()
   };
@@ -477,10 +618,28 @@ function putFile_(s, path, content, message) {
 
 /* -------------------------------------------------------------------- utils */
 
+/** Highlights as plain strings, for releases.json and the index page. */
+function highlightText_(m) {
+  var out = [];
+  m.highlights.forEach(function (b) {
+    if (b.kind !== 'list') return;
+    b.items.forEach(function (html) {
+      out.push(html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&')
+                   .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+                   .replace(/&quot;/g, '"').trim());
+    });
+  });
+  return out;
+}
+
 function countEntries_(m) {
   var n = 0;
   m.areas.forEach(function (a) {
-    a.categories.forEach(function (c) { n += c.entries.length; });
+    a.categories.forEach(function (c) {
+      c.blocks.forEach(function (b) {
+        n += b.kind === 'list' ? b.items.length : 1;
+      });
+    });
   });
   return n;
 }

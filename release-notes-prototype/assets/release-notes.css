@@ -135,3 +135,12 @@ nav.toc .rn-nav .rn-nav-title:first-child { margin-top: 0; }
 @media screen and (max-width: 1200px) {
   .rn-onthispage { display: none; }
 }
+
+/* Tables from Google Docs -------------------------------------------------
+   The theme styles .table / .thead / .tbody, so a release note table matches
+   the rest of the docs site. These are the few bits it does not cover. */
+
+.rn-table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; }
+.rn-table th.entry,
+.rn-table td.entry { text-align: left; vertical-align: top; padding: 8px 12px; border: 1px solid #e3e6ea; }
+.rn-table thead th.entry { background: #f5f7fa; font-weight: 600; }

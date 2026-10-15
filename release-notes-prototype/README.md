@@ -1,7 +1,7 @@
 # Release notes prototype
 
 Writers edit a Google Doc and press **Publish**. A page appears on GitHub Pages,
-styled like docs.snaplogic.com, and the index page updates itself.
+styled with the dual-nav site's theme, and the index page updates itself.
 
 This is a prototype for the proposed replacement for the Confluence WIP → public
 Confluence process. It is deliberately not the production design — see
@@ -17,7 +17,7 @@ release-notes-prototype/
 ├── index.html              reads releases.json at load time — the homepage behaviour
 ├── releases.json           the index the script maintains
 ├── releases/               one published page per release
-├── assets/release-notes.css  layout only; type and colour come from the live site
+├── assets/release-notes.css  layout only; type and colour come from the dual-nav theme
 ├── apps-script/Code.gs     the script writers run
 ├── apps-script/appsscript.json  scopes and the Drive advanced service
 └── DOC-TEMPLATE.md         what to put in the Google Doc

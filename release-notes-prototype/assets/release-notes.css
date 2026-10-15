@@ -1,8 +1,9 @@
 /* Release notes prototype — layout only.
-   Typography, colour and links come from the live docs site stylesheets:
-   docs.snaplogic.com/theme/commonltr.css and /theme/sldocs.css
-   Those are loaded by URL rather than copied, so a theme change on the docs
-   site shows up here instead of drifting away from it. */
+   Typography, colour and links come from the dual-nav site's stylesheets:
+   rstento-sl.github.io/dual-nav-poc/theme/commonltr.css and /theme/sldocs.css
+   Those are loaded by URL rather than copied, so a change to that theme shows
+   up here instead of drifting away from it. The dual-nav site is the target
+   for release notes, so the current docs.snaplogic.com theme is not used. */
 
 :root {
   --rn-gutter: 16px;

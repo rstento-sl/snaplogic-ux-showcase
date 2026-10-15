@@ -28,9 +28,15 @@ var CATEGORIES = [
   'Documentation'
 ];
 
+/**
+ * The dual-nav site's stylesheets, loaded by URL rather than copied so the
+ * prototype tracks that theme instead of drifting from it. The dual-nav site
+ * is the target for release notes; the current docs.snaplogic.com theme is
+ * deliberately not used here.
+ */
 var CSS = [
-  'https://docs.snaplogic.com/theme/commonltr.css',
-  'https://docs.snaplogic.com/theme/sldocs.css'
+  'https://rstento-sl.github.io/dual-nav-poc/theme/commonltr.css',
+  'https://rstento-sl.github.io/dual-nav-poc/theme/sldocs.css'
 ];
 
 function onOpen() {

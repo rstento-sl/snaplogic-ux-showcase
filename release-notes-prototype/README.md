@@ -37,9 +37,15 @@ contents of `Code.gs` with this repo's `apps-script/Code.gs`. Then
 **Project Settings**, tick *Show "appsscript.json" manifest file*, and replace
 that file with this repo's copy.
 
-**3. Enable the Drive service.** In the Apps Script editor, **Services > +**,
-pick **Drive API**, version **v3**, identifier `Drive`. Without this the comment
-check cannot run, and the script will refuse to publish rather than skip it.
+**3. Check the Drive service is on.** The manifest you pasted in step 2 already
+enables it, so **Drive** should be listed under **Services** in the left
+sidebar — there is nothing to click. Without it the comment check cannot run,
+and the script refuses to publish rather than skip it.
+
+If Drive is missing, the manifest paste didn't take; fix that rather than using
+**Services > +**. (That dialog often fails to open when the browser is signed
+into more than one Google account.) To add it by hand instead: **Services > +**,
+**Drive API**, version **v3**, identifier `Drive`.
 
 **4. Make a GitHub token.** github.com → Settings → Developer settings →
 Personal access tokens → **Fine-grained tokens**. Scope it to

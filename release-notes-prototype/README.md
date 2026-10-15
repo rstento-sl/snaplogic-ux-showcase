@@ -101,3 +101,20 @@ embedded images. A document with images publishes without them.
 
 `releases/sample-release.html` is fiction. This repo is public, so no real
 release note — least of all an unreleased one — belongs in it.
+
+## The header and footer are a mock
+
+`assets/chrome-header.html` and `assets/chrome-footer.html` are a snapshot of
+the dual-nav POC's chrome, so release notes can be seen in context rather than
+as a bare content column.
+
+Nothing in them navigates. Every link was rewritten to `href="#"` and the
+scripts stripped — the search box, the product menus and the view switcher are
+all inert. A banner under the header says so, so nobody mistakes it for a
+working site.
+
+They load at runtime, like `releases.json`, so refreshing the chrome does not
+mean republishing every release note.
+
+To refresh them after the dual-nav theme changes, re-snapshot from
+<https://rstento-sl.github.io/dual-nav-poc/>.

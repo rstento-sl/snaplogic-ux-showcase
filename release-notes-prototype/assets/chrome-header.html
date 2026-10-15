@@ -1,0 +1,221 @@
+<header role="banner"><!-- Edited by Claude (AI assistant), 2026-08-27:
+     - Added the External MCP Tools, Data Lineage, and Observability
+       Integrations entries when those products were wired into nav
+       (the latter two split out of an unaddressable "Tool Integrations"
+       grouping, per user direction, each getting its own landing page).
+     - Added the Pattern Library and SnapLabs entries, and fixed the
+       Secrets Management entry (was missing its "cicd/" path prefix
+       entirely — a pre-existing broken link, not something this
+       session introduced). All three were registered in the product
+       nav but had never been given homepage cards or dropdown entries.
+     - Repointed the Pattern Library and SnapLabs entries from their old
+       "-about.html" topic pages to their new "-home.html" landing pages,
+       matching the pattern every other dropdown entry already used. --><div class="header">
+<div class="headertopsection">
+  <div class="mainbanner">
+    <!-- Hamburger for mobile -->
+    <i class="hamburgericon"><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/hamburger-icon.svg" alt="menu"></i>
+
+    <!-- Logo and Site Title -->
+    <a href="#" data-mock="1" tabindex="-1" class="header-logo-link">
+      <img class="noborder noexpand header-logo-img" src="https://d3132s9xzuu9s8.cloudfront.net/ux/sl-logo-indigo-icon.svg" alt="SnapLogic Logo">
+    </a>
+    <ph class="site-title site-title-compact"><a href="#" data-mock="1" tabindex="-1">SnapLogic Documentation</a></ph>
+
+    <!-- Search bar (right-aligned in top row) -->
+    <div class="search-container-compact desktop-nav">
+      <span onclick="showPopup()" class="search-icon-compact"><i><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/search-icon-white.svg" alt="search-icon"></i></span>
+      <input type="text" id="searchQuery" placeholder="Search docs" spellcheck="false" autocomplete="off" onfocus="showdropdown()">
+    </div>
+  </div>
+
+  <!-- Product Dropdown Menus (separate row) -->
+  <nav class="product-menu-header desktop-nav">
+    <!-- Home link (no dropdown) -->
+    <a href="#" data-mock="1" tabindex="-1" class="menu-home-link">Home</a>
+
+    <!-- Dropdown 1: AI Ecosystem -->
+    <div class="dropdown">
+      <button class="dropdown-toggle">
+        AI Ecosystem <span class="arrow">▾</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" data-mock="1" tabindex="-1">AgentCreator</a>
+        <a href="#" data-mock="1" tabindex="-1">External MCP Tools</a>
+        <a href="#" data-mock="1" tabindex="-1">MCP</a>
+        <a href="#" data-mock="1" tabindex="-1">MCP Server Tools</a>
+        <a href="#" data-mock="1" tabindex="-1">SnapCode</a>
+        <a href="#" data-mock="1" tabindex="-1">SnapGPT</a>
+      </div>
+    </div>
+
+    <!-- Dropdown 2: Integration Platform -->
+    <div class="dropdown">
+      <button class="dropdown-toggle">
+        Integration platform <span class="arrow">▾</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" data-mock="1" tabindex="-1">AutoSync</a>
+        <a href="#" data-mock="1" tabindex="-1">Designer</a>
+        <a href="#" data-mock="1" tabindex="-1">Git Integration</a>
+        <a href="#" data-mock="1" tabindex="-1">Project Manager</a>
+        <a href="#" data-mock="1" tabindex="-1">Pattern Library</a>
+        <a href="#" data-mock="1" tabindex="-1">Security</a>
+        <a href="#" data-mock="1" tabindex="-1">SnapLabs</a>
+        <a href="#" data-mock="1" tabindex="-1">Snaps</a>
+        <a href="#" data-mock="1" tabindex="-1">SnapGPT</a>
+      </div>
+    </div>
+
+    <!-- Dropdown 3: APIs.
+         Added by Claude (AI assistant), 2026-08-28, at Ruth Stento's direction: pulled
+         "API Management" and "Public APIs" out of Integration Platform into their own
+         menu, and added Classic APIM (already had a -home landing page, just wasn't
+         linked from the header yet). Labels match the ones already established on the
+         homepage feature card (src/index.dita: "APIM 3.0" / "Classic APIM"). -->
+    <div class="dropdown">
+      <button class="dropdown-toggle">
+        APIs <span class="arrow">▾</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" data-mock="1" tabindex="-1">APIM 3.0</a>
+        <a href="#" data-mock="1" tabindex="-1">Classic APIM</a>
+        <a href="#" data-mock="1" tabindex="-1">Public APIs</a>
+      </div>
+    </div>
+
+    <!-- Dropdown 4: Administration &amp; Governance -->
+    <div class="dropdown">
+      <button class="dropdown-toggle">
+        Administration <span class="arrow">▾</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" data-mock="1" tabindex="-1">Admin Manager</a>
+        <a href="#" data-mock="1" tabindex="-1">Cloud Connectivity</a>
+        <a href="#" data-mock="1" tabindex="-1">Migrate Environments</a>
+        <a href="#" data-mock="1" tabindex="-1">Secrets Management</a>
+        <a href="#" data-mock="1" tabindex="-1">Snaplexes</a>
+      </div>
+    </div>
+
+    <!-- Dropdown 5: Observability -->
+    <div class="dropdown">
+      <button class="dropdown-toggle">
+        Observability <span class="arrow">▾</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" data-mock="1" tabindex="-1">Data Lineage</a>
+        <a href="#" data-mock="1" tabindex="-1">Monitor</a>
+        <a href="#" data-mock="1" tabindex="-1">Observability (OTel)</a>
+      </div>
+    </div>
+
+    <!-- Tutorials and Examples dropdowns temporarily removed by
+         Claude (AI assistant), 2026-08-28, at Ruth Stento's direction: not enough
+         content in either section yet to justify a top-level menu slot. Left as a
+         comment, not deleted, so they're a one-step restore (delete this comment
+         wrapper) once there's enough tutorials/examples content to bring them back.
+
+    <div class="dropdown">
+      <button class="dropdown-toggle">
+        Tutorials <span class="arrow">▾</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" data-mock="1" tabindex="-1">Admin Manager</a>
+        <a href="#" data-mock="1" tabindex="-1">AutoSync</a>
+        <a href="#" data-mock="1" tabindex="-1">Designer</a>
+        <a href="#" data-mock="1" tabindex="-1">Monitor</a>
+        <a href="#" data-mock="1" tabindex="-1">SnapGPT</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dropdown-toggle">
+        Examples <span class="arrow">▾</span>
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" data-mock="1" tabindex="-1">Admin Manager</a>
+        <a href="#" data-mock="1" tabindex="-1">AutoSync</a>
+        <a href="#" data-mock="1" tabindex="-1">Designer</a>
+        <a href="#" data-mock="1" tabindex="-1">Monitor</a>
+        <a href="#" data-mock="1" tabindex="-1">SnapGPT</a>
+      </div>
+    </div>
+    -->
+  </nav>
+
+  <ul class="topmenu">
+    <!-- Original search for mobile -->
+     <li class="search-popup-hdr">
+                <div id="search-container">
+                    <span onclick="showPopup()" id="search-container-icon"><i><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/search-icon-white.svg" alt="search-icon"></i></span>
+                    <input type="text" id="searchQueryDesktop" placeholder="Search the documentation and community posts" spellcheck="false" autocomplete="off" onfocus="showdropdown()">
+                </div>
+            </li>
+  </ul>
+
+  <ul class="topmenusearch">
+  <li>
+                <div id="search-container-mobile">
+                    <span onclick="showPopup()"><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/search-icon-blue.svg" alt="search-icon"></span>
+                    <input type="text" id="searchQuerymobile" placeholder="Search the docs" spellcheck="false" autocomplete="off" onfocus="showdropdown()">
+                </div>
+            </li>
+      <li><span><i><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/search-icon-white.svg" alt="search-icon"></i></span></li>
+  </ul>
+</div>
+  <div id="search-popup">
+    <div class="search-main">
+      <div class="Search-filters">
+      <div>
+      <li><h1>Filter search results</h1><img class="noborder noexpand close-filters-button" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/Close Icon.svg" alt="Close Filters"></li>
+      <li class="filter-item"><input type="checkbox" value="All" name="Content" checked=""><p>All</p></li>
+      <li class="filter-item"><input type="checkbox" value="Documentation" name="Content">
+        <p>New Documentation Site</p>
+        <img src="https://d3132s9xzuu9s8.cloudfront.net/k/img/chevron-down-icon.svg" class="docfilterchevron noborder" alt="Toggle"></li>
+        <ul class="Doc-filters">
+          <li class="filter-item"><input type="checkbox" value="autosync" name="AutoSync"><p>AutoSync</p></li>
+          <li class="filter-item"><input type="checkbox" value="admin-manager" name="Admin Manager"><p>Admin Manager</p></li>
+          <li class="filter-item"><input type="checkbox" value="security" name="Security"><p>Security</p></li>
+          <li class="filter-item"><input type="checkbox" value="snaps" name="Snaps"><p>Snaps</p></li>
+          <li class="filter-item"><input type="checkbox" value="snaplexes" name="Snaplexes"><p>Snaplexes</p></li>
+          <li class="filter-item"><input type="checkbox" value="monitor" name="Monitor"><p>Monitor</p></li>
+          <li class="filter-item"><input type="checkbox" value="public-apis" name="Snaplogic Public APIs"><p>Snaplogic Public APIs</p></li>
+          <li class="filter-item"><input type="checkbox" value="git-integration" name="Git Integration"><p>Git Integration</p></li>
+          <li class="filter-item"><input type="checkbox" value="cicd/secrets-mgm" name="Secrets Management"><p>Secrets Management</p></li>
+          <li class="filter-item"><input type="checkbox" value="genai" name="GenAI App Builder"><p>AgentCreator</p></li>
+        </ul>
+        <li class="filter-item"><input type="checkbox" value="Confluence" name="Content">
+        <p>Legacy Site</p></li>
+        <ul class="legacy-filters-text">
+          <li>
+            <span><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/tool-tip-icon.svg" alt="icon"></span>
+            <span>No advanced filters available</span>
+          </li>
+        </ul>
+      </div>
+      </div>
+      <div class="search-page-main">
+        <div class="search-bar-advanced">
+           <div class="back-button">
+           <img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/arrow-narrow-left.svg" alt="backicon">
+           </div>
+          <div class="search-bar">
+          <div>
+          <span class="cleartext"><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/Close Icon.svg" alt="clearicon"></span>
+           <span class="advancedsearchicon"><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/search-icon-blue.svg" alt="search-icon"></span>
+            <input placeholder="Search the documentation and community posts" type="text" spellcheck="false" autocomplete="off" onfocus="showdropdown2()">
+            </div>
+            <div id="autosuggest-dropdown2"></div>
+          </div>
+          <div class="show-filters-button"><img class="noborder noexpand" src="https://d3132s9xzuu9s8.cloudfront.net/k/img/show-filters.svg" alt="clearicon"></div>
+          <div class="advance_search_button">Search</div>
+
+        </div>
+        <div class="results_count"></div>
+        <div id="searched-results"></div>
+         <div id="show-more" class="">Show more results</div>
+      </div>
+    </div>
+  </div>
+</div></header>

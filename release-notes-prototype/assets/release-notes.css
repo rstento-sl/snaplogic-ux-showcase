@@ -97,3 +97,22 @@ body {
 @media (max-width: 700px) {
   .rn-toc ul { columns: 1; }
 }
+
+/* Mock site chrome -------------------------------------------------------- */
+
+#site-header, #site-footer { display: block; }
+
+#site-header a[data-mock],
+#site-footer a[data-mock] { cursor: default; }
+
+.rn-mock-note {
+  background: #fff8e1;
+  border-bottom: 1px solid #f0e0a8;
+  color: #6b5600;
+  font-size: 0.8125rem;
+  padding: 6px var(--rn-gutter);
+  text-align: center;
+}
+
+/* The page column sits inside the mock chrome rather than filling the window */
+.rn-page { padding-top: 24px; }

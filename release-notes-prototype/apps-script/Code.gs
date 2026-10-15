@@ -329,7 +329,11 @@ function renderPage_(m) {
     h.push('<link rel="stylesheet" href="' + href + '">');
   });
   h.push('<link rel="stylesheet" href="../assets/release-notes.css">');
-  h.push('</head><body><main class="rn-page">');
+  h.push('</head><body>');
+  // Static mock of the dual-nav header and footer, injected at runtime so
+  // refreshing the chrome does not mean republishing every release note.
+  h.push('<div id="site-header"></div>');
+  h.push('<main class="rn-page">');
 
   h.push('<article class="nested0 topic concept">');
   h.push('<h1 class="title topictitle1">' + esc_(m.release) + ' Release Notes</h1>');
@@ -360,7 +364,10 @@ function renderPage_(m) {
   h.push('</div></article>');
   h.push('<footer class="rn-footer"><p>Published from Google Docs. ' +
          'Prototype — not the live documentation.</p></footer>');
-  h.push('</main></body></html>');
+  h.push('</main>');
+  h.push('<div id="site-footer"></div>');
+  h.push('<script src="../assets/chrome.js"><\/script>');
+  h.push('</body></html>');
   return h.join('\n');
 }
 

@@ -93,8 +93,11 @@ is how September, August and June published them:]*
 
 - In this Release (4 of 8 months)
 - Recommended Snaplex Version (3 of 8 months)
-- Platform: Patch Updates (7 of 8 months)
-- Snaps: Patch Updates (6 of 8 months)
+
+*[**Platform: Patch Updates** and **Snaps: Patch Updates** are deliberately not
+in the skeleton. They go in after the release, not when the notes are drafted,
+so add them then — as Heading 1, after Recommended Snaplex Version, Platform
+first.]*
 
 *[**API Management** is one section covering both Classic APIM and APIM 3.0.
 Say which one an entry applies to in the entry itself rather than splitting the

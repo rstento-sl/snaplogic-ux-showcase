@@ -150,6 +150,43 @@ async function auditPage(page, spec) {
       'main is ' + Math.round(box.main.width) + 'px wide');
   }
 
+  // 4b. On this page belongs in main's reserved right column, beside the
+  //     content — not in the left site-navigation column.
+  if (spec.path !== '') {
+    const rail = await page.evaluate(() => {
+      const a = document.querySelector('aside.rn-onthispage');
+      if (!a) return { present: false };
+      const art = document.querySelector('main > article');
+      const ar = a.getBoundingClientRect();
+      const br = art.getBoundingClientRect();
+      return {
+        present: true,
+        insideMain: a.parentElement === document.querySelector('main'),
+        rightOfArticle: ar.left >= br.right - 2,
+        visible: ar.width > 0
+      };
+    });
+    check(rail.present, 'on-this-page rail exists');
+    if (rail.present) {
+      check(rail.insideMain, 'on-this-page is inside <main>, not the site nav');
+      if (rail.visible) {
+        check(rail.rightOfArticle, 'on-this-page sits to the right of the content');
+      }
+    }
+
+    // Highlights must use the full content width rather than a narrow box.
+    const hl = await page.evaluate(() => {
+      const h = document.querySelector('.rn-highlights');
+      const body = document.querySelector('main > article .body.conbody');
+      if (!h || !body) return null;
+      return { h: h.getBoundingClientRect().width, body: body.getBoundingClientRect().width };
+    });
+    if (hl) {
+      check(hl.h >= hl.body * 0.95, 'highlights stretch across the content column',
+        Math.round(hl.h) + 'px inside a ' + Math.round(hl.body) + 'px column');
+    }
+  }
+
   // 5. No sideways scroll.
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth

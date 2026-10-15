@@ -34,9 +34,15 @@
 .rn-highlights {
   background: #f5f7fa;
   border-left: 4px solid #0841b4;
-  padding: 16px 20px;
+  padding: 16px 24px;
   margin: 24px 0 32px;
+  /* Full content width — nothing here is constrained to a narrow column. */
+  width: auto;
+  max-width: none;
 }
+
+.rn-highlights ul { margin: 0; padding-left: 22px; }
+.rn-highlights li { margin-bottom: 6px; }
 
 .rn-highlights h2 { margin-top: 0; }
 
@@ -97,3 +103,35 @@ nav.toc .rn-nav .rn-nav-title:first-child { margin-top: 0; }
 .rn-latest h2 { margin-top: 0; }
 
 .rn-empty { color: #5a6572; }
+
+
+/* On this page -----------------------------------------------------------
+   main is a grid of 1fr plus a reserved 240px column. The rail goes in that
+   column, beside the content. The theme collapses the column to 0 under
+   1200px, so the rail hides with it rather than squashing the content. */
+
+.rn-onthispage {
+  padding: 28px 16px 28px 0;
+  font-size: 0.875rem;
+  align-self: start;
+  position: sticky;
+  top: 0;
+  max-height: calc(100vh - var(--hdr-height, 83px));
+  overflow-y: auto;
+}
+
+.rn-onthispage-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: #5a6572;
+  margin: 0 0 10px;
+}
+
+.rn-onthispage ul { list-style: none; margin: 0; padding: 0; }
+.rn-onthispage li { margin-bottom: 8px; line-height: 1.35; }
+
+@media screen and (max-width: 1200px) {
+  .rn-onthispage { display: none; }
+}

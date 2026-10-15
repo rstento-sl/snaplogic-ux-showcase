@@ -19,13 +19,19 @@
  *   BASE_PATH      e.g. release-notes-prototype
  */
 
+/**
+ * Category headings, sentence case, in the order they should appear under a
+ * product. Writers delete the ones with nothing in them rather than inventing
+ * new names — that is what keeps published pages consistent.
+ *
+ * Behavior changes is used rarely, but it is a real category.
+ */
 var CATEGORIES = [
-  'New Features',
+  'New features',
   'Enhancements',
-  'Fixed Issues',
-  'Known Issues',
-  'Deprecations',
-  'Documentation'
+  'Fixed issues',
+  'Known issues',
+  'Behavior changes'
 ];
 
 /**
@@ -338,14 +344,10 @@ function renderPage_(m) {
   // items rather than the wrapper divs.
   h.push('<div id="site-header"></div>');
 
+  // Left column (gmenu) is site navigation, so it carries the release list.
   h.push('<nav class="toc" role="navigation"><ul class="rn-nav">');
   h.push('<li class="rn-nav-title">Release notes</li>');
   h.push('<li><a href="../index.html">All releases</a></li>');
-  h.push('<li class="rn-nav-title">On this page</li>');
-  h.push('<li><a href="#highlights">Highlights</a></li>');
-  m.areas.forEach(function (a) {
-    h.push('<li><a href="#' + slug_(a.name) + '">' + esc_(a.name) + '</a></li>');
-  });
   h.push('</ul></nav>');
 
   h.push('<main role="main">');
@@ -375,6 +377,17 @@ function renderPage_(m) {
   h.push('<p class="rn-footer-note">Published from Google Docs. ' +
          'Prototype — not the live documentation.</p>');
   h.push('</div></article>');
+
+  // main is itself a grid, 1fr plus a reserved 240px column. On this page goes
+  // in that column, beside the content, not in the site navigation.
+  h.push('<aside class="rn-onthispage" aria-label="On this page">');
+  h.push('<p class="rn-onthispage-title">On this page</p><ul>');
+  h.push('<li><a href="#highlights">Highlights</a></li>');
+  m.areas.forEach(function (a) {
+    h.push('<li><a href="#' + slug_(a.name) + '">' + esc_(a.name) + '</a></li>');
+  });
+  h.push('</ul></aside>');
+
   h.push('</main>');
   h.push('<div id="site-footer"></div>');
   h.push('<script src="../assets/chrome.js"><\/script>');

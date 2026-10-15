@@ -8,9 +8,13 @@
     "highlights": [
       "Invented content. This page exists so the prototype has something to show before anyone connects the script.",
       "Everything below was produced by the same template the Apps Script uses, so the layout is what a real publish looks like.",
-      "Styling comes from docs.snaplogic.com at load time rather than being copied here."
+      "Highlights run the full width of the content column rather than sitting in a narrow box, so a long highlight stays readable without wrapping every few words."
     ],
-    "areas": ["Admin Manager", "Monitor", "Snaps"],
+    "areas": [
+      "Admin Manager",
+      "Monitor",
+      "Snaps"
+    ],
     "published": "2026-10-15T00:00:00.000Z"
   },
   "releases": [
@@ -22,9 +26,13 @@
       "highlights": [
         "Invented content. This page exists so the prototype has something to show before anyone connects the script.",
         "Everything below was produced by the same template the Apps Script uses, so the layout is what a real publish looks like.",
-        "Styling comes from docs.snaplogic.com at load time rather than being copied here."
+        "Highlights run the full width of the content column rather than sitting in a narrow box, so a long highlight stays readable without wrapping every few words."
       ],
-      "areas": ["Admin Manager", "Monitor", "Snaps"],
+      "areas": [
+        "Admin Manager",
+        "Monitor",
+        "Snaps"
+      ],
       "published": "2026-10-15T00:00:00.000Z"
     }
   ]

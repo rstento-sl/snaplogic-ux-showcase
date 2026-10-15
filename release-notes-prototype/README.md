@@ -25,9 +25,12 @@ release-notes-prototype/
 
 ## Setup, about ten minutes
 
-**1. Make the doc.** New Google Doc, paste in `DOC-TEMPLATE.md` and apply the
-heading styles it describes. Share it with the writers and reviewers who should
-have it.
+**1. Make the doc.** Open [template.html](template.html), select everything in
+the box, copy, and paste into a new Google Doc at docs.new. The heading styles
+survive the paste, so all 17 products and their categories arrive already
+styled. Check that a product name shows as Heading 1. Then share the doc with
+the writers and reviewers who should have it. `DOC-TEMPLATE.md` explains the
+structure and the rules; it is not the thing you paste.
 
 **2. Add the script.** In that doc: **Extensions > Apps Script**. Replace the
 contents of `Code.gs` with this repo's `apps-script/Code.gs`. Then

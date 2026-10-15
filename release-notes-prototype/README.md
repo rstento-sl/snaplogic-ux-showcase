@@ -118,3 +118,34 @@ mean republishing every release note.
 
 To refresh them after the dual-nav theme changes, re-snapshot from
 <https://rstento-sl.github.io/dual-nav-poc/>.
+
+## Checking the layout
+
+```
+node test/check-layout.js                          # the published prototype
+node test/check-layout.js http://localhost:8000    # a local copy
+```
+
+Run it after changing anything structural, and after re-snapshotting the chrome.
+
+It exists because of a real break. The dual-nav theme makes `<body>` a CSS grid
+with named areas:
+
+```
+grid-template-areas: 'gheader gheader gheader'
+                     'gmenu   gmain   gmain'
+                     'gfooter gfooter gfooter'
+```
+
+`header`, `nav.toc`, `main` and `footer` have to be grid items of `<body>` to
+land in them. The first version wrapped the injected header and footer in plain
+`<div>`s, so they lost their areas and were auto-placed — the footer rendered
+in the middle of the page, on top of the content.
+
+The fix is `display: contents` on the placeholders, which removes the wrapper
+from the box tree so the real `<header>` and `<footer>` become the grid items.
+The script checks that contract directly, plus the geometry it protects: header
+at the top, footer below the content, nav beside it, no sideways scroll, the
+chrome rendered with no live links, and the Acherus web font actually loading
+across origins — which would silently fall back if the theme ever moved to a
+host that sends no CORS headers.

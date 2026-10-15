@@ -9,30 +9,39 @@
 <link rel="stylesheet" href="assets/release-notes.css">
 </head>
 <body>
+
 <div id="site-header"></div>
-<main class="rn-page">
-  <article class="nested0 topic concept">
-    <h1 class="title topictitle1">Release Notes</h1>
-    <div class="body conbody">
 
-      <p>This page reads <code>releases.json</code> when you load it. Nothing here is
-        baked in at build time, which is the point: publishing a release note from
-        Google Docs changes this page without rebuilding anything.</p>
+<nav class="toc" role="navigation">
+  <ul class="rn-nav" id="nav-releases">
+    <li class="rn-nav-title">Release notes</li>
+  </ul>
+</nav>
 
-      <div id="latest" class="rn-latest">
-        <p class="rn-empty">Loading…</p>
-      </div>
+<main role="main">
+<article role="article">
+<p class="rn-mock-note">Header and footer are a static mock of the dual-nav site. Nothing in them navigates.</p>
+<h1 class="title topictitle1">Release Notes</h1>
+<div class="body conbody">
 
-      <h2 class="title sectiontitle">All releases</h2>
-      <ul id="releases" class="rn-release-list"></ul>
+  <p>This page reads <code>releases.json</code> when you load it. Nothing here is
+    baked in at build time, which is the point: publishing a release note from
+    Google Docs changes this page without rebuilding anything.</p>
 
-    </div>
-  </article>
-  <footer class="rn-footer">
-    <p>Prototype — not the live documentation. Styled with the dual-nav theme so it
-      tracks that site.</p>
-  </footer>
+  <div id="latest" class="rn-latest">
+    <p class="rn-empty">Loading…</p>
+  </div>
+
+  <h2 class="title sectiontitle">All releases</h2>
+  <ul id="releases" class="rn-release-list"></ul>
+
+  <p class="rn-footer-note">Prototype — not the live documentation. Styled with the
+    dual-nav theme so it tracks that site.</p>
+
+</div>
+</article>
 </main>
+
 <div id="site-footer"></div>
 <script src="assets/chrome.js"></script>
 
@@ -40,6 +49,7 @@
 (function () {
   var latestEl = document.getElementById('latest');
   var listEl = document.getElementById('releases');
+  var navEl = document.getElementById('nav-releases');
 
   fetch('releases.json?t=' + Date.now())
     .then(function (r) {
@@ -48,14 +58,16 @@
     })
     .then(render)
     .catch(function (err) {
-      latestEl.innerHTML = '<p class="rn-empty">No releases published yet. ' +
-        '<span title="' + String(err).replace(/"/g, '') + '">(' + err.message + ')</span></p>';
+      latestEl.innerHTML = '<p class="rn-empty">No releases published yet. (' +
+        esc(err.message) + ')</p>';
+      document.documentElement.setAttribute('data-releases', 'error');
     });
 
   function render(data) {
     var releases = data.releases || [];
     if (!releases.length) {
       latestEl.innerHTML = '<p class="rn-empty">No releases published yet.</p>';
+      document.documentElement.setAttribute('data-releases', '0');
       return;
     }
 
@@ -77,6 +89,13 @@
              (r.areas && r.areas.length ? ' · ' + esc(r.areas.join(', ')) : '') +
              '</div></li>';
     }).join('');
+
+    navEl.innerHTML = '<li class="rn-nav-title">Release notes</li>' +
+      releases.map(function (r) {
+        return '<li><a href="' + esc(r.url) + '">' + esc(r.release) + '</a></li>';
+      }).join('');
+
+    document.documentElement.setAttribute('data-releases', String(releases.length));
   }
 
   function esc(s) {

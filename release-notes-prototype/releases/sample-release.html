@@ -1,55 +1,85 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sample Release Release Notes</title>
 <link rel="stylesheet" href="https://rstento-sl.github.io/dual-nav-poc/theme/commonltr.css">
 <link rel="stylesheet" href="https://rstento-sl.github.io/dual-nav-poc/theme/sldocs.css">
 <link rel="stylesheet" href="../assets/release-notes.css">
-</head><body>
+</head>
+<body>
+
 <div id="site-header"></div>
-<main class="rn-page">
-<article class="nested0 topic concept">
+
+<nav class="toc" role="navigation">
+  <ul class="rn-nav">
+    <li class="rn-nav-title">Release notes</li>
+    <li><a href="../index.html">All releases</a></li>
+    <li class="rn-nav-title">On this page</li>
+    <li><a href="#highlights">Highlights</a></li>
+    <li><a href="#admin-manager">Admin Manager</a></li>
+    <li><a href="#monitor">Monitor</a></li>
+    <li><a href="#snaps">Snaps</a></li>
+  </ul>
+</nav>
+
+<main role="main">
+<article role="article">
+<p class="rn-mock-note">Header and footer are a static mock of the dual-nav site. Nothing in them navigates.</p>
 <h1 class="title topictitle1">Sample Release Release Notes</h1>
 <p class="rn-date">Released 2026-09-30</p>
 <div class="body conbody">
-<section class="rn-highlights"><h2 class="title sectiontitle">Highlights</h2><ul>
+
+<section id="highlights" class="rn-highlights">
+<h2 class="title sectiontitle">Highlights</h2>
+<ul>
 <li>Invented content. This page exists so the prototype has something to show before anyone connects the script.</li>
 <li>Everything below was produced by the same template the Apps Script uses, so the layout is what a real publish looks like.</li>
-<li>Styling comes from <code>docs.snaplogic.com</code> at load time rather than being copied here.</li>
-</ul></section>
-<nav class="rn-toc"><h2 class="title sectiontitle">On this page</h2><ul>
-<li><a href="#admin-manager">Admin Manager</a></li>
-<li><a href="#monitor">Monitor</a></li>
-<li><a href="#snaps">Snaps</a></li>
-</ul></nav>
+<li>Styling comes from the dual-nav theme at load time rather than being copied here.</li>
+</ul>
+</section>
+
 <section id="admin-manager" class="rn-area">
 <h2 class="title sectiontitle">Admin Manager</h2>
-<h3 class="title">New Features</h3><ul>
+<h3 class="title">New Features</h3>
+<ul>
 <li>A <strong>sample setting</strong> that does nothing, demonstrating that bold text survives the transform.</li>
 <li>A second entry containing <code>a_code_span</code> and <a href="https://docs.snaplogic.com/">a link</a>, both carried across from the document.</li>
 </ul>
-<h3 class="title">Fixed Issues</h3><ul>
+<h3 class="title">Fixed Issues</h3>
+<ul>
 <li>Fixed an imaginary problem where the sample page claimed to be real.</li>
 </ul>
 </section>
+
 <section id="monitor" class="rn-area">
 <h2 class="title sectiontitle">Monitor</h2>
-<h3 class="title">Enhancements</h3><ul>
+<h3 class="title">Enhancements</h3>
+<ul>
 <li>An enhancement that exists only to show a second product area rendering correctly.</li>
 </ul>
 </section>
+
 <section id="snaps" class="rn-area">
 <h2 class="title sectiontitle">Snaps</h2>
-<h3 class="title">Enhancements</h3><ul>
+<h3 class="title">Enhancements</h3>
+<ul>
 <li>Another placeholder entry, kept short so the page is quick to scan.</li>
 </ul>
-<h3 class="title">Known Issues</h3><ul>
+<h3 class="title">Known Issues</h3>
+<ul>
 <li>This release is fictional and cannot be installed.</li>
 </ul>
 </section>
-</div></article>
-<footer class="rn-footer"><p>Published from Google Docs. Prototype — not the live documentation.</p></footer>
+
+<p class="rn-footer-note">Published from Google Docs. Prototype — not the live documentation.</p>
+
+</div>
+</article>
 </main>
+
 <div id="site-footer"></div>
 <script src="../assets/chrome.js"></script>
-</body></html>
+</body>
+</html>

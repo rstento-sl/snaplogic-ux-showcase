@@ -1,118 +1,99 @@
-/* Release notes prototype — layout only.
-   Typography, colour and links come from the dual-nav site's stylesheets:
+/* Release notes prototype — additions to the dual-nav theme.
+   Typography, colour, and the whole page grid come from:
    rstento-sl.github.io/dual-nav-poc/theme/commonltr.css and /theme/sldocs.css
-   Those are loaded by URL rather than copied, so a change to that theme shows
-   up here instead of drifting away from it. The dual-nav site is the target
-   for release notes, so the current docs.snaplogic.com theme is not used. */
+   Loaded by URL rather than copied, so a change to that theme shows up here.
 
-:root {
-  --rn-gutter: 16px;
-  --rn-rule: #e3e6ea;
-  --rn-muted: #5a6572;
-  --rn-accent: #0b6efd;
-  --rn-surface: #f5f7fa;
-}
+   The theme makes <body> a grid with named areas, and header, nav.toc, main
+   and footer must be its DIRECT children to land in them. The chrome
+   placeholders below use display:contents so the fetched <header> and
+   <footer> become the grid items rather than the wrapper divs. */
 
-body {
-  margin: 0;
-  background: #fff;
-}
+#site-header,
+#site-footer { display: contents; }
 
-.rn-page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px var(--rn-gutter) 80px;
+#site-header a[data-mock],
+#site-footer a[data-mock] { cursor: default; }
+
+/* Content ---------------------------------------------------------------- */
+
+.rn-mock-note {
+  background: #fff8e1;
+  border: 1px solid #f0e0a8;
+  border-radius: 4px;
+  color: #6b5600;
+  font-size: 0.8125rem;
+  padding: 8px 12px;
+  margin: 0 0 20px;
 }
 
 .rn-date {
-  color: var(--rn-muted);
-  margin-top: -8px;
+  color: #5a6572;
+  margin-top: -6px;
 }
 
 .rn-highlights {
-  background: var(--rn-surface);
-  border-left: 4px solid var(--rn-accent);
+  background: #f5f7fa;
+  border-left: 4px solid #0841b4;
   padding: 16px 20px;
-  margin: 28px 0;
+  margin: 24px 0 32px;
 }
 
 .rn-highlights h2 { margin-top: 0; }
 
-.rn-toc {
-  border: 1px solid var(--rn-rule);
-  border-radius: 6px;
-  padding: 12px 20px;
-  margin: 0 0 32px;
-}
+.rn-area + .rn-area,
+.rn-area { border-top: 1px solid #e3e6ea; padding-top: 18px; margin-top: 26px; }
 
-.rn-toc h2 { margin: 4px 0 8px; font-size: 1rem; }
-.rn-toc ul { margin: 0; padding-left: 20px; columns: 2; }
+.rn-area h3 { margin-bottom: 4px; font-size: 1.05rem; }
 
-.rn-area {
-  border-top: 1px solid var(--rn-rule);
-  padding-top: 20px;
-  margin-top: 28px;
-}
-
-.rn-area h3 {
-  margin-bottom: 4px;
-  font-size: 1.05rem;
-}
-
-.rn-footer {
-  margin-top: 56px;
-  padding-top: 16px;
-  border-top: 1px solid var(--rn-rule);
-  color: var(--rn-muted);
+.rn-footer-note {
+  margin-top: 48px;
+  padding-top: 14px;
+  border-top: 1px solid #e3e6ea;
+  color: #5a6572;
   font-size: 0.875rem;
 }
 
-/* Index page */
+/* Left column — the theme's gmenu area ------------------------------------ */
+
+nav.toc .rn-nav {
+  list-style: none;
+  margin: 0;
+  padding: 20px 16px;
+}
+
+nav.toc .rn-nav li { margin-bottom: 8px; }
+
+nav.toc .rn-nav .rn-nav-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: #5a6572;
+  margin: 18px 0 8px;
+}
+
+nav.toc .rn-nav .rn-nav-title:first-child { margin-top: 0; }
+
+/* Index page -------------------------------------------------------------- */
 
 .rn-release-list { list-style: none; padding: 0; }
 
 .rn-release-list li {
-  border: 1px solid var(--rn-rule);
+  border: 1px solid #e3e6ea;
   border-radius: 6px;
   padding: 16px 20px;
   margin-bottom: 14px;
 }
 
-.rn-release-list .rn-when {
-  color: var(--rn-muted);
-  font-size: 0.875rem;
-}
+.rn-when { color: #5a6572; font-size: 0.875rem; }
 
 .rn-latest {
-  background: var(--rn-surface);
-  border-left: 4px solid var(--rn-accent);
+  background: #f5f7fa;
+  border-left: 4px solid #0841b4;
   padding: 20px;
   margin-bottom: 32px;
 }
 
 .rn-latest h2 { margin-top: 0; }
 
-.rn-empty { color: var(--rn-muted); }
-
-@media (max-width: 700px) {
-  .rn-toc ul { columns: 1; }
-}
-
-/* Mock site chrome -------------------------------------------------------- */
-
-#site-header, #site-footer { display: block; }
-
-#site-header a[data-mock],
-#site-footer a[data-mock] { cursor: default; }
-
-.rn-mock-note {
-  background: #fff8e1;
-  border-bottom: 1px solid #f0e0a8;
-  color: #6b5600;
-  font-size: 0.8125rem;
-  padding: 6px var(--rn-gutter);
-  text-align: center;
-}
-
-/* The page column sits inside the mock chrome rather than filling the window */
-.rn-page { padding-top: 24px; }
+.rn-empty { color: #5a6572; }

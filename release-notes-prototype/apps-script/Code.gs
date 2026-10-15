@@ -330,25 +330,36 @@ function renderPage_(m) {
   });
   h.push('<link rel="stylesheet" href="../assets/release-notes.css">');
   h.push('</head><body>');
-  // Static mock of the dual-nav header and footer, injected at runtime so
-  // refreshing the chrome does not mean republishing every release note.
+
+  // The dual-nav theme makes <body> a grid with named areas and assigns them
+  // to header, nav.toc, main and footer. Those four must be DIRECT children of
+  // body or they lose their grid area — the placeholders below are
+  // display:contents so the injected <header> and <footer> become the grid
+  // items rather than the wrapper divs.
   h.push('<div id="site-header"></div>');
-  h.push('<main class="rn-page">');
 
-  h.push('<article class="nested0 topic concept">');
-  h.push('<h1 class="title topictitle1">' + esc_(m.release) + ' Release Notes</h1>');
-  h.push('<p class="rn-date">Released ' + esc_(m.date) + '</p>');
-  h.push('<div class="body conbody">');
-
-  h.push('<section class="rn-highlights"><h2 class="title sectiontitle">Highlights</h2><ul>');
-  m.highlights.forEach(function (x) { h.push('<li>' + x.html + '</li>'); });
-  h.push('</ul></section>');
-
-  h.push('<nav class="rn-toc"><h2 class="title sectiontitle">On this page</h2><ul>');
+  h.push('<nav class="toc" role="navigation"><ul class="rn-nav">');
+  h.push('<li class="rn-nav-title">Release notes</li>');
+  h.push('<li><a href="../index.html">All releases</a></li>');
+  h.push('<li class="rn-nav-title">On this page</li>');
+  h.push('<li><a href="#highlights">Highlights</a></li>');
   m.areas.forEach(function (a) {
     h.push('<li><a href="#' + slug_(a.name) + '">' + esc_(a.name) + '</a></li>');
   });
   h.push('</ul></nav>');
+
+  h.push('<main role="main">');
+  h.push('<article role="article">');
+  h.push('<p class="rn-mock-note">Header and footer are a static mock of the ' +
+         'dual-nav site. Nothing in them navigates.</p>');
+  h.push('<h1 class="title topictitle1">' + esc_(m.release) + ' Release Notes</h1>');
+  h.push('<p class="rn-date">Released ' + esc_(m.date) + '</p>');
+  h.push('<div class="body conbody">');
+
+  h.push('<section id="highlights" class="rn-highlights">' +
+         '<h2 class="title sectiontitle">Highlights</h2><ul>');
+  m.highlights.forEach(function (x) { h.push('<li>' + x.html + '</li>'); });
+  h.push('</ul></section>');
 
   m.areas.forEach(function (a) {
     h.push('<section id="' + slug_(a.name) + '" class="rn-area">');
@@ -361,9 +372,9 @@ function renderPage_(m) {
     h.push('</section>');
   });
 
+  h.push('<p class="rn-footer-note">Published from Google Docs. ' +
+         'Prototype — not the live documentation.</p>');
   h.push('</div></article>');
-  h.push('<footer class="rn-footer"><p>Published from Google Docs. ' +
-         'Prototype — not the live documentation.</p></footer>');
   h.push('</main>');
   h.push('<div id="site-footer"></div>');
   h.push('<script src="../assets/chrome.js"><\/script>');

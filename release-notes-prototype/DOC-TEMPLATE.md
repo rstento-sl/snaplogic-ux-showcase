@@ -87,12 +87,14 @@ the number of those eight months it appeared in:]*
 - Snaps (8)
 - The SnapLogic MCP Server (4)
 
-*[These recurring sections are Heading 1 too, but they are not products and do
-not take the categories. Keep them in this order, after the products:]*
+*[These sections are Heading 1 too, but they are not products and take no
+categories. They go between Highlights and the products, in this order — which
+is how September, August and June published them:]*
 
+- In this Release (4 of 8 months)
+- Recommended Snaplex Version (3 of 8 months)
 - Platform: Patch Updates (7 of 8 months)
 - Snaps: Patch Updates (6 of 8 months)
-- Recommended Snaplex Version (3 of 8 months)
 
 *[**API Management** is one section covering both Classic APIM and APIM 3.0.
 Say which one an entry applies to in the entry itself rather than splitting the

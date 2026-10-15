@@ -1,7 +1,16 @@
 # The Google Doc template
 
-Paste this into a new Google Doc and apply the Google Docs heading styles shown
-in brackets. The brackets are instructions — delete them.
+**To build the doc, use [template.html](template.html) instead of this file.**
+Open it, select everything in the box, copy, and paste into a new Google Doc.
+Google Docs keeps Heading 1 and Heading 2 on paste, so the whole skeleton —
+every product, every category — arrives with its styles already applied, and
+nobody formats 85 headings by hand.
+
+Published copy:
+<https://rstento-sl.github.io/snaplogic-ux-showcase/release-notes-prototype/template.html>
+
+This file explains the structure and the rules. The skeleton is the thing you
+paste.
 
 The template carries **every product and every category**. Writers delete what
 has nothing in it rather than adding headings as they go, so a release note
@@ -51,7 +60,12 @@ with nothing in it.
 
 - *[...]*
 
-*[Then the same block for each remaining product. This list is every product
+**Behavior changes** *[rare — delete it most months]*
+
+- *[...]*
+
+*[The skeleton repeats all five categories under every product, so the job is
+deleting rather than typing. The list below is every product. This list is every product
 that appeared in the January–October 2026 release notes, alphabetically, with
 the number of those eight months it appeared in:]*
 

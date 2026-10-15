@@ -149,3 +149,13 @@ at the top, footer below the content, nav beside it, no sideways scroll, the
 chrome rendered with no live links, and the Acherus web font actually loading
 across origins — which would silently fall back if the theme ever moved to a
 host that sends no CORS headers.
+
+## Building the doc
+
+Open [template.html](template.html), select everything in the box, copy, and
+paste into a new Google Doc. Google Docs preserves Heading 1 and Heading 2 on
+paste, so all 17 products and their categories arrive already styled — no one
+applies 85 heading styles by hand.
+
+Then delete every product and category with nothing in it. The skeleton is
+deliberately longer than any real release note; deleting is the job.

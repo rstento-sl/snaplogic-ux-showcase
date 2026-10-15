@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Release Notes</title>
+<link rel="stylesheet" href="https://docs.snaplogic.com/theme/commonltr.css">
+<link rel="stylesheet" href="https://docs.snaplogic.com/theme/sldocs.css">
+<link rel="stylesheet" href="assets/release-notes.css">
+</head>
+<body>
+<main class="rn-page">
+  <article class="nested0 topic concept">
+    <h1 class="title topictitle1">Release Notes</h1>
+    <div class="body conbody">
+
+      <p>This page reads <code>releases.json</code> when you load it. Nothing here is
+        baked in at build time, which is the point: publishing a release note from
+        Google Docs changes this page without rebuilding anything.</p>
+
+      <div id="latest" class="rn-latest">
+        <p class="rn-empty">Loading…</p>
+      </div>
+
+      <h2 class="title sectiontitle">All releases</h2>
+      <ul id="releases" class="rn-release-list"></ul>
+
+    </div>
+  </article>
+  <footer class="rn-footer">
+    <p>Prototype — not the live documentation. Styling is pulled from
+      docs.snaplogic.com so it tracks the real site.</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var latestEl = document.getElementById('latest');
+  var listEl = document.getElementById('releases');
+
+  fetch('releases.json?t=' + Date.now())
+    .then(function (r) {
+      if (!r.ok) throw new Error('releases.json returned ' + r.status);
+      return r.json();
+    })
+    .then(render)
+    .catch(function (err) {
+      latestEl.innerHTML = '<p class="rn-empty">No releases published yet. ' +
+        '<span title="' + String(err).replace(/"/g, '') + '">(' + err.message + ')</span></p>';
+    });
+
+  function render(data) {
+    var releases = data.releases || [];
+    if (!releases.length) {
+      latestEl.innerHTML = '<p class="rn-empty">No releases published yet.</p>';
+      return;
+    }
+
+    var latest = data.latest || releases[0];
+    var html = '<h2 class="title sectiontitle">Latest: ' + esc(latest.release) + '</h2>';
+    html += '<p class="rn-when">Released ' + esc(latest.date) + '</p>';
+    if (latest.highlights && latest.highlights.length) {
+      html += '<ul>';
+      latest.highlights.forEach(function (h) { html += '<li>' + esc(h) + '</li>'; });
+      html += '</ul>';
+    }
+    html += '<p><a href="' + esc(latest.url) + '">Read the ' + esc(latest.release) +
+            ' release notes</a></p>';
+    latestEl.innerHTML = html;
+
+    listEl.innerHTML = releases.map(function (r) {
+      return '<li><a href="' + esc(r.url) + '">' + esc(r.release) + '</a>' +
+             '<div class="rn-when">' + esc(r.date) +
+             (r.areas && r.areas.length ? ' · ' + esc(r.areas.join(', ')) : '') +
+             '</div></li>';
+    }).join('');
+  }
+
+  function esc(s) {
+    return String(s === undefined || s === null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+})();
+</script>
+</body>
+</html>

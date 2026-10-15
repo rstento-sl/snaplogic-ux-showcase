@@ -1,0 +1,31 @@
+{
+  "generated": "2026-10-15T00:00:00.000Z",
+  "latest": {
+    "release": "Sample Release",
+    "date": "2026-09-30",
+    "slug": "sample-release",
+    "url": "releases/sample-release.html",
+    "highlights": [
+      "Invented content. This page exists so the prototype has something to show before anyone connects the script.",
+      "Everything below was produced by the same template the Apps Script uses, so the layout is what a real publish looks like.",
+      "Styling comes from docs.snaplogic.com at load time rather than being copied here."
+    ],
+    "areas": ["Admin Manager", "Monitor", "Snaps"],
+    "published": "2026-10-15T00:00:00.000Z"
+  },
+  "releases": [
+    {
+      "release": "Sample Release",
+      "date": "2026-09-30",
+      "slug": "sample-release",
+      "url": "releases/sample-release.html",
+      "highlights": [
+        "Invented content. This page exists so the prototype has something to show before anyone connects the script.",
+        "Everything below was produced by the same template the Apps Script uses, so the layout is what a real publish looks like.",
+        "Styling comes from docs.snaplogic.com at load time rather than being copied here."
+      ],
+      "areas": ["Admin Manager", "Monitor", "Snaps"],
+      "published": "2026-10-15T00:00:00.000Z"
+    }
+  ]
+}

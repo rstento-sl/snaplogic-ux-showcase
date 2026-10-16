@@ -133,8 +133,9 @@ links to it. This is what the DITA docs already do.
 1. Upload the video to YouTube. Unlisted is fine — it only has to be playable
    by someone with the link.
 2. Copy the link.
-3. In the doc, type a short description of the video on its own line —
-   "Publishing a standard", not a bare URL.
+3. In the doc, type a short description of the video — "Publishing a
+   standard", not a bare URL. A bullet among the other entries is fine, or a
+   plain line.
 4. Select that text and link it to the video.
 
 Publish renders a thumbnail with a play button. The description becomes the
@@ -148,8 +149,10 @@ stays an ordinary link to YouTube, which is the honest fallback.
 
 Three rules the script enforces:
 
-- **The link sits on its own line.** A video link inside a sentence stays a
-  link, because replacing it with a player would break the sentence.
+- **The link has the line to itself.** A video link inside a sentence stays a
+  link, because replacing it with a player would break the sentence. A bullet
+  whose whole content is a video link counts: the player takes that bullet's
+  place, so the list keeps its shape.
 - **The link needs text.** A pasted URL leaves the player with no caption, so
   Publish stops and asks for a description.
 - **The video has to exist.** The thumbnail download is also the check: a

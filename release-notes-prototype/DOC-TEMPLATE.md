@@ -185,16 +185,20 @@ links to it — the same thing the DITA docs do.
 
 1. Upload the video to YouTube. Unlisted is fine; it only has to play for
    someone with the link.
-2. Type a short description of the video on its own line, like *Publishing a
-   standard*.
+2. Type a short description of the video, like *Publishing a standard*. Make
+   it a bullet among the other entries, or a plain line — either publishes as
+   a player.
 3. Select that description and link it to the video.
 
 The description becomes the caption under the video and the name a screen
 reader announces for the play button, which is why step 2 is words rather than
-a pasted URL. Publish stops on a bare link, on a link inside a sentence — that
-one stays an ordinary link, because a player would break the sentence — and on
-a link to a video that does not play, which it finds by trying to fetch the
-thumbnail.
+a pasted URL. Publish stops on a bare link, and on a link to a video that does
+not play, which it finds by trying to fetch the thumbnail.
+
+The link needs the line to itself. One inside a sentence stays an ordinary
+link, because a player would break the sentence. A bullet counts as its own
+line: the player takes that bullet's place, so the list keeps its shape and the
+video stays where you put it.
 
 The published page does not contact YouTube until a reader clicks. The
 thumbnail is downloaded at publish time and stored with the other images, so

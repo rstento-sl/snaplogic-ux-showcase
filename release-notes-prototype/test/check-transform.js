@@ -987,6 +987,97 @@ section('link forms and start times');
     'a Drive link is not a video');
 }
 
+section('a video link on a bullet');
+{
+  // What a writer actually does: the video is one of the entries, so it gets
+  // typed as a bullet like every other entry. Before this it published as a
+  // plain link, with no sign anything was wrong.
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('SnapGPT Standards tab.')]),
+    item([run('Hello World Tutorial Part 1', { url: 'https://youtu.be/GmxBtPnwSe8?si=WEIaN4dpWd' })])
+  ], []);
+
+  const api = loadCode(doc, { GmxBtPnwSe8: { bytes: [5, 5, 5] } });
+  const model = api.parseDoc_();
+
+  check(model.videos.length === 1,
+    'it is recognised as a video, not left as a link',
+    'videos: ' + model.videos.length);
+
+  check(api.validate_(model).length === 0,
+    'the link text is its caption, so nothing blocks publishing',
+    api.validate_(model).join(' | '));
+
+  const items = model.areas.find((a) => a.name === 'Admin Manager')
+    .categories[0].blocks[0].items;
+
+  check(items.length === 2 && !!items[1].video,
+    'it stays the second bullet rather than breaking the list',
+    'items: ' + items.length);
+
+  const html = api.renderPage_(model);
+
+  check(/<li><figure class="rn-video">/.test(html),
+    'the player renders in that bullet\'s place',
+    (html.match(/<li><figure[\s\S]{0,80}/) || ['none'])[0]);
+
+  check(!/<a href="https:\/\/youtu\.be/.test(html),
+    'the bare link is gone, so there is no doubled control');
+
+  check(/<figcaption>Hello World Tutorial Part 1<\/figcaption>/.test(html),
+    'the bullet text became the caption');
+
+  check((html.match(/<ul[ >]/g) || []).length === (html.match(/<\/ul>/g) || []).length,
+    'the list tags still balance');
+}
+
+section('a video bullet carries a query string YouTube added');
+{
+  // Copying a link from YouTube's share button appends ?si=... — the id has to
+  // survive that, because it is what every writer will paste.
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('Watch the walkthrough', { url: 'https://youtu.be/GmxBtPnwSe8?si=WEIaN4dpWd-Dqtmr' })])
+  ], []);
+
+  const api = loadCode(doc, { GmxBtPnwSe8: { bytes: [6, 6, 6] } });
+  const model = api.parseDoc_();
+
+  check(model.videos.length === 1 && model.videos[0].id === 'GmxBtPnwSe8',
+    'the share-link tracking parameter does not break the id',
+    'videos: ' + JSON.stringify(model.videos.map((v) => v.id)));
+
+  check(!/data-start=/.test(api.renderPage_(model)),
+    'and is not mistaken for a start time');
+}
+
+section('a video bullet in Highlights keeps the index card readable');
+{
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    item([run('Watch the walkthrough', { url: 'https://youtu.be/GmxBtPnwSe8' })]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('You can now do the thing')])
+  ], []);
+
+  const api = loadCode(doc, { GmxBtPnwSe8: { bytes: [7, 7, 7] } });
+  const model = api.parseDoc_();
+  const text = api.highlightText_(model);
+
+  check(text.length === 2 && text[1] === 'Watch the walkthrough',
+    'the caption stands in for the video, rather than a blank line',
+    JSON.stringify(text));
+}
+
 section('a start time reaches the player');
 {
   const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=90';

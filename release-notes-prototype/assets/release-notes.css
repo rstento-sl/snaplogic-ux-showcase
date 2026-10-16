@@ -178,6 +178,10 @@ li > .rn-figure:last-child { margin-bottom: 10px; }
 
 .rn-video { margin: 12px 0 18px; }
 
+/* A bullet whose whole content is a video publishes as the player. The marker
+   beside it would be pointing at nothing, so it goes. */
+li:has(> .rn-video) { list-style: none; }
+
 .rn-yt {
   position: relative;
   width: 100%;

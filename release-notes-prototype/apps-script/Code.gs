@@ -266,24 +266,24 @@ function parseDoc_() {
         continue;
       }
 
-      // A paragraph that is nothing but a YouTube link publishes as a player.
-      // Docs cannot hold a video file, so a link is the only way a writer can
-      // put a video in the source.
-      if (type === DocumentApp.ElementType.PARAGRAPH) {
+      // A line that is nothing but a YouTube link publishes as a player. Docs
+      // cannot hold a video file, so a link is the only way a writer can put a
+      // video in the source. A bullet counts: a bullet whose whole content is
+      // a video link is a writer saying "this entry is a video", so the player
+      // takes that bullet's place rather than breaking the list around it.
+      var video = null;
+      if (type === DocumentApp.ElementType.PARAGRAPH ||
+          type === DocumentApp.ElementType.LIST_ITEM) {
         var only = soleLink_(el);
-        if (only) {
-          var video = youTubeBlock_(only.url, only.text, model, place());
-          if (video) {
-            var dest = target();
-            if (dest) { dest.push(video); continue; }
-            model.unsupported.push('A video sits ' + place() + ', where there ' +
-              'is no category to put it in.');
-            continue;
-          }
+        if (only) video = youTubeBlock_(only.url, only.text, model, place());
+        if (video && !target()) {
+          model.unsupported.push('A video sits ' + place() + ', where there ' +
+            'is no category to put it in.');
+          continue;
         }
       }
 
-      var html = inlineHtml_(el, model, place());
+      var html = video ? '' : inlineHtml_(el, model, place());
       var ordered = false;
       var level = 0;
       if (type === DocumentApp.ElementType.LIST_ITEM) {
@@ -299,9 +299,16 @@ function parseDoc_() {
 
       var here = target();
       if (here) {
-        // An image on its own line is not a bullet. Sending it through
-        // pushItem would wrap the screenshot in a stray <ul><li>.
-        if (!text && type === DocumentApp.ElementType.PARAGRAPH) {
+        if (video && type === DocumentApp.ElementType.LIST_ITEM) {
+          // The player stands in for the bullet's text, so the list keeps its
+          // shape and the video stays where the writer put it.
+          pushItem(here, '', ordered, level);
+          here[here.length - 1].items.slice(-1)[0].video = video;
+        } else if (video) {
+          here.push(video);
+        } else if (!text && type === DocumentApp.ElementType.PARAGRAPH) {
+          // An image on its own line is not a bullet. Sending it through
+          // pushItem would wrap the screenshot in a stray <ul><li>.
           pushFigure_(here, html);
         } else {
           pushItem(here, html, ordered, level);
@@ -947,6 +954,31 @@ function publishImages_(s, model) {
 
 
 /**
+ * Renders one video as a thumbnail that loads the player on click.
+ *
+ * The link is what loads it. Without JavaScript the thumbnail stays a link to
+ * YouTube, which is the honest fallback for an embedded video.
+ */
+function videoHtml_(b) {
+  var watch = 'https://www.youtube.com/watch?v=' + b.id +
+              (b.start ? '&t=' + b.start : '');
+  return '<figure class="rn-video">' +
+    '<div class="rn-yt" data-youtube="' + esc_(b.id) + '"' +
+    ' data-title="' + esc_(b.label || 'Video') + '"' +
+    (b.start ? ' data-start="' + b.start + '"' : '') + '>' +
+    '<a class="rn-yt-play" href="' + esc_(watch) + '">' +
+    '<img src="../images/' + b.thumb + '" alt="" width="480" height="360" ' +
+    'loading="lazy">' +
+    '<span class="rn-yt-badge" aria-hidden="true"></span>' +
+    '<span class="rn-yt-label">Play video' +
+    (b.label ? ': ' + esc_(b.label) : '') + '</span>' +
+    '</a>' +
+    '</div>' +
+    (b.label ? '<figcaption>' + esc_(b.label) + '</figcaption>' : '') +
+    '</figure>';
+}
+
+/**
  * Renders a category's blocks in document order, so a table between two
  * bullets stays between them.
  */
@@ -961,24 +993,7 @@ function renderBlocks_(h, blocks) {
       return;
     }
     if (b.kind === 'youtube') {
-      // The button is what loads the player. Without JavaScript it stays a
-      // link to YouTube, which is the honest fallback for an embedded video.
-      var watch = 'https://www.youtube.com/watch?v=' + b.id +
-                  (b.start ? '&t=' + b.start : '');
-      h.push('<figure class="rn-video">');
-      h.push('<div class="rn-yt" data-youtube="' + esc_(b.id) + '"' +
-             ' data-title="' + esc_(b.label || 'Video') + '"' +
-             (b.start ? ' data-start="' + b.start + '"' : '') + '>');
-      h.push('<a class="rn-yt-play" href="' + esc_(watch) + '">' +
-             '<img src="../images/' + b.thumb + '" alt="" width="480" height="360" ' +
-             'loading="lazy">' +
-             '<span class="rn-yt-badge" aria-hidden="true"></span>' +
-             '<span class="rn-yt-label">Play video' +
-             (b.label ? ': ' + esc_(b.label) : '') + '</span>' +
-             '</a>');
-      h.push('</div>');
-      if (b.label) h.push('<figcaption>' + esc_(b.label) + '</figcaption>');
-      h.push('</figure>');
+      h.push(videoHtml_(b));
       return;
     }
     if (b.kind === 'table') {
@@ -1030,7 +1045,7 @@ function renderList_(h, block) {
     if (liOpen[liOpen.length - 1]) h.push('</li>');
     // A screenshot under this bullet renders inside it, before any sub-bullets,
     // so it reads in the order the doc has it and takes the list's indent.
-    h.push('<li>' + it.html +
+    h.push('<li>' + (it.video ? videoHtml_(it.video) : it.html) +
            (it.figures || []).map(function (f) {
              return '<p class="rn-figure">' + f + '</p>';
            }).join(''));
@@ -1151,9 +1166,15 @@ function highlightText_(m) {
   m.highlights.forEach(function (b) {
     if (b.kind !== 'list') return;
     b.items.forEach(function (it) {
-      out.push(it.html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&')
-                   .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-                   .replace(/&quot;/g, '"').trim());
+      // A highlight that is a video has no text of its own, so the caption
+      // stands in for it rather than leaving a blank line on the index card.
+      var text = it.video
+        ? (it.video.label || '')
+        : it.html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&')
+              .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+              .replace(/&quot;/g, '"');
+      text = text.trim();
+      if (text) out.push(text);
     });
   });
   return out;

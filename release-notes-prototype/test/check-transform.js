@@ -83,7 +83,18 @@ function image(alt, bytes, width) {
   };
 }
 
-function para(children, heading) {
+/**
+ * A PNG header carrying a given pixel size — all imageSize_ reads. `salt`
+ * varies the bytes so two images of the same size still hash differently.
+ */
+function pngBytes(w, h, salt) {
+  const be = (n) => [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255];
+  return [137, 80, 78, 71, 13, 10, 26, 10]
+    .concat([0, 0, 0, 13], [73, 72, 68, 82], be(w), be(h),
+            [8, 6, 0, 0, 0, salt || 0]);
+}
+
+function para(children, heading, indentStart) {
   const kids = [].concat(children);
   return {
     getType: () => ElementType.PARAGRAPH,
@@ -91,7 +102,8 @@ function para(children, heading) {
     getNumChildren: () => kids.length,
     getChild: (i) => kids[i],
     asParagraph() { return this; },
-    getHeading: () => heading || ParagraphHeading.NORMAL
+    getHeading: () => heading || ParagraphHeading.NORMAL,
+    getIndentStart: () => indentStart || 0
   };
 }
 
@@ -250,10 +262,10 @@ section('an image on its own line');
 
   const area = model.areas.find((a) => a.name === 'Admin Manager');
   const blocks = area ? area.categories[0].blocks : [];
-  const figures = blocks.filter((b) => b.kind === 'figure');
+  const items = blocks[0] && blocks[0].kind === 'list' ? blocks[0].items : [];
 
-  check(figures.length === 1,
-    'it becomes a figure block, not a list item',
+  check(items.length === 1 && (items[0].figures || []).length === 1,
+    'it becomes a figure on the bullet above it, not a list item of its own',
     'blocks: ' + JSON.stringify(blocks.map((b) => b.kind)));
 
   const html = api.renderPage_(model);
@@ -276,6 +288,250 @@ section('an image on its own line');
     'alt text present, so validation does not complain');
 }
 
+section('an image under a bullet renders inside that bullet');
+{
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('Open the dialog.')]),
+    para([image('Step one', pngBytes(900, 500, 1))]),
+    item([run('Choose a node type.')]),
+    para([image('Step two', pngBytes(900, 500, 2))])
+  ]);
+
+  const api = loadCode(doc);
+  const model = api.parseDoc_();
+  const blocks = model.areas.find((a) => a.name === 'Admin Manager')
+    .categories[0].blocks;
+
+  check(blocks.length === 1 && blocks[0].kind === 'list',
+    'the images do not break the list into pieces',
+    'blocks: ' + JSON.stringify(blocks.map((b) => b.kind)));
+
+  const items = blocks[0].items || [];
+
+  check(items.length === 2,
+    'both bullets are still bullets',
+    'items: ' + items.length);
+
+  check(items[0] && (items[0].figures || []).length === 1,
+    'the first screenshot attaches to the first bullet',
+    JSON.stringify((items[0] || {}).figures));
+
+  check(items[1] && (items[1].figures || []).length === 1,
+    'and the second to the second');
+
+  const html = api.renderPage_(model);
+
+  check(/<li>Open the dialog\.<p class="rn-figure"><img [^>]*><\/p>\s*<\/li>/.test(html),
+    'the figure sits inside the <li>, so it takes the list indent',
+    (html.match(/<li>Open the dialog[\s\S]{0,160}/) || ['none'])[0]);
+
+  check(!/<\/ul>\s*<p class="rn-figure"/.test(html),
+    'and not after the list, back at the margin');
+
+  check((html.match(/<ul[ >]/g) || []).length === (html.match(/<\/ul>/g) || []).length,
+    'the list tags still balance',
+    (html.match(/<ul[ >]/g) || []).length + ' open, ' +
+      (html.match(/<\/ul>/g) || []).length + ' close');
+}
+
+section('an image under a nested bullet goes in the nested bullet');
+{
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('Open the dialog.')]),
+    item([run('Pick a node type.')], { level: 1 }),
+    para([image('The node list', pngBytes(900, 500, 3))])
+  ]);
+
+  const api = loadCode(doc);
+  const html = api.renderPage_(api.parseDoc_());
+
+  check(/<li>Pick a node type\.<p class="rn-figure">/.test(html),
+    'it lands in the deeper bullet, which carries the deeper indent',
+    (html.match(/<li>Pick a node type[\s\S]{0,140}/) || ['none'])[0]);
+
+  check(/<ul>\s*<li>Open the dialog\.\s*<ul>\s*<li>Pick a node type\./.test(html),
+    'the nesting that gives it that indent is intact',
+    (html.match(/<li>Open the dialog[\s\S]{0,120}/) || ['none'])[0]);
+}
+
+section('an image that follows no bullet stays a block');
+{
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    para([image('Straight under the heading', pngBytes(800, 600))]),
+    item([run('And then a bullet')])
+  ]);
+
+  const api = loadCode(doc);
+  const model = api.parseDoc_();
+  const blocks = model.areas.find((a) => a.name === 'Admin Manager')
+    .categories[0].blocks;
+
+  check(blocks[0] && blocks[0].kind === 'figure',
+    'it is a figure block of its own, at the margin',
+    'blocks: ' + JSON.stringify(blocks.map((b) => b.kind)));
+
+  check(!/<li><p class="rn-figure"/.test(api.renderPage_(model)),
+    'it is not forced into a bullet that does not exist');
+}
+
+section('an image with text beside it stays part of the bullet');
+{
+  // Only a paragraph holding nothing but an image becomes a figure. One with
+  // words in it is a sentence, so it keeps its link and its place in the list.
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('Open the dialog.')]),
+    para([
+      image('Step one', pngBytes(900, 500, 4)),
+      run(' see '),
+      run('Admin Manager', { url: '?tab=t.0#heading=h.abc123' })
+    ])
+  ]);
+
+  const api = loadCode(doc);
+  const model = api.parseDoc_();
+  const items = model.areas.find((a) => a.name === 'Admin Manager')
+    .categories[0].blocks[0].items;
+
+  check(items.length === 2 && !items[1].figures,
+    'it is a bullet, not a figure hung off the one above',
+    'items: ' + items.length);
+
+  check(model.deadLinks.length === 0,
+    'its doc-internal link still resolves',
+    model.deadLinks.join(' | '));
+
+  check(/<a href="#admin-manager">/.test(api.renderPage_(model)),
+    'and reaches the page as the published anchor');
+}
+
+section('an image publishes at its real pixel size');
+{
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('You can now do the thing')]),
+    // 1600x900 screenshot, dragged down to 300pt wide in the doc.
+    para([image('The new Snaplex dialog', pngBytes(1600, 900), 300)])
+  ]);
+
+  const api = loadCode(doc);
+  const html = api.renderPage_(api.parseDoc_());
+
+  check(/width="1600"/.test(html),
+    'the width comes from the file, not from the size in the doc',
+    (html.match(/<img [^>]*>/) || ['none'])[0]);
+
+  check(/height="900"/.test(html),
+    'the height comes with it, so the page reserves the right space');
+
+  check(!/width="300"/.test(html),
+    'the shrunken size in the doc is not what publishes');
+}
+
+section('an image in a format imageSize_ cannot read');
+{
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('You can now do the thing')]),
+    para([image('Unknown format', [1, 2, 3], 300)])
+  ]);
+
+  const api = loadCode(doc);
+  const html = api.renderPage_(api.parseDoc_());
+
+  // 300pt is 400px. Carrying the number across unconverted shrank it by a quarter.
+  check(/width="400"/.test(html),
+    "it falls back to the doc's width, converted from points to pixels",
+    (html.match(/<img [^>]*>/) || ['none'])[0]);
+
+  check(!/height=/.test(html),
+    'and claims no height it does not know');
+}
+
+section('a JPEG size is read from its start-of-frame');
+{
+  // SOI, an APP0 segment to be skipped, then SOF0 carrying 1200x800.
+  const jpeg = [0xFF, 0xD8,
+    0xFF, 0xE0, 0x00, 0x06, 1, 2, 3, 4,
+    0xFF, 0xC0, 0x00, 0x11, 0x08, 0x03, 0x20, 0x04, 0xB0, 3, 1, 2, 3, 4, 5, 6];
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('You can now do the thing')]),
+    para([image('A photo', jpeg, 300)])
+  ]);
+
+  const api = loadCode(doc);
+  const html = api.renderPage_(api.parseDoc_());
+
+  check(/width="1200"/.test(html) && /height="800"/.test(html),
+    'the markers are walked to the frame header',
+    (html.match(/<img [^>]*>/) || ['none'])[0]);
+}
+
+section('the page does not repeat "Release Notes" in its title');
+{
+  const doc = [
+    para([run('Release: October 2026 Release Notes')]),
+    para([run('Date: 2026-10-16')]),
+    para([run('Slug: 2026-oct')]),
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('You can now do the thing')])
+  ];
+
+  const api = loadCode(doc);
+  const model = api.parseDoc_();
+
+  check(model.release === 'October 2026',
+    'the trailing words are stripped from the release name',
+    'release: ' + JSON.stringify(model.release));
+
+  const html = api.renderPage_(model);
+
+  check(/<title>October 2026 Release Notes<\/title>/.test(html),
+    'the page title says it once',
+    (html.match(/<title>[^<]*<\/title>/) || ['none'])[0]);
+
+  check(!/Release Notes Release Notes/.test(html),
+    'and the heading does too');
+
+  // releases.json and the index read the same field, so they stay consistent.
+  check(api.releaseName_('October 2026') === 'October 2026',
+    'a name that does not end in those words is left alone');
+
+  check(api.releaseName_('October 2026 release note') === 'October 2026',
+    'the singular and lower case are caught too');
+
+  check(api.releaseName_('Release Notes') === 'Release Notes',
+    'a name made only of those words is kept, rather than emptied');
+}
+
 section('an image in the Highlights section');
 {
   const doc = [].concat(metaLines(), [
@@ -294,8 +550,9 @@ section('an image in the Highlights section');
     'the image is registered',
     'model.images holds ' + model.images.length);
 
-  check(model.highlights.some((b) => b.kind === 'figure'),
-    'it lands in the highlights blocks as a figure',
+  check(model.highlights.some(
+    (b) => b.kind === 'list' && b.items.some((i) => (i.figures || []).length)),
+    'it attaches to the highlight above it, where the list sets the indent',
     JSON.stringify(model.highlights.map((b) => b.kind)));
 
   // highlightText_ feeds releases.json and the index card, which are text only.

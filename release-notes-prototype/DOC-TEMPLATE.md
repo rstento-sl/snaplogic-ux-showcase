@@ -23,8 +23,9 @@ above each of these three fields explaining what to type. Those notes never
 publish — text before the first heading that isn't one of the three fields is
 dropped — so a writer who leaves them in place can still publish.]*
 
-*[Release — the month and year as readers should see it. Becomes the page
-title.]*
+*[Release — the month and year as readers should see it. The page titles itself
+"<release> Release Notes", so leave those two words off; writing them here is
+harmless, because they get stripped rather than printed twice.]*
 
 Release: October 2026
 

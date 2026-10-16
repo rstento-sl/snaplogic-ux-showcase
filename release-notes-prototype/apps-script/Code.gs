@@ -299,10 +299,10 @@ function parseDoc_() {
 
       var here = target();
       if (here) {
-        // An image on its own line is a block, not a bullet. Sending it through
+        // An image on its own line is not a bullet. Sending it through
         // pushItem would wrap the screenshot in a stray <ul><li>.
         if (!text && type === DocumentApp.ElementType.PARAGRAPH) {
-          here.push({ kind: 'figure', html: html });
+          pushFigure_(here, html);
         } else {
           pushItem(here, html, ordered, level);
         }
@@ -311,7 +311,8 @@ function parseDoc_() {
 
       var meta = text.match(/^(Release|Date|Slug)\s*:\s*(.+)$/i);
       if (meta && !area) {
-        model[meta[1].toLowerCase()] = meta[2].trim();
+        var key = meta[1].toLowerCase();
+        model[key] = key === 'release' ? releaseName_(meta[2]) : meta[2].trim();
         continue;
       }
       // Text before the first heading that is not one of the three metadata
@@ -339,6 +340,41 @@ function parseDoc_() {
   // Needs the full area list, so it runs once the walk is done.
   resolveLinks_(model);
   return model;
+}
+
+/**
+ * Places an image that sits on its own line in the doc.
+ *
+ * A screenshot under a bullet belongs to that bullet, so it goes inside that
+ * <li> and picks up the list's own indentation — which the theme sets
+ * differently inside Highlights than in a product section, so a margin in
+ * pixels here could only line up in one of the two. An image that follows no
+ * bullet becomes a block of its own.
+ */
+function pushFigure_(blocks, html) {
+  var last = blocks[blocks.length - 1];
+  if (last && last.kind === 'list' && last.items.length) {
+    var item = last.items[last.items.length - 1];
+    if (!item.figures) item.figures = [];
+    item.figures.push(html);
+    return;
+  }
+  blocks.push({ kind: 'figure', html: html });
+}
+
+/**
+ * The release's name, without the words the page supplies itself.
+ *
+ * The page titles itself "<release> Release Notes", so a doc whose Release
+ * line already reads "October 2026 Release Notes" published as "October 2026
+ * Release Notes Release Notes". Stripping it here rather than at render time
+ * keeps the index, releases.json and the commit messages consistent with the
+ * page.
+ */
+function releaseName_(raw) {
+  return String(raw).trim()
+    .replace(/[\s–—-]*\brelease\s+notes?\b[\s.:]*$/i, '')
+    .trim() || String(raw).trim();
 }
 
 /**
@@ -384,7 +420,10 @@ function resolveLinks_(m) {
   function walk(blocks) {
     blocks.forEach(function (b) {
       if (b.kind === 'list') {
-        b.items.forEach(function (it) { it.html = fix(it.html); });
+        b.items.forEach(function (it) {
+        it.html = fix(it.html);
+        if (it.figures) it.figures = it.figures.map(fix);
+      });
       } else if (b.kind === 'figure') {
         b.html = fix(b.html);
       } else if (b.kind === 'table') {
@@ -596,7 +635,8 @@ function inlineHtml_(el, model, where) {
  */
 function imageHtml_(img, model, where) {
   var blob = img.getBlob();
-  var hash = hashBytes_(blob.getBytes());
+  var bytes = blob.getBytes();
+  var hash = hashBytes_(bytes);
 
   var ext = ({ 'image/png': 'png', 'image/jpeg': 'jpg', 'image/jpg': 'jpg',
                'image/gif': 'gif', 'image/webp': 'webp'
@@ -609,9 +649,72 @@ function imageHtml_(img, model, where) {
     if (!seen) model.images.push({ name: name, blob: blob, alt: alt, where: where || '' });
   }
 
-  var w = img.getWidth();
+  // The real pixel size, not the size the writer dragged the image to in the
+  // doc. A screenshot scaled down to fit a page of A4 published at that size
+  // too, which made the text in it unreadable. CSS caps it to the content
+  // column, so this is an upper bound rather than a fixed size, and the pair
+  // of attributes still reserves the right space while the image loads.
+  var size = imageSize_(bytes);
+  var dim = '';
+  if (size) {
+    dim = ' width="' + size.w + '" height="' + size.h + '"';
+  } else {
+    // Unknown format. Docs reports its width in points; the attribute is
+    // pixels, so carrying the number across unconverted shrank it by a quarter.
+    var w = img.getWidth();
+    if (w) dim = ' width="' + Math.round(w * 4 / 3) + '"';
+  }
+
   return '<img src="../images/' + name + '" alt="' + esc_(alt) + '"' +
-         (w ? ' width="' + Math.round(w) + '"' : '') + ' loading="lazy">';
+         dim + ' loading="lazy">';
+}
+
+/**
+ * An image's pixel size, read from the file's own header.
+ *
+ * PNG, JPEG and GIF cover everything Google Docs produces when an image is
+ * pasted or uploaded. Anything else returns null and falls back to the size
+ * the document reports.
+ */
+function imageSize_(bytes) {
+  var n = bytes.length;
+  if (n < 24) return null;
+  function u8(i) { return bytes[i] & 0xFF; }                 // Apps Script bytes are signed
+  function be16(i) { return (u8(i) << 8) | u8(i + 1); }
+  function be32(i) {
+    return (u8(i) * 16777216) + (u8(i + 1) << 16) + (u8(i + 2) << 8) + u8(i + 3);
+  }
+
+  // PNG: IHDR is required to be the first chunk, so the size is at a fixed offset.
+  if (u8(0) === 0x89 && u8(1) === 0x50 && u8(2) === 0x4E && u8(3) === 0x47) {
+    return { w: be32(16), h: be32(20) };
+  }
+
+  // GIF: in the logical screen descriptor, little-endian.
+  if (u8(0) === 0x47 && u8(1) === 0x49 && u8(2) === 0x46) {
+    return { w: u8(6) | (u8(7) << 8), h: u8(8) | (u8(9) << 8) };
+  }
+
+  // JPEG: walk the segment markers to the start-of-frame, which carries it.
+  if (u8(0) === 0xFF && u8(1) === 0xD8) {
+    var i = 2;
+    while (i + 9 < n) {
+      if (u8(i) !== 0xFF) { i++; continue; }
+      var marker = u8(i + 1);
+      if (marker === 0xFF) { i++; continue; }                // fill byte
+      if (marker === 0x01 || (marker >= 0xD0 && marker <= 0xD9)) { i += 2; continue; }
+      var len = be16(i + 2);
+      if (len < 2) return null;
+      // SOF0-SOF15, less the four codes in that range that are not frames.
+      if (marker >= 0xC0 && marker <= 0xCF &&
+          marker !== 0xC4 && marker !== 0xC8 && marker !== 0xCC) {
+        return { h: be16(i + 5), w: be16(i + 7) };
+      }
+      i += 2 + len;
+    }
+  }
+
+  return null;
 }
 
 /** Renders one text run, preserving bold, italic, code and links. */
@@ -925,7 +1028,12 @@ function renderList_(h, block) {
       h.push('</' + tags.pop() + '>');
     }
     if (liOpen[liOpen.length - 1]) h.push('</li>');
-    h.push('<li>' + it.html);
+    // A screenshot under this bullet renders inside it, before any sub-bullets,
+    // so it reads in the order the doc has it and takes the list's indent.
+    h.push('<li>' + it.html +
+           (it.figures || []).map(function (f) {
+             return '<p class="rn-figure">' + f + '</p>';
+           }).join(''));
     liOpen[liOpen.length - 1] = true;
   });
 

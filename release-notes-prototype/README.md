@@ -112,8 +112,15 @@ production design deploys straight to the CDN and is.
 Paste the image into the doc wherever it belongs, then right-click it and add
 alt text. Publish refuses without alt text.
 
-An image on its own line publishes as a block, between the bullets it sits
-between. An image inside a bullet stays inside that sentence.
+An image on its own line under a bullet publishes inside that bullet, lined up
+with the bullet's text — nest the bullet deeper and the screenshot follows it.
+An image that follows no bullet sits at the margin. An image with words beside
+it stays part of that sentence.
+
+Screenshots publish at their real pixel size, not the size you dragged them to
+in the doc, and the page scales them down to the content column. So shrinking a
+screenshot to fit the page in Docs costs nothing on the published page — resize
+freely.
 
 The file is committed to `images/`, named by a hash of its bytes, so the same
 screenshot used twice is stored once.

@@ -158,8 +158,18 @@ nav.toc .rn-nav .rn-nav-title:first-child { margin-top: 0; }
   margin: 8px 0;
 }
 
-/* An image on its own line in the doc publishes as a block, not a bullet. */
-.rn-figure { margin: 12px 0 18px; }
+/* An image on its own line in the doc is not a bullet. One that follows a
+   bullet renders inside that <li>, so it takes the list's own indentation —
+   the theme indents lists differently inside .rn-highlights than in a product
+   section, and a margin in pixels here could only match one of the two. */
+.rn-figure { margin: 10px 0 14px; }
+
+li > .rn-figure:last-child { margin-bottom: 10px; }
+
+/* Published at the screenshot's real pixel size, capped here rather than
+   shrunk at publish time, so a screenshot the writer scaled down in the doc
+   is still legible on the page. The cap keeps it inside the content column. */
+.rn-figure img { width: auto; max-width: 100%; }
 
 /* Video ------------------------------------------------------------------
    A YouTube link on its own line publishes as a thumbnail that loads the

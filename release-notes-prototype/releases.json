@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-16T05:40:44.399Z",
+  "generated": "2026-10-16T05:48:54.521Z",
   "latest": {
     "release": "October 2026 Release Notes",
     "date": "2026-10-15",
@@ -7,7 +7,9 @@
     "url": "releases/2026-oct.html",
     "highlights": [
       "A highlight, written for someone deciding whether to read on.",
-      "Something really interesting for APIM 3.0 customers"
+      "Something really interesting for APIM 3.0 customers",
+      "Admin Manager:",
+      "Publish and manage standards to guide SnapGPT pipeline generation and refinement"
     ],
     "areas": [
       "In this Release",
@@ -30,7 +32,7 @@
       "Snaps",
       "The SnapLogic MCP Server"
     ],
-    "published": "2026-10-16T05:40:44.373Z"
+    "published": "2026-10-16T05:48:54.510Z"
   },
   "releases": [
     {
@@ -40,7 +42,9 @@
       "url": "releases/2026-oct.html",
       "highlights": [
         "A highlight, written for someone deciding whether to read on.",
-        "Something really interesting for APIM 3.0 customers"
+        "Something really interesting for APIM 3.0 customers",
+        "Admin Manager:",
+        "Publish and manage standards to guide SnapGPT pipeline generation and refinement"
       ],
       "areas": [
         "In this Release",
@@ -63,7 +67,7 @@
         "Snaps",
         "The SnapLogic MCP Server"
       ],
-      "published": "2026-10-16T05:40:44.373Z"
+      "published": "2026-10-16T05:48:54.510Z"
     },
     {
       "release": "Sample Release",

@@ -288,6 +288,53 @@ section('an image on its own line');
     'alt text present, so validation does not complain');
 }
 
+section('the template\'s instructions never publish');
+{
+  // The skeleton explains each field above the field itself, including the
+  // steps for adding a screenshot and a video. Those live before the first
+  // heading, which is the only place the parser drops text — so a writer who
+  // leaves them in place can still publish. If that stopped being true the
+  // instructions would appear on the public page.
+  const doc = [
+    para([run('Fill in the three lines below, keeping them as Normal text.')]),
+    para([run('Release: October 2026')]),
+    para([run('Date: 2026-10-16')]),
+    para([run('Slug: 2026-oct')]),
+    para([run('To add a screenshot:')]),
+    item([run('Paste the image into the doc on its own line.')], { glyph: GlyphType.NUMBER }),
+    item([run('Right-click the image and select Alt text.')], { glyph: GlyphType.NUMBER }),
+    para([run('To add a video:')]),
+    item([run('Upload the video to YouTube.')], { glyph: GlyphType.NUMBER }),
+    h1('Highlights'),
+    item([run('A highlight worth reading')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('You can now do the thing')])
+  ];
+
+  const api = loadCode(doc);
+  const model = api.parseDoc_();
+
+  check(model.strays.length === 0,
+    'none of it is reported as stranded text',
+    model.strays.join(' | '));
+
+  check(api.validate_(model).length === 0,
+    'so it does not block publishing',
+    api.validate_(model).join(' | '));
+
+  const html = api.renderPage_(model);
+
+  check(!/To add a screenshot|To add a video/.test(html),
+    'the headings of the two procedures do not reach the page');
+
+  check(!/Right-click|Upload the video to YouTube|Normal text/.test(html),
+    'nor do the numbered steps under them');
+
+  check(/A highlight worth reading/.test(html) && model.release === 'October 2026',
+    'while the three metadata lines and the real content come through');
+}
+
 section('an image under a bullet renders inside that bullet');
 {
   const doc = [].concat(metaLines(), [

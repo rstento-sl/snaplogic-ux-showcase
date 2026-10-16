@@ -158,6 +158,51 @@ notes, the category headings were written as:
 Fifteen spellings for five categories. The script rejecting anything off the
 list is what stops that recurring.
 
+## Screenshots
+
+1. Paste the image into the doc on its own line, directly under the bullet it
+   illustrates.
+2. Right-click the image and select **Alt text**.
+3. Describe what the image shows.
+
+Publish refuses without alt text, so step 2 is not optional.
+
+A screenshot on its own line under a bullet publishes inside that bullet,
+lined up with the bullet's text. Nest the bullet deeper and the screenshot
+follows it. One that follows no bullet sits at the margin, and one with words
+beside it stays part of that sentence rather than becoming a screenshot of its
+own.
+
+**Scale it to whatever reads best in the doc.** It publishes at the size it was
+captured at however small you make it here, and the page fits it to the content
+column, so shrinking a wide screenshot to keep the doc readable costs nothing
+on the published page.
+
+## Videos
+
+Google Docs cannot hold a video file, so the video goes on YouTube and the doc
+links to it — the same thing the DITA docs do.
+
+1. Upload the video to YouTube. Unlisted is fine; it only has to play for
+   someone with the link.
+2. Type a short description of the video on its own line, like *Publishing a
+   standard*.
+3. Select that description and link it to the video.
+
+The description becomes the caption under the video and the name a screen
+reader announces for the play button, which is why step 2 is words rather than
+a pasted URL. Publish stops on a bare link, on a link inside a sentence — that
+one stays an ordinary link, because a player would break the sentence — and on
+a link to a video that does not play, which it finds by trying to fetch the
+thumbnail.
+
+The published page does not contact YouTube until a reader clicks. The
+thumbnail is downloaded at publish time and stored with the other images, so
+opening a release note tells YouTube nothing about who read it.
+
+`youtube.com/watch`, `youtu.be`, `/embed/` and `/shorts/` links all work, and a
+start time (`t=90` or `t=1m30s`) carries through to the player.
+
 ## Rules the script enforces
 
 It blocks publication, naming what to fix, when:
@@ -168,6 +213,9 @@ It blocks publication, naming what to fix, when:
 - A product has no categories, or a category has no entries
 - A category name is not in the list above
 - An image has no alt text
+- A video link has no description to use as its caption, or points at a video
+  that will not play
+- A link to another section of the release note matches no Heading 1
 - A table sits somewhere with no category to hold it
 - A heading is Heading 3 or deeper — only Heading 1 and Heading 2 publish
 - Text sits outside any category — usually a bullet that lost its heading
@@ -182,10 +230,13 @@ cannot have review feedback still open against it.
   numbered list.
 - **Tables.** The first row becomes the header. They are styled like every
   other table on the docs site.
-- **Images.** Pasted into the doc, they publish with it. Each one is stored
-  under a hash of its contents, so the same screenshot used twice is stored
-  once and republishing an unchanged image uploads nothing. Alt text is
-  required.
+- **Images.** Pasted into the doc, they publish with it, at full captured size
+  rather than the size they were scaled to in the doc. Each one is stored under
+  a hash of its contents, so the same screenshot used twice is stored once and
+  republishing an unchanged image uploads nothing. Alt text is required. See
+  [Screenshots](#screenshots).
+- **Videos**, as a YouTube link on its own line, with the link text as the
+  caption. See [Videos](#videos).
 - **Bold, italics, links and monospace**, inline, wherever they appear —
   including inside a table cell.
 

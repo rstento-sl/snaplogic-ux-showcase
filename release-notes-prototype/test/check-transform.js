@@ -139,9 +139,13 @@ function loadCode(children, drive) {
       // No unresolved comments, so validate_ reports only what a test sets up.
       Comments: { list: () => ({ comments: [] }) },
       Files: {
-        get: (id) => {
+        get: (id, opts) => {
           const f = files[id];
           if (!f) throw new Error('File not found: ' + id);
+          // Drive v3 404s a shared-drive file unless the caller opts in.
+          if (f.sharedDrive && !(opts && opts.supportsAllDrives)) {
+            throw new Error('File not found: ' + id);
+          }
           return { name: f.name || 'clip.mp4', mimeType: f.mimeType, size: f.size };
         }
       }
@@ -740,6 +744,36 @@ section('an unreadable Drive file');
     'the writer is told the link cannot be read',
     model.unsupported.join(' | '));
   check(api.validate_(model).length > 0, 'publishing is blocked');
+}
+
+section('a video on a shared drive');
+{
+  const url = 'https://drive.google.com/file/d/1OnASharedDrive/view';
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('An entry')]),
+    para([run('Publishing a standard', { url })])
+  ]);
+
+  const api = loadCode(doc, {
+    '1OnASharedDrive': {
+      name: 'standards.mp4', mimeType: 'video/mp4',
+      size: 2 * 1024 * 1024, bytes: [6, 6, 6], sharedDrive: true
+    }
+  });
+  const model = api.parseDoc_();
+
+  check(model.videos.length === 1,
+    'a file on a shared drive is found, not 404d',
+    model.unsupported.join(' | ') || 'no video registered');
+  check(model.unsupported.length === 0,
+    'nothing is reported',
+    model.unsupported.join(' | '));
+  check(/<video controls/.test(api.renderPage_(model)),
+    'it renders a player');
 }
 
 section('the same video linked twice');

@@ -122,11 +122,18 @@ screenshot used twice is stored once.
 Google Docs cannot hold a video file, so the video lives in Drive and the doc
 links to it.
 
-1. Upload the MP4 to Drive, in a folder the docs team can read.
+1. Upload the MP4 to Drive — your own, or a shared drive you belong to.
 2. Copy its share link.
 3. In the doc, type a short description of the video on its own line — "Publishing
    a standard", not a bare URL.
 4. Select that text and link it to the Drive file.
+
+**Whose Drive:** Publish runs as whoever clicks it, with that person's Drive
+access. So the video has to be readable by the person publishing, and nothing
+needs to be uploaded to anyone else's Drive. If the writer publishes their own
+release notes, their own Drive is enough. If one person publishes for several
+writers, put the videos on a shared drive they all belong to — a file shared
+one-to-one works too, but it breaks the moment someone else publishes.
 
 Publish copies the file into `videos/` and renders a player on the page. The
 description becomes the caption below it.
@@ -140,8 +147,9 @@ Four rules the script enforces:
 - **MP4, up to 25 MB.** WebM, MOV and M4V also work. Anything larger is
   refused with its size named — shorten it, export it smaller, or host it on
   YouTube.
-- **The file has to be readable.** If the script cannot open the Drive file it
-  says so rather than publishing a page with a missing video.
+- **The file has to be readable by the publisher.** If the script cannot open
+  the Drive file it says so, and names the three places the video can live,
+  rather than publishing a page with a missing video.
 
 The video is copied into the repo rather than embedded from Drive, because a
 Drive link needs a signed-in viewer with access to that file, which a public

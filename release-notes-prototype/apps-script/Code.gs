@@ -460,11 +460,19 @@ function videoBlock_(url, label, model, where) {
 
   var meta;
   try {
-    meta = Drive.Files.get(id, { fields: 'name,mimeType,size' });
+    // supportsAllDrives defaults to false in v3, which 404s a file that lives
+    // on a shared drive — where a docs team's videos actually sit.
+    meta = Drive.Files.get(id, {
+      fields: 'name,mimeType,size',
+      supportsAllDrives: true
+    });
   } catch (e) {
+    // Publish runs as whoever clicks it, so the file has to be readable by
+    // that account — not by the person who wrote the video.
     model.unsupported.push('Cannot read the Drive file linked in ' + where +
-      '. Open the link yourself to check it, and make sure the file is not in ' +
-      'the trash. (' + e.message + ')');
+      '. Publish runs as you, so the video has to be one your own account can ' +
+      'open: either in your Drive, on a shared drive you belong to, or shared ' +
+      'with you by whoever made it. (' + e.message + ')');
     return null;
   }
 
@@ -488,7 +496,8 @@ function videoBlock_(url, label, model, where) {
   }
 
   var res = UrlFetchApp.fetch(
-    'https://www.googleapis.com/drive/v3/files/' + id + '?alt=media', {
+    'https://www.googleapis.com/drive/v3/files/' + id +
+    '?alt=media&supportsAllDrives=true', {
       headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() },
       muteHttpExceptions: true
     });

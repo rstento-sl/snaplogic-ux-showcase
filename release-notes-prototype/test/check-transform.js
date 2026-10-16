@@ -123,11 +123,44 @@ function metaLines(slug) {
 
 /* ----------------------------------------------------------------- sandbox */
 
-function loadCode(children) {
+/**
+ * `drive` describes the Drive files the doc links to, keyed by file id:
+ * { mimeType, size, name, bytes, httpStatus }.
+ */
+function loadCode(children, drive) {
   const src = fs.readFileSync(
     path.join(__dirname, '..', 'apps-script', 'Code.gs'), 'utf8');
 
+  const files = drive || {};
+
   const sandbox = {
+    ScriptApp: { getOAuthToken: () => 'test-token' },
+    Drive: {
+      // No unresolved comments, so validate_ reports only what a test sets up.
+      Comments: { list: () => ({ comments: [] }) },
+      Files: {
+        get: (id) => {
+          const f = files[id];
+          if (!f) throw new Error('File not found: ' + id);
+          return { name: f.name || 'clip.mp4', mimeType: f.mimeType, size: f.size };
+        }
+      }
+    },
+    UrlFetchApp: {
+      fetch: (url) => {
+        const m = String(url).match(/files\/([-\w]+)\?alt=media/);
+        const f = m ? files[m[1]] : null;
+        const status = f && f.httpStatus ? f.httpStatus : (f ? 200 : 404);
+        return {
+          getResponseCode: () => status,
+          getContentText: () => '',
+          getBlob: () => ({
+            getBytes: () => (f && f.bytes) || [8, 8, 8],
+            getContentType: () => (f && f.mimeType) || 'video/mp4'
+          })
+        };
+      }
+    },
     DocumentApp: {
       ElementType,
       ParagraphHeading,
@@ -376,7 +409,7 @@ section('indented bullets keep their nesting');
     JSON.stringify(levels));
 
   const html = api.renderPage_(model);
-  const hl = html.match(/<section id="highlights"[\s\S]*?<\/section>/)[0];
+  const hl = (html.match(/<section id="highlights"[\s\S]*?<\/section>/) || [""])[0];
 
   check(/<li>Admin Manager\s*<ul>/.test(hl),
     'the sublist opens inside its parent item',
@@ -446,7 +479,7 @@ section('a link to a section of the release notes');
   const html = api.renderPage_(model);
   // Scoped to the highlights section: the on-this-page rail emits the same
   // anchor, so an unscoped match passes even when the rewrite never ran.
-  const hl = html.match(/<section id="highlights"[\s\S]*?<\/section>/)[0];
+  const hl = (html.match(/<section id="highlights"[\s\S]*?<\/section>/) || [""])[0];
 
   check(/<a href="#admin-manager">Admin Manager<\/a>/.test(hl),
     'it points at the published section anchor',
@@ -536,6 +569,204 @@ section('link whitespace does not disturb other formatting');
   check(/<strong>Standards<\/strong>/.test(html), 'bold still renders');
   check(/<code>snaplogic --help<\/code>/.test(html), 'monospace still renders as code');
   check(/Open the <strong>/.test(html), 'spacing around bold text is preserved');
+}
+
+section('a Drive video linked on its own line');
+{
+  const url = 'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQr/view?usp=sharing';
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('SnapGPT Standards tab.')]),
+    para([run('Publishing a standard', { url })])
+  ]);
+
+  const api = loadCode(doc, {
+    '1AbCdEfGhIjKlMnOpQr': {
+      name: 'standards.mp4', mimeType: 'video/mp4',
+      size: 4 * 1024 * 1024, bytes: [1, 7, 3]
+    }
+  });
+  const model = api.parseDoc_();
+
+  check(model.videos.length === 1,
+    'the video is registered for upload',
+    'model.videos holds ' + model.videos.length);
+
+  check(!!model.videos[0] && /^[0-9a-f]{16}\.mp4$/.test(model.videos[0].name),
+    'it is named by content hash with an mp4 extension',
+    model.videos[0] ? model.videos[0].name : 'no video registered');
+
+  check(model.unsupported.length === 0,
+    'it is not reported as unsupported',
+    model.unsupported.join(' | '));
+
+  check(api.validate_(model).length === 0,
+    'it passes validation',
+    api.validate_(model).join(' | '));
+
+  const html = api.renderPage_(model);
+
+  check(/<figure class="rn-video">/.test(html), 'it renders as a figure');
+  check(/<video controls preload="metadata">/.test(html), 'the player has controls');
+  check(/<source src="\.\.\/videos\/[0-9a-f]+\.mp4" type="video\/mp4">/.test(html),
+    'the source points at the copy in the repo, not Drive',
+    (html.match(/<source[^>]*>/) || ['none'])[0]);
+  check(!/drive\.google\.com/.test(html),
+    'no Drive link survives into the page');
+  check(/<figcaption>Publishing a standard<\/figcaption>/.test(html),
+    'the link text becomes the caption');
+  check(/Download it<\/a>/.test(html),
+    'there is a fallback for a browser that cannot play it');
+}
+
+section('a video with no caption');
+{
+  const url = 'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQr/view';
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('An entry')]),
+    // The writer pasted the bare URL, so the link text is the URL.
+    para([run(url, { url })])
+  ]);
+
+  const api = loadCode(doc, {
+    '1AbCdEfGhIjKlMnOpQr': { mimeType: 'video/mp4', size: 1024, bytes: [2] }
+  });
+  const model = api.parseDoc_();
+
+  check(model.videos.length === 1, 'the video is still registered');
+  check(api.validate_(model).some((p) => /has no caption/.test(p)),
+    'validation asks for a caption and blocks publishing',
+    api.validate_(model).join(' | '));
+}
+
+section('a video that is too large');
+{
+  const url = 'https://drive.google.com/file/d/1TooBigFileeeee/view';
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('An entry')]),
+    para([run('A long demo', { url })])
+  ]);
+
+  const api = loadCode(doc, {
+    '1TooBigFileeeee': {
+      name: 'demo.mp4', mimeType: 'video/mp4', size: 90 * 1024 * 1024
+    }
+  });
+  const model = api.parseDoc_();
+
+  check(model.videos.length === 0, 'it is not uploaded');
+  check(model.unsupported.some((u) => /90 MB.*limit is 25 MB/.test(u)),
+    'the size and the limit are both named',
+    model.unsupported.join(' | '));
+  check(api.validate_(model).length > 0, 'publishing is blocked');
+}
+
+section('a Drive link to something that is not a video');
+{
+  const url = 'https://drive.google.com/file/d/1SomeSpreadsheet/view';
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('An entry')]),
+    para([run('The tracking sheet', { url })])
+  ]);
+
+  const api = loadCode(doc, {
+    '1SomeSpreadsheet': { mimeType: 'application/vnd.google-apps.spreadsheet', size: 10 }
+  });
+  const model = api.parseDoc_();
+  const html = api.renderPage_(model);
+
+  check(model.videos.length === 0, 'it is not treated as a video');
+  check(!/<video/.test(html), 'no player is rendered');
+  check(html.includes('href="' + url + '"'),
+    'it publishes as an ordinary link');
+}
+
+section('a video link inside a sentence stays a link');
+{
+  const url = 'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQr/view';
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('Watch '), run('the demo', { url }), run(' for the details.')])
+  ]);
+
+  const api = loadCode(doc, {
+    '1AbCdEfGhIjKlMnOpQr': { mimeType: 'video/mp4', size: 1024, bytes: [5] }
+  });
+  const model = api.parseDoc_();
+  const html = api.renderPage_(model);
+
+  check(model.videos.length === 0,
+    'a link among other words is not turned into a player');
+  check(/Watch <a href="[^"]*">the demo<\/a> for the details\./.test(html),
+    'the sentence is left intact',
+    (html.match(/Watch[^<]*<a[\s\S]*?details\./) || ['none'])[0]);
+}
+
+section('an unreadable Drive file');
+{
+  const url = 'https://drive.google.com/file/d/1MissingFileeee/view';
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('An entry')]),
+    para([run('A demo', { url })])
+  ]);
+
+  const api = loadCode(doc, {}); // the id is not in Drive
+  const model = api.parseDoc_();
+
+  check(model.videos.length === 0, 'nothing is uploaded');
+  check(model.unsupported.some((u) => /Cannot read the Drive file/.test(u)),
+    'the writer is told the link cannot be read',
+    model.unsupported.join(' | '));
+  check(api.validate_(model).length > 0, 'publishing is blocked');
+}
+
+section('the same video linked twice');
+{
+  const a = 'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQr/view';
+  const doc = [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('An entry')]),
+    para([run('The demo', { url: a })]),
+    para([run('The demo again', { url: a })])
+  ]);
+
+  const api = loadCode(doc, {
+    '1AbCdEfGhIjKlMnOpQr': { mimeType: 'video/mp4', size: 2048, bytes: [4, 4] }
+  });
+  const model = api.parseDoc_();
+
+  check(model.videos.length === 1,
+    'identical bytes deduplicate to one upload',
+    'model.videos holds ' + model.videos.length);
+
+  const html = api.renderPage_(model);
+  check((html.match(/<video /g) || []).length === 2,
+    'both places still render a player');
 }
 
 /* ------------------------------------------------------------------ report */

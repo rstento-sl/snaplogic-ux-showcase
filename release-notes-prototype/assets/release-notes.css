@@ -160,3 +160,25 @@ nav.toc .rn-nav .rn-nav-title:first-child { margin-top: 0; }
 
 /* An image on its own line in the doc publishes as a block, not a bullet. */
 .rn-figure { margin: 12px 0 18px; }
+
+/* Video ------------------------------------------------------------------
+   A link to a Drive video on its own line publishes as a player. The file is
+   copied into the repo, so the src is a same-origin path, not a Drive link. */
+
+.rn-video { margin: 12px 0 18px; }
+
+.rn-video video {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  border: 1px solid #e3e6ea;
+  border-radius: 4px;
+  background: #000;
+}
+
+.rn-video figcaption {
+  margin-top: 6px;
+  font-size: 0.9em;
+  color: #5a6672;
+}

@@ -116,8 +116,9 @@ function menuPublish() {
     if (!go) return;
   }
 
-  // Images first, so the page never references a file that is not there yet.
+  // Media first, so the page never references a file that is not there yet.
   var uploaded = publishImages_(s, model);
+  var uploadedVideos = publishVideos_(s, model);
 
   var html = renderPage_(model);
   var pagePath = s.basePath + '/releases/' + model.slug + '.html';
@@ -135,6 +136,10 @@ function menuPublish() {
     (model.images.length
       ? '\n' + model.images.length + ' image' + (model.images.length === 1 ? '' : 's') +
         ', ' + uploaded + ' newly uploaded.'
+      : '') +
+    (model.videos.length
+      ? '\n' + model.videos.length + ' video' + (model.videos.length === 1 ? '' : 's') +
+        ', ' + uploadedVideos + ' newly uploaded.'
       : '') +
     '\n\n' + url +
     '\n\nGitHub Pages usually takes under a minute to rebuild.');
@@ -158,8 +163,8 @@ function parseDoc_() {
   var body = DocumentApp.getActiveDocument().getBody();
   var model = {
     release: '', date: '', slug: '',
-    highlights: [], areas: [], images: [], strays: [], unsupported: [],
-    deadLinks: []
+    highlights: [], areas: [], images: [], videos: [], strays: [],
+    unsupported: [], deadLinks: []
   };
 
   var area = null, category = null, inHighlights = false;
@@ -260,6 +265,23 @@ function parseDoc_() {
           ') is a Heading 3 or deeper. Only Heading 1 for products and ' +
           'Heading 2 for categories are published.');
         continue;
+      }
+
+      // A paragraph that is nothing but a link to a Drive video publishes as
+      // an embedded player. Docs cannot hold a video file, so a link to one in
+      // Drive is the only way a writer can put a video in the source.
+      if (type === DocumentApp.ElementType.PARAGRAPH) {
+        var only = soleLink_(el);
+        if (only) {
+          var video = videoBlock_(only.url, only.text, model, place());
+          if (video) {
+            var dest = target();
+            if (dest) { dest.push(video); continue; }
+            model.unsupported.push('A video sits ' + place() + ', where there ' +
+              'is no category to put it in.');
+            continue;
+          }
+        }
       }
 
       var html = inlineHtml_(el, model, place());
@@ -379,6 +401,121 @@ function resolveLinks_(m) {
   });
 }
 
+/* -------------------------------------------------------------------- video */
+
+/** Largest video we will carry into the repo, in bytes. */
+var VIDEO_MAX_BYTES = 25 * 1024 * 1024;
+
+var VIDEO_EXT = {
+  'video/mp4': 'mp4',
+  'video/webm': 'webm',
+  'video/quicktime': 'mov',
+  'video/x-m4v': 'm4v'
+};
+
+/**
+ * Returns {url, text} when a paragraph is a single link and nothing else, so a
+ * link on its own line can be treated as a block. A link inside a sentence is
+ * left as a link, because replacing it with a player would break the sentence.
+ */
+function soleLink_(el) {
+  var url = null, text = '';
+  for (var i = 0; i < el.getNumChildren(); i++) {
+    var child = el.getChild(i);
+    if (child.getType() !== DocumentApp.ElementType.TEXT) return null;
+    var t = child.asText();
+    var raw = t.getText();
+    for (var c = 0; c < raw.length; c++) {
+      var ch = raw.charAt(c);
+      var href = t.getLinkUrl(c);
+      if (!href) {
+        if (/\s/.test(ch)) continue; // whitespace around the link is fine
+        return null;                 // unlinked words, so not a link-only line
+      }
+      if (url === null) url = href;
+      else if (url !== href) return null;
+      text += ch;
+    }
+  }
+  return url ? { url: url, text: text.trim() } : null;
+}
+
+/** The file id out of a Drive link, or null when it is not one. */
+function driveFileId_(url) {
+  var m = String(url).match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^#]*id=)([-\w]{10,})/);
+  return m ? m[1] : null;
+}
+
+/**
+ * Registers a Drive video for publication and returns the block that renders
+ * it, or null when the link is not a video we can carry.
+ *
+ * The file is copied into the repo rather than embedded from Drive: a Drive
+ * link needs a signed-in viewer with access, which a public docs page does not
+ * have. Anything that cannot be published is reported, never dropped quietly.
+ */
+function videoBlock_(url, label, model, where) {
+  var id = driveFileId_(url);
+  if (!id) return null;
+
+  var meta;
+  try {
+    meta = Drive.Files.get(id, { fields: 'name,mimeType,size' });
+  } catch (e) {
+    model.unsupported.push('Cannot read the Drive file linked in ' + where +
+      '. Open the link yourself to check it, and make sure the file is not in ' +
+      'the trash. (' + e.message + ')');
+    return null;
+  }
+
+  var mime = String(meta.mimeType || '');
+  if (mime.indexOf('video/') !== 0) return null; // a link to something else
+
+  var ext = VIDEO_EXT[mime];
+  if (!ext) {
+    model.unsupported.push('The video "' + meta.name + '" in ' + where + ' is ' +
+      mime + '. Publish it as MP4, which every browser plays.');
+    return null;
+  }
+
+  var size = Number(meta.size || 0);
+  if (size > VIDEO_MAX_BYTES) {
+    model.unsupported.push('The video "' + meta.name + '" in ' + where + ' is ' +
+      Math.round(size / 1048576) + ' MB. The limit is ' +
+      Math.round(VIDEO_MAX_BYTES / 1048576) + ' MB. Shorten it, export it ' +
+      'smaller, or host it on YouTube instead.');
+    return null;
+  }
+
+  var res = UrlFetchApp.fetch(
+    'https://www.googleapis.com/drive/v3/files/' + id + '?alt=media', {
+      headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() },
+      muteHttpExceptions: true
+    });
+  if (res.getResponseCode() >= 300) {
+    model.unsupported.push('Could not download the video "' + meta.name +
+      '" in ' + where + ' (HTTP ' + res.getResponseCode() + ').');
+    return null;
+  }
+
+  var blob = res.getBlob();
+  var name = hashBytes_(blob.getBytes()) + '.' + ext;
+
+  var seen = model.videos.some(function (v) { return v.name === name; });
+  if (!seen) {
+    model.videos.push({ name: name, blob: blob, label: label, where: where || '' });
+  }
+  return { kind: 'video', name: name, type: mime, label: label };
+}
+
+/** Short content hash, used for image and video filenames alike. */
+function hashBytes_(bytes) {
+  var digest = Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, bytes);
+  return digest.map(function (b) {
+    return ('0' + (b & 0xff).toString(16)).slice(-2);
+  }).join('').slice(0, 16);
+}
+
 /** True when a paragraph or list item carries an inline image. */
 function hasInlineImage_(el) {
   for (var i = 0; i < el.getNumChildren(); i++) {
@@ -458,11 +595,7 @@ function inlineHtml_(el, model, where) {
  */
 function imageHtml_(img, model, where) {
   var blob = img.getBlob();
-  var bytes = blob.getBytes();
-  var digest = Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, bytes);
-  var hash = digest.map(function (b) {
-    return ('0' + (b & 0xff).toString(16)).slice(-2);
-  }).join('').slice(0, 16);
+  var hash = hashBytes_(blob.getBytes());
 
   var ext = ({ 'image/png': 'png', 'image/jpeg': 'jpg', 'image/jpg': 'jpg',
                'image/gif': 'gif', 'image/webp': 'webp'
@@ -564,6 +697,16 @@ function validate_(m) {
   m.images.filter(function (i) { return !i.alt; }).forEach(function (i) {
     problems.push('An image in ' + (i.where || 'the document') +
       ' has no alt text. Right-click the image > Alt text.');
+  });
+
+  // The link text becomes the player's caption, so a bare pasted URL leaves
+  // the video with nothing to describe it.
+  m.videos.filter(function (v) {
+    return !v.label || /^https?:\/\//i.test(v.label);
+  }).forEach(function (v) {
+    problems.push('The video in ' + (v.where || 'the document') +
+      ' has no caption. Select the link, type a short description of the ' +
+      'video, and keep it linked to the Drive file.');
   });
 
   m.unsupported.forEach(function (u) { problems.push(u); });
@@ -694,6 +837,18 @@ function publishImages_(s, model) {
   return uploaded;
 }
 
+/** The same write-once treatment for videos, which live beside the images. */
+function publishVideos_(s, model) {
+  var uploaded = 0;
+  model.videos.forEach(function (v) {
+    var path = s.basePath + '/videos/' + v.name;
+    if (getFileMeta_(s, path)) return;
+    putBinary_(s, path, v.blob, 'Add release note video ' + v.name);
+    uploaded++;
+  });
+  return uploaded;
+}
+
 /**
  * Renders a category's blocks in document order, so a table between two
  * bullets stays between them.
@@ -706,6 +861,18 @@ function renderBlocks_(h, blocks) {
     }
     if (b.kind === 'figure') {
       h.push('<p class="rn-figure">' + b.html + '</p>');
+      return;
+    }
+    if (b.kind === 'video') {
+      var src = '../videos/' + b.name;
+      h.push('<figure class="rn-video">');
+      h.push('<video controls preload="metadata">' +
+             '<source src="' + src + '" type="' + esc_(b.type) + '">' +
+             'Your browser cannot play this video. ' +
+             '<a href="' + src + '">Download it</a>.' +
+             '</video>');
+      if (b.label) h.push('<figcaption>' + esc_(b.label) + '</figcaption>');
+      h.push('</figure>');
       return;
     }
     if (b.kind === 'table') {

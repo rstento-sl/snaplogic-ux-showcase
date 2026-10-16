@@ -46,9 +46,13 @@ release-notes-prototype/
 ├── index.html              reads releases.json at load time — the homepage behaviour
 ├── releases.json           the index the script maintains
 ├── releases/               one published page per release
+├── images/                 screenshots, named by content hash
+├── videos/                 videos copied out of Drive, named by content hash
 ├── assets/release-notes.css  layout only; type and colour come from the dual-nav theme
 ├── apps-script/Code.gs     the script writers run
 ├── apps-script/appsscript.json  scopes and the Drive advanced service
+├── test/check-transform.js doc -> HTML, with DocumentApp stubbed
+├── test/check-layout.js    the published page in a real browser
 └── DOC-TEMPLATE.md         what to put in the Google Doc
 ```
 
@@ -102,6 +106,52 @@ date has not arrived.
 GitHub Pages rebuilds in under a minute, so the page is not quite instant. The
 production design deploys straight to the CDN and is.
 
+## Adding a screenshot
+
+Paste the image into the doc wherever it belongs, then right-click it and add
+alt text. Publish refuses without alt text.
+
+An image on its own line publishes as a block, between the bullets it sits
+between. An image inside a bullet stays inside that sentence.
+
+The file is committed to `images/`, named by a hash of its bytes, so the same
+screenshot used twice is stored once.
+
+## Adding a video
+
+Google Docs cannot hold a video file, so the video lives in Drive and the doc
+links to it.
+
+1. Upload the MP4 to Drive, in a folder the docs team can read.
+2. Copy its share link.
+3. In the doc, type a short description of the video on its own line — "Publishing
+   a standard", not a bare URL.
+4. Select that text and link it to the Drive file.
+
+Publish copies the file into `videos/` and renders a player on the page. The
+description becomes the caption below it.
+
+Four rules the script enforces:
+
+- **The link sits on its own line.** A video link inside a sentence stays a
+  link, because replacing it with a player would break the sentence.
+- **The link needs text.** A pasted URL leaves the player with no caption, so
+  Publish stops and asks for a description.
+- **MP4, up to 25 MB.** WebM, MOV and M4V also work. Anything larger is
+  refused with its size named — shorten it, export it smaller, or host it on
+  YouTube.
+- **The file has to be readable.** If the script cannot open the Drive file it
+  says so rather than publishing a page with a missing video.
+
+The video is copied into the repo rather than embedded from Drive, because a
+Drive link needs a signed-in viewer with access to that file, which a public
+docs page does not have.
+
+This is the prototype's one way in. Production will want more — a YouTube
+link, which is what the DITA docs embed today, and probably a video already on
+the CDN. Both are additions to the same path: the transform recognises the
+link and decides what to render.
+
 ## What it checks
 
 Structure, not prose:
@@ -111,6 +161,7 @@ Structure, not prose:
 - Every area has categories, every category has entries
 - Category names from the fixed list in `DOC-TEMPLATE.md`
 - Alt text on every image
+- A caption on every video, and a file it can actually read
 - No text stranded outside a category
 - **No unresolved comments and no pending suggestions**
 
@@ -158,6 +209,22 @@ mean republishing every release note.
 
 To refresh them after the dual-nav theme changes, re-snapshot from
 <https://rstento-sl.github.io/dual-nav-poc/>.
+
+## Checking the transform
+
+```
+node test/check-transform.js
+```
+
+Loads `Code.gs` into a VM with `DocumentApp`, `Drive` and `UrlFetchApp`
+stubbed, builds documents in memory, and asserts on the HTML that comes out.
+No network, no Google account, no published page. Run it after any change to
+the parser or the renderer.
+
+It exists because the layout check cannot see what the parser dropped. An
+image on its own line was being discarded before rendering: the page published
+cleanly, just without the screenshot. A browser looking at that page has
+nothing to notice.
 
 ## Checking the layout
 

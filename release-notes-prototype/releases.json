@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-15T19:27:16.894Z",
+  "generated": "2026-10-16T05:40:02.174Z",
   "latest": {
     "release": "October 2026 Release Notes",
     "date": "2026-10-15",
@@ -30,7 +30,7 @@
       "Snaps",
       "The SnapLogic MCP Server"
     ],
-    "published": "2026-10-15T19:27:16.876Z"
+    "published": "2026-10-16T05:40:02.158Z"
   },
   "releases": [
     {
@@ -63,7 +63,7 @@
         "Snaps",
         "The SnapLogic MCP Server"
       ],
-      "published": "2026-10-15T19:27:16.876Z"
+      "published": "2026-10-16T05:40:02.158Z"
     },
     {
       "release": "Sample Release",

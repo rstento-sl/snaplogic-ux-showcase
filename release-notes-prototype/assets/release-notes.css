@@ -157,3 +157,6 @@ nav.toc .rn-nav .rn-nav-title:first-child { margin-top: 0; }
   border-radius: 4px;
   margin: 8px 0;
 }
+
+/* An image on its own line in the doc publishes as a block, not a bullet. */
+.rn-figure { margin: 12px 0 18px; }

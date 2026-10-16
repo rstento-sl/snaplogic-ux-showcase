@@ -158,7 +158,8 @@ function parseDoc_() {
   var body = DocumentApp.getActiveDocument().getBody();
   var model = {
     release: '', date: '', slug: '',
-    highlights: [], areas: [], images: [], strays: [], unsupported: []
+    highlights: [], areas: [], images: [], strays: [], unsupported: [],
+    deadLinks: []
   };
 
   var area = null, category = null, inHighlights = false;
@@ -183,14 +184,21 @@ function parseDoc_() {
     return null;
   }
 
-  /** Appends a list item, starting a new list block when the kind changes. */
-  function pushItem(list, html, ordered) {
+  /**
+   * Appends a list item, starting a new list block when the kind changes.
+   *
+   * Each item carries its nesting level from the doc. Only a change of kind at
+   * the top level starts a new block — a numbered sublist under a bullet is
+   * part of the same list, not a sibling of it.
+   */
+  function pushItem(list, html, ordered, level) {
+    level = level || 0;
     var last = list[list.length - 1];
-    if (!last || last.kind !== 'list' || last.ordered !== ordered) {
+    if (!last || last.kind !== 'list' || (level === 0 && last.ordered !== ordered)) {
       last = { kind: 'list', ordered: ordered, items: [] };
       list.push(last);
     }
-    last.items.push(html);
+    last.items.push({ html: html, level: level, ordered: ordered });
   }
 
   for (var i = 0; i < body.getNumChildren(); i++) {
@@ -218,9 +226,11 @@ function parseDoc_() {
         ? el.asParagraph().getHeading()
         : DocumentApp.ParagraphHeading.NORMAL;
 
-      if (!text) continue;
+      // A paragraph holding only an image has no text. Skipping on text alone
+      // dropped the image before inlineHtml_ ever saw it.
+      if (!text && !hasInlineImage_(el)) continue;
 
-      if (heading === DocumentApp.ParagraphHeading.HEADING1) {
+      if (text && heading === DocumentApp.ParagraphHeading.HEADING1) {
         if (/^highlights$/i.test(text)) {
           inHighlights = true; area = null; category = null;
         } else {
@@ -232,7 +242,7 @@ function parseDoc_() {
         continue;
       }
 
-      if (heading === DocumentApp.ParagraphHeading.HEADING2) {
+      if (text && heading === DocumentApp.ParagraphHeading.HEADING2) {
         inHighlights = false;
         if (!area) { model.strays.push(text); continue; }
         category = { name: text, blocks: [] };
@@ -242,10 +252,10 @@ function parseDoc_() {
 
       // Heading 3 and deeper have no place in the structure. Say so rather
       // than letting them fall through and publish as ordinary bullets.
-      if (heading === DocumentApp.ParagraphHeading.HEADING3 ||
+      if (text && (heading === DocumentApp.ParagraphHeading.HEADING3 ||
           heading === DocumentApp.ParagraphHeading.HEADING4 ||
           heading === DocumentApp.ParagraphHeading.HEADING5 ||
-          heading === DocumentApp.ParagraphHeading.HEADING6) {
+          heading === DocumentApp.ParagraphHeading.HEADING6)) {
         model.unsupported.push('"' + text.slice(0, 50) + '" (' + place() +
           ') is a Heading 3 or deeper. Only Heading 1 for products and ' +
           'Heading 2 for categories are published.');
@@ -254,17 +264,29 @@ function parseDoc_() {
 
       var html = inlineHtml_(el, model, place());
       var ordered = false;
+      var level = 0;
       if (type === DocumentApp.ElementType.LIST_ITEM) {
-        var glyph = el.asListItem().getGlyphType();
+        var listItem = el.asListItem();
+        var glyph = listItem.getGlyphType();
         ordered = glyph === DocumentApp.GlyphType.NUMBER ||
                   glyph === DocumentApp.GlyphType.LATIN_UPPER ||
                   glyph === DocumentApp.GlyphType.LATIN_LOWER ||
                   glyph === DocumentApp.GlyphType.ROMAN_UPPER ||
                   glyph === DocumentApp.GlyphType.ROMAN_LOWER;
+        level = listItem.getNestingLevel() || 0;
       }
 
       var here = target();
-      if (here) { pushItem(here, html, ordered); continue; }
+      if (here) {
+        // An image on its own line is a block, not a bullet. Sending it through
+        // pushItem would wrap the screenshot in a stray <ul><li>.
+        if (!text && type === DocumentApp.ElementType.PARAGRAPH) {
+          here.push({ kind: 'figure', html: html });
+        } else {
+          pushItem(here, html, ordered, level);
+        }
+        continue;
+      }
 
       var meta = text.match(/^(Release|Date|Slug)\s*:\s*(.+)$/i);
       if (meta && !area) {
@@ -292,7 +314,77 @@ function parseDoc_() {
     model.unsupported.push('A ' + String(type).toLowerCase().replace(/_/g, ' ') +
       ' sits ' + place() + '. The transform cannot publish it.');
   }
+
+  // Needs the full area list, so it runs once the walk is done.
+  resolveLinks_(model);
   return model;
+}
+
+/**
+ * True for a link that only resolves inside the Google Doc.
+ *
+ * A link to a heading gives "?tab=t.0#heading=h.qwbm7ug4ekdp", which is
+ * relative to the published page and lands nowhere. Bookmarks and links back
+ * to the document itself have the same problem.
+ */
+function isDocInternal_(href) {
+  return /^[?#]/.test(href) ||
+         /#(heading|bookmark)=/.test(href) ||
+         /docs\.google\.com\/document\//.test(href);
+}
+
+/**
+ * Rewrites doc-internal links to the anchors the page actually publishes.
+ *
+ * The section ids come from the Heading 1 text, so a link whose text names a
+ * section resolves to it. A link that names nothing we publish keeps its text
+ * and loses the href, and is reported — a visibly dead link on a customer page
+ * is worse than a publish that stops and says which link is broken.
+ */
+function resolveLinks_(m) {
+  var byName = { highlights: 'highlights' };
+  m.areas.forEach(function (a) {
+    byName[a.name.trim().toLowerCase().replace(/:$/, '')] = slug_(a.name);
+  });
+
+  function fix(html) {
+    return html.replace(/<a href="([^"]*)">([\s\S]*?)<\/a>/g,
+      function (whole, href, label) {
+        if (!isDocInternal_(href)) return whole;
+        var plain = label.replace(/<[^>]+>/g, '').trim()
+                         .replace(/[:.]$/, '').toLowerCase();
+        var target = byName[plain];
+        if (target) return '<a href="#' + target + '">' + label + '</a>';
+        m.deadLinks.push(label.replace(/<[^>]+>/g, '').trim() || href);
+        return label;
+      });
+  }
+
+  function walk(blocks) {
+    blocks.forEach(function (b) {
+      if (b.kind === 'list') {
+        b.items.forEach(function (it) { it.html = fix(it.html); });
+      } else if (b.kind === 'figure') {
+        b.html = fix(b.html);
+      } else if (b.kind === 'table') {
+        b.rows = b.rows.map(function (row) { return row.map(fix); });
+      }
+    });
+  }
+
+  walk(m.highlights);
+  m.areas.forEach(function (a) {
+    walk(a.lead);
+    a.categories.forEach(function (c) { walk(c.blocks); });
+  });
+}
+
+/** True when a paragraph or list item carries an inline image. */
+function hasInlineImage_(el) {
+  for (var i = 0; i < el.getNumChildren(); i++) {
+    if (el.getChild(i).getType() === DocumentApp.ElementType.INLINE_IMAGE) return true;
+  }
+  return false;
 }
 
 /**
@@ -396,14 +488,24 @@ function textHtml_(text) {
 
   function flush() {
     if (!run) return;
-    var piece = esc_(run);
+
+    // Docs usually extends a link over the space in front of it, which
+    // published an underline reaching out ahead of the word. Keep the
+    // surrounding whitespace, but leave it outside the anchor.
+    var lead = '', tail = '', body = run;
+    if (attrs && attrs.url) {
+      var edges = run.match(/^(\s*)([\s\S]*?)(\s*)$/);
+      if (edges[2]) { lead = edges[1]; body = edges[2]; tail = edges[3]; }
+    }
+
+    var piece = esc_(body);
     if (attrs) {
       if (attrs.code) piece = '<code>' + piece + '</code>';
       if (attrs.bold) piece = '<strong>' + piece + '</strong>';
       if (attrs.italic) piece = '<em>' + piece + '</em>';
       if (attrs.url) piece = '<a href="' + esc_(attrs.url) + '">' + piece + '</a>';
     }
-    out += piece;
+    out += lead + piece + tail;
     run = '';
   }
 
@@ -465,6 +567,12 @@ function validate_(m) {
   });
 
   m.unsupported.forEach(function (u) { problems.push(u); });
+
+  m.deadLinks.forEach(function (t) {
+    problems.push('The link on "' + t.slice(0, 40) + '" points inside the Google ' +
+      'Doc, and no published section matches its text. Link to a section by ' +
+      'using its exact Heading 1 name, or link to a page on docs.snaplogic.com.');
+  });
 
   m.strays.forEach(function (s) {
     problems.push('Text outside any category: "' + s.slice(0, 60) + '".');
@@ -593,10 +701,11 @@ function publishImages_(s, model) {
 function renderBlocks_(h, blocks) {
   blocks.forEach(function (b) {
     if (b.kind === 'list') {
-      var tag = b.ordered ? 'ol' : 'ul';
-      h.push('<' + tag + '>');
-      b.items.forEach(function (html) { h.push('<li>' + html + '</li>'); });
-      h.push('</' + tag + '>');
+      renderList_(h, b);
+      return;
+    }
+    if (b.kind === 'figure') {
+      h.push('<p class="rn-figure">' + b.html + '</p>');
       return;
     }
     if (b.kind === 'table') {
@@ -616,6 +725,44 @@ function renderBlocks_(h, blocks) {
       h.push('</tbody></table>');
     }
   });
+}
+
+/**
+ * Renders one list block, nesting sublists inside the item they sit under.
+ *
+ * A nested list belongs inside the parent <li>, not after it, so the parent's
+ * </li> is held open until its children are closed. Writers indent in the doc
+ * and expect the published page to indent too.
+ */
+function renderList_(h, block) {
+  var tags = [];   // open list tags, outermost first
+  var liOpen = []; // whether an <li> is currently open at that depth
+
+  function tagFor(ordered) { return ordered ? 'ol' : 'ul'; }
+
+  block.items.forEach(function (it) {
+    // A doc cannot jump from level 0 straight to level 2, but a malformed
+    // model could. Clamp rather than emit a list with no parent item.
+    var level = Math.min(it.level || 0, tags.length);
+
+    while (tags.length <= level) {
+      tags.push(tagFor(tags.length === 0 ? block.ordered : it.ordered));
+      h.push('<' + tags[tags.length - 1] + '>');
+      liOpen.push(false);
+    }
+    while (tags.length > level + 1) {
+      if (liOpen.pop()) h.push('</li>');
+      h.push('</' + tags.pop() + '>');
+    }
+    if (liOpen[liOpen.length - 1]) h.push('</li>');
+    h.push('<li>' + it.html);
+    liOpen[liOpen.length - 1] = true;
+  });
+
+  while (tags.length) {
+    if (liOpen.pop()) h.push('</li>');
+    h.push('</' + tags.pop() + '>');
+  }
 }
 
 /* -------------------------------------------------------------------- index */
@@ -725,8 +872,8 @@ function highlightText_(m) {
   var out = [];
   m.highlights.forEach(function (b) {
     if (b.kind !== 'list') return;
-    b.items.forEach(function (html) {
-      out.push(html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&')
+    b.items.forEach(function (it) {
+      out.push(it.html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&')
                    .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
                    .replace(/&quot;/g, '"').trim());
     });

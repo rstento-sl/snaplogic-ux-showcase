@@ -124,43 +124,35 @@ function metaLines(slug) {
 /* ----------------------------------------------------------------- sandbox */
 
 /**
- * `drive` describes the Drive files the doc links to, keyed by file id:
- * { mimeType, size, name, bytes, httpStatus }.
+ * `videos` describes the YouTube videos that exist, keyed by video id:
+ * { bytes, httpStatus }. An id that is absent behaves like a 404 thumbnail,
+ * which is how a wrong or private link presents itself.
  */
-function loadCode(children, drive) {
+function loadCode(children, videos) {
   const src = fs.readFileSync(
     path.join(__dirname, '..', 'apps-script', 'Code.gs'), 'utf8');
 
-  const files = drive || {};
+  const known = videos || {};
+  const fetched = [];
 
   const sandbox = {
-    ScriptApp: { getOAuthToken: () => 'test-token' },
+    __fetched: fetched,
     Drive: {
       // No unresolved comments, so validate_ reports only what a test sets up.
-      Comments: { list: () => ({ comments: [] }) },
-      Files: {
-        get: (id, opts) => {
-          const f = files[id];
-          if (!f) throw new Error('File not found: ' + id);
-          // Drive v3 404s a shared-drive file unless the caller opts in.
-          if (f.sharedDrive && !(opts && opts.supportsAllDrives)) {
-            throw new Error('File not found: ' + id);
-          }
-          return { name: f.name || 'clip.mp4', mimeType: f.mimeType, size: f.size };
-        }
-      }
+      Comments: { list: () => ({ comments: [] }) }
     },
     UrlFetchApp: {
       fetch: (url) => {
-        const m = String(url).match(/files\/([-\w]+)\?alt=media/);
-        const f = m ? files[m[1]] : null;
-        const status = f && f.httpStatus ? f.httpStatus : (f ? 200 : 404);
+        fetched.push(String(url));
+        const m = String(url).match(/\/vi\/([-\w]+)\/\w+\.jpg/);
+        const v = m ? known[m[1]] : null;
+        const status = v ? (v.httpStatus || 200) : 404;
         return {
           getResponseCode: () => status,
           getContentText: () => '',
           getBlob: () => ({
-            getBytes: () => (f && f.bytes) || [8, 8, 8],
-            getContentType: () => (f && f.mimeType) || 'video/mp4'
+            getBytes: () => (v && v.bytes) || [8, 8, 8],
+            getContentType: () => 'image/jpeg'
           })
         };
       }
@@ -202,6 +194,17 @@ function loadCode(children, drive) {
   vm.createContext(sandbox);
   vm.runInContext(src, sandbox, { filename: 'Code.gs' });
   return sandbox;
+}
+
+/** A doc with the metadata and a Highlights section already in place. */
+function docWith(tail) {
+  return [].concat(metaLines(), [
+    h1('Highlights'),
+    item([run('A highlight')]),
+    h1('Admin Manager'),
+    h2('New features'),
+    item([run('An entry')])
+  ], tail);
 }
 
 /* ----------------------------------------------------------------- harness */
@@ -575,38 +578,21 @@ section('link whitespace does not disturb other formatting');
   check(/Open the <strong>/.test(html), 'spacing around bold text is preserved');
 }
 
-section('a Drive video linked on its own line');
+section('a YouTube link on its own line');
 {
-  const url = 'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQr/view?usp=sharing';
-  const doc = [].concat(metaLines(), [
-    h1('Highlights'),
-    item([run('A highlight')]),
-    h1('Admin Manager'),
-    h2('New features'),
-    item([run('SnapGPT Standards tab.')]),
-    para([run('Publishing a standard', { url })])
-  ]);
+  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+  const api = loadCode(
+    docWith([para([run('Publishing a standard', { url })])]),
+    { dQw4w9WgXcQ: { bytes: [1, 2, 3] } });
 
-  const api = loadCode(doc, {
-    '1AbCdEfGhIjKlMnOpQr': {
-      name: 'standards.mp4', mimeType: 'video/mp4',
-      size: 4 * 1024 * 1024, bytes: [1, 7, 3]
-    }
-  });
   const model = api.parseDoc_();
 
   check(model.videos.length === 1,
-    'the video is registered for upload',
+    'the video is registered',
     'model.videos holds ' + model.videos.length);
-
-  check(!!model.videos[0] && /^[0-9a-f]{16}\.mp4$/.test(model.videos[0].name),
-    'it is named by content hash with an mp4 extension',
-    model.videos[0] ? model.videos[0].name : 'no video registered');
-
   check(model.unsupported.length === 0,
-    'it is not reported as unsupported',
+    'nothing is reported as unsupported',
     model.unsupported.join(' | '));
-
   check(api.validate_(model).length === 0,
     'it passes validation',
     api.validate_(model).join(' | '));
@@ -614,34 +600,111 @@ section('a Drive video linked on its own line');
   const html = api.renderPage_(model);
 
   check(/<figure class="rn-video">/.test(html), 'it renders as a figure');
-  check(/<video controls preload="metadata">/.test(html), 'the player has controls');
-  check(/<source src="\.\.\/videos\/[0-9a-f]+\.mp4" type="video\/mp4">/.test(html),
-    'the source points at the copy in the repo, not Drive',
-    (html.match(/<source[^>]*>/) || ['none'])[0]);
-  check(!/drive\.google\.com/.test(html),
-    'no Drive link survives into the page');
+  check(/data-youtube="dQw4w9WgXcQ"/.test(html), 'the video id is on the holder');
   check(/<figcaption>Publishing a standard<\/figcaption>/.test(html),
     'the link text becomes the caption');
-  check(/Download it<\/a>/.test(html),
-    'there is a fallback for a browser that cannot play it');
+  check(/Play video: Publishing a standard/.test(html),
+    'the play control has an accessible name');
+}
+
+section('the page makes no request to YouTube until clicked');
+{
+  const url = 'https://youtu.be/dQw4w9WgXcQ';
+  const api = loadCode(
+    docWith([para([run('A demo', { url })])]),
+    { dQw4w9WgXcQ: { bytes: [4, 5] } });
+
+  const model = api.parseDoc_();
+  const html = api.renderPage_(model);
+
+  check(!/ytimg\.com/.test(html) && !/youtube\.com\/embed/.test(html) &&
+        !/youtube-nocookie/.test(html),
+    'no YouTube asset or iframe is in the published HTML',
+    (html.match(/https?:\/\/[^"']*(ytimg|youtube)[^"']*/) || ['none'])[0]);
+
+  check(/<img src="\.\.\/images\/[0-9a-f]{16}\.jpg"/.test(html),
+    'the thumbnail is served from this repo',
+    (html.match(/<img src="[^"]*"/g) || ['none']).join(' '));
+
+  check(model.images.some((i) => /\.jpg$/.test(i.name) && i.decorative),
+    'the thumbnail is queued for commit, marked decorative',
+    JSON.stringify(model.images.map((i) => i.name)));
+
+  // The only outbound call at publish time is for the thumbnail.
+  check(api.__fetched.length === 1 && /i\.ytimg\.com/.test(api.__fetched[0]),
+    'publish fetches only the thumbnail',
+    JSON.stringify(api.__fetched));
+
+  check(/href="https:\/\/www\.youtube\.com\/watch\?v=dQw4w9WgXcQ"/.test(html),
+    'the thumbnail links to YouTube as the no-JavaScript fallback');
+}
+
+section('a thumbnail needs no alt text');
+{
+  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+  const api = loadCode(
+    docWith([para([run('A demo', { url })])]),
+    { dQw4w9WgXcQ: { bytes: [7] } });
+
+  const model = api.parseDoc_();
+  const problems = api.validate_(model);
+
+  check(!problems.some((p) => /alt text/.test(p)),
+    'the missing-alt-text check does not fire on it',
+    problems.join(' | '));
+  check(/<img src="[^"]*" alt=""/.test(api.renderPage_(model)),
+    'it publishes with empty alt, since the caption describes the video');
+}
+
+section('link forms and start times');
+{
+  const cases = [
+    ['https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'dQw4w9WgXcQ', 0],
+    ['https://youtu.be/dQw4w9WgXcQ', 'dQw4w9WgXcQ', 0],
+    ['https://www.youtube.com/embed/dQw4w9WgXcQ', 'dQw4w9WgXcQ', 0],
+    ['https://www.youtube.com/shorts/dQw4w9WgXcQ', 'dQw4w9WgXcQ', 0],
+    ['https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=90', 'dQw4w9WgXcQ', 90],
+    ['https://youtu.be/dQw4w9WgXcQ?t=1m30s', 'dQw4w9WgXcQ', 90],
+    ['https://www.youtube.com/watch?list=PL1&v=dQw4w9WgXcQ', 'dQw4w9WgXcQ', 0]
+  ];
+
+  const api = loadCode(docWith([]), { dQw4w9WgXcQ: { bytes: [1] } });
+
+  cases.forEach(function (c) {
+    check(api.youTubeId_(c[0]) === c[1],
+      'id from ' + c[0], 'got ' + api.youTubeId_(c[0]));
+    check(api.youTubeStart_(c[0]) === c[2],
+      'start ' + c[2] + 's from ' + c[0], 'got ' + api.youTubeStart_(c[0]));
+  });
+
+  check(api.youTubeId_('https://docs.snaplogic.com/a.html') === null,
+    'a docs link is not a video');
+  check(api.youTubeId_('https://drive.google.com/file/d/1AbCdEfGhIj/view') === null,
+    'a Drive link is not a video');
+}
+
+section('a start time reaches the player');
+{
+  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=90';
+  const api = loadCode(
+    docWith([para([run('Skip to the demo', { url })])]),
+    { dQw4w9WgXcQ: { bytes: [9] } });
+
+  const html = api.renderPage_(api.parseDoc_());
+  check(/data-start="90"/.test(html), 'the holder carries the start time');
+  check(/watch\?v=dQw4w9WgXcQ&amp;t=90/.test(html),
+    'the fallback link keeps it too',
+    (html.match(/href="[^"]*watch[^"]*"/) || ['none'])[0]);
 }
 
 section('a video with no caption');
 {
-  const url = 'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQr/view';
-  const doc = [].concat(metaLines(), [
-    h1('Highlights'),
-    item([run('A highlight')]),
-    h1('Admin Manager'),
-    h2('New features'),
-    item([run('An entry')]),
-    // The writer pasted the bare URL, so the link text is the URL.
-    para([run(url, { url })])
-  ]);
+  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+  // The writer pasted the bare URL, so the link text is the URL.
+  const api = loadCode(
+    docWith([para([run(url, { url })])]),
+    { dQw4w9WgXcQ: { bytes: [3] } });
 
-  const api = loadCode(doc, {
-    '1AbCdEfGhIjKlMnOpQr': { mimeType: 'video/mp4', size: 1024, bytes: [2] }
-  });
   const model = api.parseDoc_();
 
   check(model.videos.length === 1, 'the video is still registered');
@@ -650,59 +713,25 @@ section('a video with no caption');
     api.validate_(model).join(' | '));
 }
 
-section('a video that is too large');
+section('a link to a video that does not exist');
 {
-  const url = 'https://drive.google.com/file/d/1TooBigFileeeee/view';
-  const doc = [].concat(metaLines(), [
-    h1('Highlights'),
-    item([run('A highlight')]),
-    h1('Admin Manager'),
-    h2('New features'),
-    item([run('An entry')]),
-    para([run('A long demo', { url })])
-  ]);
+  const url = 'https://www.youtube.com/watch?v=notARealVideo';
+  const api = loadCode(docWith([para([run('A demo', { url })])]), {});
 
-  const api = loadCode(doc, {
-    '1TooBigFileeeee': {
-      name: 'demo.mp4', mimeType: 'video/mp4', size: 90 * 1024 * 1024
-    }
-  });
-  const model = api.parseDoc_();
-
-  check(model.videos.length === 0, 'it is not uploaded');
-  check(model.unsupported.some((u) => /90 MB.*limit is 25 MB/.test(u)),
-    'the size and the limit are both named',
-    model.unsupported.join(' | '));
-  check(api.validate_(model).length > 0, 'publishing is blocked');
-}
-
-section('a Drive link to something that is not a video');
-{
-  const url = 'https://drive.google.com/file/d/1SomeSpreadsheet/view';
-  const doc = [].concat(metaLines(), [
-    h1('Highlights'),
-    item([run('A highlight')]),
-    h1('Admin Manager'),
-    h2('New features'),
-    item([run('An entry')]),
-    para([run('The tracking sheet', { url })])
-  ]);
-
-  const api = loadCode(doc, {
-    '1SomeSpreadsheet': { mimeType: 'application/vnd.google-apps.spreadsheet', size: 10 }
-  });
   const model = api.parseDoc_();
   const html = api.renderPage_(model);
 
-  check(model.videos.length === 0, 'it is not treated as a video');
-  check(!/<video/.test(html), 'no player is rendered');
-  check(html.includes('href="' + url + '"'),
-    'it publishes as an ordinary link');
+  check(model.videos.length === 0, 'it is not registered');
+  check(model.unsupported.some((u) => /No YouTube video found/.test(u)),
+    'the writer is told the link is wrong',
+    model.unsupported.join(' | '));
+  check(api.validate_(model).length > 0, 'publishing is blocked');
+  check(!/<figure class="rn-video">/.test(html), 'no player is rendered');
 }
 
-section('a video link inside a sentence stays a link');
+section('a YouTube link inside a sentence stays a link');
 {
-  const url = 'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQr/view';
+  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
   const doc = [].concat(metaLines(), [
     h1('Highlights'),
     item([run('A highlight')]),
@@ -711,9 +740,7 @@ section('a video link inside a sentence stays a link');
     item([run('Watch '), run('the demo', { url }), run(' for the details.')])
   ]);
 
-  const api = loadCode(doc, {
-    '1AbCdEfGhIjKlMnOpQr': { mimeType: 'video/mp4', size: 1024, bytes: [5] }
-  });
+  const api = loadCode(doc, { dQw4w9WgXcQ: { bytes: [2] } });
   const model = api.parseDoc_();
   const html = api.renderPage_(model);
 
@@ -721,86 +748,46 @@ section('a video link inside a sentence stays a link');
     'a link among other words is not turned into a player');
   check(/Watch <a href="[^"]*">the demo<\/a> for the details\./.test(html),
     'the sentence is left intact',
-    (html.match(/Watch[^<]*<a[\s\S]*?details\./) || ['none'])[0]);
+    (html.match(/Watch[\s\S]{0,90}details\./) || ['none'])[0]);
 }
 
-section('an unreadable Drive file');
+section('a non-video link on its own line');
 {
-  const url = 'https://drive.google.com/file/d/1MissingFileeee/view';
-  const doc = [].concat(metaLines(), [
-    h1('Highlights'),
-    item([run('A highlight')]),
-    h1('Admin Manager'),
-    h2('New features'),
-    item([run('An entry')]),
-    para([run('A demo', { url })])
-  ]);
+  const url = 'https://docs.snaplogic.com/admin-manager/snapgpt-settings.html';
+  const api = loadCode(docWith([para([run('The settings page', { url })])]), {});
 
-  const api = loadCode(doc, {}); // the id is not in Drive
   const model = api.parseDoc_();
+  const html = api.renderPage_(model);
 
-  check(model.videos.length === 0, 'nothing is uploaded');
-  check(model.unsupported.some((u) => /Cannot read the Drive file/.test(u)),
-    'the writer is told the link cannot be read',
-    model.unsupported.join(' | '));
-  check(api.validate_(model).length > 0, 'publishing is blocked');
-}
-
-section('a video on a shared drive');
-{
-  const url = 'https://drive.google.com/file/d/1OnASharedDrive/view';
-  const doc = [].concat(metaLines(), [
-    h1('Highlights'),
-    item([run('A highlight')]),
-    h1('Admin Manager'),
-    h2('New features'),
-    item([run('An entry')]),
-    para([run('Publishing a standard', { url })])
-  ]);
-
-  const api = loadCode(doc, {
-    '1OnASharedDrive': {
-      name: 'standards.mp4', mimeType: 'video/mp4',
-      size: 2 * 1024 * 1024, bytes: [6, 6, 6], sharedDrive: true
-    }
-  });
-  const model = api.parseDoc_();
-
-  check(model.videos.length === 1,
-    'a file on a shared drive is found, not 404d',
-    model.unsupported.join(' | ') || 'no video registered');
+  check(model.videos.length === 0, 'it is not treated as a video');
   check(model.unsupported.length === 0,
-    'nothing is reported',
+    'it is not reported either',
     model.unsupported.join(' | '));
-  check(/<video controls/.test(api.renderPage_(model)),
-    'it renders a player');
+  check(html.includes('href="' + url + '"'),
+    'it publishes as an ordinary link');
 }
 
 section('the same video linked twice');
 {
-  const a = 'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQr/view';
-  const doc = [].concat(metaLines(), [
-    h1('Highlights'),
-    item([run('A highlight')]),
-    h1('Admin Manager'),
-    h2('New features'),
-    item([run('An entry')]),
-    para([run('The demo', { url: a })]),
-    para([run('The demo again', { url: a })])
-  ]);
+  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+  const api = loadCode(
+    docWith([
+      para([run('The demo', { url })]),
+      para([run('The demo again', { url })])
+    ]),
+    { dQw4w9WgXcQ: { bytes: [6, 6] } });
 
-  const api = loadCode(doc, {
-    '1AbCdEfGhIjKlMnOpQr': { mimeType: 'video/mp4', size: 2048, bytes: [4, 4] }
-  });
   const model = api.parseDoc_();
 
-  check(model.videos.length === 1,
-    'identical bytes deduplicate to one upload',
-    'model.videos holds ' + model.videos.length);
+  check(model.images.filter((i) => /\.jpg$/.test(i.name)).length === 1,
+    'the thumbnail is committed once',
+    JSON.stringify(model.images.map((i) => i.name)));
+  check(model.videos.length === 2,
+    'both videos are counted, so an uncaptioned one is still caught');
 
   const html = api.renderPage_(model);
-  check((html.match(/<video /g) || []).length === 2,
-    'both places still render a player');
+  check((html.match(/data-youtube=/g) || []).length === 2,
+    'both places render a player');
 }
 
 /* ------------------------------------------------------------------ report */

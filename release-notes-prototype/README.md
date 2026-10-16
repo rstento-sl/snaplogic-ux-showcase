@@ -46,12 +46,13 @@ release-notes-prototype/
 ├── index.html              reads releases.json at load time — the homepage behaviour
 ├── releases.json           the index the script maintains
 ├── releases/               one published page per release
-├── images/                 screenshots, named by content hash
-├── videos/                 videos copied out of Drive, named by content hash
+├── images/                 screenshots and video thumbnails, named by content hash
 ├── assets/release-notes.css  layout only; type and colour come from the dual-nav theme
+├── assets/release-notes.js   click-to-play for embedded videos
 ├── apps-script/Code.gs     the script writers run
 ├── apps-script/appsscript.json  scopes and the Drive advanced service
 ├── test/check-transform.js doc -> HTML, with DocumentApp stubbed
+├── test/check-video.js     builds a page with a video and presses play
 ├── test/check-layout.js    the published page in a real browser
 └── DOC-TEMPLATE.md         what to put in the Google Doc
 ```
@@ -119,46 +120,48 @@ screenshot used twice is stored once.
 
 ## Adding a video
 
-Google Docs cannot hold a video file, so the video lives in Drive and the doc
-links to it.
+Google Docs cannot hold a video file, so the video goes on YouTube and the doc
+links to it. This is what the DITA docs already do.
 
-1. Upload the MP4 to Drive — your own, or a shared drive you belong to.
-2. Copy its share link.
-3. In the doc, type a short description of the video on its own line — "Publishing
-   a standard", not a bare URL.
-4. Select that text and link it to the Drive file.
+1. Upload the video to YouTube. Unlisted is fine — it only has to be playable
+   by someone with the link.
+2. Copy the link.
+3. In the doc, type a short description of the video on its own line —
+   "Publishing a standard", not a bare URL.
+4. Select that text and link it to the video.
 
-**Whose Drive:** Publish runs as whoever clicks it, with that person's Drive
-access. So the video has to be readable by the person publishing, and nothing
-needs to be uploaded to anyone else's Drive. If the writer publishes their own
-release notes, their own Drive is enough. If one person publishes for several
-writers, put the videos on a shared drive they all belong to — a file shared
-one-to-one works too, but it breaks the moment someone else publishes.
+Publish renders a thumbnail with a play button. The description becomes the
+caption underneath.
 
-Publish copies the file into `videos/` and renders a player on the page. The
-description becomes the caption below it.
+**The page does not contact YouTube until the reader clicks.** The thumbnail
+is downloaded at publish time and committed to `images/`, so opening a release
+note tells YouTube nothing about who read it. Clicking loads the player from
+`youtube-nocookie.com`, already playing. Without JavaScript the thumbnail
+stays an ordinary link to YouTube, which is the honest fallback.
 
-Four rules the script enforces:
+Three rules the script enforces:
 
 - **The link sits on its own line.** A video link inside a sentence stays a
   link, because replacing it with a player would break the sentence.
 - **The link needs text.** A pasted URL leaves the player with no caption, so
   Publish stops and asks for a description.
-- **MP4, up to 25 MB.** WebM, MOV and M4V also work. Anything larger is
-  refused with its size named — shorten it, export it smaller, or host it on
-  YouTube.
-- **The file has to be readable by the publisher.** If the script cannot open
-  the Drive file it says so, and names the three places the video can live,
-  rather than publishing a page with a missing video.
+- **The video has to exist.** The thumbnail download is also the check: a
+  typo'd or private link gets no thumbnail, and Publish stops rather than
+  shipping a player that will not play.
 
-The video is copied into the repo rather than embedded from Drive, because a
-Drive link needs a signed-in viewer with access to that file, which a public
-docs page does not have.
+`youtube.com/watch`, `youtu.be`, `/embed/` and `/shorts/` links all work, and
+a start time (`t=90` or `t=1m30s`) carries through to the player.
 
-This is the prototype's one way in. Production will want more — a YouTube
-link, which is what the DITA docs embed today, and probably a video already on
-the CDN. Both are additions to the same path: the transform recognises the
-link and decides what to render.
+This is the prototype's one way in, chosen because it needs nothing from the
+docs team beyond a YouTube account. Production will want more. An earlier
+version of this script pulled the MP4 out of Drive and committed it here; that
+works, but Publish runs as whoever clicks it, so the file has to be readable by
+that person, which gets awkward once one person publishes for several writers.
+It is in the history if it is wanted. The likelier answer is to keep the MP4
+alongside the docs in `ditasrc` and reference it from there, which makes the
+video a reviewed artifact like any other and drops the third-party embed
+entirely. All three are the same shape: the transform recognises the link and
+decides what to render.
 
 ## What it checks
 
@@ -169,7 +172,7 @@ Structure, not prose:
 - Every area has categories, every category has entries
 - Category names from the fixed list in `DOC-TEMPLATE.md`
 - Alt text on every image
-- A caption on every video, and a file it can actually read
+- A caption on every video, and a YouTube link that resolves to a real video
 - No text stranded outside a category
 - **No unresolved comments and no pending suggestions**
 
@@ -233,6 +236,20 @@ It exists because the layout check cannot see what the parser dropped. An
 image on its own line was being discarded before rendering: the page published
 cleanly, just without the screenshot. A browser looking at that page has
 nothing to notice.
+
+## Checking the video
+
+```
+node test/check-video.js
+```
+
+Builds a page with a video, serves it on a free port, and drives it in a real
+browser. Needs Playwright; needs no Google account and no published page.
+
+It presses play, which neither other check can do. The assertion that matters
+most is the one before the click: no request reaches YouTube until the reader
+asks for the video. That is the whole reason the thumbnail is committed here
+rather than loaded from YouTube, and it would break silently.
 
 ## Checking the layout
 

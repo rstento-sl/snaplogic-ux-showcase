@@ -116,9 +116,9 @@ function menuPublish() {
     if (!go) return;
   }
 
-  // Media first, so the page never references a file that is not there yet.
+  // Images first, so the page never references a file that is not there yet.
+  // Video thumbnails are images too, so this covers them.
   var uploaded = publishImages_(s, model);
-  var uploadedVideos = publishVideos_(s, model);
 
   var html = renderPage_(model);
   var pagePath = s.basePath + '/releases/' + model.slug + '.html';
@@ -138,8 +138,7 @@ function menuPublish() {
         ', ' + uploaded + ' newly uploaded.'
       : '') +
     (model.videos.length
-      ? '\n' + model.videos.length + ' video' + (model.videos.length === 1 ? '' : 's') +
-        ', ' + uploadedVideos + ' newly uploaded.'
+      ? '\n' + model.videos.length + ' video' + (model.videos.length === 1 ? '' : 's') + '.'
       : '') +
     '\n\n' + url +
     '\n\nGitHub Pages usually takes under a minute to rebuild.');
@@ -267,13 +266,13 @@ function parseDoc_() {
         continue;
       }
 
-      // A paragraph that is nothing but a link to a Drive video publishes as
-      // an embedded player. Docs cannot hold a video file, so a link to one in
-      // Drive is the only way a writer can put a video in the source.
+      // A paragraph that is nothing but a YouTube link publishes as a player.
+      // Docs cannot hold a video file, so a link is the only way a writer can
+      // put a video in the source.
       if (type === DocumentApp.ElementType.PARAGRAPH) {
         var only = soleLink_(el);
         if (only) {
-          var video = videoBlock_(only.url, only.text, model, place());
+          var video = youTubeBlock_(only.url, only.text, model, place());
           if (video) {
             var dest = target();
             if (dest) { dest.push(video); continue; }
@@ -403,16 +402,6 @@ function resolveLinks_(m) {
 
 /* -------------------------------------------------------------------- video */
 
-/** Largest video we will carry into the repo, in bytes. */
-var VIDEO_MAX_BYTES = 25 * 1024 * 1024;
-
-var VIDEO_EXT = {
-  'video/mp4': 'mp4',
-  'video/webm': 'webm',
-  'video/quicktime': 'mov',
-  'video/x-m4v': 'm4v'
-};
-
 /**
  * Returns {url, text} when a paragraph is a single link and nothing else, so a
  * link on its own line can be treated as a block. A link inside a sentence is
@@ -440,81 +429,84 @@ function soleLink_(el) {
   return url ? { url: url, text: text.trim() } : null;
 }
 
-/** The file id out of a Drive link, or null when it is not one. */
-function driveFileId_(url) {
-  var m = String(url).match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^#]*id=)([-\w]{10,})/);
+/** The video id out of a YouTube link, or null when it is not one. */
+function youTubeId_(url) {
+  var s = String(url);
+  var m = s.match(/youtu\.be\/([-\w]{6,})/) ||
+          s.match(/youtube(?:-nocookie)?\.com\/(?:watch\?[^#]*\bv=|embed\/|live\/|shorts\/)([-\w]{6,})/);
   return m ? m[1] : null;
 }
 
 /**
- * Registers a Drive video for publication and returns the block that renders
- * it, or null when the link is not a video we can carry.
+ * The t= or start= seconds on a YouTube link, or 0.
  *
- * The file is copied into the repo rather than embedded from Drive: a Drive
- * link needs a signed-in viewer with access, which a public docs page does not
- * have. Anything that cannot be published is reported, never dropped quietly.
+ * The whole value is read before being parsed: matching digits alone turns
+ * the share dialog's "t=1m30s" into one second.
  */
-function videoBlock_(url, label, model, where) {
-  var id = driveFileId_(url);
+function youTubeStart_(url) {
+  var m = String(url).match(/[?&#](?:t|start)=([^&#]+)/);
+  if (!m) return 0;
+  if (/^\d+$/.test(m[1])) return Number(m[1]);
+  var hms = m[1].match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/);
+  if (!hms) return 0;
+  return (Number(hms[1] || 0) * 3600) + (Number(hms[2] || 0) * 60) + Number(hms[3] || 0);
+}
+
+/**
+ * Registers a YouTube video and returns the block that renders it.
+ *
+ * The page shows a thumbnail and loads the player only when the reader clicks,
+ * so a release note makes no request to YouTube until someone asks for the
+ * video. The thumbnail is copied into the repo for the same reason — served
+ * from YouTube it would announce every reader of the page.
+ */
+function youTubeBlock_(url, label, model, where) {
+  var id = youTubeId_(url);
   if (!id) return null;
 
-  var meta;
-  try {
-    // supportsAllDrives defaults to false in v3, which 404s a file that lives
-    // on a shared drive — where a docs team's videos actually sit.
-    meta = Drive.Files.get(id, {
-      fields: 'name,mimeType,size',
-      supportsAllDrives: true
-    });
-  } catch (e) {
-    // Publish runs as whoever clicks it, so the file has to be readable by
-    // that account — not by the person who wrote the video.
-    model.unsupported.push('Cannot read the Drive file linked in ' + where +
-      '. Publish runs as you, so the video has to be one your own account can ' +
-      'open: either in your Drive, on a shared drive you belong to, or shared ' +
-      'with you by whoever made it. (' + e.message + ')');
-    return null;
-  }
+  var thumb = fetchThumb_(id, model, where);
+  if (!thumb) return null;
 
-  var mime = String(meta.mimeType || '');
-  if (mime.indexOf('video/') !== 0) return null; // a link to something else
+  model.videos.push({ id: id, label: label, where: where || '' });
 
-  var ext = VIDEO_EXT[mime];
-  if (!ext) {
-    model.unsupported.push('The video "' + meta.name + '" in ' + where + ' is ' +
-      mime + '. Publish it as MP4, which every browser plays.');
-    return null;
-  }
+  return {
+    kind: 'youtube',
+    id: id,
+    start: youTubeStart_(url),
+    thumb: thumb,
+    label: label
+  };
+}
 
-  var size = Number(meta.size || 0);
-  if (size > VIDEO_MAX_BYTES) {
-    model.unsupported.push('The video "' + meta.name + '" in ' + where + ' is ' +
-      Math.round(size / 1048576) + ' MB. The limit is ' +
-      Math.round(VIDEO_MAX_BYTES / 1048576) + ' MB. Shorten it, export it ' +
-      'smaller, or host it on YouTube instead.');
-    return null;
-  }
-
+/**
+ * Downloads a video's thumbnail and queues it for commit, returning the
+ * filename. Reported rather than skipped on failure: a wrong id gives a
+ * player that will not play, and the thumbnail is the first thing to say so.
+ */
+function fetchThumb_(id, model, where) {
+  // hqdefault exists for every video; maxresdefault does not.
   var res = UrlFetchApp.fetch(
-    'https://www.googleapis.com/drive/v3/files/' + id +
-    '?alt=media&supportsAllDrives=true', {
-      headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() },
-      muteHttpExceptions: true
-    });
-  if (res.getResponseCode() >= 300) {
-    model.unsupported.push('Could not download the video "' + meta.name +
-      '" in ' + where + ' (HTTP ' + res.getResponseCode() + ').');
+    'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg',
+    { muteHttpExceptions: true });
+
+  if (res.getResponseCode() !== 200) {
+    model.unsupported.push('No YouTube video found for the link in ' + where +
+      ' (id "' + id + '", HTTP ' + res.getResponseCode() + '). Check the link ' +
+      'is to a video that exists and is not private.');
     return null;
   }
 
   var blob = res.getBlob();
-  var name = hashBytes_(blob.getBytes()) + '.' + ext;
-
-  var seen = model.videos.some(function (v) { return v.name === name; });
+  var name = hashBytes_(blob.getBytes()) + '.jpg';
+  var seen = model.images.some(function (i) { return i.name === name; });
   if (!seen) {
-    model.videos.push({ name: name, blob: blob, label: label, where: where || '' });
+    // decorative: the caption describes the video, so empty alt is correct and
+    // the missing-alt-text check must not fire on it.
+    model.images.push({
+      name: name, blob: blob, alt: '', where: where || '', decorative: true
+    });
   }
-  return { kind: 'video', name: name, type: mime, label: label };
+  return name;
 }
 
 /** Short content hash, used for image and video filenames alike. */
@@ -703,10 +695,13 @@ function validate_(m) {
     });
   });
 
-  m.images.filter(function (i) { return !i.alt; }).forEach(function (i) {
-    problems.push('An image in ' + (i.where || 'the document') +
-      ' has no alt text. Right-click the image > Alt text.');
-  });
+  // A video thumbnail is decorative: its caption describes the video, so empty
+  // alt text is correct there and only a writer's own image needs alt text.
+  m.images.filter(function (i) { return !i.alt && !i.decorative; })
+    .forEach(function (i) {
+      problems.push('An image in ' + (i.where || 'the document') +
+        ' has no alt text. Right-click the image > Alt text.');
+    });
 
   // The link text becomes the player's caption, so a bare pasted URL leaves
   // the video with nothing to describe it.
@@ -715,7 +710,7 @@ function validate_(m) {
   }).forEach(function (v) {
     problems.push('The video in ' + (v.where || 'the document') +
       ' has no caption. Select the link, type a short description of the ' +
-      'video, and keep it linked to the Drive file.');
+      'video, and keep that text linked to YouTube.');
   });
 
   m.unsupported.forEach(function (u) { problems.push(u); });
@@ -825,6 +820,7 @@ function renderPage_(m) {
   h.push('</main>');
   h.push('<div id="site-footer"></div>');
   h.push('<script src="../assets/chrome.js"><\/script>');
+  h.push('<script src="../assets/release-notes.js"><\/script>');
   h.push('</body></html>');
   return h.join('\n');
 }
@@ -846,17 +842,6 @@ function publishImages_(s, model) {
   return uploaded;
 }
 
-/** The same write-once treatment for videos, which live beside the images. */
-function publishVideos_(s, model) {
-  var uploaded = 0;
-  model.videos.forEach(function (v) {
-    var path = s.basePath + '/videos/' + v.name;
-    if (getFileMeta_(s, path)) return;
-    putBinary_(s, path, v.blob, 'Add release note video ' + v.name);
-    uploaded++;
-  });
-  return uploaded;
-}
 
 /**
  * Renders a category's blocks in document order, so a table between two
@@ -872,14 +857,23 @@ function renderBlocks_(h, blocks) {
       h.push('<p class="rn-figure">' + b.html + '</p>');
       return;
     }
-    if (b.kind === 'video') {
-      var src = '../videos/' + b.name;
+    if (b.kind === 'youtube') {
+      // The button is what loads the player. Without JavaScript it stays a
+      // link to YouTube, which is the honest fallback for an embedded video.
+      var watch = 'https://www.youtube.com/watch?v=' + b.id +
+                  (b.start ? '&t=' + b.start : '');
       h.push('<figure class="rn-video">');
-      h.push('<video controls preload="metadata">' +
-             '<source src="' + src + '" type="' + esc_(b.type) + '">' +
-             'Your browser cannot play this video. ' +
-             '<a href="' + src + '">Download it</a>.' +
-             '</video>');
+      h.push('<div class="rn-yt" data-youtube="' + esc_(b.id) + '"' +
+             ' data-title="' + esc_(b.label || 'Video') + '"' +
+             (b.start ? ' data-start="' + b.start + '"' : '') + '>');
+      h.push('<a class="rn-yt-play" href="' + esc_(watch) + '">' +
+             '<img src="../images/' + b.thumb + '" alt="" width="480" height="360" ' +
+             'loading="lazy">' +
+             '<span class="rn-yt-badge" aria-hidden="true"></span>' +
+             '<span class="rn-yt-label">Play video' +
+             (b.label ? ': ' + esc_(b.label) : '') + '</span>' +
+             '</a>');
+      h.push('</div>');
       if (b.label) h.push('<figcaption>' + esc_(b.label) + '</figcaption>');
       h.push('</figure>');
       return;

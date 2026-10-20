@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Manager Usability Issues</title>
+<title>SnapLogic UX Issue Showcase</title>
 <link rel="stylesheet" href="https://sl-design-team.github.io/jellyroll/colors_and_type.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,16 +22,15 @@
     color: var(--sl-blue-300);
     margin-top: var(--space-2);
     line-height: 1.5;
-    max-width: 52ch;
+    max-width: 56ch;
+    font-size: var(--type-body-size);
   }
 
   .wrap { max-width: 820px; margin: 0 auto; padding: var(--space-8) var(--space-6) 0; }
 
-  .sub { font-size: var(--type-body-size); }
-
   .intro-note {
     max-width: 70ch;
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-8);
     background: var(--color-surface-raised);
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-md);
@@ -41,133 +40,79 @@
     color: var(--color-text-subtle);
     line-height: 1.6;
     font-size: var(--type-body-size);
-    margin-bottom: var(--space-3);
   }
-  .intro-note-label {
-    font-size: var(--type-small-size);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--sl-grey-800);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--color-border-subtle);
-    margin-bottom: var(--space-2);
-  }
-  .intro-note p:last-child { margin-bottom: 0; }
   .pin-ref { font-weight: 700; }
   .pin-ref.red { color: var(--sl-red-700); }
   .pin-ref.green { color: var(--sl-green-700); }
-  .pin-ref.purple { color: var(--color-text-discovery); }
-  .pin-ref .ua-icon { vertical-align: -2px; margin-right: 2px; }
 
-  .area-title {
+  .list-label {
     font-family: var(--font-sans);
     font-size: 17px;
     font-weight: 800;
     text-transform: uppercase;
     color: var(--sl-blue-600);
     letter-spacing: 0.03em;
-    margin: var(--space-10) 0 var(--space-3);
+    margin-bottom: var(--space-3);
     padding-bottom: var(--space-2);
     border-bottom: 1px solid var(--color-border-subtle);
-  }
-  .area-title:first-of-type { margin-top: 0; }
-
-  .section-title {
-    font-size: var(--type-label-size);
-    line-height: var(--type-label-line);
-    font-weight: var(--type-label-weight);
-    color: var(--color-text-heading);
-    margin: var(--space-6) 0 var(--space-2);
-  }
-
-  .list-header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0 42px 4px 0;
-  }
-  .list-header span {
-    font-size: var(--type-small-size);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-text-subtle);
   }
 
   .empty {
     border: 1px dashed var(--color-border-subtle);
     border-radius: var(--radius-md);
-    padding: var(--space-4) var(--space-4);
+    padding: var(--space-4);
     color: var(--color-text-subtle);
     font-family: var(--font-mono);
     font-size: var(--type-small-size);
   }
 
-  .page-list { list-style: none; }
-  .page-item { margin-bottom: var(--space-2); }
-  .page-link {
+  .product-list { list-style: none; }
+  .product-item { margin-bottom: var(--space-3); }
+
+  .product-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-3);
+    gap: var(--space-4);
     background: var(--color-surface-raised);
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-4) var(--space-5);
     box-shadow: var(--shadow-raised);
     text-decoration: none;
-    cursor: pointer;
     transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .page-link:hover {
+  a.product-card { cursor: pointer; }
+  a.product-card:hover {
     border-color: var(--color-border-hover);
     box-shadow: var(--shadow-raised-hover);
   }
-  .page-link .title {
+  .product-card.is-empty {
+    background: transparent;
+    border-style: dashed;
+    box-shadow: none;
+  }
+
+  .product-card .name {
+    display: block;
     font-size: var(--type-label-size);
     line-height: var(--type-label-line);
     font-weight: var(--type-label-weight);
     color: var(--color-text-heading);
   }
-  .page-link:hover .title { color: var(--color-text-link-hover); }
-  .page-link .right { display: flex; align-items: center; gap: var(--space-3); }
+  a.product-card:hover .name { color: var(--color-text-link-hover); }
+  .product-card.is-empty .name { color: var(--color-text-subtle); }
+  .product-card .blurb {
+    display: block;
+    margin-top: 2px;
+    font-size: var(--type-small-size);
+    line-height: 1.5;
+    color: var(--color-text-subtle);
+    max-width: 52ch;
+  }
+  .product-card .right { display: flex; align-items: center; gap: var(--space-3); flex-shrink: 0; }
   .chevron { color: var(--color-text-subtle); font-size: var(--type-label-size); line-height: 1; }
-  .page-link:hover .chevron { color: var(--color-text-link-hover); }
-  .severity {
-    font-size: var(--type-pill-size);
-    line-height: var(--type-pill-line);
-    font-weight: var(--type-pill-weight);
-    text-transform: uppercase;
-    letter-spacing: var(--type-pill-tracking);
-    padding: 3px 9px;
-    border-radius: var(--radius-pill);
-    white-space: nowrap;
-  }
-  .severity-highest { background: var(--sl-red-600); color: #fff; }
-  .severity-high { background: var(--sl-red-100); color: var(--sl-red-700); }
-  .severity-medium { background: var(--sl-orange-100); color: var(--sl-orange-700); }
-  .severity-low { background: var(--sl-grey-200); color: var(--sl-grey-800); }
-
-  /* In-app UA flag: pages with an "In-app UA" badge in their comparison.html
-     (see project's In-app help idea pattern) get the same decorator here,
-     so it's visible without opening the page. Uses JellyRoll's "discovery"
-     purple — the semantic ramp for exploratory/AI-adjacent ideas like this
-     one — rather than a one-off color. */
-  .inapp-ua-flag {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: var(--type-pill-size);
-    line-height: var(--type-pill-line);
-    font-weight: var(--type-pill-weight);
-    letter-spacing: var(--type-pill-tracking);
-    padding: 3px 9px;
-    border-radius: var(--radius-pill);
-    white-space: nowrap;
-    background: var(--color-background-discovery);
-    color: var(--color-text-discovery);
-  }
-  .inapp-ua-flag svg { width: 11px; height: 11px; flex-shrink: 0; }
+  a.product-card:hover .chevron { color: var(--color-text-link-hover); }
 
   .issue-count {
     font-size: var(--type-pill-size);
@@ -182,79 +127,76 @@
     color: var(--color-text-subtle);
     border: 1px solid var(--color-border-subtle);
   }
+
+  .note {
+    font-size: var(--type-micro-size);
+    font-family: var(--font-mono);
+    color: var(--sl-orange-700);
+    white-space: nowrap;
+  }
 </style>
 </head>
 <body>
 <div class="topbar"></div>
 <div class="hero">
   <div class="hero-inner">
-    <h1>Admin Manager Usability issues</h1>
-    <p class="sub">Confusing UI interactions and microcopy across the SnapLogic Admin Manager, with proposed fixes — for PM and engineering review.</p>
+    <h1>SnapLogic UX Issue Showcase</h1>
+    <p class="sub">Confusing UI interactions and microcopy across the SnapLogic products, with proposed fixes — for PM and engineering review.</p>
   </div>
 </div>
 <div class="wrap">
   <div class="intro-note">
-    <p>Each linked page shows the real screen on the left and proposed fixes on the right. Click a <strong class="pin-ref red">red pin</strong> on the left to see what's confusing; click the matching <strong class="pin-ref green">green pin</strong> on the right to see the suggested fix.</p>
-    <p>Some pages also flag an <strong class="pin-ref purple"><svg class="ua-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.05V17h6v-2.25c0-.85.4-1.55 1-2.05A7 7 0 0 0 12 2z"/></svg>In-app UA</strong> opportunity — a place where in-app user assistance (UA), delivered by a tool like Userpilot or Appcues, could work better than static page text. A short guided walkthrough can explain a multi-step or easily-confused setting more clearly than a dense note or a tooltip, without adding permanent clutter to the page.</p>
-    <div class="intro-note-label">Cross-cutting issue</div>
-    <p>Existing tooltips only appear after hovering a field for a second or two, so they're easy to miss entirely. Several proposed redesigns add a visible tooltip icon next to the field label instead, so it's discoverable at a glance — see the Add/Update Snaplex dialog for the clearest example. For discoverability, we highly suggest adding the <strong>i</strong> icon to all tooltips, with the tooltip appearing on hover and keyboard focus, and optionally on click/tap. See the <a href="admin-manager/tooltip-coverage/report.html">tooltip coverage audit</a> for which fields have no tooltip at all, and a mismatch between the tooltip icon in use and the current design system.</p>
+    <p>Pick a product to see its reviewed pages. Every issue page shows the real screen on the left and proposed fixes on the right: click a <strong class="pin-ref red">red pin</strong> on the left to see what's confusing, then the matching <strong class="pin-ref green">green pin</strong> on the right for the suggested fix.</p>
   </div>
+  <div class="list-label">Products</div>
   <div id="app"><p class="empty">// loading issue catalog…</p></div>
 </div>
 
 <script>
-const AREAS = ["Admin Manager", "SnapGPT"];
+// One entry per product area. `area` must match the "area" field in
+// issues.json exactly; `href` is that product's own index page, or null while
+// no issues are filed and no index page exists yet.
+const PRODUCTS = [
+  {
+    area: "Admin Manager",
+    href: "admin-manager/index.html",
+    blurb: "Settings, user management, Snaplexes, and security pages."
+  },
+  {
+    area: "APIM 3.0",
+    href: "apim-3/index.html",
+    blurb: "API Management 3.0 — the product UI, reviewed page by page."
+  },
+  {
+    area: "Monitor",
+    href: null,
+    blurb: "Execution, infrastructure, and metrics pages."
+  },
+  {
+    area: "SnapGPT",
+    href: null,
+    blurb: "SnapGPT prompts, responses, and usage reporting."
+  }
+];
 
-// Pages with more than one issue get a landing page listing them.
-// Pages with exactly one issue link straight to that issue's comparison.html.
-const LANDING_PAGES = {
-  "Authentication": "admin-manager/authentication/index.html",
-  "Users": "admin-manager/users/index.html",
-  "New user": "admin-manager/new-user/index.html",
-  "Groups": "admin-manager/groups/index.html",
-  "Cloudplex Secure Connectivity": "admin-manager/cloudplex-secure-connectivity/index.html"
-};
+function renderCard(product, count) {
+  const countLabel = count
+    ? `<span class="issue-count">${count} issue${count === 1 ? "" : "s"}</span>`
+    : `<span class="issue-count">None yet</span>`;
 
-function sectionOf(issue) {
-  const parts = (issue.screen || "").split(" > ");
-  return parts[1] || "Other";
-}
+  const body = `
+    <span>
+      <span class="name">${product.area}</span>
+      <span class="blurb">${product.blurb}</span>
+    </span>`;
 
-// Mirrors the real Admin Manager left nav order. Sections/pages not listed
-// here fall back to the end, in the order they're first encountered.
-const SECTION_ORDER = ["Application Settings", "User Management", "System Configuration", "Subscriptions", "Security"];
-const PAGE_ORDER = {
-  "Application Settings": ["Pipeline validation", "SnapGPT", "Optimized Dashboard", "API Management", "AutoSync", "Asset catalog"],
-  "User Management": ["Users", "New user", "Groups", "Roles"],
-  "System Configuration": ["Environment", "Snaplexes", "Cloudplex Secure Connectivity", "Git Integration", "Custom privacy notice"],
-  "Subscriptions": ["Snap Packs"],
-  "Security": ["Password expiration", "Session timeout", "Authentication", "Email encryption", "Allowlists"]
-};
+  if (product.href) {
+    return `<li class="product-item"><a class="product-card" href="${product.href}">${body}<span class="right">${countLabel}<span class="chevron">→</span></span></a></li>`;
+  }
 
-function byKnownOrder(order) {
-  return (a, b) => {
-    const ai = order.indexOf(a);
-    const bi = order.indexOf(b);
-    if (ai === -1 && bi === -1) return 0;
-    if (ai === -1) return 1;
-    if (bi === -1) return -1;
-    return ai - bi;
-  };
-}
-
-const SEVERITY_RANK = { highest: 3, high: 2, medium: 1, low: 0 };
-
-function severityClass(sev) {
-  return "severity-" + (sev || "").toLowerCase();
-}
-
-function highestSeverity(pageIssues) {
-  return pageIssues.reduce((worst, issue) => {
-    const sev = issue.severity || "";
-    const rank = SEVERITY_RANK[sev.toLowerCase()] ?? -1;
-    const worstRank = SEVERITY_RANK[(worst || "").toLowerCase()] ?? -1;
-    return rank > worstRank ? sev : worst;
-  }, pageIssues[0] && pageIssues[0].severity);
+  // No index page yet. If issues exist anyway, say so rather than linking nowhere.
+  const pending = count ? `<span class="note">index page pending</span>` : "";
+  return `<li class="product-item"><div class="product-card is-empty">${body}<span class="right">${pending}${countLabel}</span></div></li>`;
 }
 
 fetch("issues.json")
@@ -262,66 +204,25 @@ fetch("issues.json")
   .then(data => {
     const issues = data.issues || [];
 
-    const byArea = {};
+    const countByArea = {};
     issues.forEach(issue => {
       const area = issue.area || "Uncategorized";
-      (byArea[area] = byArea[area] || []).push(issue);
+      countByArea[area] = (countByArea[area] || 0) + 1;
     });
 
-    const html = AREAS.map(area => {
-      const areaIssues = byArea[area] || [];
-      if (!areaIssues.length) {
-        return `<div class="area-title">${area}</div><p class="empty">— no tickets filed —</p>`;
-      }
+    const cards = PRODUCTS
+      .map(product => renderCard(product, countByArea[product.area] || 0))
+      .join("");
 
-      const bySection = {};
-      const sectionOrder = [];
-      areaIssues.forEach(issue => {
-        const section = sectionOf(issue);
-        if (!bySection[section]) {
-          bySection[section] = [];
-          sectionOrder.push(section);
-        }
-        bySection[section].push(issue);
-      });
-      sectionOrder.sort(byKnownOrder(SECTION_ORDER));
+    // Surface any area in issues.json that no PRODUCTS entry claims, so a new
+    // area can't go missing from this page just because it wasn't registered.
+    const known = new Set(PRODUCTS.map(p => p.area));
+    const unregistered = Object.keys(countByArea).filter(area => !known.has(area));
+    const warning = unregistered.length
+      ? `<p class="empty">issues.json has ${unregistered.length} unregistered area(s): ${unregistered.join(", ")}. Add them to PRODUCTS in index.html.</p>`
+      : "";
 
-      const sectionsHtml = sectionOrder.map(section => {
-        const byPage = {};
-        const pageOrder = [];
-        bySection[section].forEach(issue => {
-          const page = issue.page || issue.title;
-          if (!byPage[page]) {
-            byPage[page] = [];
-            pageOrder.push(page);
-          }
-          byPage[page].push(issue);
-        });
-        pageOrder.sort(byKnownOrder(PAGE_ORDER[section] || []));
-
-        const itemsHtml = pageOrder.map(page => {
-          const pageIssues = byPage[page];
-          const count = pageIssues.length;
-          const href = count > 1
-            ? (LANDING_PAGES[page] || "#")
-            : (pageIssues[0].mockups || {}).comparison || (pageIssues[0].mockups || {}).currentUi || "#";
-          const sev = highestSeverity(pageIssues);
-          const sevLabel = sev ? `<span class="severity ${severityClass(sev)}">${sev}</span>` : "";
-          const countLabel = count > 1 ? `<span class="issue-count">${count} issues</span>` : "";
-          const hasInAppHelp = pageIssues.some(issue => issue.inAppHelp);
-          const inAppHelpLabel = hasInAppHelp ? `<span class="inapp-ua-flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.05V17h6v-2.25c0-.85.4-1.55 1-2.05A7 7 0 0 0 12 2z"/></svg>In-app UA</span>` : "";
-          return `<li class="page-item"><a class="page-link" href="${href}"><span class="title">${page}</span><span class="right">${inAppHelpLabel}${countLabel}${sevLabel}<span class="chevron">→</span></span></a></li>`;
-        }).join("");
-
-        const listHeader = `<div class="list-header"><span>Severity</span></div>`;
-
-        return `<div class="section-title">${section}</div>${listHeader}<ul class="page-list">${itemsHtml}</ul>`;
-      }).join("");
-
-      return `<div class="area-title">${area}</div>${sectionsHtml}`;
-    }).join("");
-
-    document.getElementById("app").innerHTML = html;
+    document.getElementById("app").innerHTML = `<ul class="product-list">${cards}</ul>${warning}`;
   })
   .catch(err => {
     document.getElementById("app").innerHTML =

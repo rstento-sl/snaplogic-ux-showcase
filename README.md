@@ -8,17 +8,22 @@ Live site: https://rstento-sl.github.io/snaplogic-ux-showcase/
 
 ```
 /
-├── index.html          ← landing page, grouped by UI area
+├── index.html          ← product hub: one card per product, with its issue count
 ├── issues.json          ← catalog of every issue, tagged with an "area" field
 ├── admin-manager/
+│   ├── index.html        ← Admin Manager's issue list, grouped by section and page
 │   └── sso-config/       ← one folder per issue
 │       ├── comparison.html   ← current UI + proposed redesign, side by side in one page
 │       └── possible-bug.html ← optional — defects that aren't UX design issues
+├── apim-3/
+│   └── index.html        ← APIM 3.0's issue list
 ├── monitor/
 └── snapgpt/
 ```
 
-Each area (Admin Manager, Monitor, SnapGPT, ...) gets its own top-level folder. Each issue within an area gets its own subfolder, named for the issue, not the ticket number (e.g. `sso-config/`, not `app-2297/`).
+Each product area (Admin Manager, APIM 3.0, Monitor, SnapGPT, ...) gets its own top-level folder and its own index page, so each product's issues stay separate and each can follow its own left-nav ordering. The root `index.html` is just a hub that links to them. Each issue within an area gets its own subfolder, named for the issue, not the ticket number (e.g. `sso-config/`, not `app-2297/`).
+
+Every index page — the hub, each product index, and the per-page landing pages — is generated from `issues.json` at load time. You never hand-edit cards into them.
 
 ## How to ask Claude to add a new issue
 
@@ -57,9 +62,11 @@ If something in the real UI looks broken rather than badly designed (e.g. a butt
 
 ### 6. Wire it into the catalog
 
-The homepage (`index.html`) is generated entirely from `issues.json` — you never hand-edit issue cards into the page itself. Once `comparison.html` (and `possible-bug.html`, if needed) exist and look right, ask Claude to:
-- Add an entry to the root `issues.json`, including a short `"summary"` (the one- or two-sentence blurb shown on the homepage card) and a `"mockups"` object pointing at your files
-- Commit and push — GitHub Pages rebuilds automatically from `main`, and the new issue appears on the homepage under the right area
+The index pages are generated entirely from `issues.json` — you never hand-edit issue cards into a page itself. Once `comparison.html` (and `possible-bug.html`, if needed) exist and look right, ask Claude to:
+- Add an entry to the root `issues.json`, including a short `"summary"` (the one- or two-sentence blurb shown on the card) and a `"mockups"` object pointing at your files
+- Commit and push — GitHub Pages rebuilds automatically from `main`, and the new issue appears under the right product
+
+If the issue belongs to a **new** product, that product also needs a folder with its own `index.html` and an entry in the `PRODUCTS` array in the root `index.html`. Ask Claude to set both up; if the `PRODUCTS` entry is missing, the hub prints a warning naming the unregistered area instead of quietly dropping it.
 
 ## What each mockup file needs
 

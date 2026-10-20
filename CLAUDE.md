@@ -8,15 +8,28 @@ Read `README.md` for the full human-facing explanation. This file is the condens
 
 ```
 /
-├── index.html          ← landing page, generated from issues.json at load time — don't hand-edit issue cards into it
+├── index.html          ← product hub: one card per product area, generated from issues.json — don't hand-edit cards into it
 ├── issues.json          ← single source of truth; every issue's card, links, and badges come from here
-├── <area>/               ← one folder per UI area: admin-manager, monitor, snapgpt, ...
+├── <area>/               ← one folder per product area: admin-manager, apim-3, monitor, snapgpt, ...
+│   ├── index.html         ← that product's issue list, grouped by section and page
 │   └── <issue-slug>/      ← one folder per issue, named for the issue not the ticket number
 │       ├── comparison.html     ← current UI + proposed redesign, side by side in one page
 │       └── possible-bug.html   ← optional, only if a defect (not a UX issue) was found
 ```
 
 Name issue folders descriptively (`sso-config`), never by ticket number (`app-2297`).
+
+**Three levels of index, each generated from `issues.json` at load time — never hand-edited:**
+
+1. **Root `index.html`** — the product hub. Lists one card per product with its issue count. Its `PRODUCTS` array registers each area: `area` must match the `area` field in `issues.json` *exactly*, and `href` is that product's index page, or `null` while the product has no issues and no index page. An area present in `issues.json` but missing from `PRODUCTS` renders a visible warning rather than vanishing, so adding an area can't silently drop it.
+2. **`<area>/index.html`** — that product's issue list. Each one filters `issues.json` by its own `AREA` constant and holds its own `SECTION_ORDER` / `PAGE_ORDER` mirroring that product's left nav, plus its own `LANDING_PAGES` map. Keep products' ordering logic in their own file; don't push it back into the root hub.
+3. **`<area>/<page-slug>/index.html`** — optional, only for a page with more than one issue (see `admin-manager/users/`). Registered in that area index's `LANDING_PAGES`.
+
+**Area folder names don't have to be a slug of the area label** — `APIM 3.0` lives in `apim-3/`. The mapping lives in the root hub's `PRODUCTS` array and in each area index's `rel()` helper, which strips the area's folder prefix from the root-relative paths stored in `issues.json`. If you add an area, set both.
+
+**Paths in `issues.json` stay relative to the repo root** (`admin-manager/users/comparison.html`). Each index adjusts them for its own depth — don't rewrite them in the JSON to suit one page.
+
+**Back-links:** a page two levels deep (`<area>/<slug>/*.html`) links back to its product index at `../index.html`, not to the root hub. A product index links to the hub at `../index.html` labeled "← All products".
 
 **Never put Current UI and Proposed Redesign in separate files that require clicking between tabs to compare.** Earlier versions of this repo did that and it was explicitly rejected as confusing — stakeholders need to see both at once. They belong in one `comparison.html` as a two-column grid (`.compare-grid { grid-template-columns: 1fr 1fr }`, stacking to one column under 900px). `possible-bug.html` stays a separate file since it's deliberately de-emphasized (a small secondary link, not a third column) — see point 5 below.
 
@@ -27,7 +40,7 @@ Name issue folders descriptively (`sso-config`), never by ticket number (`app-22
 3. **Pins on the current-UI column** — one per genuinely distinct problem, numbered in top-to-bottom reading order. Each pin opens a popover with: a concise title, a `problem` (what's wrong and why it confuses users), and a `fix` (the specific change). Don't split one problem into multiple pins to pad the count.
 4. **The proposed-redesign column** — make interactions real where it matters (copy buttons, a step unlocking after a real action). Only gate UI state on something the app can actually observe. Don't gate a step on an action that happens outside the app (e.g. "the user configured something in an external tool") — that can't be reflected honestly in a mockup, so just use step numbers and instructional text instead of a locked/dimmed state.
 5. **Defects vs. design issues** — if something looks broken rather than badly designed (e.g. a control disabled with no apparent dependency), it goes in `possible-bug.html`, styled amber, explicitly labeled "not a UX design issue," linked from `comparison.html`'s header as a small secondary link — never as a third grid column or equal-weight nav item. Never fold a defect into the numbered UX pins either — it gives stakeholders an easy way to dismiss a real design problem as "just a bug."
-6. **Wire it up**: add an entry to root `issues.json`. `index.html` is generated entirely from this file (fetched at load time) — you do not edit `index.html` to add an issue. Required fields per entry: `id`, `area` (must exactly match a folder name — `Admin Manager`, `Monitor`, `SnapGPT`), `title`, `screen` (breadcrumb path), `jira` (empty string if none), `severity` (`High`/`Medium`/`Low`), `category`, `summary` (one or two sentences — this is the card blurb, keep it sharp and active-voice), `mockups.comparison`/`mockups.possibleBug` (relative paths from repo root; omit `possibleBug` entirely if there isn't one), and `annotations` (array matching the pins in `comparison.html` — its length drives the "N issues" count shown on the card). Then `git add -A`, commit, and push. GitHub Pages rebuilds automatically from `main`.
+6. **Wire it up**: add an entry to root `issues.json`. `index.html` is generated entirely from this file (fetched at load time) — you do not edit `index.html` to add an issue. Required fields per entry: `id`, `area` (must exactly match a registered area label in the root hub's `PRODUCTS` array — `Admin Manager`, `APIM 3.0`, `Monitor`, `SnapGPT` — which is the label, not always the folder name), `title`, `screen` (breadcrumb path), `jira` (empty string if none), `severity` (`High`/`Medium`/`Low`), `category`, `summary` (one or two sentences — this is the card blurb, keep it sharp and active-voice), `mockups.comparison`/`mockups.possibleBug` (relative paths from repo root; omit `possibleBug` entirely if there isn't one), and `annotations` (array matching the pins in `comparison.html` — its length drives the "N issues" count shown on the card). Then `git add -A`, commit, and push. GitHub Pages rebuilds automatically from `main`.
 
 ## Content rules (apply to everything you draft or edit)
 

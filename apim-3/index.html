@@ -144,6 +144,61 @@
   .severity-medium { background: var(--sl-orange-100); color: var(--sl-orange-700); }
   .severity-low { background: var(--sl-grey-200); color: var(--sl-grey-800); }
 
+  .audience { margin-bottom: var(--space-8); }
+  .audience h2 {
+    font-size: var(--type-subheading-size);
+    line-height: var(--type-subheading-line);
+    font-weight: var(--type-subheading-weight);
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-2);
+  }
+  .audience > p.lede {
+    color: var(--color-text-subtle);
+    line-height: 1.6;
+    font-size: var(--type-body-size);
+    max-width: 70ch;
+    margin-bottom: var(--space-4);
+  }
+  .case {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-left: 4px solid var(--sl-blue-600);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-3);
+    box-shadow: var(--shadow-raised);
+  }
+  .case.new { border-left-color: var(--sl-teal-600); }
+  .case h3 {
+    font-size: var(--type-label-size);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: 2px;
+  }
+  .case .who { font-size: var(--type-small-size); color: var(--color-text-subtle); margin-bottom: var(--space-3); }
+  .case p { line-height: 1.6; font-size: var(--type-body-size); color: var(--color-text-body); margin-bottom: var(--space-3); }
+  .case p:last-child { margin-bottom: 0; }
+
+  .variants { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-3); }
+  @media (max-width: 720px) { .variants { grid-template-columns: 1fr; } }
+  .variant {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+  .variant h3 { font-size: var(--type-label-size); font-weight: 700; color: var(--color-text-heading); margin-bottom: var(--space-2); }
+  .variant p { font-size: var(--type-small-size); line-height: 1.6; color: var(--color-text-body); margin-bottom: var(--space-2); }
+  .variant p:last-child { margin-bottom: 0; }
+
+  .wip {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: var(--space-3); padding: 4px 12px; border-radius: 999px;
+    background: rgba(199, 82, 9, 0.18); border: 1px solid #E08A4B; color: #F5C49B;
+    font-size: var(--type-small-size); font-weight: 700; letter-spacing: 0.02em;
+  }
+  .wip .dot { width: 7px; height: 7px; border-radius: 50%; background: #E08A4B; flex-shrink: 0; }
+
   .inapp-ua-flag {
     display: inline-flex;
     align-items: center;
@@ -182,6 +237,7 @@
     <a class="back-link" href="../index.html">← All products</a>
     <h1>APIM 3.0 Usability issues</h1>
     <p class="sub">Confusing UI interactions and microcopy across SnapLogic API Management 3.0, with proposed fixes — for PM and engineering review.</p>
+    <div class="wip"><span class="dot"></span>Work in progress — review under way, findings still being added</div>
   </div>
 </div>
 <div class="wrap">
@@ -189,8 +245,63 @@
     <p>Each linked page shows the real screen on the left and proposed fixes on the right. Click a <strong class="pin-ref red">red pin</strong> on the left to see what's confusing; click the matching <strong class="pin-ref green">green pin</strong> on the right to see the suggested fix.</p>
     <p>Some pages also flag an <strong class="pin-ref purple"><svg class="ua-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.05V17h6v-2.25c0-.85.4-1.55 1-2.05A7 7 0 0 0 12 2z"/></svg>In-app UA</strong> opportunity — a place where in-app user assistance (UA), delivered by a tool like Userpilot or Appcues, could work better than static page text. A short guided walkthrough can explain a multi-step or easily-confused setting more clearly than a dense note or a tooltip, without adding permanent clutter to the page.</p>
   </div>
-  <p class="related-note"><strong>Start here:</strong> <a href="introduction.html">Who opens API Management</a> — the two customer situations behind these findings, the variant inside each, and what the product actually does. The comparison pages assume it.</p>
   <p class="related-note">The <strong>API Management</strong> page under Admin Manager's Application Settings is reviewed separately, with the rest of that product's settings pages — see <a href="../admin-manager/api-management/comparison.html">API Management in Admin Manager</a>.</p>
+
+  <div class="audience">
+    <h2>Who opens API Management</h2>
+    <p class="lede">Every finding below comes back to the same thing: the product opens on a page built for
+      someone who already knows it. Two customer situations arrive at that page, and a variant inside each
+      one splits them again.</p>
+
+    <div class="case">
+      <h3>Case 1 — A Classic API Management customer subscribes to APIM 3.0, or starts a trial</h3>
+      <p class="who">Arrives fluent in the old product. Has existing assets.</p>
+      <p>They know Proxies, API versions, the Developer Portal, and subscriptions. The new product says
+        <strong>Service</strong>, and nothing maps the old vocabulary to the new — so they can't tell
+        whether a page is empty or simply unfamiliar.</p>
+      <p>Their real first task is migration, but the left nav puts Migration Tool below Manage, under a
+        section heading that sits over a single link and never says what migrates to what. They also see
+        two entries named API Manager: the product itself, and the Classic one they recognize — so the
+        familiar click leads out of the product they're evaluating. Nothing says whether Classic is
+        deprecated, whether both run side by side, or whether migrating affects live traffic.</p>
+    </div>
+
+    <div class="case new">
+      <h3>Case 2 — A new customer subscribes to APIM 3.0, or starts a trial</h3>
+      <p class="who">No history with the old product. No assets yet.</p>
+      <p>They don't see the Classic section in the nav at all, so that ambiguity never reaches them. What
+        reaches them instead is the emptiest possible version of the product: no Services, and therefore
+        no rows — because the catalog lists only Project Spaces and Projects that contain Services.</p>
+      <p>Their first impression is a page headed <strong>Catalog Stats</strong>, five zeroes, three
+        filters, and nothing else. Nothing defines a Service, and nothing says what to do first.</p>
+    </div>
+
+    <h2 style="margin-top: var(--space-6);">The variant inside both cases</h2>
+    <p class="lede">Somebody on the team goes first — creating a Service, or migrating a Classic Proxy or
+      API version. Everyone else arrives afterward, into what that person built. The two roles need
+      opposite things from the same screens.</p>
+
+    <div class="variants">
+      <div class="variant">
+        <h3>The first person on the team</h3>
+        <p>Faces a browsing interface with nothing to browse. The only useful action is <strong>Add
+          service</strong>, parked at the top right of a card below the stats, which never says which
+          Project the new Service lands in.</p>
+        <p>They also choose the Project Space and Project structure everyone after them inherits — decided
+          blind, at the moment they know least about the product.</p>
+      </div>
+      <div class="variant">
+        <h3>Everyone who follows</h3>
+        <p>Has the opposite problem: find <em>my</em> Service inside a structure somebody else chose. This
+          is where missing search, sort, and counts hurt, and where environment-wide statistics say nothing
+          useful — “48 unpublished” is not a fact about their work.</p>
+        <p>Permissions help them more than they expect: the list shows only what they can access. But
+          nothing says so, which leaves its own question — is my team's Service missing, or can I simply
+          not see it?</p>
+      </div>
+    </div>
+  </div>
+
   <div id="app"><p class="empty">// loading issue catalog…</p></div>
 </div>
 
@@ -203,9 +314,13 @@ function rel(path) {
   return (path || "").replace(/^apim-3\//, "");
 }
 
-// Pages with more than one issue get a landing page listing them.
-// Pages with exactly one issue link straight to that issue's comparison.html.
-const LANDING_PAGES = {};
+// A page with a registered landing page routes there, whatever its issue count:
+// in this area the landing page carries the reasoning behind the issues, which
+// the comparison page deliberately leaves out. Pages with no landing page and
+// more than one issue have nowhere to go, so they fall back to "#".
+const LANDING_PAGES = {
+  "Services Catalog": "services-catalog/index.html"
+};
 
 function sectionOf(issue) {
   const parts = (issue.screen || "").split(" > ");
@@ -284,9 +399,8 @@ fetch("../issues.json")
         const pageIssues = byPage[page];
         const count = pageIssues.length;
         const mockups = pageIssues[0].mockups || {};
-        const href = count > 1
-          ? (LANDING_PAGES[page] || "#")
-          : rel(mockups.comparison || mockups.currentUi) || "#";
+        const href = LANDING_PAGES[page]
+          || (count > 1 ? "#" : rel(mockups.comparison || mockups.currentUi) || "#");
         const sev = highestSeverity(pageIssues);
         const sevLabel = sev ? `<span class="severity ${severityClass(sev)}">${sev}</span>` : "";
         const countLabel = count > 1 ? `<span class="issue-count">${count} issues</span>` : "";

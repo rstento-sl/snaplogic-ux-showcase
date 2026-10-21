@@ -184,6 +184,11 @@
     color: #6B768A; font-size: 12px; background: #fff; white-space: nowrap; overflow: hidden;
   }
   .filter > span:first-child { overflow: hidden; text-overflow: ellipsis; }
+  /* JellyRoll greys: --sl-grey-800 #5E6470 border, --sl-indigo-900 #131C35 text. */
+  .filter.enabled { border-color: #5E6470; color: #131C35; }
+  /* Pin 3 marks the controls row; park it in the empty space left of the filters
+     so it doesn't cover the Add service button. */
+  #pin-3, #green-pin-3 { top: 4px; left: 2px; right: auto; }
   .add-btn { flex: 0 0 auto; white-space: nowrap; background: #0B43B8; color: #fff; font-size: 12px; font-weight: 700; padding: 9px 14px; border-radius: 4px; display: flex; align-items: center; gap: 10px; }
   .folder-row { display: flex; align-items: center; gap: 12px; padding: 11px 4px; border-bottom: 1px solid #EDF0F4; font-size: 13px; }
   .folder-row:last-child { border-bottom: none; }
@@ -315,11 +320,14 @@
         </div>
 
         <div class="list-card">
+          <div id="block-filters" style="position: relative;">
+          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
           <div class="controls">
             <div class="filter"><span>Filter by projec…</span><span class="chev">⌄</span></div>
             <div class="filter"><span>Filter by tags</span><span class="chev">⌄</span></div>
             <div class="filter"><span>Filter by owners</span><span class="chev">⌄</span></div>
             <div class="add-btn"><span>Add service</span><span>⌄</span></div>
+          </div>
           </div>
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>shared</span></div>
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>01-Tutorial/shared</span></div>
@@ -372,11 +380,14 @@
         </div>
 
         <div class="list-card">
+          <div id="prop-block-filters" style="position: relative;">
+          <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
           <div class="controls">
-            <div class="filter"><span>Filter by project</span><span class="chev">⌄</span></div>
-            <div class="filter"><span>Filter by tags</span><span class="chev">⌄</span></div>
-            <div class="filter"><span>Filter by owners</span><span class="chev">⌄</span></div>
+            <div class="filter enabled"><span>Filter by project</span><span class="chev">⌄</span></div>
+            <div class="filter enabled"><span>Filter by tags</span><span class="chev">⌄</span></div>
+            <div class="filter enabled"><span>Filter by owners</span><span class="chev">⌄</span></div>
             <div class="add-btn"><span>Add service</span><span>⌄</span></div>
+          </div>
           </div>
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>shared</span></div>
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>01-Tutorial/shared</span></div>
@@ -457,6 +468,13 @@ const annotations = [
     fix: "Count versions, not services. Split the five into two groups — Published versions (Public, Restricted, Private) and Unpublished versions (Unpublished, Testing) — and give each group a total, so the numbers add up to something stated. Put a tooltip on every status label, using the definitions already written in the SnapLogic docs.",
     section: "block-stats",
     propBlock: "prop-block-stats"
+  },
+  {
+    title: "Filters appear inactive",
+    problem: "The grey text and border resemble a disabled control, which discourages people from trying the filters. Filter by project also truncates its own label to \u201cFilter by projec\u2026\u201d.",
+    fix: "Darken the text and border to JellyRoll's greys \u2014 #131C35 text on a #5E6470 border \u2014 so the controls read as enabled, and widen the project filter until its label fits.",
+    section: "block-filters",
+    propBlock: "prop-block-filters"
   }
 ];
 

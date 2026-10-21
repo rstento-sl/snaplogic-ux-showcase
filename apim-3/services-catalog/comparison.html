@@ -437,14 +437,14 @@
 const annotations = [
   {
     title: "The page title names a widget, and nothing says what the page is for",
-    problem: "You click Services Catalog in the left nav and land on a page headed “Catalog Stats” — the name of the first widget, not the page. The list below it has no heading at all. Nothing on the page defines a Service, says what the Services catalog does, or explains how it relates to the Policy Catalog beside it in the nav.",
+    problem: "The page is headed “Catalog Stats,” the name of the first widget rather than the page, and the list below it has no heading at all.",
     fix: "Title the page after its nav item, in sentence case: “Services catalog.” Add a subheading saying what you can do here — “Browse the APIM 3.0 Services in your environment by project, and add new Services from scratch or from a specification” — followed by a Learn more link to the docs.",
     section: "block-header",
     propBlock: "prop-block-header"
   },
   {
     title: "The stats count Services, but status belongs to a version — and no label is defined",
-    problem: "Publishing happens to a specific version of a Service, not to the Service, so “48 Unpublished Services” can't be literally true: one Service can have versions in several states at once. The five counts also mix two different ideas — Unpublished, Private, Restricted, and Public describe publication, while Testing describes lifecycle — and sit in one flat row that reads as a single scale. Nothing defines the labels, so there's no way to tell Private from Restricted. Most users would guess wrong: Private is the one that's absent from the Developer Portal, while Restricted is listed.",
+    problem: "Status belongs to a Service version, not a Service, so “48 Unpublished Services” can't be literally true. The row also mixes publication (Unpublished, Private, Restricted, Public) with lifecycle (Testing), and defines none of the five labels.",
     fix: "Count versions, not Services. Split the five into two groups — Published versions (Public, Restricted, Private) and Unpublished versions (Unpublished, Testing) — and give each group a total, so the numbers add up to something stated. Put a tooltip on every status label, using the definitions already written in the SnapLogic docs.",
     section: "block-stats",
     propBlock: "prop-block-stats"

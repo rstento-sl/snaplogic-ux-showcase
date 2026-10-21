@@ -109,6 +109,16 @@
   .facts li { line-height: 1.6; font-size: var(--type-body-size); margin-bottom: var(--space-2); color: var(--color-text-body); }
   .facts li:last-child { margin-bottom: 0; }
 
+  .lede:has(+ .parties) { margin-bottom: var(--space-2); }
+  .parties { margin: 0 0 var(--space-5); padding-left: var(--space-5); }
+  .parties li {
+    line-height: 1.6;
+    font-size: var(--type-body-size);
+    color: var(--color-text-body);
+    margin-bottom: var(--space-2);
+  }
+  .parties li:last-child { margin-bottom: 0; }
+
   .issue-group {
     background: var(--color-surface-raised);
     border: 1px solid var(--color-border-subtle);
@@ -174,11 +184,12 @@
     in-app assistance can help them self-serve to onboard quickly and successfully use APIM 3.0.</p>
 
   <h2>The first experience</h2>
-  <p class="lede">Four customers arrive at this page, and every one of them arrives on day one. A Classic
-    APIM customer who subscribes to APIM 3.0 or starts a trial, and a customer new to SnapLogic who does
-    the same; inside each of those, the first person on the team to create a Service, and everyone who
-    follows once Services already exist. The first two bring different expectations to the same page. The
-    second two see different pages — one empty, one already holding Services somebody else created.</p>
+  <p class="lede">Everyone meets this page on day one:</p>
+  <ul class="parties">
+    <li>Classic APIM customers adding APIM 3.0</li>
+    <li>Customers new to SnapLogic</li>
+    <li>The first person to create a Service, and all who follow</li>
+  </ul>
 
   <div class="issue-group">
     <div class="issue-head">

@@ -1037,6 +1037,32 @@
           "callout": "The dns_entries URL has a Copy link button but nothing on screen says what it's for. Per the docs, it's meant to be used as the Hostname when creating a SnapLogic Account for whatever system sits behind this connection — mentioned once, in a single sentence in a separate overview doc, never near the URL itself in the product."
         }
       ]
+    },
+    {
+      "id": "issue-31",
+      "area": "APIM 3.0",
+      "title": "Services catalog opens with no orientation, and the stats count the wrong unit",
+      "screen": "API Manager > Manage > Services Catalog",
+      "page": "Services Catalog",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 01",
+      "severity": "High",
+      "category": "Content clarity / labeling",
+      "summary": "The landing page for API Management heads itself \"Catalog Stats\" and defines nothing. Its five counts also total Services, though publishing applies to a version, and no label explains how Private differs from Restricted.",
+      "mockups": {
+        "comparison": "apim-3/services-catalog/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Page title",
+          "callout": "The H1 names the first widget, \"Catalog Stats,\" not the page you clicked."
+        },
+        {
+          "target": "Catalog Stats row",
+          "callout": "Counts Services, but status belongs to a version — and nothing defines Private vs Restricted."
+        }
+      ],
+      "inAppHelp": true
     }
   ]
 }

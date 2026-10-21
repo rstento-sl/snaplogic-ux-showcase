@@ -354,17 +354,14 @@
     margin-left: 4px;
   }
   .sl-tooltip-trigger {
-    width: 15px; height: 15px;
-    border-radius: 50%;
-    border: 1.5px solid var(--dim);
-    color: var(--dim);
-    font-size: 10px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: default;
+    width: 14px; height: 14px;
+    color: #8A93A3;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: default; transition: color 120ms ease-out;
   }
+  .sl-tooltip-trigger svg { width: 14px; height: 14px; display: block; }
+  .sl-tooltip-wrap:hover .sl-tooltip-trigger,
+  .sl-tooltip-wrap:focus-within .sl-tooltip-trigger { color: #0841B4; }
   .sl-tooltip {
     position: absolute;
     z-index: 100;

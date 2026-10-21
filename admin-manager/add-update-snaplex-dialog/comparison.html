@@ -352,17 +352,14 @@
     margin-left: 4px;
   }
   .sl-tooltip-trigger {
-    width: 15px; height: 15px;
-    border-radius: 50%;
-    background: #3967C3;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: default;
+    width: 14px; height: 14px;
+    color: #8A93A3;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: default; transition: color 120ms ease-out;
   }
+  .sl-tooltip-trigger svg { width: 14px; height: 14px; display: block; }
+  .sl-tooltip-wrap:hover .sl-tooltip-trigger,
+  .sl-tooltip-wrap:focus-within .sl-tooltip-trigger { color: #0841B4; }
   .sl-tooltip {
     position: absolute;
     z-index: 100;
@@ -939,14 +936,14 @@
         <div id="prop-block-add-dialog-environment" class="pin-block green">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
           <div class="field-group">
-            <div class="field-label">Runtime environment ID <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">A component of the Groundplex runtime path, which is shared by all of its nodes.</span></span></div>
+            <div class="field-label">Runtime environment ID <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">A component of the Groundplex runtime path, which is shared by all of its nodes.</span></span></div>
             <input class="field-input" readonly>
           </div>
         </div>
         <div id="prop-block-add-dialog-location" class="pin-block green">
           <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
           <div class="field-group">
-            <div class="field-label">Location <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Value must be Groundplex.</span></span></div>
+            <div class="field-label">Location <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Value must be Groundplex.</span></span></div>
             <div class="git-dropdown-static"><span>Groundplex</span><span class="arrow">⌄</span></div>
           </div>
         </div>
@@ -956,7 +953,7 @@
         <div id="prop-block-select-project" class="pin-block green" style="flex: 1 1 100%;">
           <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
           <div class="field-group" style="flex: 1 1 100%;">
-            <div class="field-label">Select project <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Select the shared folder to allow access to all users. Select a Project to limit access to users who have permissions for that Project.</span></span></div>
+            <div class="field-label">Select project <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Select the shared folder to allow access to all users. Select a Project to limit access to users who have permissions for that Project.</span></span></div>
             <div class="git-dropdown-static"><span></span><span class="arrow">⌄</span></div>
           </div>
         </div>
@@ -970,7 +967,7 @@
         <div id="prop-block-load-balancer" class="pin-block green" style="flex: 1 1 100%;">
           <div class="pin green" id="green-pin-8" onclick="openGreenPopover(8, event)">8</div>
           <div class="field-group" style="flex: 1 1 100%;">
-            <div class="field-label">Load balancer <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">If left blank, Triggered Tasks run through the Control Plane's cloud URL instead of your Snaplex. For APIM, SnapLogic's best practices require the Snaplex or an Alternative URL — set this field to avoid the cloud URL. Example: https://&lt;groundplex-load-balancer&gt;.com</span></span></div>
+            <div class="field-label">Load balancer <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">If left blank, Triggered Tasks run through the Control Plane's cloud URL instead of your Snaplex. For APIM, SnapLogic's best practices require the Snaplex or an Alternative URL — set this field to avoid the cloud URL. Example: https://&lt;groundplex-load-balancer&gt;.com</span></span></div>
             <input class="field-input" readonly>
           </div>
         </div>
@@ -980,7 +977,7 @@
         <div id="prop-block-ultra-load-balancer" class="pin-block green" style="flex: 1 1 100%;">
           <div class="pin green" id="green-pin-9" onclick="openGreenPopover(9, event)">9</div>
           <div class="field-group" style="flex: 1 1 100%;">
-            <div class="field-label">Ultra load balancer <span class="required-badge">Required for Ultra Tasks</span> <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Required for Ultra Tasks. If left blank, no run URL is set and Ultra Tasks will fail to execute.</span></span></div>
+            <div class="field-label">Ultra load balancer <span class="required-badge">Required for Ultra Tasks</span> <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Required for Ultra Tasks. If left blank, no run URL is set and Ultra Tasks will fail to execute.</span></span></div>
             <input class="field-input" readonly>
           </div>
         </div>
@@ -992,15 +989,15 @@
           <div class="section-label" style="margin: 0;">Groundplex notifications</div>
         </div>
         <div class="field-group">
-          <div class="field-label">Emails <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Specify a comma-separated list of emails to receive notifications from this Groundplex.</span></span></div>
+          <div class="field-label">Emails <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Specify a comma-separated list of emails to receive notifications from this Groundplex.</span></span></div>
           <input class="field-input" readonly>
         </div>
         <div class="field-group">
-          <div class="field-label">Slack channels <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Specify a comma-separated list of Slack channels to receive notifications from this Groundplex.</span></span></div>
+          <div class="field-label">Slack channels <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Specify a comma-separated list of Slack channels to receive notifications from this Groundplex.</span></span></div>
           <input class="field-input" readonly>
         </div>
         <div class="field-group">
-          <div class="field-label">Slack users <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Specify a comma-separated list of Slack users to receive notifications from this Groundplex.</span></span></div>
+          <div class="field-label">Slack users <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Specify a comma-separated list of Slack users to receive notifications from this Groundplex.</span></span></div>
           <input class="field-input" readonly>
         </div>
       </div>

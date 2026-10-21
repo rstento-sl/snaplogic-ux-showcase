@@ -358,17 +358,14 @@
     margin-left: 4px;
   }
   .sl-tooltip-trigger {
-    width: 15px; height: 15px;
-    border-radius: 50%;
-    background: #3967C3;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: default;
+    width: 14px; height: 14px;
+    color: #8A93A3;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: default; transition: color 120ms ease-out;
   }
+  .sl-tooltip-trigger svg { width: 14px; height: 14px; display: block; }
+  .sl-tooltip-wrap:hover .sl-tooltip-trigger,
+  .sl-tooltip-wrap:focus-within .sl-tooltip-trigger { color: #0841B4; }
   .sl-tooltip {
     position: absolute;
     z-index: 100;
@@ -584,7 +581,7 @@
           <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
           <div class="field-label">Cloudplex</div>
           <div class="field-input">/PlatformQA/shared/SCTest003</div>
-          <div class="field-help">A Cloudplex can only have 3 connections at a time. <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Includes connections still pending or rejected — not just active ones.</span></span></div>
+          <div class="field-help">A Cloudplex can only have 3 connections at a time. <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Includes connections still pending or rejected — not just active ones.</span></span></div>
         </div>
         <div class="field-group" style="text-align: center;">
           <div class="field-label">Select a connection type</div>
@@ -671,7 +668,7 @@
           <div class="approval-status-value active">Active — connection validated</div>
           <div id="prop-block-dns-url" class="pin-block green dns-box highlight">
             <div class="pin green" id="green-pin-6" onclick="openGreenPopover(6, event)">6</div>
-            <div class="dns-label">dns_entries URL: <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Use this hostname in SnapLogic Accounts for endpoints to use this connection.</span></span></div>
+            <div class="dns-label">dns_entries URL: <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Use this hostname in SnapLogic Accounts for endpoints to use this connection.</span></span></div>
             <div class="dns-value">vpce-9485fd237c23703d-oelwize.vpce-svc-848aa3b832da0d1.us-west-2.vpce.amazonaws.com</div>
             <div class="copy-link">📋 Copy link</div>
           </div>

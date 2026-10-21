@@ -110,6 +110,13 @@
   .facts li:last-child { margin-bottom: 0; }
 
   .lede:has(+ .parties) { margin-bottom: var(--space-2); }
+  .body code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--color-surface-sunken, #EEF1F6);
+    border-radius: var(--radius-sm);
+    padding: 1px 5px;
+  }
   .parties { margin: 0 0 var(--space-5); padding-left: var(--space-5); }
   .parties li {
     line-height: 1.6;
@@ -247,14 +254,13 @@
 
   <div class="issue-group">
     <div class="issue-head">
-      <h3>The rows don't say what they are or what's inside</h3>
+      <h3>Ambiguous folder rows</h3>
       <span class="tag next">Next</span>
     </div>
-    <p class="body">A row gives you a name and a folder glyph. It never says how many Services it holds or
-      which of them are yours, so the only way forward is to open each one in turn. The glyph hides a
-      second problem: Project Space and Project are distinct levels, and the page draws both the same way
-      and joins them into one path string, flattening the hierarchy into text. Every listed row does
-      contain Services — but the page keeps that rule to itself, so people expand blindly anyway.</p>
+    <p class="body">Each row shows a folder icon and a name, so you must open folders one at a time to
+      find anything. The name is a path, <code>&lt;Project space&gt;/&lt;Project&gt;</code>, but both levels
+      carry the same icon, and the root shared folder shows no prefix at all. Nothing tells you how many
+      Services a folder holds, which ones are yours, or that every listed folder holds at least one.</p>
   </div>
 
   <div class="issue-group">

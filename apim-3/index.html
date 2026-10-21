@@ -179,6 +179,11 @@
   .case p { line-height: 1.6; font-size: var(--type-body-size); color: var(--color-text-body); margin-bottom: var(--space-3); }
   .case p:last-child { margin-bottom: 0; }
 
+  .needs { margin: var(--space-2) 0 0; padding-left: var(--space-5); }
+  .needs li { line-height: 1.6; font-size: var(--type-body-size); color: var(--color-text-body); margin-bottom: var(--space-2); }
+  .needs li:last-child { margin-bottom: 0; }
+  .variant .needs li { font-size: var(--type-small-size); }
+
   .variants { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-3); }
   @media (max-width: 720px) { .variants { grid-template-columns: 1fr; } }
   .variant {
@@ -251,53 +256,49 @@
     <h2>Use cases that APIM should support</h2>
 
     <div class="case">
-      <h3>Case 1 — A Classic API Management customer subscribes to APIM 3.0, or starts a trial</h3>
-      <p class="who">Arrives fluent in the old product. Has existing assets.</p>
-      <p>They know Proxies, API versions, the Developer Portal, and subscriptions. The new product says
-        <strong>Service</strong>, and nothing maps the old vocabulary to the new — so they can't tell
-        whether a page is empty or simply unfamiliar.</p>
-      <p>Their real first task is migration, but the left nav puts Migration Tool below Manage, under a
-        section heading that sits over a single link and never says what migrates to what. They also see
-        two entries named API Manager: the product itself, and the Classic one they recognize — so the
-        familiar click leads out of the product they're evaluating. Nothing says whether Classic is
-        deprecated, whether both run side by side, or whether migrating affects live traffic.</p>
+      <h3>Case 1 — A Classic API Management customer adopts APIM 3.0, or starts a trial</h3>
+      <p class="who">Fluent in the old product. Proxies, API versions, and subscriptions already in production.</p>
+      <p>They need to:</p>
+      <ul class="needs">
+        <li>Map what they already know to the new model — what a Service is, and what became of Proxies and API versions.</li>
+        <li>Migrate existing assets, and see what has moved and what hasn't.</li>
+        <li>Run Classic and APIM 3.0 alongside each other until the migration finishes, knowing which one serves live traffic.</li>
+      </ul>
     </div>
 
     <div class="case new">
-      <h3>Case 2 — A new customer subscribes to APIM 3.0, or starts a trial</h3>
-      <p class="who">No history with the old product. No assets yet.</p>
-      <p>They don't see the Classic section in the nav at all, so that ambiguity never reaches them. What
-        reaches them instead is the emptiest possible version of the product: no Services, and therefore
-        no rows — because the catalog lists only Project Spaces and Projects that contain Services.</p>
-      <p>Their first impression is a page headed <strong>Catalog Stats</strong>, five zeroes, three
-        filters, and nothing else. Nothing defines a Service, and nothing says what to do first.</p>
+      <h3>Case 2 — A new customer adopts APIM 3.0, or starts a trial</h3>
+      <p class="who">No history with the old product. Nothing built yet.</p>
+      <p>They need to:</p>
+      <ul class="needs">
+        <li>Learn what a Service is and what the product manages.</li>
+        <li>Create a first Service, from scratch or from an API specification.</li>
+        <li>Publish it, and understand what each publication status exposes and to whom.</li>
+      </ul>
     </div>
 
     <h2 style="margin-top: var(--space-6);">The variant inside both cases</h2>
-    <p class="lede">Somebody on the team goes first — creating a Service, or migrating a Classic Proxy or
-      API version. Everyone else arrives afterward, into what that person built. The two roles need
-      opposite things from the same screens.</p>
+    <p class="lede">Somebody on the team goes first. Everyone else arrives afterward, into what that
+      person built — so the two roles need different things from the same screens.</p>
 
     <div class="variants">
       <div class="variant">
         <h3>The first person on the team</h3>
-        <p>Faces a browsing interface with nothing to browse. The only useful action is <strong>Add
-          service</strong>, parked at the top right of a card below the stats, which never says which
-          Project the new Service lands in.</p>
-        <p>They also choose the Project Space and Project structure everyone after them inherits — decided
-          blind, at the moment they know least about the product.</p>
+        <ul class="needs">
+          <li>Creates the first Service, or migrates the first Classic asset.</li>
+          <li>Chooses the Project Space and Project structure the whole team inherits.</li>
+          <li>Needs to know where a new Service lands before creating it.</li>
+        </ul>
       </div>
       <div class="variant">
         <h3>Everyone who follows</h3>
-        <p>Has the opposite problem: find <em>my</em> Service inside a structure somebody else chose. This
-          is where missing search, sort, and counts hurt, and where environment-wide statistics say nothing
-          useful — “48 unpublished” is not a fact about their work.</p>
-        <p>Permissions help them more than they expect: the list shows only what they can access. But
-          nothing says so, which leaves its own question — is my team's Service missing, or can I simply
-          not see it?</p>
+        <ul class="needs">
+          <li>Finds their own team's Services inside a structure somebody else chose.</li>
+          <li>Sees only the Project Spaces and Projects their permissions allow, so needs to know when the view is partial.</li>
+          <li>Tracks the state of their own work, not the environment's totals.</li>
+        </ul>
       </div>
     </div>
-  </div>
 
   <div id="app"><p class="empty">// loading issue catalog…</p></div>
 </div>

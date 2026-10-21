@@ -162,17 +162,16 @@
     <p class="sub">What's wrong with the page that opens when you go to API Management, grouped by what it
       breaks and who it breaks it for.</p>
     <p class="crumb">API Manager &gt; Manage &gt; Services Catalog</p>
-    <div class="wip"><span class="dot"></span>Work in progress — 2 of 12 issue groups built</div>
+    <div class="wip"><span class="dot"></span>Work in progress — 2 of 13 issue groups built</div>
   </div>
 </div>
 
 <div class="wrap">
 
   <p>The Services catalog is the front door to API Management — it's what opens when you go there — and
-    it's built for someone who already knows the product. Everything below follows from that. For who
-    arrives here and what each of them brings, see
-    <a href="../index.html" style="color: var(--color-text-link); font-weight: 700;">the two use cases</a>
-    on the APIM 3.0 index.</p>
+    it's built for someone who already knows the product. This page sets out where it falls short of the
+    <a href="../index.html" style="color: var(--color-text-link); font-weight: 700;">use cases APIM should
+    support</a>, and leads to the proposed changes.</p>
 
   <h2>The proposal</h2>
   <a class="proposal" href="comparison.html">
@@ -216,7 +215,9 @@
     <p class="hits">Hurts: <strong>everyone</strong>, worst for Case 2</p>
     <p class="body">You click Services Catalog and land on a page headed Catalog Stats — the name of the
       first widget, not the page. Nothing defines a Service, says what the catalog does, or relates it to
-      the Policy Catalog beside it. <a href="comparison.html">See pin 1 →</a></p>
+      the Policy Catalog beside it. For a new customer this is their first impression of the product: a
+      page headed Catalog Stats, five zeroes, three filters, and nothing else.
+      <a href="comparison.html">See pin 1 →</a></p>
   </div>
 
   <div class="issue-group">
@@ -279,13 +280,27 @@
 
   <div class="issue-group">
     <div class="issue-head">
+      <h3>Nothing connects APIM 3.0 to the product Classic customers already know</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="hits">Hurts: <strong>Case 1</strong></p>
+    <p class="body">A Classic customer arrives fluent in Proxies, API versions, and subscriptions, and the
+      page says Service. Nothing maps the old vocabulary to the new, so they can't tell whether what
+      they're looking at is empty or simply unfamiliar. Their first task is migration, but Migration Tool
+      sits below Manage, under a section heading over a single link that never says what migrates to
+      what — so the product opens on a page for browsing assets they haven't moved yet.</p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
       <h3>The navigation doesn't explain itself</h3>
       <span class="tag open">Drafted</span>
     </div>
     <p class="hits">Hurts: <strong>Case 1</strong></p>
-    <p class="body">API Manager names two different things. Nothing says what Classic means, whether it's
-      deprecated, or which product owns the truth. MIGRATION is a section heading over one link, and
-      Migration Tool doesn't say what migrates to what.</p>
+    <p class="body">API Manager names two different things: the product itself, and an item under Classic
+      API Management. The Classic one is the name a Case 1 customer recognizes, so the familiar click
+      leads out of the product they're evaluating. Nothing says what Classic means, whether it's
+      deprecated, whether both run side by side, or whether migrating affects live traffic.</p>
   </div>
 
   <div class="issue-group">

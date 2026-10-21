@@ -218,13 +218,14 @@
       <p>Has the opposite problem: find <em>my</em> Service inside a structure somebody else chose. This is
         where the missing search, sort, and counts hurt, and where environment-wide statistics say nothing
         useful — “48 unpublished” is not a fact about their work.</p>
-      <p>They may also be looking at Projects they have no permission to open, with nothing marking which
-        ones.</p>
+      <p>Permissions help them more than they expect: the list shows only what they can access. But
+        nothing says so, which leaves its own question — is my team's Service missing, or can I simply not
+        see it?</p>
     </div>
   </div>
 
   <h2>What the product actually does</h2>
-  <p class="lede">Three behaviors shape every proposed fix. They're easy to get wrong from a screenshot.</p>
+  <p class="lede">Four behaviors shape every proposed fix. They're easy to get wrong from a screenshot.</p>
   <div class="facts">
     <ul>
       <li><strong>The catalog lists only Project Spaces and Projects that contain Services.</strong> Empty
@@ -232,6 +233,10 @@
         empty page rather than a tree of empty folders.</li>
       <li><strong>Customers who never had Classic don't see the Classic API Management nav section.</strong>
         The duplicate “API Manager” problem belongs to Case 1 alone.</li>
+      <li><strong>The list is permission-filtered.</strong> Users without Admin privileges see only the
+        Project Spaces and Projects they created or were granted at least view access to, as elsewhere in
+        the SnapLogic UI. No two people necessarily see the same catalog, and an admin's view — the one
+        screenshots and documentation get made from — is the most complete one that exists.</li>
       <li><strong>The rows are two distinct levels.</strong> Project Space, then Project, then Service. The
         page draws both levels with the same folder glyph and joins them into one path string, flattening
         the hierarchy into text.</li>
@@ -316,8 +321,9 @@
     </div>
     <p class="hits">Hurts: <strong>followers</strong>, growing worse over time</p>
     <p>Browsing by folder alone doesn't scale: a test environment already holds 71 versions with no search.
-      It's unclear whether the statistics count Services the viewer can't open, and the page never states
-      whether the new catalog or the Classic managers is authoritative.</p>
+      The list respects permissions but the statistics may not, so the counts can describe an environment
+      the viewer can't see. The page also never states whether the new catalog or the Classic managers is
+      authoritative.</p>
   </div>
 
   <h2>One state where three are needed</h2>
@@ -326,7 +332,9 @@
   <ul class="states">
     <li><strong>Empty</strong> — a new customer, or the first person on a team. There are no rows, and
       nothing says what to do first. This is the most common first view of the page, and it's the state
-      with the least design in it.</li>
+      with the least design in it. It's also ambiguous: because the list is permission-filtered, a user
+      who can see nothing gets the same blank page as a user whose environment holds nothing. Those two
+      situations call for opposite advice — create your first Service, or go ask for access.</li>
     <li><strong>Somebody else's structure</strong> — a follower, who needs to locate their own work inside
       a hierarchy they didn't choose.</li>
     <li><strong>Mid-migration</strong> — a Case 1 customer with assets in flight, who needs to know what has

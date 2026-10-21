@@ -34,6 +34,22 @@
   }
   .back-link:hover { text-decoration: underline; }
 
+  .wip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: var(--space-3);
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(199, 82, 9, 0.18);
+    border: 1px solid #E08A4B;
+    color: #F5C49B;
+    font-size: var(--type-small-size);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .wip .dot { width: 7px; height: 7px; border-radius: 50%; background: #E08A4B; flex-shrink: 0; }
+
   .wrap { max-width: 820px; margin: 0 auto; padding: var(--space-8) var(--space-6) 0; }
 
   h2 {
@@ -160,6 +176,7 @@
     <h1>Who opens API Management</h1>
     <p class="sub">The people who land on the Services catalog, what each of them brings with them, and
       why the same page fails them in different ways. Read this first — the comparison pages assume it.</p>
+    <div class="wip"><span class="dot"></span>Work in progress — review under way, findings still being added</div>
   </div>
 </div>
 

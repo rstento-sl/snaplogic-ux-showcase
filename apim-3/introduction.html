@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who opens API Management</title>
+<link rel="stylesheet" href="https://sl-design-team.github.io/jellyroll/colors_and_type.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { background: var(--sl-grey-200); padding-bottom: var(--space-10); }
+  .topbar { height: 4px; background: var(--sl-teal-600); }
+
+  .hero {
+    background: var(--color-surface-navbar);
+    padding: var(--space-6) var(--space-6) var(--space-8);
+  }
+  .hero-inner { max-width: 820px; margin: 0 auto; }
+  .hero h1 { color: var(--color-text-inverse); letter-spacing: -0.01em; }
+  .hero .sub {
+    color: var(--sl-blue-300);
+    margin-top: var(--space-2);
+    line-height: 1.5;
+    max-width: 56ch;
+    font-size: var(--type-body-size);
+  }
+  .back-link {
+    font-size: var(--type-label-size);
+    font-weight: 700;
+    color: var(--sl-teal-300);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: var(--space-3);
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: var(--space-8) var(--space-6) 0; }
+
+  h2 {
+    font-size: var(--type-subheading-size);
+    line-height: var(--type-subheading-line);
+    font-weight: var(--type-subheading-weight);
+    color: var(--color-text-heading);
+    margin: var(--space-10) 0 var(--space-2);
+  }
+  h2:first-of-type { margin-top: 0; }
+  .lede {
+    color: var(--color-text-subtle);
+    line-height: 1.6;
+    font-size: var(--type-body-size);
+    max-width: 70ch;
+    margin-bottom: var(--space-5);
+  }
+  p { line-height: 1.6; font-size: var(--type-body-size); color: var(--color-text-body); }
+  .wrap > p { max-width: 70ch; margin-bottom: var(--space-4); }
+
+  .case {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-left: 4px solid var(--sl-blue-600);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-4);
+    box-shadow: var(--shadow-raised);
+  }
+  .case.new { border-left-color: var(--sl-teal-600); }
+  .case h3 {
+    font-size: var(--type-label-size);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-1);
+  }
+  .case .who {
+    font-size: var(--type-small-size);
+    color: var(--color-text-subtle);
+    margin-bottom: var(--space-3);
+  }
+  .case p { margin-bottom: var(--space-3); }
+  .case p:last-child { margin-bottom: 0; }
+
+  .variants { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4); }
+  @media (max-width: 720px) { .variants { grid-template-columns: 1fr; } }
+  .variant {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+  .variant h3 {
+    font-size: var(--type-label-size);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-2);
+  }
+  .variant p { font-size: var(--type-small-size); }
+
+  .facts {
+    background: var(--color-surface-information, #EEF2FB);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-4);
+  }
+  .facts ul { margin: 0; padding-left: var(--space-5); }
+  .facts li { line-height: 1.6; font-size: var(--type-body-size); margin-bottom: var(--space-2); }
+  .facts li:last-child { margin-bottom: 0; }
+
+  .issue-group {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-3);
+    box-shadow: var(--shadow-raised);
+  }
+  .issue-head { display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-2); flex-wrap: wrap; }
+  .issue-head h3 {
+    font-size: var(--type-label-size);
+    font-weight: 700;
+    color: var(--color-text-heading);
+  }
+  .tag {
+    font-size: var(--type-micro-size, 10px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+  .tag.built { background: var(--sl-green-100, #E3F3E6); color: var(--sl-green-700); }
+  .tag.open { background: var(--sl-grey-300, #E4E7EC); color: var(--color-text-subtle); }
+  .hits { font-size: var(--type-small-size); color: var(--color-text-subtle); }
+  .hits strong { color: var(--color-text-heading); font-weight: 700; }
+  .issue-group p { font-size: var(--type-small-size); margin-top: var(--space-2); }
+  .issue-group a { color: var(--color-text-link); }
+
+  .states { margin: var(--space-4) 0; padding-left: var(--space-5); }
+  .states li { line-height: 1.6; margin-bottom: var(--space-2); font-size: var(--type-body-size); }
+  .states strong { color: var(--color-text-heading); }
+
+  footer {
+    max-width: 820px;
+    margin: var(--space-10) auto 0;
+    padding: var(--space-4) var(--space-6) 0;
+    border-top: 1px solid var(--color-border-subtle);
+    font-size: var(--type-small-size);
+    color: var(--color-text-subtle);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <a class="back-link" href="index.html">← All APIM 3.0 issues</a>
+    <h1>Who opens API Management</h1>
+    <p class="sub">The people who land on the Services catalog, what each of them brings with them, and
+      why the same page fails them in different ways. Read this first — the comparison pages assume it.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <h2>Why this page exists</h2>
+  <p class="lede">Every finding in this review comes back to the same thing: the Services catalog is the
+    front door to API Management, and it's built for someone who already knows the product. Setting out
+    the arrivals here keeps each comparison page focused on one problem and one fix, instead of
+    re-explaining the audience every time.</p>
+
+  <h2>The two use cases</h2>
+
+  <div class="case">
+    <h3>Case 1 — A Classic API Management customer subscribes to APIM 3.0, or starts a trial</h3>
+    <p class="who">Arrives fluent in the old product. Has existing assets.</p>
+    <p>They know Proxies, API versions, the Developer Portal, and subscriptions. This page says
+      <strong>Service</strong>, and nothing maps the old vocabulary to the new — so they can't tell whether
+      the page is empty or simply unfamiliar.</p>
+    <p>Their real first task is migration, but the left nav puts Migration Tool below Manage, under a
+      section heading that sits over a single link and never says what migrates to what. The product
+      opens on a page for browsing assets they haven't moved yet.</p>
+    <p>They also see two entries named API Manager: the product itself, and the Classic one they
+      recognize. The familiar click leads out of the product they're evaluating. Nothing on screen says
+      whether Classic is deprecated, whether both run side by side, or whether migrating affects live
+      traffic.</p>
+  </div>
+
+  <div class="case new">
+    <h3>Case 2 — A new customer subscribes to APIM 3.0, or starts a trial</h3>
+    <p class="who">No history with the old product. No assets yet.</p>
+    <p>They don't see the Classic section in the nav at all, so that ambiguity never reaches them. What
+      reaches them instead is the emptiest possible version of this page: no Services, and therefore no
+      rows — because the catalog lists only Project Spaces and Projects that contain Services.</p>
+    <p>So their first impression of API Management is a page headed <strong>Catalog Stats</strong>, five
+      zeroes, three filters, and nothing else. Nothing defines a Service, and nothing tells them what to
+      do first.</p>
+  </div>
+
+  <h2>The variant inside both cases</h2>
+  <p class="lede">Whichever situation they come from, somebody on the team goes first — creating a Service,
+    or migrating a Classic Proxy or API version. Everyone else arrives afterward, into what that person
+    built. The two roles need opposite things from the same page.</p>
+
+  <div class="variants">
+    <div class="variant">
+      <h3>The first person on the team</h3>
+      <p>Faces a browsing interface with nothing to browse. The only useful action is <strong>Add
+        service</strong>, parked at the top right of a card below the stats, which never says which Project
+        the new Service lands in.</p>
+      <p>They also choose the Project Space and Project structure everyone after them inherits — decided
+        blind, at the moment they know least about the product.</p>
+    </div>
+    <div class="variant">
+      <h3>Everyone who follows</h3>
+      <p>Has the opposite problem: find <em>my</em> Service inside a structure somebody else chose. This is
+        where the missing search, sort, and counts hurt, and where environment-wide statistics say nothing
+        useful — “48 unpublished” is not a fact about their work.</p>
+      <p>They may also be looking at Projects they have no permission to open, with nothing marking which
+        ones.</p>
+    </div>
+  </div>
+
+  <h2>What the product actually does</h2>
+  <p class="lede">Three behaviors shape every proposed fix. They're easy to get wrong from a screenshot.</p>
+  <div class="facts">
+    <ul>
+      <li><strong>The catalog lists only Project Spaces and Projects that contain Services.</strong> Empty
+        ones never appear, so every visible row holds something — and a customer with no Services sees an
+        empty page rather than a tree of empty folders.</li>
+      <li><strong>Customers who never had Classic don't see the Classic API Management nav section.</strong>
+        The duplicate “API Manager” problem belongs to Case 1 alone.</li>
+      <li><strong>The rows are two distinct levels.</strong> Project Space, then Project, then Service. The
+        page draws both levels with the same folder glyph and joins them into one path string, flattening
+        the hierarchy into text.</li>
+    </ul>
+  </div>
+
+  <h2>The issues</h2>
+  <p class="lede">Grouped by what they break, with the user each one hurts most. Built groups link to their
+    comparison page; the rest are drafted and awaiting review.</p>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>The page doesn't introduce itself</h3>
+      <span class="tag built">Built</span>
+    </div>
+    <p class="hits">Hurts: <strong>everyone</strong>, worst for Case 2</p>
+    <p>You click Services Catalog and land on a page headed Catalog Stats — the name of the first widget,
+      not the page. Nothing defines a Service, says what the catalog does, or relates it to the Policy
+      Catalog beside it. <a href="services-catalog/comparison.html">See pin 1 →</a></p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>The statistics count the wrong unit, and define nothing</h3>
+      <span class="tag built">Built</span>
+    </div>
+    <p class="hits">Hurts: <strong>followers</strong> and anyone doing governance work</p>
+    <p>Publishing applies to a Service version, not to a Service, so one Service can sit in several
+      buckets at once. The five counts also mix publication with lifecycle, and nothing explains how
+      Private differs from Restricted — where most people guess wrong.
+      <a href="services-catalog/comparison.html">See pin 2 →</a></p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>The rows don't say what they are or what's inside</h3>
+      <span class="tag open">Next</span>
+    </div>
+    <p class="hits">Hurts: <strong>followers</strong> most, and the first person sees nothing at all</p>
+    <p>A row gives you a name and a folder glyph. It never says whether it's a Project Space or a Project,
+      how many Services it holds, or which of them are yours — so the only way forward is to open each one
+      in turn. Every listed row does contain Services, but the page keeps that rule to itself.</p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>Nothing helps you find a Service</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="hits">Hurts: <strong>followers</strong>, and every customer past the first dozen Services</p>
+    <p>No search by name, no sort, no pagination, and no result count. The project filter truncates its own
+      label, no control shows which filters are active or clears them, and all three filters are styled
+      closely enough to a disabled control that people may never try them.</p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>Add service hides half of itself</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="hits">Hurts: <strong>the first person on the team</strong></p>
+    <p>The button adds a Service; a caret beside it reveals a second route, adding one from a
+      specification. Nothing explains the difference or when each applies, the menu holds exactly one
+      item, and neither route says which Project the Service lands in.</p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>The navigation doesn't explain itself</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="hits">Hurts: <strong>Case 1</strong></p>
+    <p>API Manager names two different things. Nothing says what Classic means, whether it's deprecated, or
+      which product owns the truth. MIGRATION is a section heading over one link, and Migration Tool
+      doesn't say what migrates to what.</p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>It won't hold up at customer scale</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="hits">Hurts: <strong>followers</strong>, growing worse over time</p>
+    <p>Browsing by folder alone doesn't scale: a test environment already holds 71 versions with no search.
+      It's unclear whether the statistics count Services the viewer can't open, and the page never states
+      whether the new catalog or the Classic managers is authoritative.</p>
+  </div>
+
+  <h2>One state where three are needed</h2>
+  <p>Almost everything above gets sharper once you notice that this page renders identically no matter who
+    opens it. It needs to behave differently in at least three situations:</p>
+  <ul class="states">
+    <li><strong>Empty</strong> — a new customer, or the first person on a team. There are no rows, and
+      nothing says what to do first. This is the most common first view of the page, and it's the state
+      with the least design in it.</li>
+    <li><strong>Somebody else's structure</strong> — a follower, who needs to locate their own work inside
+      a hierarchy they didn't choose.</li>
+    <li><strong>Mid-migration</strong> — a Case 1 customer with assets in flight, who needs to know what has
+      moved, what hasn't, and which product is serving traffic.</li>
+  </ul>
+
+</div>
+
+<footer>
+  Part of the SnapLogic UX issue showcase. The screens shown throughout this review are recreations, not
+  live product. Project and folder names are placeholders.
+</footer>
+
+</body>
+</html>

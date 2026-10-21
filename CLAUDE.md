@@ -50,6 +50,26 @@ Name issue folders descriptively (`sso-config`), never by ticket number (`app-22
 - **Use consistent terminology** for the same concept across all pins/files in an issue (e.g. don't alternate between "SnapLogic values" and "SnapLogic-generated values").
 - When reviewing or critiquing a design (not drafting new copy), structure findings across four lenses if asked for a full review: **Product** (users, problem, workflow fit), **UX** (mental model, flows, edge cases, cognitive load), **UI** (components, hierarchy, labeling, consistency), **Enterprise Reality Check** (permissions/scale/backward-compatibility risk). Ask 1–2 sharp clarifying questions when something is ambiguous rather than guessing; offer alternatives, not just criticism.
 
+## Before you call any page finished
+
+Run these in order. Skipping them is what produces three rounds of feedback on one small element.
+
+1. **Search before you build.** `grep -rl "<component>" --include="*.html" .` before writing CSS for
+   a tooltip, badge, popover, card, or anything else that might already exist here. If it exists,
+   reuse it.
+2. **Then look at what you're reusing.** A pattern already in the repo is proof of consistency, not
+   of quality. If it's substandard, say so and offer to fix it everywhere — don't propagate it.
+3. **Render it and actually look.** Screenshot at `deviceScaleFactor: 2`, open the image, and
+   examine every element you added or changed — including hover and focus states. The question is
+   "would a designer ship this?", not "did my edit apply?" Those are different questions and only
+   the first one matters.
+4. **When asked how something is built, read the code before answering.** A question like "are you
+   using the design system?" is answered by grepping the repo, not by reasoning about design
+   systems.
+
+If the user raises the same element twice, stop patching the named attribute and re-examine the
+whole component.
+
 ## Before every push
 
 **Scrub any real customer/org-identifying data.** This repo is public. Replace real staging URLs, org IDs, org paths, customer names — anything pulled from a real screenshot — with obviously-fake placeholders (`your-org.snaplogic.com`, `ORG_ID`, `YOUR_ORG`) before committing. Never commit credentials, tokens, or internal-only hostnames.

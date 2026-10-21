@@ -124,12 +124,17 @@
   /* JellyRoll tooltip primitive — sl-design-team.github.io/jellyroll/preview/components-tooltip.html
      Same markup as the Admin Manager pages that already use it. */
   .sl-tooltip-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; margin-left: 4px; }
+  /* Lucide "info" — the icon set JellyRoll itself loads — rather than a letter in a CSS circle */
   .sl-tooltip-trigger {
-    width: 15px; height: 15px; border-radius: 50%;
-    border: 1.5px solid var(--dim); color: var(--dim);
-    font-size: 10px; font-weight: 700;
-    display: inline-flex; align-items: center; justify-content: center; cursor: default;
+    width: 14px; height: 14px;
+    color: #8A93A3;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: default; transition: color 120ms ease-out;
   }
+  .sl-tooltip-trigger svg { width: 14px; height: 14px; display: block; }
+  .sl-tooltip-wrap:hover .sl-tooltip-trigger,
+  .sl-tooltip-wrap:focus-within .sl-tooltip-trigger { color: var(--blue); }
+  .sl-tooltip-wrap:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 50%; }
   .sl-tooltip {
     position: absolute; z-index: 100;
     background: var(--ink); color: #fff;
@@ -149,6 +154,11 @@
   .sl-tooltip-wrap:hover .sl-tooltip, .sl-tooltip-wrap:focus-within .sl-tooltip {
     opacity: 1; transform: translateX(-50%) translateY(0);
   }
+  /* First stat in each group: keep the bubble inside the card instead of spilling into the gutter */
+  .sl-tooltip.start { left: -28px; transform: translateX(0) translateY(-4px); }
+  .sl-tooltip.start::after { left: 32px; transform: none; }
+  .sl-tooltip-wrap:hover .sl-tooltip.start,
+  .sl-tooltip-wrap:focus-within .sl-tooltip.start { transform: translateX(0) translateY(0); }
   .stat-foot { font-size: 11px; color: var(--dim); margin-top: 12px; }
 
   /* list card */
@@ -327,16 +337,16 @@
             <div class="stat-group published">
               <div class="group-head"><span class="group-name">Published versions</span><span class="group-total">15</span></div>
               <div class="group-stats">
-                <div class="stat"><div class="stat-num">14</div><div class="stat-cap">Public <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Available in the Developer Portal to all: without login required, all visitors; with login required, users with SnapLogic or Developer Portal accounts.</span></span></div></div>
-                <div class="stat"><div class="stat-num">1</div><div class="stat-cap">Restricted <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Available in the Developer Portal to users with a SnapLogic login who have access to the underlying Service.</span></span></div></div>
-                <div class="stat zero"><div class="stat-num">0</div><div class="stat-cap">Private <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Not available in the Developer Portal. Endpoints are functional and can be used by calling the URL.</span></span></div></div>
+                <div class="stat"><div class="stat-num">14</div><div class="stat-cap">Public <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip start">Available in the Developer Portal to all: without login required, all visitors; with login required, users with SnapLogic or Developer Portal accounts.</span></span></div></div>
+                <div class="stat"><div class="stat-num">1</div><div class="stat-cap">Restricted <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Available in the Developer Portal to users with a SnapLogic login who have access to the underlying Service.</span></span></div></div>
+                <div class="stat zero"><div class="stat-num">0</div><div class="stat-cap">Private <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Not available in the Developer Portal. Endpoints are functional and can be used by calling the URL.</span></span></div></div>
               </div>
             </div>
             <div class="stat-group notpub">
               <div class="group-head"><span class="group-name">Unpublished versions</span><span class="group-total">56</span></div>
               <div class="group-stats">
-                <div class="stat"><div class="stat-num">48</div><div class="stat-cap">Unpublished <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Not available in the Developer Portal and not functional. The version must meet minimal requirements before you can move it to another status.</span></span></div></div>
-                <div class="stat"><div class="stat-num">8</div><div class="stat-cap">Testing <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Not available in the Developer Portal. The version and all endpoints meet minimal requirements, are functional, and are ready to test.</span></span></div></div>
+                <div class="stat"><div class="stat-num">48</div><div class="stat-cap">Unpublished <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip start">Not available in the Developer Portal and not functional. The version must meet minimal requirements before you can move it to another status.</span></span></div></div>
+                <div class="stat"><div class="stat-num">8</div><div class="stat-cap">Testing <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Not available in the Developer Portal. The version and all endpoints meet minimal requirements, are functional, and are ready to test.</span></span></div></div>
               </div>
             </div>
           </div>

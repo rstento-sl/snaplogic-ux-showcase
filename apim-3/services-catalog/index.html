@@ -131,8 +131,7 @@
   .tag.built { background: #E3F3E6; color: var(--sl-green-700); }
   .tag.next { background: #FDEBDD; color: var(--sl-orange-700); }
   .tag.open { background: #E4E7EC; color: var(--color-text-subtle); }
-  .hits { font-size: var(--type-small-size); color: var(--color-text-subtle); margin-bottom: var(--space-2); }
-  .hits strong { color: var(--color-text-heading); font-weight: 700; }
+  .wrap > p a.inline, .issue-group a { color: var(--color-text-link); font-weight: 700; }
   .issue-group p.body { font-size: var(--type-small-size); line-height: 1.6; color: var(--color-text-body); }
   .issue-group a { color: var(--color-text-link); font-weight: 700; }
 
@@ -159,65 +158,104 @@
   <div class="hero-inner">
     <a class="back-link" href="../index.html">← All APIM 3.0 issues</a>
     <h1>Services catalog</h1>
-    <p class="sub">What's wrong with the page that opens when you go to API Management, grouped by what it
-      breaks and who it breaks it for.</p>
+    <p class="sub">What's wrong with the page that opens when you go to API Management, in the order
+      people meet the problems.</p>
     <p class="crumb">API Manager &gt; Manage &gt; Services Catalog</p>
-    <div class="wip"><span class="dot"></span>Work in progress — 2 of 13 issue groups built</div>
+    <div class="wip"><span class="dot"></span>Work in progress — 2 of 9 issue groups built</div>
   </div>
 </div>
 
 <div class="wrap">
 
-  <p>The Services catalog is the front door to API Management — it's what opens when you go there — and
-    it's built for someone who already knows the product. This page sets out where it falls short of the
-    <a href="../index.html" style="color: var(--color-text-link); font-weight: 700;">use cases APIM should
-    support</a>, and leads to the proposed changes.</p>
+  <h2>What the Services catalog is</h2>
+  <p>The Services catalog is the page that opens when you go to API Management. It lists the Project
+    Spaces and Projects that hold Services; expanding one shows the Services inside it. A Service is one
+    API you manage in APIM 3.0 — its versions, its policies, and who can call it.</p>
+  <p>This page sets out where the catalog falls short of the
+    <a class="inline" href="../index.html">use cases APIM should support</a>, in the order people meet
+    the problems: with an empty environment, when arriving from Classic, and once the catalog fills up.
+    The proposed changes are on the comparison page, linked at the end.</p>
 
-  <h2>The proposal</h2>
-  <a class="proposal" href="comparison.html">
-    <span>
-      <span class="title">Current UI and proposed changes</span>
-      <span class="desc">Side-by-side comparison with numbered pins. Two issue groups built so far: the
-        page header, and the statistics row.</span>
-    </span>
-    <span class="go">Open →</span>
-  </a>
+  <h2>Before you have anything</h2>
+  <p class="lede">What a new customer, or the first person on a team, opens on day one.</p>
 
-  <h2>What the product actually does</h2>
-  <p class="lede">Four behaviors shape every proposed fix. Each is easy to get wrong from a screenshot
-    alone, and each rules out fixes that would otherwise look sensible.</p>
-  <div class="facts">
-    <ul>
-      <li><strong>The catalog lists only Project Spaces and Projects that contain Services.</strong> Empty
-        ones never appear, so every visible row holds something — and a customer with no Services sees an
-        empty page rather than a tree of empty folders.</li>
-      <li><strong>The list is permission-filtered.</strong> Users without Admin privileges see only the
-        Project Spaces and Projects they created or were granted at least view access to, as elsewhere in
-        the SnapLogic UI. No two people necessarily see the same catalog, and an admin's view — the one
-        screenshots and documentation get made from — is the most complete one that exists.</li>
-      <li><strong>The rows are two distinct levels.</strong> Project Space, then Project, then Service. The
-        page draws both levels with the same folder glyph and joins them into one path string, flattening
-        the hierarchy into text.</li>
-      <li><strong>Customers who never had Classic don't see the Classic API Management nav section.</strong>
-        The duplicate “API Manager” problem belongs to Case 1 alone.</li>
-    </ul>
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>The page is blank, and the blank means two different things</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="body">The catalog lists only Project Spaces and Projects that contain Services, so somebody
+      with no Services sees no rows at all. The list is also permission-filtered — users without Admin
+      privileges see only what they created or can at least view, as elsewhere in the SnapLogic UI. Those
+      two rules produce the same blank page from opposite situations: <em>there are no Services here</em>,
+      and <em>there are Services here, none of them visible to you</em>. One calls for creating a Service,
+      the other for asking an admin for access, and nothing on screen tells them apart. Nothing says the
+      view is filtered at all.</p>
   </div>
-
-  <h2>The issues</h2>
-  <p class="lede">Grouped by what they break, with the arrival each one hurts most. Built groups are on the
-    comparison page as numbered pins; the rest are drafted and waiting on review.</p>
 
   <div class="issue-group">
     <div class="issue-head">
       <h3>The page doesn't introduce itself</h3>
       <span class="tag built">Built</span>
     </div>
-    <p class="hits">Hurts: <strong>everyone</strong>, worst for Case 2</p>
     <p class="body">You click Services Catalog and land on a page headed Catalog Stats — the name of the
       first widget, not the page. Nothing defines a Service, says what the catalog does, or relates it to
-      the Policy Catalog beside it. For a new customer this is their first impression of the product: a
-      page headed Catalog Stats, five zeroes, three filters, and nothing else.
+      the Policy Catalog beside it. For a new customer that is their first impression of the product:
+      a heading naming a widget, five zeroes, three filters, and nothing else.
       <a href="comparison.html">See pin 1 →</a></p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>Adding the first Service hides half of itself</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="body">The only useful action on an empty page is <strong>Add service</strong>, and it sits at
+      the top right of a card below the statistics. The button adds a Service; a caret beside it reveals a
+      second route, adding one from a specification. Nothing explains the difference or when each applies,
+      the menu holds exactly one item, and neither route says which Project the Service lands in — which
+      is also the moment the first person sets the structure everyone after them inherits.</p>
+  </div>
+
+  <h2>Coming from Classic</h2>
+  <p class="lede">What a customer with Proxies and API versions already in production runs into.</p>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>Nothing connects APIM 3.0 to the product they already know</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="body">They arrive fluent in Proxies, API versions, and subscriptions, and the page says
+      Service. No page maps the old vocabulary to the new, so they can't tell whether what they're looking
+      at is empty or simply unfamiliar.</p>
+  </div>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>The navigation points them back at the old product</h3>
+      <span class="tag open">Drafted</span>
+    </div>
+    <p class="body">API Manager names two things: the product itself, and an item under Classic API
+      Management. The Classic one is the name they recognize, so the familiar click leads out of the
+      product they're evaluating. Their real first task is migration, but Migration Tool sits below
+      Manage, under a section heading over a single link that never says what migrates to what. Nothing
+      says whether Classic is deprecated, whether both run side by side, or whether migrating affects live
+      traffic.</p>
+  </div>
+
+  <h2>Once the catalog fills up</h2>
+  <p class="lede">What everyone who arrives after the first person has to work with.</p>
+
+  <div class="issue-group">
+    <div class="issue-head">
+      <h3>The rows don't say what they are or what's inside</h3>
+      <span class="tag next">Next</span>
+    </div>
+    <p class="body">A row gives you a name and a folder glyph. It never says how many Services it holds or
+      which of them are yours, so the only way forward is to open each one in turn. The glyph hides a
+      second problem: Project Space and Project are distinct levels, and the page draws both the same way
+      and joins them into one path string, flattening the hierarchy into text. Every listed row does
+      contain Services — but the page keeps that rule to itself, so people expand blindly anyway.</p>
   </div>
 
   <div class="issue-group">
@@ -225,35 +263,11 @@
       <h3>The statistics count the wrong unit, and define nothing</h3>
       <span class="tag built">Built</span>
     </div>
-    <p class="hits">Hurts: <strong>followers</strong> and anyone doing governance work</p>
     <p class="body">Publishing applies to a Service version, not to a Service, so one Service can sit in
       several buckets at once. The five counts also mix publication with lifecycle, and nothing explains
       how Private differs from Restricted — where most people guess wrong, because Private is the status
-      that <em>isn't</em> in the Developer Portal. <a href="comparison.html">See pin 2 →</a></p>
-  </div>
-
-  <div class="issue-group">
-    <div class="issue-head">
-      <h3>The rows don't say what they are or what's inside</h3>
-      <span class="tag next">Next</span>
-    </div>
-    <p class="hits">Hurts: <strong>followers</strong> most; the first person on the team sees nothing at all</p>
-    <p class="body">A row gives you a name and a folder glyph. It never says whether it's a Project Space or
-      a Project, how many Services it holds, or which of them are yours — so the only way forward is to
-      open each one in turn. Every listed row does contain Services, but the page keeps that rule to
-      itself.</p>
-  </div>
-
-  <div class="issue-group">
-    <div class="issue-head">
-      <h3>An empty catalog has two opposite meanings</h3>
-      <span class="tag open">Drafted</span>
-    </div>
-    <p class="hits">Hurts: <strong>new arrivals of every kind</strong></p>
-    <p class="body">Because the list is permission-filtered, a user who can see nothing gets the same blank
-      page as a user whose environment holds nothing. “There are no Services here” and “there are Services
-      here, none of them visible to you” call for opposite responses — create one, or ask for access — and
-      the page distinguishes them in no way. Nothing says the view is filtered at all.</p>
+      that <em>isn't</em> in the Developer Portal. The totals describe the whole environment, which tells a
+      user nothing about their own work. <a href="comparison.html">See pin 2 →</a></p>
   </div>
 
   <div class="issue-group">
@@ -261,7 +275,6 @@
       <h3>Nothing helps you find a Service</h3>
       <span class="tag open">Drafted</span>
     </div>
-    <p class="hits">Hurts: <strong>followers</strong>, and every customer past the first dozen Services</p>
     <p class="body">No search by name, no sort, no pagination, and no result count. The project filter
       truncates its own label, no control shows which filters are active or clears them, and all three
       filters are styled closely enough to a disabled control that people may never try them.</p>
@@ -269,64 +282,25 @@
 
   <div class="issue-group">
     <div class="issue-head">
-      <h3>Add service hides half of itself</h3>
-      <span class="tag open">Drafted</span>
-    </div>
-    <p class="hits">Hurts: <strong>the first person on the team</strong></p>
-    <p class="body">The button adds a Service; a caret beside it reveals a second route, adding one from a
-      specification. Nothing explains the difference or when each applies, the menu holds exactly one item,
-      and neither route says which Project the Service lands in.</p>
-  </div>
-
-  <div class="issue-group">
-    <div class="issue-head">
-      <h3>Nothing connects APIM 3.0 to the product Classic customers already know</h3>
-      <span class="tag open">Drafted</span>
-    </div>
-    <p class="hits">Hurts: <strong>Case 1</strong></p>
-    <p class="body">A Classic customer arrives fluent in Proxies, API versions, and subscriptions, and the
-      page says Service. Nothing maps the old vocabulary to the new, so they can't tell whether what
-      they're looking at is empty or simply unfamiliar. Their first task is migration, but Migration Tool
-      sits below Manage, under a section heading over a single link that never says what migrates to
-      what — so the product opens on a page for browsing assets they haven't moved yet.</p>
-  </div>
-
-  <div class="issue-group">
-    <div class="issue-head">
-      <h3>The navigation doesn't explain itself</h3>
-      <span class="tag open">Drafted</span>
-    </div>
-    <p class="hits">Hurts: <strong>Case 1</strong></p>
-    <p class="body">API Manager names two different things: the product itself, and an item under Classic
-      API Management. The Classic one is the name a Case 1 customer recognizes, so the familiar click
-      leads out of the product they're evaluating. Nothing says what Classic means, whether it's
-      deprecated, whether both run side by side, or whether migrating affects live traffic.</p>
-  </div>
-
-  <div class="issue-group">
-    <div class="issue-head">
       <h3>It won't hold up at customer scale</h3>
       <span class="tag open">Drafted</span>
     </div>
-    <p class="hits">Hurts: <strong>followers</strong>, growing worse over time</p>
     <p class="body">Browsing by folder alone doesn't scale: a test environment already holds 71 versions
-      with no search. The list respects permissions but the statistics may not, so the counts can describe
-      an environment the viewer can't see. The page also never states whether the new catalog or the
-      Classic managers is authoritative.</p>
+      with no search. The list respects permissions, but it's unconfirmed whether the statistics do — if
+      they don't, the counts describe an environment the viewer can't see. The page also never states
+      whether the new catalog or the Classic managers is authoritative.</p>
   </div>
 
-  <h2>One state where three are needed</h2>
-  <p>Almost everything above gets sharper once you notice that this page renders identically no matter who
-    opens it. It needs to behave differently in at least three situations:</p>
-  <ul class="states">
-    <li><strong>Empty</strong> — a new customer, or the first person on a team. There are no rows, and
-      nothing says what to do first. This is the most common first view of the page, and the state with
-      the least design in it.</li>
-    <li><strong>Somebody else's structure</strong> — a follower, who needs to locate their own work inside
-      a hierarchy they didn't choose.</li>
-    <li><strong>Mid-migration</strong> — a Case 1 customer with assets in flight, who needs to know what
-      has moved, what hasn't, and which product is serving traffic.</li>
-  </ul>
+  <h2>See the proposed changes</h2>
+  <p>Two of these groups are built as numbered pins, with the current page and the proposal side by side.
+    The rest are drafted and waiting on review.</p>
+  <a class="proposal" href="comparison.html">
+    <span>
+      <span class="title">Current UI and proposed changes</span>
+      <span class="desc">The page header, and the statistics row.</span>
+    </span>
+    <span class="go">Open →</span>
+  </a>
 
 </div>
 

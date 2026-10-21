@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-21T23:26:44.968Z",
+  "generated": "2026-10-21T23:36:01.684Z",
   "latest": {
     "release": "October 2026",
     "date": "2026-10-15",
@@ -13,6 +13,7 @@
     ],
     "areas": [
       "In this Release",
+      "Platform Patch Updates",
       "Recommended Snaplex Version",
       "Admin Manager",
       "AgentCreator",
@@ -32,7 +33,7 @@
       "Snaps",
       "The SnapLogic MCP Server"
     ],
-    "published": "2026-10-21T23:26:44.943Z"
+    "published": "2026-10-21T23:36:01.671Z"
   },
   "releases": [
     {
@@ -48,6 +49,7 @@
       ],
       "areas": [
         "In this Release",
+        "Platform Patch Updates",
         "Recommended Snaplex Version",
         "Admin Manager",
         "AgentCreator",
@@ -67,7 +69,7 @@
         "Snaps",
         "The SnapLogic MCP Server"
       ],
-      "published": "2026-10-21T23:26:44.943Z"
+      "published": "2026-10-21T23:36:01.671Z"
     },
     {
       "release": "Sample Release",

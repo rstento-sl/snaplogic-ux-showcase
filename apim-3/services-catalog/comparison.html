@@ -337,7 +337,7 @@
         <div id="prop-block-header" style="position: relative;">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
           <div class="page-h1">Services catalog</div>
-          <p class="page-sub">Create new APIM 3.0 Services from scratch or from a specification. Browse existing Services by project. <a href="#" onclick="return false;">Learn more</a></p>
+          <p class="page-sub">Create new APIM 3.0 services from scratch or from a specification. Browse existing services by project. <a href="#" onclick="return false;">Learn more.</a></p>
         </div>
 
         <div class="stats-block" id="prop-block-stats">
@@ -438,12 +438,12 @@ const annotations = [
   {
     title: "No page title",
     problem: "All Admin Manager and Monitor pages have a title that corresponds to their navigation link in the left nav. This title makes it look like the page is only for statistics, which clearly isn't true.",
-    fix: "Title the page after its nav item, in sentence case: “Services catalog.” Add a subheading saying what you can do here — “Create new APIM 3.0 Services from scratch or from a specification. Browse existing Services by project” — followed by a Learn more link to the docs.",
+    fix: "Title the page after its nav item, in sentence case: “Services catalog.” Add a subheading saying what you can do here — “Create new APIM 3.0 services from scratch or from a specification. Browse existing services by project” — followed by a Learn more link to the docs.",
     section: "block-header",
     propBlock: "prop-block-header"
   },
   {
-    title: "The stats count Services, but status belongs to a version — and no label is defined",
+    title: "The stats count Services, but status belongs to a version",
     problem: "Status belongs to a Service version, not a Service, so “48 Unpublished Services” can't be literally true. The row also mixes publication (Unpublished, Private, Restricted, Public) with lifecycle (Testing), and defines none of the five labels.",
     fix: "Count versions, not Services. Split the five into two groups — Published versions (Public, Restricted, Private) and Unpublished versions (Unpublished, Testing) — and give each group a total, so the numbers add up to something stated. Put a tooltip on every status label, using the definitions already written in the SnapLogic docs.",
     section: "block-stats",

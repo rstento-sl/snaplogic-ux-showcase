@@ -657,7 +657,7 @@
         <div class="field-group">
           <div class="field-label">Namespaces</div>
           <input class="field-input" value="" readonly>
-          <p class="field-hint">Optional, comma-separated. Example: <code>my-group/*, my-group/subgroup/**</code>. <a href="#">See syntax →</a></p>
+          <p class="field-hint">Optional, comma-separated. Example: <code>my-group/*, my-group/subgroup/**</code>. <a href="#">Refer to the syntax →</a></p>
         </div>
       </div>
       <div class="field-group"><div class="field-label">Client secret</div><input class="field-input" value="" readonly></div>
@@ -799,7 +799,7 @@ function render() {
   if (mode === 'red') {
     header.classList.remove('green');
     document.getElementById('pop-problem').textContent = a.problem;
-    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.textContent = 'Refer to the proposed fix →';
     jumpBtn.className = 'popover-jump-btn to-fix';
     jumpBtn.onclick = function() { jumpTo('green', current); };
     document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;

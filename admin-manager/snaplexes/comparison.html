@@ -685,7 +685,7 @@
     <div class="flow-connector">Admin clicks + Add Snaplex</div>
 
     <div style="background: #fff; border: 1px dashed #ccc; border-radius: 6px; padding: 16px 20px; text-align: center;">
-      <a href="../add-update-snaplex-dialog/comparison.html" style="font-size: 14px; font-weight: 700; color: var(--teal); text-decoration: none;">→ See Add/Update Snaplex dialog issues (14 pins)</a>
+      <a href="../add-update-snaplex-dialog/comparison.html" style="font-size: 14px; font-weight: 700; color: var(--teal); text-decoration: none;">→ Refer to the Add/Update Snaplex dialog issues (14 pins)</a>
     </div>
   </div>
 
@@ -768,7 +768,7 @@
     <div class="flow-connector">Admin clicks + Add Groundplex</div>
 
     <div style="background: var(--teal-tint); border: 1px dashed var(--teal); border-radius: 6px; padding: 16px 20px; text-align: center;">
-      <a href="../add-update-snaplex-dialog/comparison.html" style="font-size: 14px; font-weight: 700; color: var(--teal); text-decoration: none;">→ See the proposed Add/Update Snaplex dialog fixes (14 pins)</a>
+      <a href="../add-update-snaplex-dialog/comparison.html" style="font-size: 14px; font-weight: 700; color: var(--teal); text-decoration: none;">→ Refer to the proposed Add/Update Snaplex dialog fixes (14 pins)</a>
     </div>
   </div>
 
@@ -889,7 +889,7 @@ function render() {
   if (mode === 'red') {
     header.classList.remove('green');
     document.getElementById('pop-problem').textContent = a.problem;
-    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.textContent = 'Refer to the proposed fix →';
     jumpBtn.className = 'popover-jump-btn to-fix';
     jumpBtn.onclick = function() { jumpTo('green', current); };
     document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;

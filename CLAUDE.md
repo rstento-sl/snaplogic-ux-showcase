@@ -63,7 +63,13 @@ Run these in order. Skipping them is what produces three rounds of feedback on o
    examine every element you added or changed — including hover and focus states. The question is
    "would a designer ship this?", not "did my edit apply?" Those are different questions and only
    the first one matters.
-4. **When asked how something is built, read the code before answering.** A question like "are you
+4. **Run the style check on your own prose.** `python3 tools/style-check.py <path>` greps the
+   reader-visible text against the banned terms in Appendix 1 of
+   `~/Git/usability-review-criteria.md` and flags passive constructions. Every hit gets a decision:
+   rewrite it, or be able to say why it stands (*see* meaning perceive is fine; *see X* as a
+   cross-reference is not — that one is *refer to*). Writing rules don't fire on their own, which is
+   how "see" and passive voice shipped repeatedly; this makes them checkable like a render.
+5. **When asked how something is built, read the code before answering.** A question like "are you
    using the design system?" is answered by grepping the repo, not by reasoning about design
    systems.
 

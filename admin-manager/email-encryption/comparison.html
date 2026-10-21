@@ -549,7 +549,7 @@ function render() {
     problemEl.style.display = 'block';
     problemEl.textContent = a.problem;
     fixEl.style.display = 'none';
-    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.textContent = 'Refer to the proposed fix →';
     jumpBtn.className = 'popover-jump-btn to-fix';
     jumpBtn.onclick = function() { jumpTo('green', current); };
     document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;

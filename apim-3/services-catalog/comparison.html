@@ -387,7 +387,7 @@
   <div>
     <strong>Reviewers — two things to verify before this ships.</strong>
     The version counts in the proposed column are placeholders built from today's Service counts; the real
-    per-version numbers will differ. And the tooltip text is taken from the SnapLogic docs' status definitions,
+    per-version numbers will differ. And the tooltip text comes from the SnapLogic docs' status definitions,
     which currently describe status as a property of a <em>Service</em> — the docs need the same Service-version
     correction this page proposes.
   </div>
@@ -510,7 +510,7 @@ function render() {
   if (mode === 'red') {
     header.classList.remove('green');
     document.getElementById('pop-problem').textContent = a.problem;
-    jumpBtn.textContent = 'See proposed fix →';
+    jumpBtn.textContent = 'Refer to the proposed fix →';
     jumpBtn.className = 'popover-jump-btn to-fix';
     jumpBtn.onclick = function() { jumpTo('green', current); };
     document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;

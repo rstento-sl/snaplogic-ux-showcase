@@ -1060,6 +1060,14 @@
         {
           "target": "Catalog Stats row",
           "callout": "Counts Services, but status belongs to a version — and nothing defines Private vs Restricted."
+        },
+        {
+          "target": "Filter row",
+          "callout": "The grey filters resemble a disabled control, so people don't try them."
+        },
+        {
+          "target": "Add service button",
+          "callout": "The page's primary action sits in the filter row, attached to a list that may hold nothing."
         }
       ],
       "inAppHelp": true

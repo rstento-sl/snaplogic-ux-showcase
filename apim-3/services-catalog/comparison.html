@@ -110,6 +110,9 @@
   .page-sub { font-size: 13px; color: #444; line-height: 1.5; margin: -10px 0 18px; max-width: 54ch; }
   .page-sub a { color: var(--blue); text-decoration: none; }
   .page-sub a:hover { text-decoration: underline; }
+  .page-head { display: flex; align-items: flex-start; gap: 20px; }
+  .page-head .page-head-text { flex: 1; min-width: 0; }
+  .page-head .add-btn { flex: 0 0 auto; margin-top: 2px; }
 
   /* stats */
   .stats-block { position: relative; padding: 4px 0 20px; }
@@ -189,6 +192,10 @@
   /* Pin 3 marks the controls row; park it in the empty space left of the filters
      so it doesn't cover the Add service button. */
   #pin-3, #green-pin-3 { top: 4px; left: 2px; right: auto; }
+  #pin-4, #green-pin-4 { top: -11px; right: -11px; }
+  /* Pin 1 is about the page title, so point it at the title and leave the
+     header's right corner to the Add service pin. */
+  #green-pin-1 { top: -14px; left: -14px; right: auto; }
   .add-btn { flex: 0 0 auto; white-space: nowrap; background: #0B43B8; color: #fff; font-size: 12px; font-weight: 700; padding: 9px 14px; border-radius: 4px; display: flex; align-items: center; gap: 10px; }
   .folder-row { display: flex; align-items: center; gap: 12px; padding: 11px 4px; border-bottom: 1px solid #EDF0F4; font-size: 13px; }
   .folder-row:last-child { border-bottom: none; }
@@ -326,7 +333,10 @@
             <div class="filter"><span>Filter by project</span><span class="chev">⌄</span></div>
             <div class="filter"><span>Filter by tags</span><span class="chev">⌄</span></div>
             <div class="filter"><span>Filter by owners</span><span class="chev">⌄</span></div>
-            <div class="add-btn"><span>Add service</span><span>⌄</span></div>
+            <div id="block-add" style="position: relative;">
+              <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+              <div class="add-btn"><span>Add service</span><span>⌄</span></div>
+            </div>
           </div>
           </div>
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>shared</span></div>
@@ -351,8 +361,16 @@
 
         <div id="prop-block-header" style="position: relative;">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
-          <div class="page-h1">Services catalog</div>
-          <p class="page-sub">Create new APIM 3.0 services from scratch or from a specification. Browse existing services by project. <a href="#" onclick="return false;">Learn more.</a></p>
+          <div class="page-head">
+            <div class="page-head-text">
+              <div class="page-h1">Services catalog</div>
+              <p class="page-sub">Create new APIM 3.0 services from scratch or from a specification. Browse existing services by project. <a href="#" onclick="return false;">Learn more.</a></p>
+            </div>
+            <div id="prop-block-add" style="position: relative;">
+              <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+              <div class="add-btn"><span>Add service</span><span>⌄</span></div>
+            </div>
+          </div>
         </div>
 
         <div class="stats-block" id="prop-block-stats">
@@ -386,7 +404,6 @@
             <div class="filter enabled"><span>Filter by project</span><span class="chev">⌄</span></div>
             <div class="filter enabled"><span>Filter by tags</span><span class="chev">⌄</span></div>
             <div class="filter enabled"><span>Filter by owners</span><span class="chev">⌄</span></div>
-            <div class="add-btn"><span>Add service</span><span>⌄</span></div>
           </div>
           </div>
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>shared</span></div>
@@ -475,6 +492,13 @@ const annotations = [
     fix: "Darken the text and border to JellyRoll's greys \u2014 #131C35 text on a #5E6470 border \u2014 so the controls read as enabled.",
     section: "block-filters",
     propBlock: "prop-block-filters"
+  },
+  {
+    title: "Add service sits with the filters",
+    problem: "Filters narrow the list that already exists; Add service creates something new. Putting them in one row implies they belong to the same task. On an empty catalog it is worse: the page's only useful action hangs off a card with nothing in it.",
+    fix: "Move Add service to the top right, in line with the page title, where a page's primary action belongs. It then stays visible whether or not the list has any rows.",
+    section: "block-add",
+    propBlock: "prop-block-add"
   }
 ];
 

@@ -118,24 +118,37 @@
   .group-name { font-size: 12px; font-weight: 700; color: #131C35; }
   .group-total { font-family: var(--mono); font-size: 11px; color: var(--dim); }
   .group-stats { display: flex; gap: 8px; }
-  .group-stats .stat-cap { text-transform: none; font-size: 11px; letter-spacing: 0; display: inline-flex; align-items: center; gap: 4px; justify-content: center; }
+  .group-stats .stat-cap { text-transform: none; font-size: 11px; letter-spacing: 0; display: inline-flex; align-items: center; justify-content: center; }
   .stat.zero .stat-num { color: #A8AEBB; }
 
-  .info {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 13px; height: 13px; border-radius: 50%;
-    border: 1px solid #9aa2b1; color: #5a6475;
-    font-size: 9px; font-weight: 700; cursor: help; position: relative; flex-shrink: 0;
+  /* JellyRoll tooltip primitive — sl-design-team.github.io/jellyroll/preview/components-tooltip.html
+     Same markup as the Admin Manager pages that already use it. */
+  .sl-tooltip-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; margin-left: 4px; }
+  .sl-tooltip-trigger {
+    width: 15px; height: 15px; border-radius: 50%;
+    border: 1.5px solid var(--dim); color: var(--dim);
+    font-size: 10px; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center; cursor: default;
   }
-  .info:hover, .info:focus { background: var(--blue); border-color: var(--blue); color: #fff; outline: none; }
-  .info::after {
-    content: attr(data-tip);
-    display: none; position: absolute; top: 160%; left: 50%; transform: translateX(-50%);
-    width: 230px; background: #131C35; color: #fff; font-size: 11px; font-weight: 400;
-    line-height: 1.45; text-align: left; letter-spacing: 0; padding: 8px 10px; border-radius: 5px;
-    z-index: 60; box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  .sl-tooltip {
+    position: absolute; z-index: 100;
+    background: var(--ink); color: #fff;
+    font-family: inherit; font-weight: 500; font-size: 12px; line-height: 16px;
+    padding: 5px 10px; border-radius: 4px;
+    width: max-content; max-width: 240px; white-space: normal; text-align: left; letter-spacing: 0;
+    pointer-events: none; box-shadow: 0 2px 8px rgba(3,26,72,0.18);
+    opacity: 0; top: calc(100% + 8px); left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    transition: opacity 120ms ease-out 300ms, transform 120ms ease-out 300ms;
   }
-  .info:hover::after, .info:focus::after { display: block; }
+  .sl-tooltip::after {
+    content: ""; position: absolute; width: 0; height: 0;
+    border: 5px solid transparent; bottom: 100%; left: 50%;
+    transform: translateX(-50%); border-bottom-color: var(--ink); border-top: none;
+  }
+  .sl-tooltip-wrap:hover .sl-tooltip, .sl-tooltip-wrap:focus-within .sl-tooltip {
+    opacity: 1; transform: translateX(-50%) translateY(0);
+  }
   .stat-foot { font-size: 11px; color: var(--dim); margin-top: 12px; }
 
   /* list card */
@@ -314,16 +327,16 @@
             <div class="stat-group published">
               <div class="group-head"><span class="group-name">Published versions</span><span class="group-total">15</span></div>
               <div class="group-stats">
-                <div class="stat"><div class="stat-num">14</div><div class="stat-cap">Public <span class="info" tabindex="0" data-tip="Available in the Developer Portal to all users — those with a SnapLogic or a Developer Portal login — assuming the portal requires logging in.">i</span></div></div>
-                <div class="stat"><div class="stat-num">1</div><div class="stat-cap">Restricted <span class="info" tabindex="0" data-tip="Available in the Developer Portal to users with a SnapLogic login who have access to the underlying Service.">i</span></div></div>
-                <div class="stat zero"><div class="stat-num">0</div><div class="stat-cap">Private <span class="info" tabindex="0" data-tip="Not available in the Developer Portal. Endpoints are functional and can be used by calling the URL.">i</span></div></div>
+                <div class="stat"><div class="stat-num">14</div><div class="stat-cap">Public <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Available in the Developer Portal to all users — those with a SnapLogic or a Developer Portal login — assuming the portal requires logging in.</span></span></div></div>
+                <div class="stat"><div class="stat-num">1</div><div class="stat-cap">Restricted <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Available in the Developer Portal to users with a SnapLogic login who have access to the underlying Service.</span></span></div></div>
+                <div class="stat zero"><div class="stat-num">0</div><div class="stat-cap">Private <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Not available in the Developer Portal. Endpoints are functional and can be used by calling the URL.</span></span></div></div>
               </div>
             </div>
             <div class="stat-group notpub">
-              <div class="group-head"><span class="group-name">Not published</span><span class="group-total">56</span></div>
+              <div class="group-head"><span class="group-name">Unpublished versions</span><span class="group-total">56</span></div>
               <div class="group-stats">
-                <div class="stat"><div class="stat-num">48</div><div class="stat-cap">Unpublished <span class="info" tabindex="0" data-tip="Not available in the Developer Portal and not functional. The version must meet minimal requirements before you can move it to another status.">i</span></div></div>
-                <div class="stat"><div class="stat-num">8</div><div class="stat-cap">Testing <span class="info" tabindex="0" data-tip="Not available in the Developer Portal. The version and all endpoints meet minimal requirements, are functional, and are ready to test.">i</span></div></div>
+                <div class="stat"><div class="stat-num">48</div><div class="stat-cap">Unpublished <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Not available in the Developer Portal and not functional. The version must meet minimal requirements before you can move it to another status.</span></span></div></div>
+                <div class="stat"><div class="stat-num">8</div><div class="stat-cap">Testing <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger">i</span><span class="sl-tooltip">Not available in the Developer Portal. The version and all endpoints meet minimal requirements, are functional, and are ready to test.</span></span></div></div>
               </div>
             </div>
           </div>
@@ -413,7 +426,7 @@ const annotations = [
   {
     title: "The stats count Services, but status belongs to a version — and no label is defined",
     problem: "Publishing happens to a specific version of a Service, not to the Service, so “48 Unpublished Services” can't be literally true: one Service can have versions in several states at once. The five counts also mix two different ideas — Unpublished, Private, Restricted, and Public describe publication, while Testing describes lifecycle — and sit in one flat row that reads as a single scale. Nothing defines the labels, so there's no way to tell Private from Restricted. Most users would guess wrong: Private is the one that's absent from the Developer Portal, while Restricted is listed.",
-    fix: "Count versions, not Services. Split the five into two groups — Published (Public, Restricted, Private) and Not published (Unpublished, Testing) — and give each group a total, so the numbers add up to something stated. Put a tooltip on every status label, using the definitions already written in the SnapLogic docs.",
+    fix: "Count versions, not Services. Split the five into two groups — Published versions (Public, Restricted, Private) and Unpublished versions (Unpublished, Testing) — and give each group a total, so the numbers add up to something stated. Put a tooltip on every status label, using the definitions already written in the SnapLogic docs.",
     section: "block-stats",
     propBlock: "prop-block-stats"
   }

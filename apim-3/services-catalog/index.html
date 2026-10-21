@@ -117,6 +117,19 @@
     border-radius: var(--radius-sm);
     padding: 1px 5px;
   }
+  .shot { margin: var(--space-6) 0 var(--space-8); }
+  .shot img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+  }
+  .shot figcaption {
+    font-size: var(--type-small-size);
+    color: var(--color-text-subtle);
+    line-height: 1.6;
+    margin-top: var(--space-3);
+    max-width: 70ch;
+  }
   .parties { margin: 0 0 var(--space-5); padding-left: var(--space-5); }
   .parties li {
     line-height: 1.6;
@@ -187,6 +200,18 @@
     catalog page and left navigation pane should be intuitive to both Classic APIM and new APIM 3.0
     customers from the first encounter throughout their experience. Where it is impossible to be intuitive,
     in-app assistance can help them self-serve to onboard quickly and successfully use APIM 3.0.</p>
+
+  <figure class="shot">
+    <img src="current-ui.png" alt="The Services catalog page today. The left navigation pane lists
+      Services Catalog and Policy Catalog under Manage, Migration Tool under Migration, and API Manager,
+      Portal Manager, and Subscription Manager under Classic API Management. The page is headed Catalog
+      Stats above five counts — 48 unpublished, 8 testing, 0 private, 1 restricted, 14 public services
+      — and a card holding three filters, an Add service button, and rows of identical folder icons
+      labelled shared, 01-Tutorial/shared, project-a/project-a, and so on.">
+    <figcaption>The page as it opens today, with project names genericized. Everything below is visible
+      here: a widget name standing in for a page title, five counts with no definitions, pale filters,
+      and a column of identical folder rows.</figcaption>
+  </figure>
 
   <h2>The first experience</h2>
   <p class="lede">Everyone meets this page on day one:</p>

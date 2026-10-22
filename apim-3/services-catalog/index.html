@@ -47,7 +47,7 @@
   }
   .wip .dot { width: 7px; height: 7px; border-radius: 50%; background: #E08A4B; flex-shrink: 0; }
 
-  .wrap { max-width: 820px; margin: 0 auto; padding: var(--space-8) var(--space-6) 0; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: var(--space-8) var(--space-6) 0; position: relative; }
 
   h2 {
     font-size: var(--type-subheading-size);
@@ -55,8 +55,51 @@
     font-weight: var(--type-subheading-weight);
     color: var(--color-text-heading);
     margin: var(--space-10) 0 var(--space-2);
+    scroll-margin-top: var(--space-5);
   }
   h2:first-of-type { margin-top: 0; }
+
+  /* On this page. A card above the content on narrow screens; a sticky rail in the
+     right margin once there's room for it, so the content column stays centred under the hero. */
+  .toc {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-6);
+    max-width: 380px;
+  }
+  .toc-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-subtle);
+    margin-bottom: var(--space-2);
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin-bottom: var(--space-2); }
+  .toc li:last-child { margin-bottom: 0; }
+  .toc a {
+    display: block;
+    font-size: var(--type-small-size);
+    line-height: 1.45;
+    font-weight: 700;
+    color: var(--color-text-link);
+    text-decoration: none;
+  }
+  .toc a:hover { color: var(--color-text-link-hover); text-decoration: underline; }
+
+  @media (min-width: 1280px) {
+    .toc-rail {
+      position: absolute;
+      top: var(--space-8);
+      left: calc(100% + var(--space-4));
+      width: 200px;
+      height: calc(100% - var(--space-8));
+    }
+    .toc { position: sticky; top: var(--space-5); margin: 0; }
+  }
   .lede {
     color: var(--color-text-subtle);
     line-height: 1.6;
@@ -206,7 +249,20 @@
 
 <div class="wrap">
 
-  <h2>Services catalog and navigation pane</h2>
+  <div class="toc-rail">
+    <nav class="toc" aria-label="On this page">
+      <div class="toc-label">On this page</div>
+      <ol>
+        <li><a href="#intro">Services catalog and navigation pane</a></li>
+        <li><a href="#first-experience">The first experience</a></li>
+        <li><a href="#classic-customers">Existing Classic APIM customers</a></li>
+        <li><a href="#after-services">After services exist</a></li>
+        <li><a href="#proposed-changes">The proposed changes</a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <h2 id="intro">Services catalog and navigation pane</h2>
   <p>When a customer selects API Management from the waffle menu, the Services catalog opens. The Services
     catalog page and left navigation pane should be intuitive to both Classic APIM and new APIM 3.0
     customers from the first encounter throughout their experience. Where it is impossible to be intuitive,
@@ -219,12 +275,9 @@
       Stats above five counts — 48 unpublished, 8 testing, 0 private, 1 restricted, 14 public services
       — and a card holding three filters, an Add service button, and rows of identical folder icons
       labelled shared, 01-Tutorial/shared, project-a/project-a, and so on.">
-    <figcaption>The page as it opens today, with project names genericized. Everything below is visible
-      here: a widget name standing in for a page title, five counts with no definitions, pale filters,
-      and a column of identical folder rows.</figcaption>
   </figure>
 
-  <h2>The first experience</h2>
+  <h2 id="first-experience">The first experience</h2>
   <p class="lede">Everyone meets this page on day one:</p>
   <ul class="parties">
     <li>Classic APIM customers adding APIM 3.0</li>
@@ -258,7 +311,7 @@
       two ways to add one.</p>
   </div>
 
-  <h2>Existing Classic APIM customers</h2>
+  <h2 id="classic-customers">Existing Classic APIM customers</h2>
 
   <div class="issue-group">
     <div class="issue-head">
@@ -289,7 +342,7 @@
       <a href="../navigation/comparison.html">the left navigation pane</a>.</p>
   </div>
 
-  <h2>After services exist</h2>
+  <h2 id="after-services">After services exist</h2>
 
   <div class="issue-group">
     <div class="issue-head">
@@ -339,10 +392,17 @@
       describe an environment the viewer can't see.</p>
   </div>
 
-  <h2>The proposed changes</h2>
+  <h2 id="proposed-changes">The proposed changes</h2>
+  <a class="proposal" href="../navigation/comparison.html">
+    <span>
+      <span class="title">Left navigation pane — current and proposed</span>
+      <span class="desc">The toolbar name, headings for each release, and where migration sits.</span>
+    </span>
+    <span class="go">Open →</span>
+  </a>
   <a class="proposal" href="comparison.html">
     <span>
-      <span class="title">Current UI and proposed changes</span>
+      <span class="title">Services catalog page — current and proposed</span>
       <span class="desc">The page header, the statistics row, the filters, and Add service.</span>
     </span>
     <span class="go">Open →</span>

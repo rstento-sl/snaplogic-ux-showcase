@@ -119,6 +119,22 @@
   .page-sub { font-size: 13px; color: #444; line-height: 1.5; margin: -10px 0 18px; max-width: 54ch; }
   .page-sub a { color: var(--blue); text-decoration: none; }
   .page-sub a:hover { text-decoration: underline; }
+  /* Classic-customer onboarding card (in-app UA, not page chrome) */
+  .tour-card {
+    position: relative; background: #fff; border: 1px solid rgba(107,63,160,0.35);
+    border-left: 3px solid var(--purple); border-radius: 6px; padding: 12px 14px; margin-bottom: 24px;
+  }
+  .tour-tag {
+    position: absolute; top: 11px; right: 12px; font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--purple);
+    background: var(--purple-tint); border-radius: 999px; padding: 2px 8px;
+  }
+  .tour-head { font-size: 13px; font-weight: 700; color: #131C35; margin-bottom: 5px; }
+  .tour-body { font-size: 12px; color: #444; line-height: 1.5; margin-bottom: 11px; max-width: 50ch; }
+  .tour-actions { display: flex; align-items: center; gap: 16px; }
+  .tour-btn { background: var(--purple); color: #fff; font-size: 11.5px; font-weight: 700; padding: 6px 13px; border-radius: 4px; }
+  .tour-dismiss { font-size: 11.5px; color: var(--dim); font-weight: 700; }
+
   .page-head { display: flex; align-items: flex-start; gap: 20px; }
   .page-head .page-head-text { flex: 1; min-width: 0; }
   .page-head .add-btn { flex: 0 0 auto; margin-top: 2px; }
@@ -205,6 +221,8 @@
   /* Pin 1 is about the page title, so point it at the title and leave the
      header's right corner to the Add service pin. */
   #green-pin-1 { top: -14px; left: -14px; right: auto; }
+#pin-5 { top: -14px; left: -14px; right: auto; }
+#green-pin-5 { top: -13px; left: -13px; right: auto; }
   .add-btn { flex: 0 0 auto; white-space: nowrap; background: #0B43B8; color: #fff; font-size: 12px; font-weight: 700; padding: 9px 14px; border-radius: 4px; display: flex; align-items: center; gap: 10px; }
   .folder-row { display: flex; align-items: center; gap: 12px; padding: 11px 4px; border-bottom: 1px solid #EDF0F4; font-size: 13px; }
   .folder-row:last-child { border-bottom: none; }
@@ -323,6 +341,7 @@
       <div class="page-wrapper">
 
         <div id="block-header" style="position: relative;">
+          <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
           <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
           <div class="page-h1">Catalog Stats</div>
         </div>
@@ -370,6 +389,20 @@
       <span class="stamp proposed-stamp">PROPOSED</span>
       <div class="compare-col-label proposed">Proposed redesign</div>
       <div class="page-wrapper">
+
+        <div id="prop-block-onboard" style="position: relative;">
+          <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+          <div class="tour-card">
+            <span class="tour-tag">In-app UA</span>
+            <div class="tour-head">Coming from Classic API Management?</div>
+            <p class="tour-body">A 3-minute tour maps Proxies, API versions, and subscriptions to
+              what's on this page.</p>
+            <div class="tour-actions">
+              <span class="tour-btn">Start tour</span>
+              <span class="tour-dismiss">Not now</span>
+            </div>
+          </div>
+        </div>
 
         <div id="prop-block-header" style="position: relative;">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
@@ -511,6 +544,13 @@ const annotations = [
     fix: "Move Add service to the top right, in line with the page title, where a page's primary action belongs. It then stays visible whether or not the list has any rows.",
     section: "block-add",
     propBlock: "prop-block-add"
+  },
+  {
+    title: "Nothing connects APIM 3.0 to Classic APIM",
+    problem: "A customer arriving from Classic API Management is fluent in Proxies, API versions, and subscriptions, and this page says service. Nothing maps the old vocabulary to the new, so they can't tell whether the page is empty or simply unfamiliar.",
+    fix: "Run a short in-app onboarding flow, shown only to orgs that already have Classic APIM. It maps what they know to what's here — a Proxy becomes a service, an API version becomes a service version — and points them at the Migration Tool. Offer it rather than forcing it, with Start tour and Not now, and keep it reachable afterward.",
+    section: "block-header",
+    propBlock: "prop-block-onboard"
   }
 ];
 

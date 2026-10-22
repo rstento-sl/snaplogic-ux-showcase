@@ -1060,7 +1060,7 @@
         },
         {
           "target": "Catalog Stats row",
-          "callout": "Counts Services, but status belongs to a version — and nothing defines Private vs Restricted."
+          "callout": "Counts services, but status belongs to a version — and nothing defines Private vs Restricted."
         },
         {
           "target": "Filter row",
@@ -1068,7 +1068,11 @@
         },
         {
           "target": "Add service button",
-          "callout": "The page's primary action sits in the filter row, attached to a list that may hold nothing."
+          "callout": "The page's primary action sits in the filter row, attached to a list that might hold nothing."
+        },
+        {
+          "target": "Orientation for Classic customers",
+          "callout": "Nothing maps Proxies, API versions, and subscriptions to what this page calls a service."
         }
       ],
       "inAppHelp": true

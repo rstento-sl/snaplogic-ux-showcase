@@ -221,7 +221,10 @@
       <span class="stamp redline">REDLINE</span>
       <div class="compare-col-label current">Current UI</div>
       <div class="nav-wrapper">
-        <div class="app-bar"><span class="logo">∞</span>API Manager</div>
+        <div class="app-bar" id="block-apimanager">
+          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          <span class="logo">∞</span>API Manager
+        </div>
         <div class="nav">
 
           <div class="nav-group">MANAGE</div>
@@ -247,8 +250,7 @@
             <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
             CLASSIC API MANAGEMENT
           </div>
-          <div class="nav-item" id="block-apimanager">
-            <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          <div class="nav-item">
             <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
             API Manager
           </div>
@@ -319,7 +321,7 @@
           </div>
 
         </div>
-        <p class="nav-caption">The toolbar carries the product name, each release gets its own
+        <p class="nav-caption">The toolbar names the area, each product gets its own
           heading, and migration sits at the end, named for the job it does.</p>
       </div>
     </div>
@@ -363,7 +365,7 @@ const annotations = [
   {
     title: "API Manager names two things",
     problem: "The toolbar at the top of the page is named API Manager, and so is the entry under Classic API Management — the product this customer already uses. The familiar name appears twice, and the familiar click leads out of APIM 3.0.",
-    fix: "Name the toolbar after the product: API Management. The duplicate disappears, so the Classic entry keeps the name customers already know, with no qualifier bolted onto it.",
+    fix: "Name the toolbar for the area it covers, API Management, since it holds two products rather than one. The duplicate disappears, so the Classic entry keeps the name customers already know, with no qualifier bolted onto it.",
     section: "block-apimanager",
     propBlock: "prop-block-apimanager"
   },
@@ -377,7 +379,7 @@ const annotations = [
   {
     title: "Nothing says how Classic and APIM 3.0 relate",
     problem: "Both products sit in one nav with no statement of how they relate. Nothing says whether Classic still serves live traffic, whether both run side by side, or what migrating changes — so a customer can't tell which product is the system of record.",
-    fix: "Head the two groups APIM 3.0 and Classic APIM, so a customer can tell at a glance which release each item belongs to. Under the Classic heading, put one line saying Classic keeps serving live traffic until you migrate, with a Learn more link to the migration docs. Confirm that wording with a product owner before it ships.",
+    fix: "Head the two groups APIM 3.0 and Classic APIM, so a customer can tell at a glance which product each item belongs to. Under the Classic heading, put one line saying Classic keeps serving live traffic until you migrate, with a Learn more link to the migration docs. Confirm that wording with a product owner before it ships.",
     section: "block-classic",
     propBlock: "prop-block-classic"
   }

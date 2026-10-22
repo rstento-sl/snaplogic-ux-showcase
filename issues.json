@@ -1093,8 +1093,8 @@
       },
       "annotations": [
         {
-          "target": "Classic > API Manager",
-          "callout": "The product and a Classic nav item share one name, so the familiar click leads out of APIM 3.0."
+          "target": "Toolbar name",
+          "callout": "The toolbar and a Classic nav item share one name, so the familiar click leads out of APIM 3.0."
         },
         {
           "target": "Migration Tool",

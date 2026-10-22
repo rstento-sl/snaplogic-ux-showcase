@@ -78,6 +78,23 @@
   .list-card { background: #fff; border: 1px solid var(--hairline); border-radius: 6px; padding: 16px 18px 4px; }
 
   .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: nowrap; }
+  /* ── Real screenshot ──
+     Ruth's capture, cropped to the controls row and the rows under it
+     (source x378..2180, y390..790 of a 2224x1240 image). The dashed marker is an
+     overlay, because the control it marks is the one thing a screenshot can't show. */
+  .shot-wrap { position: relative; width: 100%; }
+  .shot-page { position: relative; width: 100%; padding-top: 22.2%; overflow: hidden;
+    border-radius: 4px; background: #fff; }
+  .shot-page img { position: absolute; display: block; width: 123.4%; left: -20.98%; top: -97.5%; }
+  .slot-overlay {
+    position: absolute; left: 5.3%; width: 29.4%; top: 8.75%; height: 18.75%;
+    display: flex; align-items: center;
+  }
+  .shot-note {
+    margin: 14px 0 0; font-size: 11.5px; line-height: 1.55; color: #6b7280;
+    max-width: 62ch;
+  }
+
   .search-slot {
     flex: 1 1 auto;
     min-width: 0;
@@ -203,19 +220,20 @@
     the folders holding a match. The page renders it invisible, so nobody can reach it. The dashed
     outline below marks where it sits.</p>
 
-  <div class="list-card">
-    <div class="controls" id="row-flagged" style="position: relative;">
+  <div class="shot-wrap">
+    <div class="shot-page">
+      <img src="current-ui.png" alt="The Services catalog's controls row as it renders today: three
+        filters and an Add service button pushed to the right, with empty space to their left, then
+        rows of folders beneath.">
+    </div>
+    <div class="slot-overlay" id="row-flagged">
       <div class="pin" onclick="openPopover(event)">!</div>
       <div class="search-slot">Search box renders here — present, functional, invisible</div>
-      <div class="filter"><span>Filter by project</span><span class="chev">⌄</span></div>
-      <div class="filter"><span>Filter by tags</span><span class="chev">⌄</span></div>
-      <div class="filter"><span>Filter by owners</span><span class="chev">⌄</span></div>
-      <div class="add-btn"><span>Add service</span><span>⌄</span></div>
     </div>
-    <div class="folder-row"><span class="chev">›</span><svg class="folder-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>shared</span></div>
-    <div class="folder-row"><span class="chev">›</span><svg class="folder-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>project-a/project-a</span></div>
-    <div class="folder-row"><span class="chev">›</span><svg class="folder-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>project-b/shared</span></div>
   </div>
+  <p class="shot-note">A real capture, with the project names replaced. The dashed marker is an
+    overlay on this page: the control it marks renders in that space, but <code>visibility: hidden</code> means
+    the capture shows nothing there.</p>
 
   <p class="compare-note">The <strong>Policy catalog</strong>, one nav item below, shows the same
     search control and it works. Both catalogs got search in the same change; only this page kept

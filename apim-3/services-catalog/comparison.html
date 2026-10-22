@@ -216,7 +216,20 @@
   .filter.enabled { border-color: #5E6470; color: #131C35; }
   /* Pin 3 marks the controls row; park it in the empty space left of the filters
      so it doesn't cover the Add service button. */
-  #pin-3, #green-pin-3 { top: 4px; left: 2px; right: auto; }
+  /* ── Real screenshot for the current-UI column ──
+   Ruth's own capture, cropped to the content area (source x372..2207, y85..1240 of a
+   2224x1240 image). Pins and highlight rings hang off transparent hotspots placed over
+   it in percentages, so they hold at any column width. */
+/* The crop clips the image; the hotspots are siblings of it so pins can hang outside. */
+.shot-wrap { position: relative; width: 100%; }
+.shot-page { position: relative; width: 100%; padding-top: 63.54%; overflow: hidden;
+  border-radius: 4px; background: #fff; }
+.shot-page img { position: absolute; display: block; width: 123.4%; left: -20.98%; top: -8.30%; }
+.hot { position: absolute; }
+.shot-note { margin-top: 14px; font-size: 11.5px; line-height: 1.55; color: #6b7280;
+  text-align: center; max-width: 56ch; margin-left: auto; margin-right: auto; }
+
+#pin-3, #green-pin-3 { top: 4px; left: 2px; right: auto; }
   #pin-4, #green-pin-4 { top: -11px; right: -11px; }
   /* Pin 1 is about the page title, so point it at the title and leave the
      header's right corner to the Add service pin. */
@@ -340,44 +353,30 @@
       <div class="compare-col-label current">Current UI</div>
       <div class="page-wrapper">
 
-        <div id="block-header" style="position: relative;">
-          <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
-          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
-          <div class="page-h1">Catalog Stats</div>
-        </div>
-
-        <div class="stats-block" id="block-stats">
-          <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
-          <div class="stat-row">
-            <div class="stat"><div class="stat-num">48</div><div class="stat-cap">Unpublished services</div></div>
-            <div class="stat"><div class="stat-num">8</div><div class="stat-cap">Testing services</div></div>
-            <div class="stat"><div class="stat-num">0</div><div class="stat-cap">Private services</div></div>
-            <div class="stat"><div class="stat-num">1</div><div class="stat-cap">Restricted services</div></div>
-            <div class="stat"><div class="stat-num">14</div><div class="stat-cap">Public services</div></div>
+        <div class="shot-wrap">
+          <div class="shot-page">
+            <img src="../services-catalog/current-ui.png" alt="The Services catalog page today. The
+              heading reads Catalog Stats, above five counts — 48 unpublished, 8 testing, 0 private,
+              1 restricted, 14 public services. Below them a card holds three filters and an Add
+              service button pushed to the right, then rows of identical folder icons.">
           </div>
-        </div>
-
-        <div class="list-card">
-          <div id="block-filters" style="position: relative;">
-          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
-          <div class="controls">
-            <div class="filter"><span>Filter by project</span><span class="chev">⌄</span></div>
-            <div class="filter"><span>Filter by tags</span><span class="chev">⌄</span></div>
-            <div class="filter"><span>Filter by owners</span><span class="chev">⌄</span></div>
-            <div id="block-add" style="position: relative;">
+          <div class="hot" id="block-header" style="left:0; width:98.9%; top:0.9%; height:7.0%;">
+            <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
+            <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          </div>
+          <div class="hot" id="block-stats" style="left:5.3%; width:93.6%; top:8.3%; height:10.5%;">
+            <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+          </div>
+          <div class="hot" id="block-filters" style="left:5.3%; width:93.6%; top:28.4%; height:7.4%;">
+            <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+            <div class="hot" id="block-add" style="left:80.8%; width:16.2%; top:0; height:100%;">
               <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
-              <div class="add-btn"><span>Add service</span><span>⌄</span></div>
             </div>
           </div>
-          </div>
-          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>shared</span></div>
-          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>01-Tutorial/shared</span></div>
-          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-a/project-a</span></div>
-          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/shared</span></div>
-          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/MyProject</span></div>
-          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-c/MyTask</span></div>
         </div>
-
+        <p class="shot-note">A real capture, with the project names replaced. The filter label
+          reads <em>Filter by projec…</em> only because the window was narrow when this was taken —
+          that truncation is not one of the findings.</p>
       </div>
     </div>
   </div>

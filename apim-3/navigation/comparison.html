@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The left nav sends Classic customers back to the old product</title>
+<style>
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 400; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 800; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-extrabold.woff2") format("woff2");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #131C35;
+    --dim: #7D8695;
+    --canvas: #EBEDF1;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --red: #E31C3D;
+    --red-dark: #B61631;
+    --green: #017D1B;
+    --green-dark: #015c14;
+    --blue: #0841B4;
+    --orange: #C75209;
+    --orange-tint: #FEF0E7;
+    --purple: #6B3FA0;
+    --purple-tint: #F1E9FB;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
+  body {
+    font-family: "Acherus Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--canvas);
+  }
+
+  .topbar { height: 4px; background: var(--teal); }
+
+  /* ── Ticket-strip header ── */
+  .showcase-header { max-width: 1500px; margin: 0 auto; padding: 20px 32px 16px; }
+  .breadcrumb { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .path { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+  .path .sep { margin: 0 6px; color: var(--hairline); }
+  .back-link { font-size: 12px; font-weight: 700; color: var(--teal); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+  .issue-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
+  .instruction { color: var(--dim); font-size: 12px; }
+  .wip {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-left: 10px; padding: 3px 11px; border-radius: 999px;
+    background: var(--orange-tint); border: 1px solid var(--orange);
+    color: #8a4a12; font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+    vertical-align: 3px;
+  }
+  .wip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+
+  /* ── Comparison grid ── */
+  .compare-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 8px 32px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .compare-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  .compare-col-label {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.01em;
+    color: #fff; padding: 14px 24px; border-radius: 6px 6px 0 0;
+  }
+  .compare-col-label.current { background: #FDF3F5; color: var(--red-dark); }
+  .compare-col-label.proposed { background: var(--teal); }
+
+  .sheet { position: relative; }
+  .sheet.current { transform: rotate(-0.4deg); }
+  @media (max-width: 900px) { .sheet.current { transform: none; } }
+  .stamp {
+    position: absolute; top: -11px; right: 20px;
+    font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    background: #fff; padding: 3px 10px; border-radius: 3px; z-index: 5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .stamp.redline { color: var(--red); border: 1.5px solid var(--red); transform: rotate(-3deg); }
+  .stamp.proposed-stamp { color: var(--teal); border: 1.5px solid var(--teal); transform: rotate(2deg); }
+
+  /* ── Nav recreation ── */
+  .nav-wrapper {
+    background: #F7F8FA; border: 1px solid #ddd; border-radius: 0 0 6px 6px;
+    padding: 26px 34px 34px; box-shadow: 0 6px 20px rgba(31,33,37,0.08); position: relative;
+  }
+  /* The product name in the top bar is half of problem 1, so show it. */
+  .app-bar {
+    width: 268px; margin: 0 auto; background: #06102B; border-bottom: 2px solid var(--teal);
+    border-radius: 4px 4px 0 0; padding: 9px 14px; display: flex; align-items: center; gap: 8px;
+    color: #fff; font-size: 13px; font-weight: 800;
+  }
+  .app-bar .logo {
+    width: 18px; height: 18px; border-radius: 50%; background: #fff; color: #06102B;
+    display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800;
+  }
+  .nav {
+    background: #06102B; border-radius: 0 0 4px 4px; padding: 14px 0 20px;
+    width: 268px; margin: 0 auto;
+  }
+  .nav-group {
+    position: relative;
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #6E86C4;
+    padding: 0 18px; margin: 20px 0 8px;
+  }
+  .nav-group:first-child { margin-top: 0; }
+  .nav-item {
+    position: relative;
+    display: flex; align-items: center; gap: 11px;
+    padding: 9px 18px; color: #DCE2EE; font-size: 13px;
+  }
+  .nav-item.active { background: #2A5BD7; color: #fff; font-weight: 700; }
+  .nav-ico { width: 15px; height: 15px; opacity: 0.9; flex: 0 0 auto; }
+  .nav-note {
+    margin: 2px 18px 4px; padding: 8px 10px;
+    background: rgba(255,255,255,0.08); border-left: 2px solid #6E86C4; border-radius: 0 4px 4px 0;
+    font-size: 11px; line-height: 1.5; color: #C4CEE4;
+  }
+  .nav-note a { color: #8FB4FF; text-decoration: none; }
+  .nav-caption {
+    margin-top: 16px; font-size: 11.5px; color: var(--dim); line-height: 1.55;
+    text-align: center; max-width: 42ch; margin-left: auto; margin-right: auto;
+  }
+
+  /* ── Pins + popovers ── */
+  .pin {
+    position: absolute; top: -12px; right: -12px; width: 26px; height: 26px;
+    border-radius: 50%; background: var(--red); color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 300;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 2px solid #fff;
+    transition: transform 0.15s, background 0.15s; user-select: none;
+  }
+  .pin:hover { transform: scale(1.15); background: var(--red-dark); }
+  .pin.active { background: var(--red-dark); transform: scale(1.15); }
+  .pin.green { background: var(--green); }
+  .pin.green:hover { background: var(--green-dark); }
+  .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
+  /* The nav is narrow, so pins hang off its left edge rather than crowding the labels. */
+  .nav .pin { top: 50%; margin-top: -13px; left: -13px; right: auto; }
+  .nav .nav-group .pin { top: -4px; margin-top: 0; }
+
+  .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 4px; }
+  .prop-highlighted { box-shadow: 0 0 0 2px var(--green); border-radius: 4px; }
+
+  .popover {
+    display: none; position: fixed; width: 390px;
+    max-width: calc(100vw - 16px); max-height: calc(100vh - 16px);
+    background: #fff; border: 1px solid #ddd; border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18); z-index: 400; overflow-y: auto;
+  }
+  .popover-header { background: var(--red); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .popover-header.green { background: var(--green); }
+  .popover-header .pin-label {
+    width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,0.25);
+    font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .popover-body { padding: 16px; }
+  .popover-problem { font-size: 13px; color: #333; line-height: 1.6; }
+  .popover-jump-btn {
+    display: inline-block; margin-top: 14px; padding: 8px 16px; border-radius: 4px;
+    border: none; font-size: 12px; font-weight: 700; cursor: pointer;
+  }
+  .popover-jump-btn.to-fix { background: var(--green); color: #fff; }
+  .popover-jump-btn.to-problem { background: var(--red); color: #fff; }
+  .popover-footer {
+    padding: 10px 16px; background: #f8f8f8; display: flex; justify-content: space-between;
+    align-items: center; font-size: 12px; color: #888; border-top: 1px solid #eee;
+  }
+  .popover-nav { display: flex; gap: 8px; }
+  .popover-nav button { padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; font-size: 12px; cursor: pointer; color: #444; }
+  .popover-nav button:hover { background: #f0f0f0; }
+  .popover-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .close-btn { background: none; border: none; font-size: 18px; color: #fff; cursor: pointer; margin-left: auto; line-height: 1; padding: 0 0 0 8px; }
+
+  .verify-note { max-width: 1100px; margin: 0 auto; padding: 0 32px 28px; }
+  .verify-note div {
+    background: var(--orange-tint); border: 1px dashed var(--orange); border-radius: 6px;
+    padding: 10px 14px; font-size: 12px; color: #6b3a07; line-height: 1.55;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="showcase-header">
+  <div class="breadcrumb">
+    <a class="back-link" href="../index.html">← All APIM 3.0 issues</a>
+    <span class="path">apim-3 <span class="sep">/</span> navigation-pane</span>
+  </div>
+  <div class="issue-heading">
+    <h1>The left nav sends Classic customers back to the old product</h1>
+    <span class="wip"><span class="dot"></span>Work in progress</span>
+  </div>
+  <p class="instruction">Click a numbered pin for the problem, then jump to the matching green pin for the fix.</p>
+</div>
+
+<div class="compare-grid">
+
+  <!-- ── Current UI ── -->
+  <div>
+    <div class="sheet current">
+      <span class="stamp redline">REDLINE</span>
+      <div class="compare-col-label current">Current UI</div>
+      <div class="nav-wrapper">
+        <div class="app-bar"><span class="logo">∞</span>API Manager</div>
+        <div class="nav">
+
+          <div class="nav-group">MANAGE</div>
+          <div class="nav-item active">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+            Services Catalog
+          </div>
+          <div class="nav-item">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/><path d="m13 9 3 3-3 3"/></svg>
+            Policy Catalog
+          </div>
+
+          <div class="nav-group" id="block-migration">
+            <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+            MIGRATION
+          </div>
+          <div class="nav-item">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h13"/><path d="m12 7 5 5-5 5"/><path d="M19 4v16"/></svg>
+            Migration Tool
+          </div>
+
+          <div class="nav-group" id="block-classic">
+            <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+            CLASSIC API MANAGEMENT
+          </div>
+          <div class="nav-item" id="block-apimanager">
+            <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            API Manager
+          </div>
+          <div class="nav-item">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            Portal Manager
+          </div>
+          <div class="nav-item">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            Subscription Manager
+          </div>
+
+        </div>
+        <p class="nav-caption">The product in the top bar is also called API Manager, so the name a
+          Classic customer recognizes appears twice.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Proposed ── -->
+  <div>
+    <div class="sheet proposed">
+      <span class="stamp proposed-stamp">PROPOSED</span>
+      <div class="compare-col-label proposed">Proposed redesign</div>
+      <div class="nav-wrapper">
+        <div class="app-bar"><span class="logo">∞</span>API Manager</div>
+        <div class="nav">
+
+          <div class="nav-group">MANAGE</div>
+          <div class="nav-item active">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+            Services catalog
+          </div>
+          <div class="nav-item">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/><path d="m13 9 3 3-3 3"/></svg>
+            Policy catalog
+          </div>
+
+          <div class="nav-group" id="prop-block-classic">
+            <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+            CLASSIC API MANAGEMENT
+          </div>
+          <div class="nav-note">
+            Classic keeps serving live traffic until you migrate.
+            <a href="#" onclick="return false;">Learn more.</a>
+          </div>
+          <div class="nav-item" id="prop-block-migration">
+            <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h13"/><path d="m12 7 5 5-5 5"/><path d="M19 4v16"/></svg>
+            Migrate to APIM 3.0
+          </div>
+          <div class="nav-item" id="prop-block-apimanager">
+            <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            API Manager (Classic)
+          </div>
+          <div class="nav-item">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            Portal Manager
+          </div>
+          <div class="nav-item">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            Subscription Manager
+          </div>
+
+        </div>
+        <p class="nav-caption">Three Classic items, one migration path, and one line saying how the
+          two products relate — all in the section a Classic customer already looks at.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="verify-note">
+  <div>
+    <strong>Reviewers — two things to confirm before this ships.</strong>
+    The note under Classic API Management says Classic keeps serving live traffic until you migrate.
+    That matches how the product behaves today as far as this review can tell, but it needs a product
+    owner's confirmation and a docs link before it goes into the UI. Second, the proposed nav labels
+    are in sentence case, which JellyRoll specifies and the current nav doesn't follow — refer to the
+    cross-cutting note on the APIM 3.0 index.
+  </div>
+</div>
+
+<!-- Shared pin popover -->
+<div class="popover" id="popover">
+  <div class="popover-header" id="pop-header">
+    <div class="pin-label" id="pop-num">1</div>
+    <h3 id="pop-title"></h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <div class="popover-problem" id="pop-problem"></div>
+    <button class="popover-jump-btn" id="pop-jump-btn"></button>
+  </div>
+  <div class="popover-footer">
+    <span id="pop-counter"></span>
+    <div class="popover-nav">
+      <button id="btn-prev" onclick="navigate(-1)">← Prev</button>
+      <button id="btn-next" onclick="navigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const annotations = [
+  {
+    title: "API Manager names two things",
+    problem: "API Manager is the product a customer just opened, and it's also an item in this nav, under Classic API Management. The Classic one is the name they recognize, so the familiar click leads out of the product they're evaluating.",
+    fix: "Qualify the Classic item as “API Manager (Classic)” so the two names can't be mistaken for each other. Portal Manager and Subscription Manager have no equivalent in APIM 3.0, so they need no qualifier.",
+    section: "block-apimanager",
+    propBlock: "prop-block-apimanager"
+  },
+  {
+    title: "A section heading over a single link",
+    problem: "Migration is a section of its own holding one item, and Migration Tool doesn't say what migrates to what. A customer whose first real task is migration has to guess that this is where it starts.",
+    fix: "Drop the Migration section and put the item under Classic API Management, beside the product it migrates from, named for the job: “Migrate to APIM 3.0.”",
+    section: "block-migration",
+    propBlock: "prop-block-migration"
+  },
+  {
+    title: "Nothing says how Classic and APIM 3.0 relate",
+    problem: "Both products sit in one nav with no statement of how they relate. Nothing says whether Classic still serves live traffic, whether both run side by side, or what migrating changes — so a customer can't tell which product is the system of record.",
+    fix: "Put one line under the Classic heading saying that Classic keeps serving live traffic until you migrate, with a Learn more link to the migration docs. Confirm the wording with a product owner before it ships.",
+    section: "block-classic",
+    propBlock: "prop-block-classic"
+  }
+];
+
+let current = null;
+let mode = 'red';
+
+function openPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'red';
+  current = n;
+  render();
+  clearHighlights();
+  const a = annotations[n - 1];
+  if (a.section) document.getElementById(a.section).classList.add('highlighted');
+  const pinEl = document.getElementById('pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl, document.getElementById('popover'));
+}
+
+function openGreenPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'green';
+  current = n;
+  render();
+  clearHighlights();
+  const a = annotations[n - 1];
+  if (a.propBlock) document.getElementById(a.propBlock).classList.add('prop-highlighted');
+  const pinEl = document.getElementById('green-pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl, document.getElementById('popover'));
+}
+
+function clearHighlights() {
+  document.querySelectorAll('.highlighted').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.prop-highlighted').forEach(s => s.classList.remove('prop-highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+}
+
+function positionPopover(anchorEl, pop) {
+  pop.style.display = 'block';
+  const rect = anchorEl.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  let top = rect.bottom + margin;
+  if (top + popRect.height > window.innerHeight - margin) top = rect.top - popRect.height - margin;
+  top = Math.max(margin, Math.min(top, window.innerHeight - popRect.height - margin));
+  let left = rect.left + rect.width / 2 - popRect.width / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popRect.width - margin));
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function render() {
+  const a = annotations[current - 1];
+  const header = document.getElementById('pop-header');
+  const jumpBtn = document.getElementById('pop-jump-btn');
+  document.getElementById('pop-num').textContent = current;
+  document.getElementById('pop-title').textContent = a.title;
+
+  if (mode === 'red') {
+    header.classList.remove('green');
+    document.getElementById('pop-problem').textContent = a.problem;
+    jumpBtn.textContent = 'Refer to the proposed fix →';
+    jumpBtn.className = 'popover-jump-btn to-fix';
+    jumpBtn.onclick = function() { jumpTo('green', current); };
+    document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;
+  } else {
+    header.classList.add('green');
+    document.getElementById('pop-problem').textContent = a.fix;
+    jumpBtn.textContent = '← Back to problem';
+    jumpBtn.className = 'popover-jump-btn to-problem';
+    jumpBtn.onclick = function() { jumpTo('red', current); };
+    document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
+  }
+  document.getElementById('btn-prev').disabled = current === 1;
+  document.getElementById('btn-next').disabled = current === annotations.length;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > annotations.length) return;
+  if (mode === 'red') openPopover(next); else openGreenPopover(next);
+}
+
+function jumpTo(targetMode, n) {
+  closePopover();
+  const pinEl = document.getElementById((targetMode === 'green' ? 'green-pin-' : 'pin-') + n);
+  pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() {
+    if (targetMode === 'green') openGreenPopover(n); else openPopover(n);
+  }, 300);
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+  clearHighlights();
+  current = null;
+}
+
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('popover');
+  if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) closePopover();
+});
+</script>
+
+</body>
+</html>

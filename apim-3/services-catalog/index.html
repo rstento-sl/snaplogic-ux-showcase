@@ -309,16 +309,22 @@
     <div class="issue-head">
       <h3>It won't hold up at customer scale</h3>
     </div>
-    <p class="body">Browsing by folder alone doesn't scale: a test environment already holds 71 versions
-      with no search. The list respects permissions, but it's unconfirmed whether the statistics do — if
-      they don't, the counts describe an environment the viewer can't see.</p>
+    <p class="body">Opening folders is the only way through the list, and a test environment already
+      holds 32 services across 71 versions. The page does have a search box — it finds services by name
+      and opens the folders that match — but it renders invisible, so nobody reaches it. That's a
+      one-line defect, not a missing feature: <a href="possible-bug.html">the hidden search box</a>.
+      Even with it back, folders stay the wrong default. The data behind the page already names the
+      project each service belongs to, so the list could open with services at the top level, each
+      showing its path — one list to scan, sort, and search, instead of a folder tree to guess at. The
+      list respects permissions; whether the statistics do is unconfirmed, and if they don't, the counts
+      describe an environment the viewer can't see.</p>
   </div>
 
   <h2>The proposed changes</h2>
   <a class="proposal" href="comparison.html">
     <span>
       <span class="title">Current UI and proposed changes</span>
-      <span class="desc">The page header, and the statistics row.</span>
+      <span class="desc">The page header, the statistics row, the filters, and Add service.</span>
     </span>
     <span class="go">Open →</span>
   </a>

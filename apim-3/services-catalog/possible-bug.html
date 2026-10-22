@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Possible Bug — the search box is hidden</title>
+<style>
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 400; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 800; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-extrabold.woff2") format("woff2");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Acherus Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #f5f5f5;
+    padding: 24px;
+  }
+
+  :root {
+    --dim: #7D8695;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --orange: #C75209;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
+  .topbar { max-width: 1000px; margin: 0 auto; height: 4px; background: var(--orange); border-radius: 4px 4px 0 0; }
+
+  .mockup-toolbar {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-top: none;
+    padding: 14px 32px 12px;
+  }
+  .mockup-breadcrumb {
+    font-family: var(--mono);
+    color: var(--dim);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+  .mockup-breadcrumb .sep { margin: 0 6px; color: var(--hairline); }
+  .mockup-back { display: flex; align-items: center; justify-content: space-between; }
+  .mockup-back a {
+    color: var(--teal);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .mockup-back a:hover { text-decoration: underline; }
+  .mockup-instruction { margin-top: 8px; color: var(--orange); font-size: 12px; }
+
+  .page-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 32px 40px 44px;
+    position: relative;
+  }
+
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+  .intro-text { color: #444; margin-bottom: 28px; line-height: 1.55; max-width: 62ch; }
+
+  .list-card { background: #fff; border: 1px solid var(--hairline); border-radius: 6px; padding: 16px 18px 4px; }
+
+  .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: nowrap; }
+  .search-slot {
+    flex: 1 1 auto;
+    min-width: 0;
+    position: relative;
+    border: 1px dashed var(--orange);
+    border-radius: 4px;
+    background: #FEF6F1;
+    padding: 8px 11px;
+    font-size: 11px;
+    color: #953D07;
+    font-family: var(--mono);
+  }
+  .filter {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    flex: 0 0 auto; min-width: 150px;
+    padding: 8px 11px; border: 1px solid #6B768A; border-radius: 4px;
+    color: #6B768A; font-size: 12px; background: #fff;
+    white-space: nowrap; overflow: hidden;
+  }
+  .filter > span:first-child { overflow: hidden; text-overflow: ellipsis; }
+  .add-btn {
+    flex: 0 0 auto; white-space: nowrap;
+    background: #0B43B8; color: #fff; font-size: 12px; font-weight: 700;
+    padding: 9px 15px; border-radius: 4px; display: flex; align-items: center; gap: 11px;
+  }
+  .folder-row {
+    display: flex; align-items: center; gap: 13px; padding: 12px 4px;
+    border-bottom: 1px solid #EDF0F4; font-size: 13.5px; color: #131C35;
+  }
+  .folder-row:last-child { border-bottom: none; }
+  .chev { color: #5E6470; font-size: 13px; }
+  .folder-ico { width: 17px; height: 17px; color: #131C35; display: block; }
+
+  .compare-note {
+    margin-top: 26px;
+    border-left: 3px solid var(--hairline);
+    padding-left: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #444;
+    max-width: 62ch;
+  }
+  .compare-note strong { color: #1a1a1a; }
+
+  .pin {
+    position: absolute;
+    top: -13px;
+    left: -13px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #C75209;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+    z-index: 300;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .pin:hover { transform: scale(1.15); background: #642904; }
+
+  .popover {
+    display: none;
+    position: fixed;
+    width: 380px;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    background: #fff;
+    border: 1px solid #e8c27a;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 400;
+    overflow-y: auto;
+  }
+  .popover-header {
+    background: #C75209;
+    color: #fff;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; flex: 1; }
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 0 0 8px;
+  }
+  .popover-body { padding: 16px; font-size: 13px; line-height: 1.6; color: #333; }
+  .popover-body p { margin-bottom: 10px; }
+  .popover-body p:last-child { margin-bottom: 0; }
+  .popover-body .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #953D07; margin: 14px 0 4px; }
+  .popover-body .label:first-child { margin-top: 0; }
+  code { font-family: var(--mono); font-size: 12px; background: #f0f0f0; padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+<div class="mockup-toolbar">
+  <div class="mockup-breadcrumb">apim-3 <span class="sep">/</span> manage <span class="sep">/</span> services-catalog</div>
+  <div class="mockup-back">
+    <a href="comparison.html">← Back to comparison</a>
+    <a href="#" onclick="jumpToPin(event)" style="color:var(--orange); font-weight:700; text-decoration:none;">Jump to issue ↓</a>
+  </div>
+  <div class="mockup-instruction">⚠ Not a UX design issue — flagged separately from the Services catalog findings</div>
+</div>
+
+<div class="page-wrapper">
+  <h1>The search box is hidden</h1>
+  <p class="intro-text">The Services catalog has a search box. It filters services by name and opens
+    the folders holding a match. The page renders it invisible, so nobody can reach it. The dashed
+    outline below marks where it sits.</p>
+
+  <div class="list-card">
+    <div class="controls" id="row-flagged" style="position: relative;">
+      <div class="pin" onclick="openPopover(event)">!</div>
+      <div class="search-slot">Search box renders here — present, functional, invisible</div>
+      <div class="filter"><span>Filter by project</span><span class="chev">⌄</span></div>
+      <div class="filter"><span>Filter by tags</span><span class="chev">⌄</span></div>
+      <div class="filter"><span>Filter by owners</span><span class="chev">⌄</span></div>
+      <div class="add-btn"><span>Add service</span><span>⌄</span></div>
+    </div>
+    <div class="folder-row"><span class="chev">›</span><svg class="folder-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>shared</span></div>
+    <div class="folder-row"><span class="chev">›</span><svg class="folder-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>project-a/project-a</span></div>
+    <div class="folder-row"><span class="chev">›</span><svg class="folder-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>project-b/shared</span></div>
+  </div>
+
+  <p class="compare-note">The <strong>Policy catalog</strong>, one nav item below, shows the same
+    search control and it works. Both catalogs got search in the same change; only this page kept
+    the style that hides it.</p>
+</div>
+
+<div class="popover" id="popover">
+  <div class="popover-header">
+    <h3>The search box ships invisible</h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <p>The catalog renders a search input, then sets <code>visibility: hidden</code> on it. The
+      behavior behind it is complete: typing filters the list to services whose name matches, and
+      every folder holding a match opens automatically.</p>
+
+    <div class="label">How it got there</div>
+    <p>The style dates from an earlier release, when the box was a placeholder with nothing behind
+      it, and it was hidden on both catalogs on purpose. The change that built real search removed
+      the style from the Policy catalog and left it on this page.</p>
+
+    <div class="label">Suggested next step</div>
+    <p>File as a defect against the Services catalog, separate from the UX findings: delete the
+      inline style and confirm the control matches the Policy catalog's. The one-line fix answers
+      the biggest complaint about this page — that there's no way to find a service by name.</p>
+  </div>
+</div>
+
+<script>
+function jumpToPin(e) {
+  e.preventDefault();
+  const row = document.getElementById('row-flagged');
+  row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => {
+    const pin = row.querySelector('.pin');
+    pin.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  }, 400);
+}
+
+function openPopover(e) {
+  e.stopPropagation();
+  const pop = document.getElementById('popover');
+  pop.style.display = 'block';
+
+  const pin = e.target;
+  const rect = pin.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  const popWidth = popRect.width;
+  const popHeight = popRect.height;
+
+  let top = rect.bottom + margin;
+  if (top + popHeight > window.innerHeight - margin) {
+    top = rect.top - popHeight - margin;
+  }
+  top = Math.max(margin, Math.min(top, window.innerHeight - popHeight - margin));
+
+  let left = rect.left + rect.width / 2 - popWidth / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popWidth - margin));
+
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+}
+
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('popover');
+  if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) {
+    closePopover();
+  }
+});
+</script>
+
+</body>
+</html>

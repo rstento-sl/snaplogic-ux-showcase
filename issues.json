@@ -1050,7 +1050,8 @@
       "category": "Content clarity / labeling",
       "summary": "The landing page for API Management heads itself \"Catalog Stats\" and defines nothing. Its five counts also total Services, though publishing applies to a version, and no label explains how Private differs from Restricted.",
       "mockups": {
-        "comparison": "apim-3/services-catalog/comparison.html"
+        "comparison": "apim-3/services-catalog/comparison.html",
+        "possibleBug": "apim-3/services-catalog/possible-bug.html"
       },
       "annotations": [
         {

@@ -125,7 +125,54 @@
     padding: 9px 18px; color: #DCE2EE; font-size: 13px;
   }
   .nav-item.active { background: #2A5BD7; color: #fff; font-weight: 700; }
-  .nav-ico { width: 15px; height: 15px; opacity: 0.9; flex: 0 0 auto; }
+  .nav-ico { width: 17px; height: 17px; opacity: 0.9; flex: 0 0 auto; }
+
+  /* ── Collapsed nav recreation ──
+     76px wide, matching the product: icons only, and each group's heading replaced
+     by a hairline under its list. */
+  .nav.collapsed { width: 76px; padding: 6px 0 10px; }
+  .cgroup { position: relative; padding: 11px 0; }
+  .cgroup::after {
+    content: ''; position: absolute; left: 3px; bottom: 0;
+    width: calc(100% - 6px); height: 1px; background: #3A4A74;
+  }
+  .cgroup:last-child::after { background: none; }
+  .citem {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    padding: 7px 0; color: #DCE2EE;
+  }
+  .citem.active { background: #2A5BD7; color: #fff; }
+  .citem .nav-ico { width: 19px; height: 19px; }
+  /* Ruth's fix for the duplicate glyphs: a lettered tile per page, unique at 19px. */
+  .mono-ico {
+    width: 19px; height: 19px; border: 1.5px solid currentColor; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; font-weight: 800; letter-spacing: 0.01em; flex: 0 0 auto;
+  }
+  .cgroup-head {
+    position: relative;
+    font-size: 8px; font-weight: 800; letter-spacing: 0.04em; color: #6E86C4;
+    text-align: center; margin-bottom: 5px;
+  }
+  /* A tooltip the mockup leaves open, standing in for the one the collapsed nav needs. */
+  .ctip {
+    position: absolute; left: calc(100% + 9px); top: 50%; transform: translateY(-50%);
+    background: #131C35; color: #fff; font-size: 11px; font-weight: 600;
+    padding: 5px 9px; border-radius: 4px; white-space: nowrap; z-index: 20;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .ctip::before {
+    content: ''; position: absolute; right: 100%; top: 50%; margin-top: -4px;
+    border: 4px solid transparent; border-right-color: #131C35;
+  }
+  .row-head {
+    max-width: 1100px; margin: 24px auto 0; padding: 0 32px;
+    font-size: 17px; font-weight: 800; color: var(--ink);
+  }
+  .row-head p {
+    font-size: 13px; font-weight: 400; color: var(--dim); margin: 6px 0 0; max-width: 70ch;
+    line-height: 1.6;
+  }
   .nav-note {
     margin: 2px 18px 4px; padding: 8px 10px;
     background: rgba(255,255,255,0.08); border-left: 2px solid #6E86C4; border-radius: 0 4px 4px 0;
@@ -229,11 +276,11 @@
 
           <div class="nav-group">MANAGE</div>
           <div class="nav-item active">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M22.6,3.7c.5,0,.9.4.9.9v22.7c0,.5-.4.9-.9.9H5.6c-.5,0-.9-.4-.9-.9V4.7c0-.5.4-.9.9-.9h17ZM5.6.9c-2.1,0-3.8,1.7-3.8,3.8v22.7c0,2.1,1.7,3.8,3.8,3.8h17c2.1,0,3.8-1.7,3.8-3.8V4.7c0-2.1-1.7-3.8-3.8-3.8H5.6ZM30.2,5.6c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8ZM29.2,12.2c-.5,0-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8c0-.5-.4-.9-.9-.9ZM30.2,20.7c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8Z"/><path d="M7.2,9.7c-.4,0-.7.3-.7.7v1.4c0,.4.3.7.7.7v7.1c0,.9.7,1.7,1.7,1.7h1.4c0,.4.3.7.7.7h1.4c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4c-.4,0-.7.3-.7.7h-1.4c-.1,0-.2-.1-.2-.2v-3.1h1.7c0,.4.3.7.7.7h1.4c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4c-.4,0-.7.3-.7.7h-1.7v-2.6c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4ZM11.2,11.1c0,.4.3.7.7.7h9c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-9c-.4,0-.7.3-.7.7ZM15,15.8c0,.4.3.7.7.7h5.2c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-5.2c-.4,0-.7.3-.7.7ZM15,20.5c0,.4.3.7.7.7h5.2c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-5.2c-.4,0-.7.3-.7.7Z"/></svg>
             Services Catalog
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/><path d="m13 9 3 3-3 3"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M22.6,3.7c.5,0,.9.4.9.9v22.7c0,.5-.4.9-.9.9H5.6c-.5,0-.9-.4-.9-.9V4.7c0-.5.4-.9.9-.9h17ZM5.6.9c-2.1,0-3.8,1.7-3.8,3.8v22.7c0,2.1,1.7,3.8,3.8,3.8h17c2.1,0,3.8-1.7,3.8-3.8V4.7c0-2.1-1.7-3.8-3.8-3.8H5.6ZM30.2,5.6c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8ZM29.2,12.2c-.5,0-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8c0-.5-.4-.9-.9-.9ZM30.2,20.7c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8Z"/><path d="M10.5,23.2c.3.3.8.3,1,0,.3-.3.3-.8,0-1l-1.7-1.7h10.5c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-10.5l1.7-1.7c.3-.3.3-.8,0-1s-.8-.3-1,0l-2.9,2.9c-.3.3-.3.8,0,1l2.9,2.9h0ZM20.9,12.4c.3-.3.3-.8,0-1l-2.9-3c-.3-.3-.8-.3-1,0s-.3.8,0,1l1.7,1.7h-10.5c-.4,0-.7.3-.7.7s.3.7.7.7h10.5l-1.7,1.7c-.3.3-.3.8,0,1s.8.3,1,0l2.9-2.9h0Z"/></svg>
             Policy Catalog
           </div>
 
@@ -242,7 +289,7 @@
             MIGRATION
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h13"/><path d="m12 7 5 5-5 5"/><path d="M19 4v16"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M2,5.5c0-.9.7-1.6,1.6-1.6h3.5c1.3,0,2.5.9,3,2.1l4.5,13.4c1.5,0,2.8.7,3.6,1.8l9.8-3.3c.8-.3,1.7.2,2,1s-.2,1.7-1,2l-9.8,3.3c0,2.5-2.1,4.6-4.7,4.6s-4.7-2.1-4.7-4.7.7-2.8,1.8-3.7L7.1,7.1h-3.5c-.9,0-1.6-.7-1.6-1.6ZM13.9,10.5c-.3-.8.2-1.7,1-2l2.2-.7,1,3,3-1-1-3,2.2-.7c.8-.3,1.7.2,2,1l2.4,7.4c.3.8-.2,1.7-1,2l-7.4,2.4c-.8.3-1.7-.2-2-1l-2.4-7.4Z"/></svg>
             Migration Tool
           </div>
 
@@ -251,15 +298,15 @@
             CLASSIC API MANAGEMENT
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M9.6,14.8c-.4,0-.6.3-.6.6v1.3c0,.4.3.6.6.6v6.5c0,.8.7,1.5,1.5,1.5h1.3c0,.4.3.6.6.6h1.3c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3c-.4,0-.6.3-.6.6h-1.3c-.1,0-.2,0-.2-.2v-2.8h1.5c0,.4.3.6.6.6h1.3c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3c-.4,0-.6.3-.6.6h-1.5v-2.4c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3ZM13.3,16.1c0,.4.3.6.6.6h8.2c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-8.2c-.4,0-.6.3-.6.6ZM16.8,20.4c0,.4.3.6.6.6h4.8c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-4.8c-.4,0-.6.3-.6.6ZM16.8,24.7c0,.4.3.6.6.6h4.8c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-4.8c-.4,0-.6.3-.6.6Z"/></svg>
             API Manager
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M17,15.8v1.6h-1.6v-1.6h1.6ZM15.4,14.6c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h.2v1h-3.9c-.8,0-1.4.6-1.4,1.4v.8h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-.8c0-.1,0-.2.2-.2h3.9v1h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-1h3.9c.1,0,.2,0,.2.2v.8h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-.8c0-.8-.6-1.4-1.4-1.4h-3.9v-1h.2c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-1.6ZM10.1,23.2h1.6v1.6h-1.6v-1.6ZM15.4,23.2h1.6v1.6h-1.6v-1.6ZM20.7,23.2h1.6v1.6h-1.6v-1.6Z"/></svg>
             Portal Manager
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M16.1,14.4c-.6,0-1.1.4-1.4.9-.2,0-.4,0-.5,0-.9,0-1.5.7-1.5,1.5v4h0c-.6-.7-1.6-.7-2.2,0s-.6,1.6,0,2.2l2.1,2.1c1.2,1.2,2.7,1.8,4.4,1.8h.4s0,0,.1,0c2.2-.1,4-1.9,4.1-4.1,0,0,0,0,0-.1v-4.3c0-.9-.7-1.5-1.5-1.5s-.3,0-.4,0h0c0-.9-.7-1.6-1.5-1.6s-.4,0-.5,0c-.3-.5-.8-.9-1.4-.9ZM15.7,16.7h0v-.8c0-.2.2-.4.4-.4s.4.2.4.4v.8h0v3.3c0,.3.3.6.6.6s.6-.3.6-.6v-3.3h0c0-.2.2-.4.4-.4s.4.2.4.4v1.4h0v1.9c0,.3.3.6.6.6s.6-.3.6-.6v-1.7h0c0-.2.2-.4.4-.4s.4.2.4.4v4.2s0,0,0,0c0,1.7-1.4,3-3.1,3.1,0,0,0,0,0,0h-.3c-1.3,0-2.6-.5-3.6-1.5l-2.1-2.1c-.1-.1-.1-.4,0-.5s.4-.1.5,0l1.1,1.1c.2.2.4.2.6.1s.4-.3.4-.5v-5.4c0-.2.2-.4.4-.4s.4.2.4.4v3.3c0,.3.3.6.6.6s.6-.3.6-.6v-3.3Z"/></svg>
             Subscription Manager
           </div>
 
@@ -284,11 +331,11 @@
 
           <div class="nav-group">APIM 3.0</div>
           <div class="nav-item active">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M22.6,3.7c.5,0,.9.4.9.9v22.7c0,.5-.4.9-.9.9H5.6c-.5,0-.9-.4-.9-.9V4.7c0-.5.4-.9.9-.9h17ZM5.6.9c-2.1,0-3.8,1.7-3.8,3.8v22.7c0,2.1,1.7,3.8,3.8,3.8h17c2.1,0,3.8-1.7,3.8-3.8V4.7c0-2.1-1.7-3.8-3.8-3.8H5.6ZM30.2,5.6c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8ZM29.2,12.2c-.5,0-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8c0-.5-.4-.9-.9-.9ZM30.2,20.7c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8Z"/><path d="M7.2,9.7c-.4,0-.7.3-.7.7v1.4c0,.4.3.7.7.7v7.1c0,.9.7,1.7,1.7,1.7h1.4c0,.4.3.7.7.7h1.4c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4c-.4,0-.7.3-.7.7h-1.4c-.1,0-.2-.1-.2-.2v-3.1h1.7c0,.4.3.7.7.7h1.4c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4c-.4,0-.7.3-.7.7h-1.7v-2.6c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4ZM11.2,11.1c0,.4.3.7.7.7h9c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-9c-.4,0-.7.3-.7.7ZM15,15.8c0,.4.3.7.7.7h5.2c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-5.2c-.4,0-.7.3-.7.7ZM15,20.5c0,.4.3.7.7.7h5.2c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-5.2c-.4,0-.7.3-.7.7Z"/></svg>
             Services catalog
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/><path d="m13 9 3 3-3 3"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M22.6,3.7c.5,0,.9.4.9.9v22.7c0,.5-.4.9-.9.9H5.6c-.5,0-.9-.4-.9-.9V4.7c0-.5.4-.9.9-.9h17ZM5.6.9c-2.1,0-3.8,1.7-3.8,3.8v22.7c0,2.1,1.7,3.8,3.8,3.8h17c2.1,0,3.8-1.7,3.8-3.8V4.7c0-2.1-1.7-3.8-3.8-3.8H5.6ZM30.2,5.6c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8ZM29.2,12.2c-.5,0-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8c0-.5-.4-.9-.9-.9ZM30.2,20.7c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8Z"/><path d="M10.5,23.2c.3.3.8.3,1,0,.3-.3.3-.8,0-1l-1.7-1.7h10.5c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-10.5l1.7-1.7c.3-.3.3-.8,0-1s-.8-.3-1,0l-2.9,2.9c-.3.3-.3.8,0,1l2.9,2.9h0ZM20.9,12.4c.3-.3.3-.8,0-1l-2.9-3c-.3-.3-.8-.3-1,0s-.3.8,0,1l1.7,1.7h-10.5c-.4,0-.7.3-.7.7s.3.7.7.7h10.5l-1.7,1.7c-.3.3-.3.8,0,1s.8.3,1,0l2.9-2.9h0Z"/></svg>
             Policy catalog
           </div>
 
@@ -301,22 +348,22 @@
             <a href="#" onclick="return false;">Learn more.</a>
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M9.6,14.8c-.4,0-.6.3-.6.6v1.3c0,.4.3.6.6.6v6.5c0,.8.7,1.5,1.5,1.5h1.3c0,.4.3.6.6.6h1.3c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3c-.4,0-.6.3-.6.6h-1.3c-.1,0-.2,0-.2-.2v-2.8h1.5c0,.4.3.6.6.6h1.3c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3c-.4,0-.6.3-.6.6h-1.5v-2.4c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3ZM13.3,16.1c0,.4.3.6.6.6h8.2c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-8.2c-.4,0-.6.3-.6.6ZM16.8,20.4c0,.4.3.6.6.6h4.8c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-4.8c-.4,0-.6.3-.6.6ZM16.8,24.7c0,.4.3.6.6.6h4.8c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-4.8c-.4,0-.6.3-.6.6Z"/></svg>
             API Manager
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M17,15.8v1.6h-1.6v-1.6h1.6ZM15.4,14.6c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h.2v1h-3.9c-.8,0-1.4.6-1.4,1.4v.8h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-.8c0-.1,0-.2.2-.2h3.9v1h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-1h3.9c.1,0,.2,0,.2.2v.8h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-.8c0-.8-.6-1.4-1.4-1.4h-3.9v-1h.2c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-1.6ZM10.1,23.2h1.6v1.6h-1.6v-1.6ZM15.4,23.2h1.6v1.6h-1.6v-1.6ZM20.7,23.2h1.6v1.6h-1.6v-1.6Z"/></svg>
             Portal Manager
           </div>
           <div class="nav-item">
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M16.1,14.4c-.6,0-1.1.4-1.4.9-.2,0-.4,0-.5,0-.9,0-1.5.7-1.5,1.5v4h0c-.6-.7-1.6-.7-2.2,0s-.6,1.6,0,2.2l2.1,2.1c1.2,1.2,2.7,1.8,4.4,1.8h.4s0,0,.1,0c2.2-.1,4-1.9,4.1-4.1,0,0,0,0,0-.1v-4.3c0-.9-.7-1.5-1.5-1.5s-.3,0-.4,0h0c0-.9-.7-1.6-1.5-1.6s-.4,0-.5,0c-.3-.5-.8-.9-1.4-.9ZM15.7,16.7h0v-.8c0-.2.2-.4.4-.4s.4.2.4.4v.8h0v3.3c0,.3.3.6.6.6s.6-.3.6-.6v-3.3h0c0-.2.2-.4.4-.4s.4.2.4.4v1.4h0v1.9c0,.3.3.6.6.6s.6-.3.6-.6v-1.7h0c0-.2.2-.4.4-.4s.4.2.4.4v4.2s0,0,0,0c0,1.7-1.4,3-3.1,3.1,0,0,0,0,0,0h-.3c-1.3,0-2.6-.5-3.6-1.5l-2.1-2.1c-.1-.1-.1-.4,0-.5s.4-.1.5,0l1.1,1.1c.2.2.4.2.6.1s.4-.3.4-.5v-5.4c0-.2.2-.4.4-.4s.4.2.4.4v3.3c0,.3.3.6.6.6s.6-.3.6-.6v-3.3Z"/></svg>
             Subscription Manager
           </div>
 
           <div class="nav-group">MIGRATION</div>
           <div class="nav-item" id="prop-block-migration">
             <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
-            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h13"/><path d="m12 7 5 5-5 5"/><path d="M19 4v16"/></svg>
+            <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M2,5.5c0-.9.7-1.6,1.6-1.6h3.5c1.3,0,2.5.9,3,2.1l4.5,13.4c1.5,0,2.8.7,3.6,1.8l9.8-3.3c.8-.3,1.7.2,2,1s-.2,1.7-1,2l-9.8,3.3c0,2.5-2.1,4.6-4.7,4.6s-4.7-2.1-4.7-4.7.7-2.8,1.8-3.7L7.1,7.1h-3.5c-.9,0-1.6-.7-1.6-1.6ZM13.9,10.5c-.3-.8.2-1.7,1-2l2.2-.7,1,3,3-1-1-3,2.2-.7c.8-.3,1.7.2,2,1l2.4,7.4c.3.8-.2,1.7-1,2l-7.4,2.4c-.8.3-1.7-.2-2-1l-2.4-7.4Z"/></svg>
             Migrate Classic to 3.0
           </div>
 
@@ -329,14 +376,103 @@
 
 </div>
 
+<div class="row-head">
+  The nav collapsed
+  <p>Below 1200px the nav opens collapsed, and it collapses on its own when the window
+    narrows past that. Everything the expanded nav uses to tell its items apart — the labels
+    and the group headings — is gone, and the icons that remain are not unique.</p>
+</div>
+
+<div class="compare-grid">
+
+  <!-- ── Current UI, collapsed ── -->
+  <div>
+    <div class="sheet current">
+      <span class="stamp redline">REDLINE</span>
+      <div class="compare-col-label current">Current UI</div>
+      <div class="nav-wrapper">
+        <div class="nav collapsed">
+
+          <div class="cgroup" id="block-nolabel">
+            <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+            <div class="citem active"><svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M22.6,3.7c.5,0,.9.4.9.9v22.7c0,.5-.4.9-.9.9H5.6c-.5,0-.9-.4-.9-.9V4.7c0-.5.4-.9.9-.9h17ZM5.6.9c-2.1,0-3.8,1.7-3.8,3.8v22.7c0,2.1,1.7,3.8,3.8,3.8h17c2.1,0,3.8-1.7,3.8-3.8V4.7c0-2.1-1.7-3.8-3.8-3.8H5.6ZM30.2,5.6c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8ZM29.2,12.2c-.5,0-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8c0-.5-.4-.9-.9-.9ZM30.2,20.7c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8Z"/><path d="M7.2,9.7c-.4,0-.7.3-.7.7v1.4c0,.4.3.7.7.7v7.1c0,.9.7,1.7,1.7,1.7h1.4c0,.4.3.7.7.7h1.4c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4c-.4,0-.7.3-.7.7h-1.4c-.1,0-.2-.1-.2-.2v-3.1h1.7c0,.4.3.7.7.7h1.4c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4c-.4,0-.7.3-.7.7h-1.7v-2.6c.4,0,.7-.3.7-.7v-1.4c0-.4-.3-.7-.7-.7h-1.4ZM11.2,11.1c0,.4.3.7.7.7h9c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-9c-.4,0-.7.3-.7.7ZM15,15.8c0,.4.3.7.7.7h5.2c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-5.2c-.4,0-.7.3-.7.7ZM15,20.5c0,.4.3.7.7.7h5.2c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-5.2c-.4,0-.7.3-.7.7Z"/></svg></div>
+            <div class="citem"><svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M22.6,3.7c.5,0,.9.4.9.9v22.7c0,.5-.4.9-.9.9H5.6c-.5,0-.9-.4-.9-.9V4.7c0-.5.4-.9.9-.9h17ZM5.6.9c-2.1,0-3.8,1.7-3.8,3.8v22.7c0,2.1,1.7,3.8,3.8,3.8h17c2.1,0,3.8-1.7,3.8-3.8V4.7c0-2.1-1.7-3.8-3.8-3.8H5.6ZM30.2,5.6c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8ZM29.2,12.2c-.5,0-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8c0-.5-.4-.9-.9-.9ZM30.2,20.7c0-.5-.4-.9-.9-.9s-.9.4-.9.9v3.8c0,.5.4.9.9.9s.9-.4.9-.9v-3.8Z"/><path d="M10.5,23.2c.3.3.8.3,1,0,.3-.3.3-.8,0-1l-1.7-1.7h10.5c.4,0,.7-.3.7-.7s-.3-.7-.7-.7h-10.5l1.7-1.7c.3-.3.3-.8,0-1s-.8-.3-1,0l-2.9,2.9c-.3.3-.3.8,0,1l2.9,2.9h0ZM20.9,12.4c.3-.3.3-.8,0-1l-2.9-3c-.3-.3-.8-.3-1,0s-.3.8,0,1l1.7,1.7h-10.5c-.4,0-.7.3-.7.7s.3.7.7.7h10.5l-1.7,1.7c-.3.3-.3.8,0,1s.8.3,1,0l2.9-2.9h0Z"/></svg></div>
+          </div>
+
+          <div class="cgroup" id="block-nohead">
+            <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
+            <div class="citem"><svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M2,5.5c0-.9.7-1.6,1.6-1.6h3.5c1.3,0,2.5.9,3,2.1l4.5,13.4c1.5,0,2.8.7,3.6,1.8l9.8-3.3c.8-.3,1.7.2,2,1s-.2,1.7-1,2l-9.8,3.3c0,2.5-2.1,4.6-4.7,4.6s-4.7-2.1-4.7-4.7.7-2.8,1.8-3.7L7.1,7.1h-3.5c-.9,0-1.6-.7-1.6-1.6ZM13.9,10.5c-.3-.8.2-1.7,1-2l2.2-.7,1,3,3-1-1-3,2.2-.7c.8-.3,1.7.2,2,1l2.4,7.4c.3.8-.2,1.7-1,2l-7.4,2.4c-.8.3-1.7-.2-2-1l-2.4-7.4Z"/></svg></div>
+          </div>
+
+          <div class="cgroup" id="block-sameicons">
+            <div class="pin" id="pin-6" onclick="openPopover(6, event)">6</div>
+            <div class="citem"><svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M9.6,14.8c-.4,0-.6.3-.6.6v1.3c0,.4.3.6.6.6v6.5c0,.8.7,1.5,1.5,1.5h1.3c0,.4.3.6.6.6h1.3c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3c-.4,0-.6.3-.6.6h-1.3c-.1,0-.2,0-.2-.2v-2.8h1.5c0,.4.3.6.6.6h1.3c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3c-.4,0-.6.3-.6.6h-1.5v-2.4c.4,0,.6-.3.6-.6v-1.3c0-.4-.3-.6-.6-.6h-1.3ZM13.3,16.1c0,.4.3.6.6.6h8.2c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-8.2c-.4,0-.6.3-.6.6ZM16.8,20.4c0,.4.3.6.6.6h4.8c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-4.8c-.4,0-.6.3-.6.6ZM16.8,24.7c0,.4.3.6.6.6h4.8c.4,0,.6-.3.6-.6s-.3-.6-.6-.6h-4.8c-.4,0-.6.3-.6.6Z"/></svg></div>
+            <div class="citem"><svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M17,15.8v1.6h-1.6v-1.6h1.6ZM15.4,14.6c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h.2v1h-3.9c-.8,0-1.4.6-1.4,1.4v.8h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-.8c0-.1,0-.2.2-.2h3.9v1h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-1h3.9c.1,0,.2,0,.2.2v.8h-.2c-.7,0-1.2.5-1.2,1.2v1.6c0,.7.5,1.2,1.2,1.2h1.6c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-.2v-.8c0-.8-.6-1.4-1.4-1.4h-3.9v-1h.2c.7,0,1.2-.5,1.2-1.2v-1.6c0-.7-.5-1.2-1.2-1.2h-1.6ZM10.1,23.2h1.6v1.6h-1.6v-1.6ZM15.4,23.2h1.6v1.6h-1.6v-1.6ZM20.7,23.2h1.6v1.6h-1.6v-1.6Z"/></svg></div>
+            <div class="citem"><svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M23.4,5.3h-5.9v5h8.8l-2-4.4c-.2-.4-.5-.6-.9-.6ZM27,13.4H5v13c0,.6.5,1,1,1h20c.6,0,1-.5,1-1v-13ZM5.7,10.3h8.8v-5h-5.9c-.4,0-.8.2-.9.6l-2,4.4ZM23.4,2.3c1.6,0,3,.9,3.7,2.4l2.6,5.9c.2.5.3,1.1.3,1.6v14.2c0,2.2-1.8,4-4,4H6c-2.2,0-4-1.8-4-4v-14.2c0-.6.1-1.1.3-1.6l2.6-5.9c.6-1.4,2.1-2.4,3.7-2.4h14.8Z"/><path d="M16.1,14.4c-.6,0-1.1.4-1.4.9-.2,0-.4,0-.5,0-.9,0-1.5.7-1.5,1.5v4h0c-.6-.7-1.6-.7-2.2,0s-.6,1.6,0,2.2l2.1,2.1c1.2,1.2,2.7,1.8,4.4,1.8h.4s0,0,.1,0c2.2-.1,4-1.9,4.1-4.1,0,0,0,0,0-.1v-4.3c0-.9-.7-1.5-1.5-1.5s-.3,0-.4,0h0c0-.9-.7-1.6-1.5-1.6s-.4,0-.5,0c-.3-.5-.8-.9-1.4-.9ZM15.7,16.7h0v-.8c0-.2.2-.4.4-.4s.4.2.4.4v.8h0v3.3c0,.3.3.6.6.6s.6-.3.6-.6v-3.3h0c0-.2.2-.4.4-.4s.4.2.4.4v1.4h0v1.9c0,.3.3.6.6.6s.6-.3.6-.6v-1.7h0c0-.2.2-.4.4-.4s.4.2.4.4v4.2s0,0,0,0c0,1.7-1.4,3-3.1,3.1,0,0,0,0,0,0h-.3c-1.3,0-2.6-.5-3.6-1.5l-2.1-2.1c-.1-.1-.1-.4,0-.5s.4-.1.5,0l1.1,1.1c.2.2.4.2.6.1s.4-.3.4-.5v-5.4c0-.2.2-.4.4-.4s.4.2.4.4v3.3c0,.3.3.6.6.6s.6-.3.6-.6v-3.3Z"/></svg></div>
+          </div>
+
+        </div>
+        <p class="nav-caption">Six icons, no labels, and no tooltip on hover. The top two share one
+          outline and the bottom three share another, so the only thing telling them apart is
+          where they sit.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Proposed, collapsed ── -->
+  <div>
+    <div class="sheet proposed">
+      <span class="stamp proposed-stamp">PROPOSED</span>
+      <div class="compare-col-label proposed">Proposed redesign</div>
+      <div class="nav-wrapper">
+        <div class="nav collapsed">
+
+          <div class="cgroup">
+            <div class="cgroup-head" id="prop-block-nohead">
+              <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+              APIM 3.0
+            </div>
+            <div class="citem active"><span class="mono-ico">SC</span></div>
+            <div class="citem" id="prop-block-nolabel">
+              <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+              <span class="mono-ico">PC</span>
+              <span class="ctip">Policy catalog</span>
+            </div>
+          </div>
+
+          <div class="cgroup" id="prop-block-sameicons">
+            <div class="pin green" id="green-pin-6" onclick="openGreenPopover(6, event)">6</div>
+            <div class="cgroup-head">CLASSIC</div>
+            <div class="citem"><span class="mono-ico">AM</span></div>
+            <div class="citem"><span class="mono-ico">PM</span></div>
+            <div class="citem"><span class="mono-ico">S</span></div>
+          </div>
+
+          <div class="cgroup">
+            <div class="cgroup-head">MIGRATE</div>
+            <div class="citem"><svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M2,5.5c0-.9.7-1.6,1.6-1.6h3.5c1.3,0,2.5.9,3,2.1l4.5,13.4c1.5,0,2.8.7,3.6,1.8l9.8-3.3c.8-.3,1.7.2,2,1s-.2,1.7-1,2l-9.8,3.3c0,2.5-2.1,4.6-4.7,4.6s-4.7-2.1-4.7-4.7.7-2.8,1.8-3.7L7.1,7.1h-3.5c-.9,0-1.6-.7-1.6-1.6ZM13.9,10.5c-.3-.8.2-1.7,1-2l2.2-.7,1,3,3-1-1-3,2.2-.7c.8-.3,1.7.2,2,1l2.4,7.4c.3.8-.2,1.7-1,2l-7.4,2.4c-.8.3-1.7-.2-2-1l-2.4-7.4Z"/></svg></div>
+          </div>
+
+        </div>
+        <p class="nav-caption">A lettered tile per page, so no two items share an outline; a short
+          heading keeping each group named; and a tooltip on hover and on keyboard focus. Migration
+          keeps its own icon, the only glyph in the nav that isn't duplicated.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 <div class="verify-note">
   <div>
-    <strong>Reviewers — two things to confirm before this ships.</strong>
+    <strong>Reviewers — three things to confirm before this ships.</strong>
     The note under Classic API Management says Classic keeps serving live traffic until you migrate.
     That matches how the product behaves today as far as this review can tell, but it needs a product
     owner's confirmation and a docs link before it goes into the UI. Second, the proposed nav labels
     are in sentence case, which JellyRoll specifies and the current nav doesn't follow — refer to the
-    cross-cutting note on the APIM 3.0 index.
+    cross-cutting note on the APIM 3.0 index. Third, pin 4: the collapsed nav shows no tooltip on
+    hover, but the code sets a native title attribute for exactly that case, so a developer needs to
+    say whether this regressed or the attribute never reaches the element.
   </div>
 </div>
 
@@ -382,6 +518,27 @@ const annotations = [
     fix: "Head the two groups APIM 3.0 and Classic APIM, so a customer can tell at a glance which product each item belongs to. Under the Classic heading, put one line saying Classic keeps serving live traffic until you migrate, with a Learn more link to the migration docs. Confirm that wording with a product owner before it ships.",
     section: "block-classic",
     propBlock: "prop-block-classic"
+  },
+  {
+    title: "Collapsed items carry no label at all",
+    problem: "Collapsed, every label disappears and nothing replaces it — hovering an icon produces no tooltip, however long you wait. Six icons, no names. The code sets a native title attribute when the nav collapses, so either that regressed or it never reaches the element; a developer needs to confirm which.",
+    fix: "Show the page name in a tooltip on hover and on keyboard focus, using the design system's tooltip rather than the browser's native one, so it appears without a delay and reaches people navigating by keyboard.",
+    section: "block-nolabel",
+    propBlock: "prop-block-nolabel"
+  },
+  {
+    title: "Group headings disappear when the nav collapses",
+    problem: "MANAGE, MIGRATION, and CLASSIC API MANAGEMENT are drawn only while the nav is expanded. Collapsed, each one becomes a hairline rule, so the division between APIM 3.0 and Classic — the thing a Classic customer most needs — is an unlabelled line.",
+    fix: "Keep a short heading above each group when collapsed: 3.0, CLASSIC, MIGRATE. This also sets a condition on fix 3 — headings reading APIM 3.0 and Classic APIM are only worth adding if they survive the collapse.",
+    section: "block-nohead",
+    propBlock: "prop-block-nohead"
+  },
+  {
+    title: "The icons don't tell the pages apart",
+    problem: "Services Catalog and Policy Catalog are drawn on one shared outline, and API Manager, Portal Manager, and Subscription Manager on another — the glyphs differ only in a small mark inside. At 19px, with the labels gone, a customer navigates from memory of where each item sits rather than from anything on the screen.",
+    fix: "Give every page its own icon, distinct at 19px: lettered tiles — SC and PC under APIM 3.0, AM, PM, and S under Classic. Migration keeps the icon it has, the only glyph in the nav that isn't duplicated.",
+    section: "block-sameicons",
+    propBlock: "prop-block-sameicons"
   }
 ];
 

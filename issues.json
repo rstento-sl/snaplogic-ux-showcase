@@ -1087,7 +1087,7 @@
       "unreportedLabel": "Unreported issue 02",
       "severity": "High",
       "category": "Information architecture / labeling",
-      "summary": "The toolbar and the Classic entry are both named API Manager, so the name a Classic customer recognizes appears twice and the familiar click leads out of APIM 3.0. Migration Tool never says what migrates to what, and nothing in the nav says how Classic and APIM 3.0 relate.",
+      "summary": "The toolbar and the Classic entry are both named API Manager, so the name a Classic customer recognizes appears twice and the familiar click leads out of APIM 3.0. Migration Tool never says what migrates to what, and nothing in the nav says how Classic and APIM 3.0 relate. Collapsed, the nav drops every label and group heading, and the icons left behind aren't unique.",
       "mockups": {
         "comparison": "apim-3/navigation/comparison.html"
       },
@@ -1103,6 +1103,18 @@
         {
           "target": "Classic API Management heading",
           "callout": "Nothing says whether Classic still serves live traffic, or what migrating changes."
+        },
+        {
+          "target": "Collapsed nav — labels",
+          "callout": "Collapsed, every label disappears and hovering an icon produces no tooltip."
+        },
+        {
+          "target": "Collapsed nav — group headings",
+          "callout": "The headings become hairlines, so the line between APIM 3.0 and Classic goes unnamed."
+        },
+        {
+          "target": "Collapsed nav — icons",
+          "callout": "The two catalog icons share one outline and the three Classic icons share another, so you navigate from memory."
         }
       ]
     }

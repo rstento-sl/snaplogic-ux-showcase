@@ -1080,14 +1080,14 @@
     {
       "id": "issue-32",
       "area": "APIM 3.0",
-      "title": "The left nav sends Classic customers back to the old product",
+      "title": "Left navigation panel is confusing",
       "screen": "API Manager > Navigation pane",
       "page": "Left navigation",
       "jira": "",
       "unreportedLabel": "Unreported issue 02",
       "severity": "High",
       "category": "Information architecture / labeling",
-      "summary": "API Manager names both the product and a Classic nav item, so the name a Classic customer recognizes leads out of the product they're evaluating. Migration gets a section heading over a single link that never says what migrates to what, and nothing in the nav says how Classic and APIM 3.0 relate.",
+      "summary": "The toolbar and the Classic entry are both named API Manager, so the name a Classic customer recognizes appears twice and the familiar click leads out of APIM 3.0. Migration Tool never says what migrates to what, and nothing in the nav says how Classic and APIM 3.0 relate.",
       "mockups": {
         "comparison": "apim-3/navigation/comparison.html"
       },
@@ -1097,8 +1097,8 @@
           "callout": "The product and a Classic nav item share one name, so the familiar click leads out of APIM 3.0."
         },
         {
-          "target": "Migration section",
-          "callout": "A section heading over a single link, and the link never says what migrates to what."
+          "target": "Migration Tool",
+          "callout": "Sits between the two products, and the name never says what it moves or where."
         },
         {
           "target": "Classic API Management heading",

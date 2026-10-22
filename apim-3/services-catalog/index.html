@@ -139,6 +139,17 @@
   }
   .parties li:last-child { margin-bottom: 0; }
 
+  /* One complaint per point, inside an issue body. */
+  .issue-points { margin: var(--space-3) 0 var(--space-4); padding-left: var(--space-5); }
+  .issue-points li {
+    line-height: 1.6;
+    font-size: var(--type-body-size);
+    color: var(--color-text-body);
+    margin-bottom: var(--space-3);
+  }
+  .issue-points li:last-child { margin-bottom: 0; }
+  .body + .issue-points { margin-top: var(--space-2); }
+
   .issue-group {
     background: var(--color-surface-raised);
     border: 1px solid var(--color-border-subtle);
@@ -260,14 +271,21 @@
 
   <div class="issue-group">
     <div class="issue-head">
-      <h3>The navigation points them back at the old product</h3>
+      <h3>Left navigation panel is confusing</h3>
     </div>
-    <p class="body">API Manager names two things: the product itself, and an item under Classic API
-      Management. The Classic one is the name they recognize, so the familiar click leads out of the
-      product they're evaluating. Their real first task is migration, but Migration Tool sits below
-      Manage, under a section heading over a single link that never says what migrates to what. Nothing
-      says whether Classic is deprecated, whether both run side by side, or whether migrating affects live
-      traffic. The nav is its own comparison, since these problems follow a customer onto every APIM page:
+    <p class="body">The left nav works against a Classic customer three ways:</p>
+    <ul class="issue-points">
+      <li><strong>API Manager names two things</strong> — the toolbar at the top of the page, and the
+        entry under Classic API Management, the product they already use. The familiar name appears
+        twice, and the familiar click leads out of APIM 3.0.</li>
+      <li><strong>Migration Tool doesn't say what migrates to what.</strong> Migration is their first
+        real task, and the item sits in the middle of the nav, between the 3.0 pages and the Classic
+        ones.</li>
+      <li><strong>Nothing states how the two products relate.</strong> Whether Classic still serves
+        live traffic, whether both run side by side, what migrating changes — the nav says none of
+        it.</li>
+    </ul>
+    <p class="body">Each one has a pin on its own page:
       <a href="../navigation/comparison.html">the left navigation pane</a>.</p>
   </div>
 

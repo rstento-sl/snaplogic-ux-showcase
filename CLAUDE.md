@@ -65,7 +65,11 @@ Run these in order. Skipping them is what produces three rounds of feedback on o
    the first one matters.
 4. **Run the style check on your own prose.** `python3 tools/style-check.py <path>` greps the
    reader-visible text against the banned terms in Appendix 1 of
-   `~/Git/usability-review-criteria.md` and flags passive constructions. Every hit gets a decision:
+   `~/Git/Working/ditasrc/skills/usability-review/usability-review-criteria.md` and flags passive
+   constructions. That file is the criteria doc in the `usability-review` skill, which is the one
+   that gets updated — the old standalone copy at `~/Git/usability-review-criteria.md` is frozen and
+   drifting. The checker itself also lives in the skill now; `tools/style-check.py` is a wrapper
+   that calls it, so a `git pull` in ditasrc picks up both. Every hit gets a decision:
    rewrite it, or be able to say why it stands (*see* meaning perceive is fine; *see X* as a
    cross-reference is not — that one is *refer to*). Writing rules don't fire on their own, which is
    how "see" and passive voice shipped repeatedly; this makes them checkable like a render.

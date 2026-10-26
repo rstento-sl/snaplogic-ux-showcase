@@ -459,7 +459,7 @@
 const annotations = [
   {
     title: "API Manager names two things",
-    problem: "The toolbar at the top of the page is named API Manager, and so is the entry under Classic API Management — the version this customer already uses. The familiar name appears twice, and the familiar click leads out of APIM 3.0.",
+    problem: "The toolbar at the top of the page is named API Manager, and so is the entry under Classic API Management — the version this customer already uses. The familiar name appears twice, and the nav item they can click opens Classic APIM, taking their focus away from the new UI.",
     fix: "Name the toolbar for the product: API Management, since the nav holds two versions of it rather than one. The duplicate disappears, so the Classic entry keeps the name customers already know, with no qualifier bolted onto it.",
     section: "block-apimanager",
     propBlock: "prop-block-apimanager"
@@ -473,7 +473,7 @@ const annotations = [
   },
   {
     title: "Nothing says how Classic and APIM 3.0 relate",
-    problem: "Both versions sit in one nav with no statement of how they relate. Nothing says whether Classic still serves live traffic, whether both run side by side, or what migrating changes — so a customer can't tell which one is the system of record.",
+    problem: "Both versions sit in one nav with no statement of how they relate. Nothing says whether their Classic APIs and Proxies continue serving traffic after migration, so a customer can't tell which one is the system of record.",
     fix: "Head the two groups APIM 3.0 and Classic APIM, so a customer can tell at a glance which version each item belongs to. Under the Classic heading, put one line saying the Classic Developer Portal keeps serving live traffic until you migrate and publish, with a Learn more link to the Migration Tool wizard topic (src/api-m/concepts/move-to-apim.dita).",
     section: "block-classic",
     propBlock: "prop-block-classic"

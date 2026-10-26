@@ -1087,14 +1087,14 @@
       "unreportedLabel": "Unreported issue 02",
       "severity": "High",
       "category": "Information architecture / labeling",
-      "summary": "The toolbar and the Classic entry are both named API Manager, so the name a Classic customer recognizes appears twice and the familiar click leads out of APIM 3.0. Migration Tool never says what migrates to what, and nothing in the nav says how Classic and APIM 3.0 relate. Collapsed, the nav drops every label and group heading, and the icons left behind aren't unique.",
+      "summary": "The toolbar and the Classic entry are both named API Manager, so the name a Classic customer recognizes appears twice and the nav item they can click opens Classic APIM, taking their focus away from the new UI. Migration Tool never says what migrates to what, and nothing in the nav says how Classic and APIM 3.0 relate. Collapsed, the nav drops every label and group heading, and the icons left behind aren't unique.",
       "mockups": {
         "comparison": "apim-3/navigation/comparison.html"
       },
       "annotations": [
         {
           "target": "Toolbar name",
-          "callout": "The toolbar and a Classic nav item share one name, so the familiar click leads out of APIM 3.0."
+          "callout": "The toolbar and a Classic nav item share one name, so the nav item they can click opens Classic APIM, taking their focus away from the new UI."
         },
         {
           "target": "Migration Tool",

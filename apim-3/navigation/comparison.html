@@ -54,6 +54,12 @@
   .issue-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
   .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
   .instruction { color: var(--dim); font-size: 12px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
+  .related-link {
+    color: var(--teal); font-size: 12px; font-weight: 700;
+    text-decoration: none; white-space: nowrap;
+  }
+  .related-link:hover { text-decoration: underline; }
   .wip {
     display: inline-flex; align-items: center; gap: 7px;
     margin-left: 10px; padding: 3px 11px; border-radius: 999px;
@@ -263,7 +269,10 @@
     <h1>Left navigation panel is confusing</h1>
     <span class="wip"><span class="dot"></span>Work in progress</span>
   </div>
-  <p class="instruction">Click a numbered pin for the problem, then jump to the matching green pin for the fix.</p>
+  <div class="header-row">
+    <p class="instruction">Click a numbered pin for the problem, then jump to the matching green pin for the fix.</p>
+    <a class="related-link" href="../services-catalog/index.html">Services catalog issues →</a>
+  </div>
 </div>
 
 <div class="compare-grid">

@@ -64,6 +64,12 @@
     white-space: nowrap;
   }
   .bug-link:hover { text-decoration: underline; }
+  .header-links { display: flex; align-items: baseline; gap: 18px; }
+  .related-link {
+    color: var(--teal); font-size: 12px; font-weight: 700;
+    text-decoration: none; white-space: nowrap;
+  }
+  .related-link:hover { text-decoration: underline; }
   .wip {
     display: inline-flex; align-items: center; gap: 7px;
     margin-left: 10px; padding: 3px 11px; border-radius: 999px;
@@ -336,7 +342,10 @@
   </div>
   <div class="header-row">
     <p class="instruction">Click a numbered pin for the problem, then jump to the matching green pin for the fix. Hover the ⓘ icons in the proposed column to read the status definitions.</p>
-    <a class="bug-link" href="possible-bug.html">⚠ 1 possible bug noted →</a>
+    <div class="header-links">
+      <a class="related-link" href="../navigation/comparison.html">Navigation pane issues →</a>
+      <a class="bug-link" href="possible-bug.html">⚠ 1 possible bug noted →</a>
+    </div>
   </div>
 </div>
 

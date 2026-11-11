@@ -1081,7 +1081,7 @@
       "id": "issue-32",
       "area": "APIM 3.0",
       "title": "Left navigation pane is confusing",
-      "screen": "API Manager > Left navigation pane",
+      "screen": "API Manager > Navigation > Left navigation pane",
       "page": "Left navigation pane",
       "jira": "",
       "unreportedLabel": "Unreported issue 02",

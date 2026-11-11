@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Left navigation panel is confusing</title>
+<title>Left navigation pane is confusing</title>
 <style>
   @font-face {
     font-family: "Acherus Grotesque";
@@ -263,10 +263,10 @@
 <div class="showcase-header">
   <div class="breadcrumb">
     <a class="back-link" href="../index.html">← All APIM 3.0 issues</a>
-    <span class="path">apim-3 <span class="sep">/</span> navigation-pane</span>
+    <span class="path">apim-3 <span class="sep">/</span> left-navigation-pane</span>
   </div>
   <div class="issue-heading">
-    <h1>Left navigation panel is confusing</h1>
+    <h1>Left navigation pane is confusing</h1>
     <span class="wip"><span class="dot"></span>Work in progress</span>
   </div>
   <div class="header-row">
@@ -525,6 +525,20 @@ function openPopover(n, e) {
   pinEl.classList.add('active');
   positionPopover(pinEl, document.getElementById('popover'));
 }
+
+// Open the pin named in the URL hash, so a link to a pin lands on the pin itself.
+function openPinFromHash() {
+  const m = /^#(green-)?pin-(\d+)$/.exec(window.location.hash);
+  if (!m) return;
+  const n = Number(m[2]);
+  if (!(n >= 1 && n <= annotations.length)) return;
+  const pinEl = document.getElementById((m[1] || '') + 'pin-' + n);
+  if (!pinEl) return;
+  pinEl.scrollIntoView({ block: 'center', behavior: 'auto' });
+  if (m[1]) openGreenPopover(n); else openPopover(n);
+}
+window.addEventListener('DOMContentLoaded', openPinFromHash);
+window.addEventListener('hashchange', openPinFromHash);
 
 function openGreenPopover(n, e) {
   if (e) e.stopPropagation();

@@ -30,6 +30,7 @@
     --hairline: #D7DCE3;
     --teal: #09817F;
     --orange: #C75209;
+    --orange-tint: #FEF0E7;
     --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   }
 
@@ -60,6 +61,15 @@
   }
   .mockup-back a:hover { text-decoration: underline; }
   .mockup-instruction { margin-top: 8px; color: var(--orange); font-size: 12px; }
+
+  .wip {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-left: 10px; padding: 3px 11px; border-radius: 999px;
+    background: var(--orange-tint); border: 1px solid var(--orange);
+    color: #8a4a12; font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+    vertical-align: 3px;
+  }
+  .wip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
 
   .page-wrapper {
     max-width: 1000px;
@@ -215,7 +225,7 @@
 </div>
 
 <div class="page-wrapper">
-  <h1>The search box is hidden</h1>
+  <h1>The search box is hidden<span class="wip"><span class="dot"></span>Work in progress</span></h1>
   <p class="intro-text">The Services catalog has a search box. It filters services by name and opens
     the folders holding a match. The page renders it invisible, so nobody can reach it. The dashed
     outline below marks where it sits.</p>

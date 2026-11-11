@@ -1041,7 +1041,7 @@
     {
       "id": "issue-31",
       "area": "APIM 3.0",
-      "title": "Services catalog opens with no orientation, and the stats count the wrong unit",
+      "title": "Services catalog gives a new arrival nothing to go on",
       "screen": "API Manager > Manage > Services Catalog",
       "page": "Services Catalog",
       "jira": "",
@@ -1080,29 +1080,29 @@
     {
       "id": "issue-32",
       "area": "APIM 3.0",
-      "title": "Left navigation panel is confusing",
-      "screen": "API Manager > Navigation pane",
-      "page": "Left navigation",
+      "title": "Left navigation pane is confusing",
+      "screen": "API Manager > Left navigation pane",
+      "page": "Left navigation pane",
       "jira": "",
       "unreportedLabel": "Unreported issue 02",
       "severity": "High",
       "category": "Information architecture / labeling",
-      "summary": "The toolbar and the Classic entry are both named API Manager, so the name a Classic customer recognizes appears twice and the nav item they can click opens Classic APIM, taking their focus away from the new UI. Migration Tool never says what migrates to what, and nothing in the nav says how Classic and APIM 3.0 relate. Collapsed, the nav drops every label and group heading, and the icons left behind aren't unique.",
+      "summary": "The toolbar and the Classic APIM entry are both named API Manager, so the name a Classic APIM customer recognizes appears twice and the nav item they can click opens Classic APIM, taking their focus away from the new UI. Migration Tool never says what migrates to what, and nothing in the nav says how Classic APIM and APIM 3.0 relate. Collapsed, the nav drops every label and group heading, and the icons left behind aren't unique.",
       "mockups": {
         "comparison": "apim-3/navigation/comparison.html"
       },
       "annotations": [
         {
           "target": "Toolbar name",
-          "callout": "The toolbar and a Classic nav item share one name, so the nav item they can click opens Classic APIM, taking their focus away from the new UI."
+          "callout": "The toolbar and a Classic APIM nav item share one name, so the nav item they can click opens Classic APIM, taking their focus away from the new UI."
         },
         {
           "target": "Migration Tool",
-          "callout": "Sits between the two products, and the name never says what it moves or where."
+          "callout": "Sits between APIM 3.0 and Classic APIM, and the name never says what it moves or where."
         },
         {
           "target": "Classic API Management heading",
-          "callout": "Nothing says whether Classic still serves live traffic, or what migrating changes."
+          "callout": "Nothing says whether Classic APIM still serves live traffic, or what migrating changes."
         },
         {
           "target": "Collapsed nav — labels",

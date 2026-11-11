@@ -290,15 +290,15 @@
     </div>
     <p class="body">The heading reads <strong>Catalog Stats</strong>, which names the first widget on the page, not the page. Nothing
       defines a service, says what the catalog does, or separates it from the Policy catalog sitting beside
-      it in the navigation pane. <a href="comparison.html">Refer to pin 1 →</a></p>
+      it in the navigation pane. <a href="comparison.html#pin-1">Refer to pin 1 →</a></p>
   </div>
 
   <div class="issue-group">
     <div class="issue-head">
       <h3>Blank page</h3>
     </div>
-    <p class="body">In two cases, the rest of the page is blank: if no services have been created, or if
-      services have been created but the current customer doesn't have read permission to view them.</p>
+    <p class="body">In two cases, the rest of the page is blank: if nobody has created a service yet, or if
+      services exist but the customer's permissions don't let them view any.</p>
   </div>
 
   <div class="issue-group">
@@ -307,37 +307,38 @@
     </div>
     <p class="body">The <strong>Add service</strong> button has a hidden option, available from the caret:
       adding from a specification. Nothing explains what a service is, or what the difference is between the
-      two ways to add one.</p>
+      two ways to add one. <a href="comparison.html#pin-4">Refer to pin 4 →</a></p>
   </div>
 
   <h2 id="classic-customers">Existing Classic APIM customers</h2>
 
   <div class="issue-group">
     <div class="issue-head">
-      <h3>Nothing connects APIM 3.0 to the version they already know</h3>
+      <h3>Nothing connects APIM 3.0 to Classic APIM</h3>
     </div>
     <p class="body">They arrive fluent in Proxies, API versions, and subscriptions, and the page says
       service. No page maps the old vocabulary to the new, so they can't tell whether what they're looking
-      at is empty or simply unfamiliar.</p>
+      at is empty or simply unfamiliar. <a href="comparison.html#pin-5">Refer to pin 5 →</a></p>
   </div>
 
   <div class="issue-group">
     <div class="issue-head">
-      <h3>Left navigation panel is confusing</h3>
+      <h3>Left navigation pane is confusing</h3>
     </div>
-    <p class="body">The left nav works against a Classic customer three ways:</p>
+    <p class="body">The left navigation pane works against a Classic APIM customer three ways:</p>
     <ul class="issue-points">
       <li><strong>API Manager names two things</strong> — the toolbar at the top of the page, and the
-        entry under Classic API Management, the version they already use. The familiar name appears
-        twice, and the nav item they can click opens Classic APIM, taking their focus away from the new UI.</li>
+        entry under the nav's <strong>Classic API Management</strong> heading, which is the one they
+        already use. The familiar name appears twice, and the nav item they can click opens Classic APIM,
+        taking their focus away from the new UI.</li>
       <li><strong>Migration Tool doesn't say what migrates to what.</strong> When they are ready to adopt APIM 3.0,
         migration is their first real task, and the item sits in the middle of the nav, between the
-        3.0 pages and the Classic ones.</li>
-      <li><strong>Nothing states how the two versions relate.</strong> The nav never says whether their Classic APIs
-        and Proxies continue serving traffic after migration.</li>
+        APIM 3.0 pages and the Classic APIM ones.</li>
+      <li><strong>Nothing states how APIM 3.0 and Classic APIM relate.</strong> The nav never says whether
+        their existing APIs and Proxies continue serving traffic after migration.</li>
       <li><strong>Collapsed, the nav tells them nothing.</strong> Below 1200px it opens collapsed.
         The labels go, the group headings become hairlines, and the icons that remain aren't unique
-        — the two catalog icons share one outline and the three Classic icons share another.</li>
+        — the two catalog icons share one outline and the three Classic APIM icons share another.</li>
     </ul>
     <p class="body">Each one has a pin on its own page:
       <a href="../navigation/comparison.html">the left navigation pane</a>.</p>
@@ -363,7 +364,7 @@
       several buckets at once. The five counts also mix publication with lifecycle, and nothing explains
       how Private differs from Restricted — where most people guess wrong, because Private is the status
       that <em>isn't</em> in the Developer Portal. The totals describe the whole environment, which tells a
-      user nothing about their own work. <a href="comparison.html">Refer to pin 2 →</a></p>
+      user nothing about their own work. <a href="comparison.html#pin-2">Refer to pin 2 →</a></p>
   </div>
 
   <div class="issue-group">
@@ -375,7 +376,8 @@
       project a service is in; <strong>Filter by tags</strong> and <strong>Filter by owners</strong> are
       the most useful, but there's no way to find a service by name. The only sign that a filter is active is a
       purple circle holding the number of selections. The filters don't follow the design of
-      the filters in Admin Manager or Monitor, which are much more refined.</p>
+      the filters in Admin Manager or Monitor, which are much more refined.
+      <a href="comparison.html#pin-3">Refer to pin 3 →</a></p>
   </div>
 
   <div class="issue-group">
@@ -389,15 +391,15 @@
       Even with it back, folders stay the wrong default. The data behind the page already names the
       project each service belongs to, so the list could open with services at the top level, each
       showing its path — one list to scan, sort, and search, instead of a folder tree to guess at. The
-      list respects permissions; whether the statistics do is unconfirmed, and if they don't, the counts
-      describe an environment the viewer can't see.</p>
+      list respects permissions; nobody has confirmed whether the statistics do, and if they don't, the
+      counts describe an environment the viewer can't see.</p>
   </div>
 
   <h2 id="proposed-changes">The proposed changes</h2>
   <a class="proposal" href="../navigation/comparison.html">
     <span>
       <span class="title">Left navigation pane — current and proposed</span>
-      <span class="desc">The toolbar name, a heading for each version, and where migration sits.</span>
+      <span class="desc">The toolbar name, a heading for APIM 3.0 and one for Classic APIM, and where migration sits.</span>
     </span>
     <span class="go">Open →</span>
   </a>

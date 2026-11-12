@@ -18,12 +18,6 @@
   }
   .hero-inner { max-width: 1180px; margin: 0 auto; }
   .hero h1 { color: var(--color-text-inverse); letter-spacing: -0.01em; }
-  .hero .sub {
-    color: var(--sl-blue-300);
-    margin-top: var(--space-2);
-    line-height: 1.5;
-    max-width: 52ch;
-  }
   .back-link {
     font-size: var(--type-label-size);
     font-weight: 700;
@@ -149,23 +143,35 @@
     border-color: var(--sl-teal-600);
     background: var(--color-surface-raised);
   }
+  /* Reads as a link, not a note: the title takes the link color and
+     underlines on hover, and the chevron follows the pointer. */
   .use-cases-link .title {
     display: block;
     font-size: var(--type-label-size);
     line-height: var(--type-label-line);
     font-weight: var(--type-label-weight);
-    color: var(--color-text-heading);
+    color: var(--color-text-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
     margin-bottom: 3px;
   }
   .use-cases-link:hover .title { color: var(--color-text-link-hover); }
+  .use-cases-link .chevron {
+    color: var(--color-text-link);
+    font-size: var(--type-label-size);
+    line-height: 1;
+    transition: transform 0.15s;
+  }
+  .use-cases-link:hover .chevron {
+    color: var(--color-text-link-hover);
+    transform: translateX(3px);
+  }
   .use-cases-link .desc {
     display: block;
     font-size: var(--type-small-size);
     line-height: 1.5;
     color: var(--color-text-subtle);
   }
-
-  .sub { font-size: var(--type-body-size); }
 
   .intro-note {
     max-width: 70ch;
@@ -307,7 +313,6 @@
   <div class="hero-inner">
     <a class="back-link" href="../index.html">← All products</a>
     <h1>APIM 3.0 Usability issues</h1>
-    <p class="sub">Confusing UI interactions and microcopy across SnapLogic API Management 3.0, with proposed fixes — for PM and engineering review.</p>
     <div class="wip"><span class="dot"></span>Work in progress</div>
   </div>
 </div>
@@ -316,7 +321,7 @@
   <a class="use-cases-link" href="use-cases.html">
     <span>
       <span class="title">Use cases and the first experience</span>
-      <span class="desc">Who arrives, what they already know, and what they need to get done — what these issues are judged against.</span>
+      <span class="desc">The APIM initial experience should support both new customers and Classic APIM customers; they have different requirements.</span>
     </span>
     <span class="chevron">→</span>
   </a>

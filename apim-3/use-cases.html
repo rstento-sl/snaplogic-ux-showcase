@@ -67,6 +67,11 @@
   .case p:last-child { margin-bottom: 0; }
 
   .needs { margin: var(--space-2) 0 0; padding-left: var(--space-5); }
+  /* Each item states the need, then what the page does instead. */
+  .needs strong { color: var(--color-text-heading); }
+  .needs a { color: var(--color-text-link); font-weight: 700; }
+  .needs.after { margin-top: var(--space-3); }
+  .needs.after li { margin-bottom: var(--space-3); }
   .needs li { line-height: 1.6; font-size: var(--type-body-size); color: var(--color-text-body); margin-bottom: var(--space-2); }
   .needs li:last-child { margin-bottom: 0; }
   .variant .needs li { font-size: var(--type-small-size); }
@@ -163,15 +168,21 @@
   </figure>
 
   <div class="audience">
-    <h2>Use cases that APIM should support</h2>
+    <h2>What each customer needs, and what the page does instead</h2>
 
     <div class="case">
       <h3>Case 1 — Adopting APIM 3.0 from Classic APIM</h3>
       <p class="who">Fluent in the old product. Proxies, API versions, and subscriptions already in production.</p>
       <ul class="needs">
-        <li>Map Proxies and API versions onto the new model.</li>
-        <li>Migrate existing assets, and see what moved.</li>
-        <li>Run both versions until migration finishes, knowing which one serves live traffic.</li>
+        <li><strong>Map Proxies and API versions onto the new model.</strong> No page maps the old
+          vocabulary to the new.
+          <a href="services-catalog/comparison.html#pin-5">Refer to pin 5 &rarr;</a></li>
+        <li><strong>Migrate existing assets, and see what moved.</strong> Migration Tool doesn't say what
+          migrates to what, and it sits between the two versions rather than after them.
+          <a href="navigation/comparison.html#pin-2">Refer to pins 2 and 3 &rarr;</a></li>
+        <li><strong>Run both versions until migration finishes, knowing which one serves live traffic.</strong>
+          API Manager names two things, and nothing in the nav says how the versions relate.
+          <a href="navigation/comparison.html#pin-1">Refer to pins 1 and 4 &rarr;</a></li>
       </ul>
     </div>
 
@@ -179,106 +190,39 @@
       <h3>Case 2 — Starting fresh on APIM 3.0</h3>
       <p class="who">No history with the old product. Nothing built yet.</p>
       <ul class="needs">
-        <li>Learn what a service is.</li>
-        <li>Create a first service, from scratch or from a specification.</li>
-        <li>Publish it, and understand what each status exposes, and to whom.</li>
+        <li><strong>Learn what a service is.</strong> The heading names the first widget, not the page, and
+          nothing defines a service or says what the catalog is for.
+          <a href="services-catalog/comparison.html#pin-1">Refer to pin 1 &rarr;</a></li>
+        <li><strong>Create a first service.</strong> The caret on <em>Add service</em> hides a second way to
+          add one, and nothing says how the two differ.
+          <a href="services-catalog/comparison.html#pin-4">Refer to pin 4 &rarr;</a></li>
+        <li><strong>Know whether the page is empty or just empty to them.</strong> The page is blank when
+          nobody has created a service, and when permissions hide every one. It draws both the same way.</li>
       </ul>
     </div>
 
-    <h2 style="margin-top: var(--space-6);">The variant inside both cases</h2>
-    <p class="lede">Somebody goes first; everyone else arrives into what that person built.</p>
+    <h2 style="margin-top: var(--space-6);">After services exist</h2>
+    <p class="lede">Somebody goes first and chooses the structure everyone inherits; everyone after arrives
+      into it.</p>
 
-    <div class="variants">
-      <div class="variant">
-        <h3>The first person on the team</h3>
-        <ul class="needs">
-          <li>Creates the first service, or migrates the first Classic APIM asset.</li>
-          <li>Chooses the Project Space and Project structure the whole team inherits.</li>
-        </ul>
-      </div>
-      <div class="variant">
-        <h3>Everyone who follows</h3>
-        <ul class="needs">
-          <li>Finds their team's services inside a structure somebody else chose.</li>
-          <li>Tracks their own work, not the environment's totals.</li>
-        </ul>
-      </div>
-    </div>
-
-    <h2 style="margin-top: var(--space-8);">What goes wrong, and when</h2>
-    <p class="lede">The issues group by the moment a customer meets them.</p>
-
-    <div class="when">On arrival</div>
-
-    <div class="issue-group">
-      <h3>The page doesn't introduce itself</h3>
-      <p class="body">The heading names the first widget, not the page, and nothing defines a service or
-        says what the catalog is for.
-        <a href="services-catalog/comparison.html#pin-1">Refer to pin 1 →</a></p>
-    </div>
-
-    <div class="issue-group">
-      <h3>Blank page</h3>
-      <p class="body">The page is blank in two cases: nobody has created a service, or the customer's
-        permissions hide every one. It draws both the same way.</p>
-    </div>
-
-    <div class="issue-group">
-      <h3>Ambiguous action button</h3>
-      <p class="body">The caret on <strong>Add service</strong> hides a second way to add one, and nothing
-        says how the two differ.
-        <a href="services-catalog/comparison.html#pin-4">Refer to pin 4 →</a></p>
-    </div>
-
-    <div class="when">Arriving from Classic APIM</div>
-
-    <div class="issue-group">
-      <h3>Nothing connects APIM 3.0 to Classic APIM</h3>
-      <p class="body">No page maps the old vocabulary to the new.
-        <a href="services-catalog/comparison.html#pin-5">Refer to pin 5 →</a></p>
-    </div>
-
-    <div class="issue-group">
-      <h3>The left navigation pane works against them</h3>
-      <p class="body">API Manager names two things, Migration Tool doesn't say what migrates to what,
-        nothing states how the two versions relate, and collapsed the pane drops every label.
-        <a href="navigation/comparison.html">Refer to the left navigation pane issues →</a></p>
-    </div>
-
-    <div class="when">After services exist</div>
-
-    <div class="issue-group">
-      <h3>Ambiguous folder rows</h3>
-      <p class="body">Every row is a folder icon and a path,
-        <code>&lt;Project space&gt;/&lt;Project&gt;</code>. Both levels carry the same icon, the root shared
-        folder shows no prefix, and nothing says how many services a folder holds or which are yours.</p>
-    </div>
-
-    <div class="issue-group">
-      <h3>The statistics count the wrong unit, and define nothing</h3>
-      <p class="body">Publishing applies to a service version, not a service, and the five counts define
-        none of their labels.
-        <a href="services-catalog/comparison.html#pin-2">Refer to pin 2 →</a> and
-        <a href="services-catalog/comparison.html#pin-6">pin 6 →</a></p>
-    </div>
-
-    <div class="issue-group">
-      <h3>Filters appear inactive</h3>
-      <p class="body">The text and box colors resemble a disabled control, which discourages customers from
-        trying the filters at all.
-        <a href="services-catalog/comparison.html#pin-3">Refer to pin 3 →</a></p>
-    </div>
-
-    <div class="issue-group">
-      <h3>It won't hold up at customer scale</h3>
-      <p class="body">The only way through a list of 32 services across 71 versions is to open folders one
-        at a time. The page has a search box, but it renders invisible:
+    <ul class="needs after">
+      <li><strong>Find your team's services inside somebody else's structure.</strong> Every row is a folder
+        icon and a path, <code>&lt;Project space&gt;/&lt;Project&gt;</code>. Both levels carry the same icon,
+        the root shared folder shows no prefix, and nothing says how many services a folder holds or which
+        are yours.</li>
+      <li><strong>Understand what each status exposes, and to whom.</strong> Publishing applies to a service
+        version, not a service, and the five counts define none of their labels.
+        <a href="services-catalog/comparison.html#pin-2">Refer to pins 2 and 6 &rarr;</a></li>
+      <li><strong>Narrow the list to your own work.</strong> The filters' text and box colors resemble a
+        disabled control, which discourages customers from trying them at all.
+        <a href="services-catalog/comparison.html#pin-3">Refer to pin 3 &rarr;</a></li>
+      <li><strong>Get through a list that keeps growing.</strong> Opening folders one at a time is the only
+        way through 32 services across 71 versions. The page has a search box, but it renders invisible:
         <a href="services-catalog/possible-bug.html">a one-line defect</a>. The data names each service's
-        project, so the list could open flat instead, with a path on every row.</p>
-    </div>
+        project, so the list could open flat instead, with a path on every row.</li>
+    </ul>
 
   </div>
 </div>
-
 </body>
 </html>

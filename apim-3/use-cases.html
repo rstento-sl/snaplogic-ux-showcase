@@ -147,11 +147,10 @@
 <div class="wrap">
 
   <div class="lead">
-    <p>When a customer selects API Management from the waffle menu, the Services catalog opens. The Services
-      catalog page and left navigation pane should be intuitive to both Classic APIM and new APIM 3.0
-      customers from the first encounter throughout their experience. Where it is impossible to be intuitive,
-      helpful microcopy, in-app user assistance, and learn more links to the doc can help them
-      self-serve to onboard quickly and successfully use APIM 3.0.</p>
+    <p>When a customer selects API Management from the waffle menu, the Services catalog opens. That page
+      and the left navigation pane should be intuitive to both Classic APIM and new APIM 3.0 customers,
+      from the first encounter onward. Where it can't be intuitive, microcopy, in-app user assistance, and
+      learn more links should let them onboard without help.</p>
   </div>
 
   <figure class="shot">
@@ -167,30 +166,27 @@
     <h2>Use cases that APIM should support</h2>
 
     <div class="case">
-      <h3>Case 1 — A Classic APIM customer adopts APIM 3.0, or starts a trial</h3>
+      <h3>Case 1 — Adopting APIM 3.0 from Classic APIM</h3>
       <p class="who">Fluent in the old product. Proxies, API versions, and subscriptions already in production.</p>
-      <p>They need to:</p>
       <ul class="needs">
-        <li>Map what they already know to the new model — what a service is, and what became of Proxies and API versions.</li>
-        <li>Migrate existing assets, and see what has moved and what hasn't.</li>
-        <li>Run Classic APIM and APIM 3.0 alongside each other until the migration finishes, knowing which one serves live traffic.</li>
+        <li>Map Proxies and API versions onto the new model.</li>
+        <li>Migrate existing assets, and see what moved.</li>
+        <li>Run both versions until migration finishes, knowing which one serves live traffic.</li>
       </ul>
     </div>
 
     <div class="case new">
-      <h3>Case 2 — A new customer adopts APIM 3.0, or starts a trial</h3>
+      <h3>Case 2 — Starting fresh on APIM 3.0</h3>
       <p class="who">No history with the old product. Nothing built yet.</p>
-      <p>They need to:</p>
       <ul class="needs">
-        <li>Learn what a service is and what the product manages.</li>
-        <li>Create a first service, from scratch or from an API specification.</li>
-        <li>Publish it, and understand what each publication status exposes and to whom.</li>
+        <li>Learn what a service is.</li>
+        <li>Create a first service, from scratch or from a specification.</li>
+        <li>Publish it, and understand what each status exposes, and to whom.</li>
       </ul>
     </div>
 
     <h2 style="margin-top: var(--space-6);">The variant inside both cases</h2>
-    <p class="lede">Somebody on the team goes first. Everyone else arrives afterward, into what that
-      person built — so the two roles need different things from the same screens.</p>
+    <p class="lede">Somebody goes first; everyone else arrives into what that person built.</p>
 
     <div class="variants">
       <div class="variant">
@@ -198,15 +194,13 @@
         <ul class="needs">
           <li>Creates the first service, or migrates the first Classic APIM asset.</li>
           <li>Chooses the Project Space and Project structure the whole team inherits.</li>
-          <li>Needs to know where a new service lands before creating it.</li>
         </ul>
       </div>
       <div class="variant">
         <h3>Everyone who follows</h3>
         <ul class="needs">
-          <li>Finds their own team's services inside a structure somebody else chose.</li>
-          <li>Sees only the Project Spaces and Projects their permissions allow, so needs to know when the view is partial.</li>
-          <li>Tracks the state of their own work, not the environment's totals.</li>
+          <li>Finds their team's services inside a structure somebody else chose.</li>
+          <li>Tracks their own work, not the environment's totals.</li>
         </ul>
       </div>
     </div>
@@ -218,16 +212,15 @@
 
     <div class="issue-group">
       <h3>The page doesn't introduce itself</h3>
-      <p class="body">The heading names the first widget on the page, not the page, and nothing defines a
-        service or says what the catalog is for.
+      <p class="body">The heading names the first widget, not the page, and nothing defines a service or
+        says what the catalog is for.
         <a href="services-catalog/comparison.html#pin-1">Refer to pin 1 →</a></p>
     </div>
 
     <div class="issue-group">
       <h3>Blank page</h3>
-      <p class="body">In two cases, the rest of the page is blank: if nobody has created a service yet, or if
-        services exist but the customer's permissions don't let them view any. The page draws both the same
-        way, so a customer can't tell whether nothing exists or nothing is visible to them.</p>
+      <p class="body">The page is blank in two cases: nobody has created a service, or the customer's
+        permissions hide every one. It draws both the same way.</p>
     </div>
 
     <div class="issue-group">
@@ -241,8 +234,7 @@
 
     <div class="issue-group">
       <h3>Nothing connects APIM 3.0 to Classic APIM</h3>
-      <p class="body">They arrive fluent in Proxies, API versions, and subscriptions, and no page maps that
-        vocabulary to the new one.
+      <p class="body">No page maps the old vocabulary to the new.
         <a href="services-catalog/comparison.html#pin-5">Refer to pin 5 →</a></p>
     </div>
 
@@ -257,10 +249,9 @@
 
     <div class="issue-group">
       <h3>Ambiguous folder rows</h3>
-      <p class="body">Each row shows a folder icon and a name, so you must open folders one at a time to
-        find anything. The name is a path, <code>&lt;Project space&gt;/&lt;Project&gt;</code>, but both levels
-        carry the same icon, and the root shared folder shows no prefix at all. Nothing tells you how many
-        services a folder holds, which ones are yours, or that every listed folder holds at least one.</p>
+      <p class="body">Every row is a folder icon and a path,
+        <code>&lt;Project space&gt;/&lt;Project&gt;</code>. Both levels carry the same icon, the root shared
+        folder shows no prefix, and nothing says how many services a folder holds or which are yours.</p>
     </div>
 
     <div class="issue-group">
@@ -280,16 +271,10 @@
 
     <div class="issue-group">
       <h3>It won't hold up at customer scale</h3>
-      <p class="body">Opening folders is the only way through the list, and a test environment already
-        holds 32 services across 71 versions. The page does have a search box — it finds services by name
-        and opens the folders that match — but it renders invisible, so nobody reaches it. That's a
-        one-line defect, not a missing feature:
-        <a href="services-catalog/possible-bug.html">the hidden search box</a>.
-        Even with it back, folders stay the wrong default. The data behind the page already names the
-        project each service belongs to, so the list could open with services at the top level, each
-        showing its path — one list to scan, sort, and search, instead of a folder tree to guess at. The
-        list respects permissions; nobody has confirmed whether the statistics do, and if they don't, the
-        counts describe an environment the viewer can't see.</p>
+      <p class="body">The only way through a list of 32 services across 71 versions is to open folders one
+        at a time. The page has a search box, but it renders invisible:
+        <a href="services-catalog/possible-bug.html">a one-line defect</a>. The data names each service's
+        project, so the list could open flat instead, with a path on every row.</p>
     </div>
 
   </div>

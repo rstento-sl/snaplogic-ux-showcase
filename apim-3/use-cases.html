@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Use cases that APIM should support</title>
+<link rel="stylesheet" href="https://sl-design-team.github.io/jellyroll/colors_and_type.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { background: var(--sl-grey-200); padding-bottom: var(--space-10); }
+
+  .topbar { height: 4px; background: var(--sl-teal-600); }
+
+  .hero {
+    background: var(--color-surface-navbar);
+    padding: var(--space-6) var(--space-6) var(--space-8);
+  }
+  .hero-inner { max-width: 1180px; margin: 0 auto; }
+  .hero h1 { color: var(--color-text-inverse); letter-spacing: -0.01em; }
+  .hero .sub {
+    color: var(--sl-blue-300);
+    margin-top: var(--space-2);
+    line-height: 1.5;
+    max-width: 62ch;
+    font-size: var(--type-body-size);
+  }
+  .back-link {
+    font-size: var(--type-label-size);
+    font-weight: 700;
+    color: var(--sl-teal-300);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: var(--space-3);
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: var(--space-8) var(--space-6) 0; }
+
+  .audience { max-width: 860px; }
+  .audience h2 {
+    font-size: var(--type-subheading-size);
+    line-height: var(--type-subheading-line);
+    font-weight: var(--type-subheading-weight);
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-2);
+  }
+  .audience > p.lede {
+    color: var(--color-text-subtle);
+    line-height: 1.6;
+    font-size: var(--type-body-size);
+    max-width: 70ch;
+    margin-bottom: var(--space-4);
+  }
+
+  .case {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-left: 4px solid var(--sl-blue-600);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-3);
+    box-shadow: var(--shadow-raised);
+  }
+  .case.new { border-left-color: var(--sl-teal-600); }
+  .case h3 {
+    font-size: var(--type-label-size);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: 2px;
+  }
+  .case .who { font-size: var(--type-small-size); color: var(--color-text-subtle); margin-bottom: var(--space-3); }
+  .case p { line-height: 1.6; font-size: var(--type-body-size); color: var(--color-text-body); margin-bottom: var(--space-3); }
+  .case p:last-child { margin-bottom: 0; }
+
+  .needs { margin: var(--space-2) 0 0; padding-left: var(--space-5); }
+  .needs li { line-height: 1.6; font-size: var(--type-body-size); color: var(--color-text-body); margin-bottom: var(--space-2); }
+  .needs li:last-child { margin-bottom: 0; }
+  .variant .needs li { font-size: var(--type-small-size); }
+
+  .variants { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-3); }
+  @media (max-width: 720px) { .variants { grid-template-columns: 1fr; } }
+  .variant {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+  .variant h3 { font-size: var(--type-label-size); font-weight: 700; color: var(--color-text-heading); margin-bottom: var(--space-2); }
+
+  .wip {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: var(--space-3); padding: 4px 12px; border-radius: 999px;
+    background: rgba(199, 82, 9, 0.18); border: 1px solid #E08A4B; color: #F5C49B;
+    font-size: var(--type-small-size); font-weight: 700; letter-spacing: 0.02em;
+  }
+  .wip .dot { width: 7px; height: 7px; border-radius: 50%; background: #E08A4B; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <a class="back-link" href="index.html">← All APIM 3.0 issues</a>
+    <h1>Use cases that APIM should support</h1>
+    <p class="sub">Who arrives at API Management 3.0, what they already know, and what they need to get done. The issues in this review are judged against these.</p>
+    <div class="wip"><span class="dot"></span>Work in progress</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="audience">
+
+    <div class="case">
+      <h3>Case 1 — A Classic APIM customer adopts APIM 3.0, or starts a trial</h3>
+      <p class="who">Fluent in the old product. Proxies, API versions, and subscriptions already in production.</p>
+      <p>They need to:</p>
+      <ul class="needs">
+        <li>Map what they already know to the new model — what a service is, and what became of Proxies and API versions.</li>
+        <li>Migrate existing assets, and see what has moved and what hasn't.</li>
+        <li>Run Classic APIM and APIM 3.0 alongside each other until the migration finishes, knowing which one serves live traffic.</li>
+      </ul>
+    </div>
+
+    <div class="case new">
+      <h3>Case 2 — A new customer adopts APIM 3.0, or starts a trial</h3>
+      <p class="who">No history with the old product. Nothing built yet.</p>
+      <p>They need to:</p>
+      <ul class="needs">
+        <li>Learn what a service is and what the product manages.</li>
+        <li>Create a first service, from scratch or from an API specification.</li>
+        <li>Publish it, and understand what each publication status exposes and to whom.</li>
+      </ul>
+    </div>
+
+    <h2 style="margin-top: var(--space-6);">The variant inside both cases</h2>
+    <p class="lede">Somebody on the team goes first. Everyone else arrives afterward, into what that
+      person built — so the two roles need different things from the same screens.</p>
+
+    <div class="variants">
+      <div class="variant">
+        <h3>The first person on the team</h3>
+        <ul class="needs">
+          <li>Creates the first service, or migrates the first Classic APIM asset.</li>
+          <li>Chooses the Project Space and Project structure the whole team inherits.</li>
+          <li>Needs to know where a new service lands before creating it.</li>
+        </ul>
+      </div>
+      <div class="variant">
+        <h3>Everyone who follows</h3>
+        <ul class="needs">
+          <li>Finds their own team's services inside a structure somebody else chose.</li>
+          <li>Sees only the Project Spaces and Projects their permissions allow, so needs to know when the view is partial.</li>
+          <li>Tracks the state of their own work, not the environment's totals.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

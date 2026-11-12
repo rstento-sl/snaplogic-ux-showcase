@@ -1059,8 +1059,16 @@
           "callout": "The H1 names the first widget, \"Catalog Stats,\" not the page you clicked."
         },
         {
+          "target": "Orientation for Classic customers",
+          "callout": "Nothing maps Proxies, API versions, and subscriptions to what this page calls a service."
+        },
+        {
           "target": "Catalog Stats row",
           "callout": "Counts services, but status belongs to a version — and nothing defines Private vs Restricted."
+        },
+        {
+          "target": "Status labels",
+          "callout": "The row names five statuses and defines none of them. Tooltips carrying the definitions already in the docs are a text-only change that can ship on its own."
         },
         {
           "target": "Filter row",
@@ -1069,14 +1077,6 @@
         {
           "target": "Add service button",
           "callout": "The page's primary action sits in the filter row, attached to a list that might hold nothing."
-        },
-        {
-          "target": "Orientation for Classic customers",
-          "callout": "Nothing maps Proxies, API versions, and subscriptions to what this page calls a service."
-        },
-        {
-          "target": "Status labels",
-          "callout": "The row names five statuses and defines none of them. Tooltips carrying the definitions already in the docs are a text-only change that can ship on its own."
         }
       ],
       "inAppHelp": true

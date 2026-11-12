@@ -347,7 +347,7 @@
           <div class="page-head">
             <div class="page-head-text">
               <div class="page-h1">Policy catalog</div>
-              <p class="page-sub">Create and edit policies with rules that configure governance and behavior of requests and responses. <a href="#" onclick="return false;">Learn more.</a></p>
+              <p class="page-sub">Create and edit policies with rules that configure governance for requests and responses and their behavior. <a href="#" onclick="return false;">Learn more.</a></p>
             </div>
             <div id="prop-block-add" style="position: relative;">
               <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
@@ -366,7 +366,7 @@
           <div id="prop-block-band" style="position: relative;">
             <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
             <div class="catalog-band">Catalog policy
-              <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">One policy that holds rules for the whole catalog. When a rule in it sets Priority to “Always use catalog rule,” that rule overrides the matching rule on a service or an endpoint.</span></span>
+              <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">One policy that holds rules for the whole catalog. A rule in it set to always use the catalog rule overrides the matching rule on a service or an endpoint.</span></span>
             </div>
           </div>
 
@@ -393,11 +393,10 @@
 
 <div class="verify-note">
   <div>
-    <strong>Reviewers — one thing to verify before this ships.</strong>
-    The tooltip describes the catalog policy from the Priority setting named in the UI
-    (“Always use catalog rule”). Confirm with engineering that a catalog rule set that way overrides the
-    matching rule at both the service and the endpoint level, and that no other Priority value changes
-    which rule wins.
+    <strong>Reviewers — one wording question.</strong>
+    The tooltip comes from the SnapLogic docs, in the topic on creating a catalog policy. That topic
+    describes <em>Always use Catalog rule</em> as a checkbox on each rule; the UI appears to offer it as a
+    Priority value instead. Confirm which one is current, and the tooltip should name it the same way.
   </div>
 </div>
 
@@ -426,7 +425,7 @@ const annotations = [
   {
     title: "No page title",
     problem: "The page opens straight into a search box and a list. Nothing names the page or says what a policy does, so the only clue to where you are is the nav item you clicked to get here.",
-    fix: "Title the page after its nav item, in sentence case: “Policy catalog.” Add a lead-in saying what you can do here — “Create and edit policies with rules that configure governance and behavior of requests and responses” — followed by a Learn more link to the docs.",
+    fix: "Title the page after its nav item, in sentence case: “Policy catalog.” Add a lead-in saying what you can do here — “Create and edit policies with rules that configure governance for requests and responses and their behavior” — followed by a Learn more link to the docs.",
     section: "block-header",
     propBlock: "prop-block-header"
   },
@@ -440,7 +439,7 @@ const annotations = [
   {
     title: "Catalog Policy names something the page never explains",
     problem: "Catalog Policy sits above the project folders as though it were one of them, but it isn't a project and the page says nothing about what it holds or what it affects. Nothing warns that a rule in it can override a rule someone set on their own service.",
-    fix: "Put a tooltip on the label: one policy that holds rules for the whole catalog, and when a rule in it sets Priority to “Always use catalog rule,” that rule overrides the matching rule on a service or an endpoint. Hover the info icon in the proposed column.",
+    fix: "Put a tooltip on the label, using the definition already written in the SnapLogic docs, in the topic on creating a catalog policy: one policy that holds rules for the whole catalog, and a rule in it set to always use the catalog rule overrides the matching rule on a service or an endpoint. Hover the info icon in the proposed column.",
     section: "block-band",
     propBlock: "prop-block-band"
   },

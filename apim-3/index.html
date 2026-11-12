@@ -343,8 +343,8 @@
 
       <a class="use-cases-link" href="use-cases.html">
         <span>
-          <span class="title">Use cases that APIM should support</span>
-          <span class="desc">Who arrives, what they already know, and what they need to get done — what these issues are judged against.</span>
+          <span class="title">Use cases and the first experience</span>
+          <span class="desc">Who arrives, what they already know, and what goes wrong when they get there.</span>
         </span>
         <span class="chevron">→</span>
       </a>
@@ -380,9 +380,9 @@ function rel(path) {
 // in this area the landing page carries the reasoning behind the issues, which
 // the comparison page deliberately leaves out. Pages with no landing page and
 // more than one issue have nowhere to go, so they fall back to "#".
-const LANDING_PAGES = {
-  "Services Catalog": "services-catalog/index.html"
-};
+// No landing pages in this area: the index links straight to the pin pages.
+// The narrative that used to sit on a parent page lives on use-cases.html.
+const LANDING_PAGES = {};
 
 // Reading order for the list. The left navigation pane comes first because a
 // customer meets it before any page it leads to. Pages not listed fall to the

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Use cases that APIM should support</title>
+<title>Use cases and the first experience</title>
 <link rel="stylesheet" href="https://sl-design-team.github.io/jellyroll/colors_and_type.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -88,6 +88,49 @@
   }
   .variant h3 { font-size: var(--type-label-size); font-weight: 700; color: var(--color-text-heading); margin-bottom: var(--space-2); }
 
+  .lead { max-width: 70ch; }
+  .lead p {
+    font-size: var(--type-body-size);
+    line-height: 1.6;
+    color: var(--color-text-body);
+  }
+
+  .shot { margin: var(--space-6) 0 var(--space-8); max-width: 860px; }
+  .shot img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  .issue-group {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-3);
+    box-shadow: var(--shadow-raised);
+  }
+  .issue-group h3 {
+    font-size: var(--type-label-size);
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-1);
+  }
+  .issue-group p.body {
+    font-size: var(--type-small-size);
+    line-height: 1.6;
+    color: var(--color-text-body);
+  }
+  .issue-group a { color: var(--color-text-link); font-weight: 700; }
+
+  .when {
+    font-size: var(--type-label-size);
+    line-height: var(--type-label-line);
+    font-weight: var(--type-label-weight);
+    color: var(--color-text-heading);
+    margin: var(--space-6) 0 var(--space-2);
+  }
+
   .wip {
     display: inline-flex; align-items: center; gap: 7px;
     margin-top: var(--space-3); padding: 4px 12px; border-radius: 999px;
@@ -103,14 +146,33 @@
 <div class="hero">
   <div class="hero-inner">
     <a class="back-link" href="index.html">← All APIM 3.0 issues</a>
-    <h1>Use cases that APIM should support</h1>
-    <p class="sub">Who arrives at API Management 3.0, what they already know, and what they need to get done. The issues in this review are judged against these.</p>
+    <h1>Use cases and the first experience</h1>
+    <p class="sub">Who arrives at API Management 3.0, what they already know, and what they meet when they get there.</p>
     <div class="wip"><span class="dot"></span>Work in progress</div>
   </div>
 </div>
 
 <div class="wrap">
+
+  <div class="lead">
+    <p>When a customer selects API Management from the waffle menu, the Services catalog opens. The Services
+      catalog page and left navigation pane should be intuitive to both Classic APIM and new APIM 3.0
+      customers from the first encounter throughout their experience. Where it is impossible to be intuitive,
+      helpful microcopy, in-app user assistance, and learn more links to the doc can help them
+      self-serve to onboard quickly and successfully use APIM 3.0.</p>
+  </div>
+
+  <figure class="shot">
+    <img src="services-catalog/current-ui.png" alt="The Services catalog page today. The left navigation pane lists
+      Services Catalog and Policy Catalog under Manage, Migration Tool under Migration, and API Manager,
+      Portal Manager, and Subscription Manager under Classic API Management. The page heading reads Catalog
+      Stats, above five counts — 48 unpublished, 8 testing, 0 private, 1 restricted, 14 public services
+      — and a card holding three filters, an Add service button, and rows of identical folder icons
+      labelled shared, 01-Tutorial/shared, project-a/project-a, team-two/MyProject, and so on.">
+  </figure>
+
   <div class="audience">
+    <h2>Use cases that APIM should support</h2>
 
     <div class="case">
       <h3>Case 1 — A Classic APIM customer adopts APIM 3.0, or starts a trial</h3>
@@ -155,6 +217,87 @@
           <li>Tracks the state of their own work, not the environment's totals.</li>
         </ul>
       </div>
+    </div>
+
+    <h2 style="margin-top: var(--space-8);">What goes wrong, and when</h2>
+    <p class="lede">The issues group by the moment a customer meets them.</p>
+
+    <div class="when">On arrival</div>
+
+    <div class="issue-group">
+      <h3>The page doesn't introduce itself</h3>
+      <p class="body">The heading names the first widget on the page, not the page, and nothing defines a
+        service or says what the catalog is for.
+        <a href="services-catalog/comparison.html#pin-1">Refer to pin 1 →</a></p>
+    </div>
+
+    <div class="issue-group">
+      <h3>Blank page</h3>
+      <p class="body">In two cases, the rest of the page is blank: if nobody has created a service yet, or if
+        services exist but the customer's permissions don't let them view any. The page draws both the same
+        way, so a customer can't tell whether nothing exists or nothing is visible to them.</p>
+    </div>
+
+    <div class="issue-group">
+      <h3>Ambiguous action button</h3>
+      <p class="body">The caret on <strong>Add service</strong> hides a second way to add one, and nothing
+        says how the two differ.
+        <a href="services-catalog/comparison.html#pin-4">Refer to pin 4 →</a></p>
+    </div>
+
+    <div class="when">Arriving from Classic APIM</div>
+
+    <div class="issue-group">
+      <h3>Nothing connects APIM 3.0 to Classic APIM</h3>
+      <p class="body">They arrive fluent in Proxies, API versions, and subscriptions, and no page maps that
+        vocabulary to the new one.
+        <a href="services-catalog/comparison.html#pin-5">Refer to pin 5 →</a></p>
+    </div>
+
+    <div class="issue-group">
+      <h3>The left navigation pane works against them</h3>
+      <p class="body">API Manager names two things, Migration Tool doesn't say what migrates to what,
+        nothing states how the two versions relate, and collapsed the pane drops every label.
+        <a href="navigation/comparison.html">Refer to the left navigation pane issues →</a></p>
+    </div>
+
+    <div class="when">After services exist</div>
+
+    <div class="issue-group">
+      <h3>Ambiguous folder rows</h3>
+      <p class="body">Each row shows a folder icon and a name, so you must open folders one at a time to
+        find anything. The name is a path, <code>&lt;Project space&gt;/&lt;Project&gt;</code>, but both levels
+        carry the same icon, and the root shared folder shows no prefix at all. Nothing tells you how many
+        services a folder holds, which ones are yours, or that every listed folder holds at least one.</p>
+    </div>
+
+    <div class="issue-group">
+      <h3>The statistics count the wrong unit, and define nothing</h3>
+      <p class="body">Publishing applies to a service version, not a service, and the five counts define
+        none of their labels.
+        <a href="services-catalog/comparison.html#pin-2">Refer to pin 2 →</a> and
+        <a href="services-catalog/comparison.html#pin-6">pin 6 →</a></p>
+    </div>
+
+    <div class="issue-group">
+      <h3>Filters appear inactive</h3>
+      <p class="body">The text and box colors resemble a disabled control, which discourages customers from
+        trying the filters at all.
+        <a href="services-catalog/comparison.html#pin-3">Refer to pin 3 →</a></p>
+    </div>
+
+    <div class="issue-group">
+      <h3>It won't hold up at customer scale</h3>
+      <p class="body">Opening folders is the only way through the list, and a test environment already
+        holds 32 services across 71 versions. The page does have a search box — it finds services by name
+        and opens the folders that match — but it renders invisible, so nobody reaches it. That's a
+        one-line defect, not a missing feature:
+        <a href="services-catalog/possible-bug.html">the hidden search box</a>.
+        Even with it back, folders stay the wrong default. The data behind the page already names the
+        project each service belongs to, so the list could open with services at the top level, each
+        showing its path — one list to scan, sort, and search, instead of a folder tree to guess at. The
+        list respects permissions; nobody has confirmed whether the statistics do, and if they don't, the
+        counts describe an environment the viewer can't see.</p>
     </div>
 
   </div>

@@ -60,6 +60,9 @@
     text-decoration: none; white-space: nowrap;
   }
   .related-link:hover { text-decoration: underline; }
+  /* The two comparison pages run in the index's order, so they page back and
+     forth rather than linking sideways. */
+  .pager { display: flex; align-items: baseline; gap: 18px; }
   .wip {
     display: inline-flex; align-items: center; gap: 7px;
     margin-left: 10px; padding: 3px 11px; border-radius: 999px;
@@ -308,7 +311,9 @@
       <span class="legend-item"><span class="legend-sym red">1</span>Click for what's confusing</span>
       <span class="legend-item"><span class="legend-sym green">1</span>Click for the proposed fix</span>
     </div>
-    <a class="related-link" href="../services-catalog/comparison.html">Services catalog issues →</a>
+    <div class="pager">
+      <a class="related-link" href="../services-catalog/comparison.html">Next: Services catalog →</a>
+    </div>
   </div>
 </div>
 

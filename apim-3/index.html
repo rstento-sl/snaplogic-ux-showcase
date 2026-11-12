@@ -85,7 +85,13 @@
   .rail-card a { color: var(--color-text-link); }
 
   /* Cross-cutting issues are findings, not reference, so they sit with the list. */
+  /* Spans the full width above the two-column block and runs the two notes
+     side by side, so it costs about half the vertical space. */
   .xcut {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+    margin-bottom: var(--space-8);
     background: var(--color-surface-raised);
     border: 1px solid var(--color-border-subtle);
     border-left: 4px solid var(--sl-orange-700, #B45309);
@@ -94,9 +100,17 @@
     box-shadow: var(--shadow-raised);
   }
   .xcut-item + .xcut-item {
-    margin-top: var(--space-4);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border-subtle);
+    padding-left: var(--space-5);
+    border-left: 1px solid var(--color-border-subtle);
+  }
+  @media (max-width: 1024px) {
+    .xcut { grid-template-columns: 1fr; gap: var(--space-4); }
+    .xcut-item + .xcut-item {
+      padding-left: 0;
+      border-left: none;
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-border-subtle);
+    }
   }
   .xcut-item h3 {
     font-size: var(--type-label-size);
@@ -318,28 +332,31 @@
   </div>
 </div>
 <div class="wrap">
+
+  <h2 class="col-heading">Cross-cutting issues</h2>
+  <div class="xcut">
+    <div class="xcut-item">
+      <h3>Capitalization</h3>
+      <p>APIM 3.0 mixes sentence case and title case across the UI — <em>Services Catalog</em> and
+        <em>Catalog Stats</em> in title case, <em>Add service</em> and <em>Filter by tags</em> in sentence
+        case, sometimes within one screen. JellyRoll, the SnapLogic design system, specifies sentence case,
+        so the title-case labels are the ones out of step.</p>
+    </div>
+    <div class="xcut-item">
+      <h3>Hidden actions</h3>
+      <p>Buttons across APIM 3.0 hide a second action behind a caret, with nothing to say what it does.
+        <em>Add service</em> creates a service from scratch; its caret adds one from a specification — a
+        different task, and the only clue is the arrow. Other cases are worse: the caret reveals actions a
+        user might not relate to the primary button at all, such as when editing a service or an endpoint.</p>
+    </div>
+  </div>
+
+  <!-- The rail explains the linked pin pages, so it starts level with the list
+       it describes rather than with the cross-cutting issues above. -->
   <div class="layout">
 
     <main class="col-main">
-      <h2 class="col-heading">Cross-cutting issues</h2>
-      <div class="xcut">
-        <div class="xcut-item">
-          <h3>Capitalization</h3>
-          <p>APIM 3.0 mixes sentence case and title case across the UI — <em>Services Catalog</em> and
-            <em>Catalog Stats</em> in title case, <em>Add service</em> and <em>Filter by tags</em> in sentence
-            case, sometimes within one screen. JellyRoll, the SnapLogic design system, specifies sentence case,
-            so the title-case labels are the ones out of step.</p>
-        </div>
-        <div class="xcut-item">
-          <h3>Hidden actions</h3>
-          <p>Buttons across APIM 3.0 hide a second action behind a caret, with nothing to say what it does.
-            <em>Add service</em> creates a service from scratch; its caret adds one from a specification — a
-            different task, and the only clue is the arrow. Other cases are worse: the caret reveals actions a
-            user might not relate to the primary button at all, such as when editing a service or an endpoint.</p>
-        </div>
-      </div>
-
-      <h2 class="col-heading later">UI issues</h2>
+      <h2 class="col-heading">UI issues</h2>
       <div id="app"><p class="empty">// loading issue catalog…</p></div>
     </main>
 
@@ -353,12 +370,6 @@
         <p>Some pages flag an in-app user assistance opportunity — a place where in-app UA could work better
           than static page text. A short guided walkthrough can explain a multi-step or easily-confused
           setting more clearly than a dense note or a tooltip, without adding permanent clutter to the page.</p>
-      </div>
-      <div class="rail-card">
-        <h2>Reviewed elsewhere</h2>
-        <p>This review covers the <strong>API Management</strong> page under Admin Manager's Application
-          Settings separately, with the rest of that product's settings pages — refer to
-          <a href="../admin-manager/api-management/comparison.html">API Management in Admin Manager</a>.</p>
       </div>
     </aside>
 

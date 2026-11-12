@@ -126,7 +126,8 @@
   .page-sub a { color: var(--blue); text-decoration: none; }
   .page-sub a:hover { text-decoration: underline; }
   /* Classic-customer onboarding card (in-app UA, not page chrome) */
-  #prop-block-onboard {
+  /* A class, not an id: the clean copy strips ids and would lose the float. */
+  .onboard-float {
     position: absolute; right: 26px; bottom: 30px; width: 236px; z-index: 3;
   }
   .resource-shot {
@@ -281,6 +282,18 @@
   .pin.green:hover { background: var(--green-dark); }
   .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
+
+  /* The proposed page on its own, below the comparison. */
+  .clean-view { max-width: 1500px; margin: 40px auto 0; padding: 0 32px; }
+  .clean-view h2 {
+    font-size: 19px; font-weight: 800; letter-spacing: -0.005em;
+    color: var(--ink); margin-bottom: 4px;
+  }
+  .clean-sub { font-size: 12px; color: var(--dim); margin-bottom: 14px; }
+  /* The clone keeps its own .page-wrapper styling, so this is just the column width. */
+  .clean-mount { max-width: 734px; }
+  /* Nothing in the clean copy is a hotspot, so neutralise what the pins left. */
+  .clean-mount .highlighted, .clean-mount .prop-highlighted { box-shadow: none; }
 
   /* Says what each mark on the page means, using the mark itself. */
   .legend {
@@ -447,7 +460,7 @@
     <div class="sheet proposed">
       <span class="stamp proposed-stamp">PROPOSED</span>
       <div class="compare-col-label proposed">Proposed improvement</div>
-      <div class="page-wrapper">
+      <div class="page-wrapper" id="proposed-page">
 
         <div id="prop-block-header" style="position: relative;">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
@@ -459,7 +472,7 @@
             <div id="prop-block-add" style="position: relative;">
               <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
               <button class="add-btn" type="button" id="add-service-btn" aria-haspopup="true"
-                aria-expanded="false" onclick="toggleAddMenu(event)"><span>Add service</span><span class="add-caret">⌄</span></button>
+                aria-expanded="false"><span>Add service</span><span class="add-caret">⌄</span></button>
               <div class="add-menu" id="add-menu" role="menu">
                 <button class="add-menu-item" type="button" role="menuitem">From scratch</button>
                 <button class="add-menu-item" type="button" role="menuitem">From a spec</button>
@@ -510,7 +523,7 @@
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-c/MyTask</span></div>
         </div>
 
-        <div id="prop-block-onboard">
+        <div id="prop-block-onboard" class="onboard-float">
           <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
           <img class="resource-shot" src="resource.png" alt="The Resource Center panel floating in
             the lower right of the page: a blue header reading Resource Center with a close button,
@@ -521,6 +534,14 @@
     </div>
   </div>
 
+</div>
+
+<!-- The proposed page on its own, cloned from the column above so the two can't
+     drift, with the pins and their highlight rings stripped out. -->
+<div class="clean-view">
+  <h2>The proposed page, without the annotations</h2>
+  <p class="clean-sub">The same page as the right-hand column above, as a customer would meet it.</p>
+  <div class="clean-mount" id="clean-mount"></div>
 </div>
 
 <div class="verify-note">
@@ -746,72 +767,96 @@ document.addEventListener('click', function(e) {
   const uaPop = document.getElementById('inapp-ua-popover');
   if (uaPop.style.display === 'block' && !uaPop.contains(e.target) && !e.target.closest('.inapp-ua-badge')) closeInAppHelpPopover();
 });
+// Both behaviours below are initialised per root, so the clean copy of the
+// proposed page gets working tooltips and a working menu button too.
+
 // The proposed Add service button is a menu button: one click shows both ways
 // to add a service, so the mockup demonstrates the fix rather than describing it.
-function toggleAddMenu(e) {
-  if (e) e.stopPropagation();
-  var btn = document.getElementById('add-service-btn');
-  var menu = document.getElementById('add-menu');
-  var open = menu.classList.toggle('open');
-  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-}
-document.addEventListener('click', function (e) {
-  var menu = document.getElementById('add-menu');
-  if (!menu || !menu.classList.contains('open')) return;
-  if (e.target.closest('#add-menu') || e.target.closest('#add-service-btn')) return;
-  menu.classList.remove('open');
-  document.getElementById('add-service-btn').setAttribute('aria-expanded', 'false');
-});
-document.addEventListener('keydown', function (e) {
-  if (e.key !== 'Escape') return;
-  var menu = document.getElementById('add-menu');
-  if (menu && menu.classList.contains('open')) {
+function initAddMenu(root) {
+  var btn = root.querySelector('.add-btn');
+  var menu = root.querySelector('.add-menu');
+  if (!btn || !menu) return;
+  function close() {
     menu.classList.remove('open');
-    document.getElementById('add-service-btn').setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-expanded', 'false');
   }
-});
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function (e) {
+    if (!menu.classList.contains('open')) return;
+    if (menu.contains(e.target) || btn.contains(e.target)) return;
+    close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
+}
 
 // Tooltips are fixed-position and placed here, so one near a page edge is
 // clamped into view rather than hanging off it.
-(function () {
-  var timer = null, open = null;
+var tipTimer = null, tipOpen = null;
 
-  function place(wrap) {
-    var tip = wrap.querySelector('.sl-tooltip');
-    if (!tip) return;
-    var t = wrap.getBoundingClientRect();
-    var m = 8;
-    tip.style.left = '0px';
-    tip.style.top = '0px';
-    var r = tip.getBoundingClientRect();
-    var left = t.left + t.width / 2 - r.width / 2;
-    left = Math.max(m, Math.min(left, window.innerWidth - r.width - m));
-    var top = t.bottom + 8;
-    if (top + r.height > window.innerHeight - m) top = t.top - r.height - 8;
-    tip.style.left = left + 'px';
-    tip.style.top = top + 'px';
-    tip.style.setProperty('--arrow-x', (t.left + t.width / 2 - left) + 'px');
-    tip.classList.add('shown');
-    open = tip;
-  }
+function hideTooltip() {
+  clearTimeout(tipTimer);
+  if (tipOpen) { tipOpen.classList.remove('shown'); tipOpen = null; }
+}
 
-  function hide() {
-    clearTimeout(timer);
-    if (open) { open.classList.remove('shown'); open = null; }
-  }
+function placeTooltip(wrap) {
+  var tip = wrap.querySelector('.sl-tooltip');
+  if (!tip) return;
+  var t = wrap.getBoundingClientRect();
+  var m = 8;
+  tip.style.left = '0px';
+  tip.style.top = '0px';
+  var r = tip.getBoundingClientRect();
+  var left = t.left + t.width / 2 - r.width / 2;
+  left = Math.max(m, Math.min(left, window.innerWidth - r.width - m));
+  var top = t.bottom + 8;
+  if (top + r.height > window.innerHeight - m) top = t.top - r.height - 8;
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+  tip.style.setProperty('--arrow-x', (t.left + t.width / 2 - left) + 'px');
+  tip.classList.add('shown');
+  tipOpen = tip;
+}
 
-  document.querySelectorAll('.sl-tooltip-wrap').forEach(function (wrap) {
+function initTooltips(root) {
+  root.querySelectorAll('.sl-tooltip-wrap').forEach(function (wrap) {
     wrap.addEventListener('mouseenter', function () {
-      clearTimeout(timer);
-      timer = setTimeout(function () { place(wrap); }, 300);
+      clearTimeout(tipTimer);
+      tipTimer = setTimeout(function () { placeTooltip(wrap); }, 300);
     });
-    wrap.addEventListener('focusin', function () { clearTimeout(timer); place(wrap); });
-    wrap.addEventListener('mouseleave', hide);
-    wrap.addEventListener('focusout', hide);
+    wrap.addEventListener('focusin', function () { clearTimeout(tipTimer); placeTooltip(wrap); });
+    wrap.addEventListener('mouseleave', hideTooltip);
+    wrap.addEventListener('focusout', hideTooltip);
   });
-  window.addEventListener('scroll', hide, true);
-  window.addEventListener('resize', hide);
-})();
+}
+
+window.addEventListener('scroll', hideTooltip, true);
+window.addEventListener('resize', hideTooltip);
+
+// The clean copy is cloned from the proposed column, so the two can never drift.
+function mountCleanView() {
+  var src = document.getElementById('proposed-page');
+  var mount = document.getElementById('clean-mount');
+  if (!src || !mount) return;
+  var copy = src.cloneNode(true);
+  copy.querySelectorAll('.pin').forEach(function (pin) { pin.remove(); });
+  copy.querySelectorAll('[id]').forEach(function (el) { el.removeAttribute('id'); });
+  copy.removeAttribute('id');
+  // Keep page-wrapper: it is the positioning context for the Resource Center
+  // panel, which escapes and resizes without it.
+  mount.appendChild(copy);
+  initTooltips(mount);
+  initAddMenu(mount);
+}
+
+initAddMenu(document);
+initTooltips(document);
+mountCleanView();
 </script>
 </body>
 </html>

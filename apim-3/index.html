@@ -132,16 +132,16 @@
     justify-content: space-between;
     gap: var(--space-4);
     margin-bottom: var(--space-8);
-    background: transparent;
+    background: var(--color-surface-raised);
     border: 1px dashed var(--color-border-subtle);
     border-radius: var(--radius-md);
     padding: var(--space-4);
     text-decoration: none;
-    transition: border-color 0.15s, background 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
   .use-cases-link:hover {
     border-color: var(--sl-teal-600);
-    background: var(--color-surface-raised);
+    box-shadow: var(--shadow-raised-hover);
   }
   /* Reads as a link, not a note: the title takes the link color and
      underlines on hover, and the chevron follows the pointer. */

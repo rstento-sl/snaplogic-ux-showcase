@@ -1073,6 +1073,10 @@
         {
           "target": "Orientation for Classic customers",
           "callout": "Nothing maps Proxies, API versions, and subscriptions to what this page calls a service."
+        },
+        {
+          "target": "Status labels",
+          "callout": "The row names five statuses and defines none of them. Tooltips carrying the definitions already in the docs are a text-only change that can ship on its own."
         }
       ],
       "inAppHelp": true
@@ -1115,6 +1119,10 @@
         {
           "target": "Collapsed nav — icons",
           "callout": "The two catalog icons share one outline and the three Classic icons share another, so you navigate from memory."
+        },
+        {
+          "target": "Migration placement",
+          "callout": "Migration sits between the two versions, so it reads as part of whichever group a customer takes it to belong to."
         }
       ]
     }

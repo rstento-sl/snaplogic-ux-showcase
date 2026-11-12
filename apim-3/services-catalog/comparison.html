@@ -55,7 +55,7 @@
   .issue-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
   .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
   .instruction { color: var(--dim); font-size: 12px; }
-  .header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .bug-link {
     color: var(--orange);
     font-size: 12px;
@@ -196,6 +196,12 @@
   .sl-tooltip.start::after { left: 32px; transform: none; }
   .sl-tooltip-wrap:hover .sl-tooltip.start,
   .sl-tooltip-wrap:focus-within .sl-tooltip.start { transform: translateX(0) translateY(0); }
+  /* Last stat on the row: anchor the bubble to its right edge, or it hangs off
+     the page and leaves a horizontal scrollbar even while hidden. */
+  .sl-tooltip.end { left: auto; right: -28px; transform: translateX(0) translateY(-4px); }
+  .sl-tooltip.end::after { left: auto; right: 32px; transform: none; }
+  .sl-tooltip-wrap:hover .sl-tooltip.end,
+  .sl-tooltip-wrap:focus-within .sl-tooltip.end { transform: translateX(0) translateY(0); }
   .stat-foot {
     font-size: 11px; color: var(--dim); margin: 0;
     padding: 9px 14px; border-top: 1px solid var(--hairline);
@@ -261,6 +267,34 @@
   .pin.green:hover { background: var(--green-dark); }
   .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
+
+  /* Says what each mark on the page means, using the mark itself. */
+  .legend {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 8px 22px; margin-top: 10px;
+    flex: 1 1 auto; min-width: 0;
+  }
+  .legend-item {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--dim); line-height: 1.4;
+  }
+  .legend-sym {
+    width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff;
+    border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .legend-sym.red { background: var(--red); }
+  .legend-sym.green { background: var(--green); }
+  .legend-badge {
+    display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px;
+    border-radius: 999px; background: var(--purple-tint); color: var(--purple);
+    font-size: 11px; font-weight: 700; border: 1px solid rgba(107,63,160,0.3);
+    flex-shrink: 0;
+  }
+  .legend-badge svg { width: 11px; height: 11px; }
+  .legend-info { color: #8A93A3; display: inline-flex; flex-shrink: 0; }
+  .legend-info svg { width: 14px; height: 14px; display: block; }
 
   .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
   .prop-highlighted { box-shadow: 0 0 0 2px var(--green); border-radius: 6px; }
@@ -338,8 +372,11 @@
     <span class="wip"><span class="dot"></span>Work in progress</span>
   </div>
   <div class="header-row">
-    <div>
-      <p class="instruction">Click a numbered pin for the problem, then jump to the matching green pin for the fix.</p>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-sym red">1</span>Click for what's confusing</span>
+      <span class="legend-item"><span class="legend-sym green">1</span>Click for the proposed fix</span>
+      <span class="legend-item"><span class="legend-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.05V17h6v-2.25c0-.85.4-1.55 1-2.05A7 7 0 0 0 12 2z"/></svg>In-app UA</span>A guided walkthrough would work better than page text</span>
+      <span class="legend-item"><span class="legend-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>Hover for a status definition</span>
     </div>
     <div class="header-links">
       <a class="related-link" href="../navigation/comparison.html">Left navigation pane issues →</a>
@@ -392,7 +429,6 @@
 
   <!-- ── Proposed ── -->
   <div>
-    <div class="col-instruction proposed">Hover a ⓘ to read the status definitions</div>
     <div class="sheet proposed">
       <span class="stamp proposed-stamp">PROPOSED</span>
       <div class="compare-col-label proposed">Proposed improvement</div>
@@ -429,7 +465,7 @@
               <div class="group-head"><span class="group-name">Unpublished versions</span><span class="group-total">56</span></div>
               <div class="group-stats">
                 <div class="stat"><div class="stat-num">48</div><div class="stat-cap">Unpublished <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip start">Not available in the Developer Portal and not functional. The version must meet minimal requirements before you can move it to another status.</span></span></div></div>
-                <div class="stat"><div class="stat-num">8</div><div class="stat-cap">Testing <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">Not available in the Developer Portal. The version and all endpoints meet minimal requirements, are functional, and are ready to test.</span></span></div></div>
+                <div class="stat"><div class="stat-num">8</div><div class="stat-cap">Testing <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip end">Not available in the Developer Portal. The version and all endpoints meet minimal requirements, are functional, and are ready to test.</span></span></div></div>
               </div>
             </div>
           </div>

@@ -227,6 +227,24 @@
   #green-pin-3 { top: -42px; left: -13px; right: auto; }
 
 
+  /* Says what each mark on the page means, using the mark itself. */
+  .legend {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 8px 22px; margin-top: 10px;
+  }
+  .legend-item {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--dim); line-height: 1.4;
+  }
+  .legend-sym {
+    width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff;
+    border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .legend-sym.red { background: var(--red); }
+  .legend-sym.green { background: var(--green); }
+
   .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 4px; }
   .prop-highlighted { box-shadow: 0 0 0 2px var(--green); border-radius: 4px; }
 
@@ -277,8 +295,9 @@
     <span class="wip"><span class="dot"></span>Work in progress</span>
   </div>
   <div class="header-row">
-    <div>
-      <p class="instruction">Click a numbered pin for the problem, then jump to the matching green pin for the fix.</p>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-sym red">1</span>Click for what's confusing</span>
+      <span class="legend-item"><span class="legend-sym green">1</span>Click for the proposed fix</span>
     </div>
     <a class="related-link" href="../services-catalog/comparison.html">Services catalog issues →</a>
   </div>

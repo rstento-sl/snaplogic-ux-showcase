@@ -38,44 +38,6 @@
     margin-bottom: var(--space-3);
   }
 
-  /* The heading and its divider sit above both columns, so the rail cards start
-     level with the page links rather than beside the heading. */
-  .layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 328px;
-    gap: var(--space-8);
-    align-items: start;
-    margin-bottom: var(--space-10);
-  }
-  @media (max-width: 1024px) {
-    .layout { grid-template-columns: 1fr; gap: var(--space-6); }
-  }
-
-  .rail { display: grid; gap: var(--space-2); }
-  .rail-card {
-    background: var(--color-surface-raised);
-    border: 1px solid var(--color-border-subtle);
-    border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
-  }
-  .rail-card h2 {
-    font-size: var(--type-label-size);
-    line-height: var(--type-label-line);
-    font-weight: 700;
-    color: var(--color-text-heading);
-    margin-bottom: 2px;
-  }
-  .rail-card p {
-    font-size: var(--type-small-size);
-    line-height: 1.5;
-    color: var(--color-text-subtle);
-  }
-
-  .pin-ref { font-weight: 700; }
-  .pin-ref.red { color: var(--sl-red-700); }
-  .pin-ref.green { color: var(--sl-green-700); }
-  .pin-ref.purple { color: var(--color-text-discovery); }
-  .pin-ref .ua-icon { vertical-align: -2px; margin-right: 2px; }
 
   /* Cross-cutting issues are findings, not reference, so they sit with the list.
      Every block spans the same width as the page links below it, and the two
@@ -341,23 +303,7 @@
   <h2 class="col-heading">Microcopy and user assistance suggestions</h2>
   <hr class="divider under-heading">
 
-  <div class="layout">
-    <main class="col-main">
-      <div id="app"><p class="empty">// loading issue catalog…</p></div>
-    </main>
-
-    <aside class="rail">
-      <div class="rail-card">
-        <h2>How to read these pages</h2>
-        <p>Click a <strong class="pin-ref red">red pin</strong> for the problem, then the matching
-          <strong class="pin-ref green">green pin</strong> for the fix.</p>
-      </div>
-      <div class="rail-card">
-        <h2><strong class="pin-ref purple"><svg class="ua-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.05V17h6v-2.25c0-.85.4-1.55 1-2.05A7 7 0 0 0 12 2z"/></svg>In-app UA</strong></h2>
-        <p>A place where a short guided walkthrough would work better than page text.</p>
-      </div>
-    </aside>
-  </div>
+  <div id="app"><p class="empty">// loading issue catalog…</p></div>
 
 </div>
 

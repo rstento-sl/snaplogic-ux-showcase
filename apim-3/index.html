@@ -137,7 +137,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-4);
-    margin-top: var(--space-5);
+    margin-bottom: var(--space-8);
     background: transparent;
     border: 1px dashed var(--color-border-subtle);
     border-radius: var(--radius-md);
@@ -158,12 +158,6 @@
     margin-bottom: 3px;
   }
   .use-cases-link:hover .title { color: var(--color-text-link-hover); }
-  .use-cases-link .desc {
-    display: block;
-    font-size: var(--type-small-size);
-    line-height: 1.5;
-    color: var(--color-text-subtle);
-  }
 
   .sub { font-size: var(--type-body-size); }
 
@@ -313,6 +307,11 @@
 </div>
 <div class="wrap">
 
+  <a class="use-cases-link" href="use-cases.html">
+    <span class="title">Use cases and the first experience</span>
+    <span class="chevron">→</span>
+  </a>
+
   <h2 class="col-heading">Cross-cutting issues</h2>
   <div class="xcut">
     <div class="xcut-item">
@@ -341,13 +340,6 @@
       <h2 class="col-heading">UI issues</h2>
       <div id="app"><p class="empty">// loading issue catalog…</p></div>
 
-      <a class="use-cases-link" href="use-cases.html">
-        <span>
-          <span class="title">Use cases and the first experience</span>
-          <span class="desc">Who arrives, what they already know, and what goes wrong when they get there.</span>
-        </span>
-        <span class="chevron">→</span>
-      </a>
     </main>
 
     <aside class="rail">

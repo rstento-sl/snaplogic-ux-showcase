@@ -153,14 +153,6 @@
   }
   .related-note a { color: var(--color-text-link); }
 
-  .section-title {
-    font-size: var(--type-label-size);
-    line-height: var(--type-label-line);
-    font-weight: var(--type-label-weight);
-    color: var(--color-text-heading);
-    margin: var(--space-6) 0 var(--space-2);
-  }
-  .section-title:first-of-type { margin-top: 0; }
 
   .empty {
     border: 1px dashed var(--color-border-subtle);
@@ -329,10 +321,7 @@
   <div class="layout">
 
     <main class="col-main">
-      <h2 class="col-heading">The issues</h2>
-      <div id="app"><p class="empty">// loading issue catalog…</p></div>
-
-      <h2 class="col-heading later">Cross-cutting issues</h2>
+      <h2 class="col-heading">Cross-cutting issues</h2>
       <div class="xcut">
         <div class="xcut-item">
           <h3>Capitalization</h3>
@@ -349,6 +338,9 @@
             user might not relate to the primary button at all, such as when editing a service or an endpoint.</p>
         </div>
       </div>
+
+      <h2 class="col-heading later">UI issues</h2>
+      <div id="app"><p class="empty">// loading issue catalog…</p></div>
     </main>
 
     <aside class="rail">
@@ -439,16 +431,13 @@ const LANDING_PAGES = {
   "Services Catalog": "services-catalog/index.html"
 };
 
-function sectionOf(issue) {
-  const parts = (issue.screen || "").split(" > ");
-  return parts[1] || "Other";
-}
-
-// Mirrors the APIM 3.0 left nav order. Sections and pages not listed here fall
-// back to the end, in the order they're first encountered — so this can stay
-// empty until the review establishes the real nav order.
-const SECTION_ORDER = [];
-const PAGE_ORDER = {};
+// Reading order for the list. The left navigation pane comes first because a
+// customer meets it before any page it leads to. Pages not listed fall to the
+// end, in the order they're first encountered.
+const PAGE_ORDER = [
+  "Left navigation pane",
+  "Services Catalog"
+];
 
 function byKnownOrder(order) {
   return (a, b) => {
@@ -487,31 +476,21 @@ fetch("../issues.json")
       return;
     }
 
-    const bySection = {};
-    const sectionOrder = [];
+    // One flat list, no section headings: this area has too few pages for the
+    // nav groups to earn their space, and each heading repeated its only page.
+    const byPage = {};
+    const pageOrder = [];
     areaIssues.forEach(issue => {
-      const section = sectionOf(issue);
-      if (!bySection[section]) {
-        bySection[section] = [];
-        sectionOrder.push(section);
+      const page = issue.page || issue.title;
+      if (!byPage[page]) {
+        byPage[page] = [];
+        pageOrder.push(page);
       }
-      bySection[section].push(issue);
+      byPage[page].push(issue);
     });
-    sectionOrder.sort(byKnownOrder(SECTION_ORDER));
+    pageOrder.sort(byKnownOrder(PAGE_ORDER));
 
-    const html = sectionOrder.map(section => {
-      const byPage = {};
-      const pageOrder = [];
-      bySection[section].forEach(issue => {
-        const page = issue.page || issue.title;
-        if (!byPage[page]) {
-          byPage[page] = [];
-          pageOrder.push(page);
-        }
-        byPage[page].push(issue);
-      });
-      pageOrder.sort(byKnownOrder(PAGE_ORDER[section] || []));
-
+    const html = (() => {
       const itemsHtml = pageOrder.map(page => {
         const pageIssues = byPage[page];
         const count = pageIssues.length;
@@ -528,8 +507,8 @@ fetch("../issues.json")
 
       // No "Severity" column label: the pills say what they are, and the row also
       // carries In-app UA and issue-count pills the label didn't describe.
-      return `<div class="section-title">${section}</div><ul class="page-list">${itemsHtml}</ul>`;
-    }).join("");
+      return `<ul class="page-list">${itemsHtml}</ul>`;
+    })();
 
     document.getElementById("app").innerHTML = html;
   })

@@ -261,24 +261,6 @@
   .pin.green:hover { background: var(--green-dark); }
   .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
-  /* What a fix costs to approve: a string change, or design and build.
-     Wording fixes are the ones that can ship on their own. */
-  .kind-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 3px 10px; border-radius: 999px;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
-    white-space: nowrap;
-  }
-  .kind-tag::before {
-    content: ""; width: 7px; height: 7px; border-radius: 50%;
-    background: currentColor; flex-shrink: 0;
-  }
-  .kind-tag.wording { background: #E6F2F2; color: #0A6A68; border: 1px solid #7FC4C2; }
-  .kind-tag.interaction { background: #E8EEF9; color: #0841B4; border: 1px solid #93AEDE; }
-
-  .kind-counts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
-
-  .popover-kind { margin-bottom: 10px; }
 
   .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
   .prop-highlighted { box-shadow: 0 0 0 2px var(--green); border-radius: 6px; }
@@ -358,7 +340,6 @@
   <div class="header-row">
     <div>
       <p class="instruction">Click a numbered pin for the problem, then jump to the matching green pin for the fix.</p>
-      <div class="kind-counts" id="kind-counts"></div>
     </div>
     <div class="header-links">
       <a class="related-link" href="../navigation/comparison.html">Left navigation pane issues →</a>
@@ -504,7 +485,6 @@
     <button class="close-btn" onclick="closePopover()">×</button>
   </div>
   <div class="popover-body">
-    <div class="popover-kind" id="pop-kind"></div>
     <div class="popover-problem" id="pop-problem"></div>
     <button class="popover-jump-btn" id="pop-jump-btn"></button>
   </div>
@@ -541,7 +521,6 @@
 const annotations = [
   {
     title: "No page title",
-    kind: "wording",
     problem: "All Admin Manager and Monitor pages have a title that corresponds to their navigation link in the left nav. This title makes it look like the page is only for statistics, which clearly isn't true.",
     fix: "Title the page after its nav item, in sentence case: “Services catalog.” Add a subheading saying what you can do here — “Create new APIM 3.0 services from scratch or from a specification. Browse existing services by project” — followed by a Learn more link to the docs.",
     section: "block-header",
@@ -549,7 +528,6 @@ const annotations = [
   },
   {
     title: "The stats count services, but status belongs to a version",
-    kind: "interaction",
     problem: "Status belongs to a service version, not a service, so “48 Unpublished services” can't be literally true. The row also mixes publication (Unpublished, Private, Restricted, Public) with lifecycle (Testing).",
     fix: "Count versions, not services. Split the five into two groups — Published versions (Public, Restricted, Private) and Unpublished versions (Unpublished, Testing) — and give each group a total, so the numbers add up to something stated.",
     section: "block-stats",
@@ -557,7 +535,6 @@ const annotations = [
   },
   {
     title: "Filters appear inactive",
-    kind: "interaction",
     problem: "The grey text and border resemble a disabled control, which discourages people from trying the filters.",
     fix: "Darken the text and border to JellyRoll's greys \u2014 #131C35 text on a #5E6470 border \u2014 so the controls read as enabled.",
     section: "block-filters",
@@ -565,7 +542,6 @@ const annotations = [
   },
   {
     title: "Add service sits with the filters",
-    kind: "interaction",
     problem: "Filters narrow the list that already exists; Add service creates something new. Putting them in one row implies they belong to the same task. On an empty catalog it is worse: the page's only useful action hangs off a card with nothing in it.",
     fix: "Move Add service to the top right, in line with the page title, where a page's primary action belongs. It then stays visible whether or not the list has any rows.",
     section: "block-add",
@@ -573,7 +549,6 @@ const annotations = [
   },
   {
     title: "Nothing connects APIM 3.0 to Classic APIM",
-    kind: "interaction",
     problem: "A customer arriving from Classic APIM is fluent in Proxies, API versions, and subscriptions, and this page says service. Nothing maps the old vocabulary to the new, so they can't tell whether the page is empty or simply unfamiliar.",
     fix: "Offer a short onboarding flow from the Resource Center, the in-app help panel in the lower right, shown only to orgs that already have Classic APIM. Head it “Coming from Classic APIM?” and say what it covers: a 3-minute tour mapping Proxies, API versions, and subscriptions to what's on this page — a Proxy becomes a service, an API version becomes a service version — ending at the Migration Tool. Offer it rather than forcing it, with Start tour and Not now. Because it lives in the Resource Center, someone who clicks Not now on day one can still find it on day three.",
     section: "block-header",
@@ -581,33 +556,12 @@ const annotations = [
   },
   {
     title: "The five status labels define nothing",
-    kind: "wording",
     problem: "The row names five statuses and explains none of them. Private is where most people guess wrong, because Private is the status that isn't in the Developer Portal.",
     fix: "Put a tooltip on every status label, using the definitions already written in the SnapLogic docs, in the Services Catalog tour topic. This one needs no recount and no new layout, so it can ship on its own.",
     section: "block-stats",
     propBlock: "prop-block-stats"
   }
 ];
-
-const KIND_LABEL = { wording: "Wording change", interaction: "Interaction change" };
-
-function kindTag(kind) {
-  if (!KIND_LABEL[kind]) return "";
-  return '<span class="kind-tag ' + kind + '">' + KIND_LABEL[kind] + '</span>';
-}
-
-// Count the two kinds in the page header, so the size of the ask is visible
-// before anyone opens a single pin.
-function renderKindCounts() {
-  const el = document.getElementById('kind-counts');
-  if (!el) return;
-  const n = k => annotations.filter(a => a.kind === k).length;
-  const parts = [];
-  if (n('wording')) parts.push('<span class="kind-tag wording">' + n('wording') + ' wording</span>');
-  if (n('interaction')) parts.push('<span class="kind-tag interaction">' + n('interaction') + ' interaction</span>');
-  el.innerHTML = parts.join('');
-}
-window.addEventListener('DOMContentLoaded', renderKindCounts);
 
 let current = null;
 let mode = 'red';
@@ -678,7 +632,6 @@ function render() {
   const jumpBtn = document.getElementById('pop-jump-btn');
   document.getElementById('pop-num').textContent = current;
   document.getElementById('pop-title').textContent = a.title;
-  document.getElementById('pop-kind').innerHTML = kindTag(a.kind);
 
   if (mode === 'red') {
     header.classList.remove('green');

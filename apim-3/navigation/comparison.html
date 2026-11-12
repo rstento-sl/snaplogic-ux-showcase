@@ -225,24 +225,6 @@
   #pin-7 { top: -13px; left: 24px; right: auto; }
   #green-pin-7 { top: -42px; left: -13px; right: auto; }
 
-  /* What a fix costs to approve: a string change, or design and build.
-     Wording fixes are the ones that can ship on their own. */
-  .kind-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 3px 10px; border-radius: 999px;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
-    white-space: nowrap;
-  }
-  .kind-tag::before {
-    content: ""; width: 7px; height: 7px; border-radius: 50%;
-    background: currentColor; flex-shrink: 0;
-  }
-  .kind-tag.wording { background: #E6F2F2; color: #0A6A68; border: 1px solid #7FC4C2; }
-  .kind-tag.interaction { background: #E8EEF9; color: #0841B4; border: 1px solid #93AEDE; }
-
-  .kind-counts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
-
-  .popover-kind { margin-bottom: 10px; }
 
   .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 4px; }
   .prop-highlighted { box-shadow: 0 0 0 2px var(--green); border-radius: 4px; }
@@ -296,7 +278,6 @@
   <div class="header-row">
     <div>
       <p class="instruction">Click a numbered pin for the problem, then jump to the matching green pin for the fix.</p>
-      <div class="kind-counts" id="kind-counts"></div>
     </div>
     <a class="related-link" href="../services-catalog/index.html">Services catalog issues →</a>
   </div>
@@ -481,7 +462,6 @@
     <button class="close-btn" onclick="closePopover()">×</button>
   </div>
   <div class="popover-body">
-    <div class="popover-kind" id="pop-kind"></div>
     <div class="popover-problem" id="pop-problem"></div>
     <button class="popover-jump-btn" id="pop-jump-btn"></button>
   </div>
@@ -498,7 +478,6 @@
 const annotations = [
   {
     title: "API Manager names two things",
-    kind: "wording",
     problem: "The toolbar at the top of the page is named API Manager, and so is the entry under Classic API Management — the version this customer already uses. The familiar name appears twice, and the nav item they can click opens Classic APIM, taking their focus away from the new UI.",
     fix: "Name the toolbar for the product: API Management, since the nav holds two versions of it rather than one. The duplicate disappears, so the Classic entry keeps the name customers already know, with no qualifier bolted onto it.",
     section: "block-apimanager",
@@ -506,7 +485,6 @@ const annotations = [
   },
   {
     title: "Migration Tool doesn't say what migrates to what",
-    kind: "wording",
     problem: "The name Migration Tool doesn't say what it moves or where. A customer whose first real task is migration has to guess that this is where it starts.",
     fix: "Name it for the job: “Migrate Classic to 3.0”. This one is a label change on its own — it needs no move and no new nav structure, so it can ship by itself.",
     section: "block-migration",
@@ -514,7 +492,6 @@ const annotations = [
   },
   {
     title: "Nothing says how Classic and APIM 3.0 relate",
-    kind: "wording",
     problem: "Both versions sit in one nav with no statement of how they relate. Nothing says whether their Classic APIs and Proxies continue serving traffic after migration, so a customer can't tell which one is the system of record.",
     fix: "Head the two groups APIM 3.0 and Classic APIM, so a customer can tell at a glance which version each item belongs to. Under the Classic heading, put one line saying the Classic Developer Portal keeps serving live traffic until you migrate and publish, with a Learn more link to the Migration Tool wizard topic (src/api-m/concepts/move-to-apim.dita).",
     section: "block-classic",
@@ -522,7 +499,6 @@ const annotations = [
   },
   {
     title: "Collapsed items carry no label at all",
-    kind: "interaction",
     problem: "Collapsed, every label disappears and nothing replaces it — hovering an icon produces no tooltip, however long you wait. Six icons, no names. The code sets a native title attribute when the nav collapses, so either that regressed or it never reaches the element; a developer needs to confirm which.",
     fix: "Show the page name in a tooltip on hover and on keyboard focus, using the design system's tooltip rather than the browser's native one, so it appears without a delay and reaches people navigating by keyboard.",
     section: "block-nolabel",
@@ -530,7 +506,6 @@ const annotations = [
   },
   {
     title: "Group headings disappear when the nav collapses",
-    kind: "interaction",
     problem: "MANAGE, MIGRATION, and CLASSIC API MANAGEMENT are drawn only while the nav is expanded. Collapsed, each one becomes a hairline rule, so the division between APIM 3.0 and Classic — the thing a Classic customer most needs — is an unlabelled line.",
     fix: "Keep a short heading above each group when collapsed: APIM 3.0, CLASSIC, MIGRATE. The expanded headings in fix 3 earn their place on their own — this carries the same split into the narrow nav rather than dropping it.",
     section: "block-nohead",
@@ -538,7 +513,6 @@ const annotations = [
   },
   {
     title: "The icons don't tell the pages apart",
-    kind: "interaction",
     problem: "Services Catalog and Policy Catalog are drawn on one shared outline, and API Manager, Portal Manager, and Subscription Manager on another — the glyphs differ only in a small mark inside. At 19px, with the labels gone, a customer navigates from memory of where each item sits rather than from anything on the screen.",
     fix: "Give every page its own icon, distinct at 19px: lettered tiles — SC and PC under APIM 3.0, AM, PM, and S under Classic. Migration keeps the icon it has, the only glyph in the nav that isn't duplicated.",
     section: "block-sameicons",
@@ -546,33 +520,12 @@ const annotations = [
   },
   {
     title: "Migration sits between the two versions",
-    kind: "interaction",
     problem: "Migration sits in the middle of the nav, between the APIM 3.0 pages and the Classic APIM ones, so it reads as part of whichever group a customer takes it to belong to.",
     fix: "Move it to the end of the nav, after both versions, as its own group — it's the bridge between them rather than part of either one.",
     section: "block-migration",
     propBlock: "prop-block-migration"
   }
 ];
-
-const KIND_LABEL = { wording: "Wording change", interaction: "Interaction change" };
-
-function kindTag(kind) {
-  if (!KIND_LABEL[kind]) return "";
-  return '<span class="kind-tag ' + kind + '">' + KIND_LABEL[kind] + '</span>';
-}
-
-// Count the two kinds in the page header, so the size of the ask is visible
-// before anyone opens a single pin.
-function renderKindCounts() {
-  const el = document.getElementById('kind-counts');
-  if (!el) return;
-  const n = k => annotations.filter(a => a.kind === k).length;
-  const parts = [];
-  if (n('wording')) parts.push('<span class="kind-tag wording">' + n('wording') + ' wording</span>');
-  if (n('interaction')) parts.push('<span class="kind-tag interaction">' + n('interaction') + ' interaction</span>');
-  el.innerHTML = parts.join('');
-}
-window.addEventListener('DOMContentLoaded', renderKindCounts);
 
 let current = null;
 let mode = 'red';
@@ -643,7 +596,6 @@ function render() {
   const jumpBtn = document.getElementById('pop-jump-btn');
   document.getElementById('pop-num').textContent = current;
   document.getElementById('pop-title').textContent = a.title;
-  document.getElementById('pop-kind').innerHTML = kindTag(a.kind);
 
   if (mode === 'red') {
     header.classList.remove('green');

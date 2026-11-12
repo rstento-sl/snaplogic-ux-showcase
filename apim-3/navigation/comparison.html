@@ -220,10 +220,11 @@
   .nav .nav-group .pin { top: -4px; margin-top: 0; }
   .cgroup-head .pin { left: -17px; }
 
-  /* Pins 7 and 2 share the migration block. Red 7 sits beside 2 so both read
-     against MIGRATION; green 7 sits above its group heading in the new order. */
-  #pin-7 { top: -13px; left: 24px; right: auto; }
-  #green-pin-7 { top: -42px; left: -13px; right: auto; }
+  /* Pins 2 and 3 share the migration block: 2 names it, 3 places it, so 2
+     sits left of 3 at the same height and they read in order. */
+  #pin-2 { top: -13px; left: -13px; right: auto; }
+  #pin-3 { top: -13px; left: 24px; right: auto; }
+  #green-pin-3 { top: -42px; left: -13px; right: auto; }
 
 
   .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 4px; }
@@ -301,10 +302,10 @@
           </div>
           <div class="hot" id="block-migration" style="top: 47.9%; height: 5.2%;">
             <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
-            <div class="pin" id="pin-7" onclick="openPopover(7, event)">7</div>
+            <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
           </div>
           <div class="hot" id="block-classic" style="top: 69.0%; height: 5.2%;">
-            <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+            <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
           </div>
         </div>
         <p class="nav-caption">The toolbar and the first Classic APIM page are both labeled
@@ -336,7 +337,7 @@
           </div>
 
           <div class="nav-group" id="prop-block-classic">
-            <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+            <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
             CLASSIC APIM
           </div>
           <div class="nav-item">
@@ -359,7 +360,7 @@
           <div class="nav-group">MIGRATION</div>
           <div class="nav-item" id="prop-block-migration">
             <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
-            <div class="pin green" id="green-pin-7" onclick="openGreenPopover(7, event)">7</div>
+            <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
             <svg class="nav-ico" viewBox="0 0 32 32" fill="currentColor"><path d="M2,5.5c0-.9.7-1.6,1.6-1.6h3.5c1.3,0,2.5.9,3,2.1l4.5,13.4c1.5,0,2.8.7,3.6,1.8l9.8-3.3c.8-.3,1.7.2,2,1s-.2,1.7-1,2l-9.8,3.3c0,2.5-2.1,4.6-4.7,4.6s-4.7-2.1-4.7-4.7.7-2.8,1.8-3.7L7.1,7.1h-3.5c-.9,0-1.6-.7-1.6-1.6ZM13.9,10.5c-.3-.8.2-1.7,1-2l2.2-.7,1,3,3-1-1-3,2.2-.7c.8-.3,1.7.2,2,1l2.4,7.4c.3.8-.2,1.7-1,2l-7.4,2.4c-.8.3-1.7-.2-2-1l-2.4-7.4Z"/></svg>
             Migrate Classic to 3.0
           </div>
@@ -393,13 +394,13 @@
             rail: six icons, no labels, and no group headings — only two hairline rules where the
             headings used to be.">
           <div class="hot" id="block-nolabel" style="top: 3.9%; height: 26.0%;">
-            <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
-          </div>
-          <div class="hot" id="block-nohead" style="top: 30.9%; height: 21.6%;">
             <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
           </div>
-          <div class="hot" id="block-sameicons" style="top: 54.1%; height: 37.0%;">
+          <div class="hot" id="block-nohead" style="top: 30.9%; height: 21.6%;">
             <div class="pin" id="pin-6" onclick="openPopover(6, event)">6</div>
+          </div>
+          <div class="hot" id="block-sameicons" style="top: 54.1%; height: 37.0%;">
+            <div class="pin" id="pin-7" onclick="openPopover(7, event)">7</div>
           </div>
         </div>
         <p class="nav-caption">Six icons, no labels, and no tooltip on hover. The top two share one
@@ -419,19 +420,19 @@
 
           <div class="cgroup">
             <div class="cgroup-head" id="prop-block-nohead">
-              <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+              <div class="pin green" id="green-pin-6" onclick="openGreenPopover(6, event)">6</div>
               APIM 3.0
             </div>
             <div class="citem active"><span class="mono-ico">SC</span></div>
             <div class="citem" id="prop-block-nolabel">
-              <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+              <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
               <span class="mono-ico">PC</span>
               <span class="ctip">Policy catalog</span>
             </div>
           </div>
 
           <div class="cgroup" id="prop-block-sameicons">
-            <div class="pin green" id="green-pin-6" onclick="openGreenPopover(6, event)">6</div>
+            <div class="pin green" id="green-pin-7" onclick="openGreenPopover(7, event)">7</div>
             <div class="cgroup-head">CLASSIC</div>
             <div class="citem"><span class="mono-ico">AM</span></div>
             <div class="citem"><span class="mono-ico">PM</span></div>
@@ -491,6 +492,13 @@ const annotations = [
     propBlock: "prop-block-migration"
   },
   {
+    title: "Migration sits between the two versions",
+    problem: "Migration sits in the middle of the nav, between the APIM 3.0 pages and the Classic APIM ones, so it reads as part of whichever group a customer takes it to belong to.",
+    fix: "Move it to the end of the nav, after both versions, as its own group — it's the bridge between them rather than part of either one.",
+    section: "block-migration",
+    propBlock: "prop-block-migration"
+  },
+  {
     title: "Nothing says how Classic and APIM 3.0 relate",
     problem: "Both versions sit in one nav with no statement of how they relate. Nothing says whether their Classic APIs and Proxies continue serving traffic after migration, so a customer can't tell which one is the system of record.",
     fix: "Head the two groups APIM 3.0 and Classic APIM, so a customer can tell at a glance which version each item belongs to. Under the Classic heading, put one line saying the Classic Developer Portal keeps serving live traffic until you migrate and publish, with a Learn more link to the Migration Tool wizard topic (src/api-m/concepts/move-to-apim.dita).",
@@ -517,13 +525,6 @@ const annotations = [
     fix: "Give every page its own icon, distinct at 19px: lettered tiles — SC and PC under APIM 3.0, AM, PM, and S under Classic. Migration keeps the icon it has, the only glyph in the nav that isn't duplicated.",
     section: "block-sameicons",
     propBlock: "prop-block-sameicons"
-  },
-  {
-    title: "Migration sits between the two versions",
-    problem: "Migration sits in the middle of the nav, between the APIM 3.0 pages and the Classic APIM ones, so it reads as part of whichever group a customer takes it to belong to.",
-    fix: "Move it to the end of the nav, after both versions, as its own group — it's the bridge between them rather than part of either one.",
-    section: "block-migration",
-    propBlock: "prop-block-migration"
   }
 ];
 

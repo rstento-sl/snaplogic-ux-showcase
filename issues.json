@@ -1105,6 +1105,10 @@
           "callout": "Sits between APIM 3.0 and Classic APIM, and the name never says what it moves or where."
         },
         {
+          "target": "Migration placement",
+          "callout": "Migration sits between the two versions, so it reads as part of whichever group a customer takes it to belong to."
+        },
+        {
           "target": "Classic API Management heading",
           "callout": "Nothing says whether Classic APIM still serves live traffic, or what migrating changes."
         },
@@ -1119,10 +1123,6 @@
         {
           "target": "Collapsed nav — icons",
           "callout": "The two catalog icons share one outline and the three Classic icons share another, so you navigate from memory."
-        },
-        {
-          "target": "Migration placement",
-          "callout": "Migration sits between the two versions, so it reads as part of whichever group a customer takes it to belong to."
         }
       ]
     }

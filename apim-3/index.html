@@ -158,6 +158,12 @@
     margin-bottom: 3px;
   }
   .use-cases-link:hover .title { color: var(--color-text-link-hover); }
+  .use-cases-link .desc {
+    display: block;
+    font-size: var(--type-small-size);
+    line-height: 1.5;
+    color: var(--color-text-subtle);
+  }
 
   .sub { font-size: var(--type-body-size); }
 
@@ -308,7 +314,10 @@
 <div class="wrap">
 
   <a class="use-cases-link" href="use-cases.html">
-    <span class="title">Use cases and the first experience</span>
+    <span>
+      <span class="title">Use cases and the first experience</span>
+      <span class="desc">Who arrives, what they already know, and what they need to get done — what these issues are judged against.</span>
+    </span>
     <span class="chevron">→</span>
   </a>
 

@@ -1125,6 +1125,39 @@
           "callout": "The two catalog icons share one outline and the three Classic icons share another, so you navigate from memory."
         }
       ]
+    },
+    {
+      "id": "issue-33",
+      "area": "APIM 3.0",
+      "title": "Policy Catalog",
+      "screen": "API Manager > Manage > Policy Catalog",
+      "page": "Policy Catalog",
+      "jira": "",
+      "unreportedLabel": "Unreported issue 03",
+      "severity": "Medium",
+      "category": "Content clarity / labeling",
+      "summary": "The page carries no title and no lead-in, so nothing says what a policy does. Catalog Policy sits above the project folders with no explanation, though a rule in it can override a rule set on a service or an endpoint. The page also names itself in the singular while its sibling, Services Catalog, uses the plural.",
+      "mockups": {
+        "comparison": "apim-3/policy-catalog/comparison.html"
+      },
+      "annotations": [
+        {
+          "target": "Page title",
+          "callout": "The page has no title and no lead-in — nothing says what a policy does."
+        },
+        {
+          "target": "New Policy button",
+          "callout": "Title case on a button, where JellyRoll specifies sentence case."
+        },
+        {
+          "target": "Catalog Policy row",
+          "callout": "Sits above the project folders unexplained, though its rules can override a service's."
+        },
+        {
+          "target": "Page name",
+          "callout": "Singular here, plural on Services Catalog — two sibling pages that don't agree."
+        }
+      ]
     }
   ]
 }

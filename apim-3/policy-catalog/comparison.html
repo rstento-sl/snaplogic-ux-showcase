@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policy Catalog</title>
+<style>
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 400; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Acherus Grotesque";
+    font-style: normal; font-weight: 800; font-display: swap;
+    src: url("https://sl-design-team.github.io/jellyroll/fonts/acherus-grotesque-extrabold.woff2") format("woff2");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #131C35;
+    --dim: #7D8695;
+    --canvas: #EBEDF1;
+    --hairline: #D7DCE3;
+    --teal: #09817F;
+    --red: #E31C3D;
+    --red-dark: #B61631;
+    --green: #017D1B;
+    --green-dark: #015c14;
+    --blue: #0841B4;
+    --orange: #C75209;
+    --orange-tint: #FEF0E7;
+    --mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  }
+
+  body {
+    font-family: "Acherus Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--canvas);
+  }
+
+  .topbar { height: 4px; background: var(--teal); }
+
+  .showcase-header { max-width: 1500px; margin: 0 auto; padding: 20px 32px 16px; }
+  .breadcrumb { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .path { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+  .path .sep { margin: 0 6px; color: var(--hairline); }
+  .back-link { font-size: 12px; font-weight: 700; color: var(--teal); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+  .issue-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .issue-heading h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.005em; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .header-links { display: flex; align-items: baseline; gap: 18px; }
+  .related-link {
+    color: var(--teal); font-size: 12px; font-weight: 700;
+    text-decoration: none; white-space: nowrap;
+  }
+  .related-link:hover { text-decoration: underline; }
+  .wip {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-left: 10px; padding: 3px 11px; border-radius: 999px;
+    background: var(--orange-tint); border: 1px solid var(--orange);
+    color: #8a4a12; font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+    vertical-align: 3px;
+  }
+  .wip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+
+  .compare-grid {
+    max-width: 1500px; margin: 0 auto; padding: 8px 32px 40px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;
+  }
+  @media (max-width: 900px) { .compare-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  .compare-col-label {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.01em;
+    color: #fff; padding: 14px 24px; border-radius: 6px 6px 0 0;
+  }
+  .compare-col-label.current { background: #FDF3F5; color: var(--red-dark); }
+  .compare-col-label.proposed { background: var(--teal); }
+
+  .sheet { position: relative; }
+  .sheet.current { transform: rotate(-0.4deg); }
+  @media (max-width: 900px) { .sheet.current { transform: none; } }
+  .stamp {
+    position: absolute; top: -11px; right: 20px;
+    font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    background: #fff; padding: 3px 10px; border-radius: 3px; z-index: 5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .stamp.redline { color: var(--red); border: 1.5px solid var(--red); transform: rotate(-3deg); }
+  .stamp.proposed-stamp { color: var(--teal); border: 1.5px solid var(--teal); transform: rotate(2deg); }
+
+  /* ── Page recreation ── */
+  .page-wrapper {
+    background: #F7F8FA; border: 1px solid #ddd; border-radius: 6px;
+    padding: 24px 26px 30px; box-shadow: 0 6px 20px rgba(31,33,37,0.08); position: relative;
+  }
+  .page-h1 { font-size: 22px; font-weight: 700; color: #131C35; margin-bottom: 18px; }
+  .page-sub { font-size: 13px; color: #444; line-height: 1.5; margin: -10px 0 18px; max-width: 54ch; }
+  .page-sub a { color: var(--blue); text-decoration: none; }
+  .page-sub a:hover { text-decoration: underline; }
+  .page-head { display: flex; align-items: flex-start; gap: 20px; }
+  .page-head .page-head-text { flex: 1; min-width: 0; }
+  .page-head .add-btn { flex: 0 0 auto; margin-top: 2px; }
+
+  .list-card { background: #fff; border: 1px solid var(--hairline); border-radius: 6px; padding: 16px 18px 6px; }
+  .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: nowrap; }
+  .search {
+    flex: 1 1 auto; min-width: 0; padding: 8px 10px; border: 1px solid #6B768A; border-radius: 4px;
+    color: #6B768A; font-size: 12px; background: #fff; display: flex; align-items: center; gap: 8px;
+  }
+  .search svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .filter {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    min-width: 0; flex: 0 1 auto; padding: 8px 10px; border: 1px solid #6B768A; border-radius: 4px;
+    color: #6B768A; font-size: 12px; background: #fff; white-space: nowrap; overflow: hidden;
+  }
+  .filter > span:first-child { overflow: hidden; text-overflow: ellipsis; }
+  .filter.enabled { border-color: #5E6470; color: #131C35; }
+
+  .add-btn {
+    flex: 0 0 auto; white-space: nowrap; background: #0B43B8; color: #fff;
+    font-size: 12px; font-weight: 700; padding: 9px 14px; border-radius: 4px;
+    display: flex; align-items: center; gap: 10px; font-family: inherit; border: 0; cursor: pointer;
+  }
+  .add-btn:hover { background: #09379A; }
+  .add-btn:focus-visible { outline: 2px solid #0B43B8; outline-offset: 2px; }
+
+  /* The Catalog Policy band above the project folders */
+  .catalog-band {
+    background: #E3EAF7; color: #1C3F8F; font-size: 13px; font-weight: 600;
+    padding: 11px 14px; border-radius: 4px 4px 0 0;
+    display: flex; align-items: center; gap: 2px;
+  }
+
+  .folder-row { display: flex; align-items: center; gap: 12px; padding: 11px 4px; border-bottom: 1px solid #EDF0F4; font-size: 13px; }
+  .folder-row:last-child { border-bottom: none; }
+  .chev { color: #5a6475; font-size: 11px; }
+  .folder-ico { color: #5a6475; }
+  .folder-ico svg { width: 15px; height: 15px; display: block; }
+
+  /* JellyRoll tooltip primitive — same markup as the Services catalog page. */
+  .sl-tooltip-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; margin-left: 4px; }
+  .sl-tooltip-trigger {
+    width: 14px; height: 14px; color: #8A93A3;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: default; transition: color 120ms ease-out;
+  }
+  .sl-tooltip-trigger svg { width: 14px; height: 14px; display: block; }
+  .sl-tooltip-wrap:hover .sl-tooltip-trigger,
+  .sl-tooltip-wrap:focus-within .sl-tooltip-trigger { color: var(--blue); }
+  .sl-tooltip-wrap:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 50%; }
+  /* Fixed and placed in JS, so a bubble near the edge is clamped into view and
+     adds no horizontal overflow. */
+  .sl-tooltip {
+    position: fixed; z-index: 100; left: 0; top: 0;
+    background: var(--ink); color: #fff;
+    font-family: inherit; font-weight: 500; font-size: 12px; line-height: 16px;
+    padding: 5px 10px; border-radius: 4px;
+    width: max-content; max-width: 260px; white-space: normal; text-align: left; letter-spacing: 0;
+    pointer-events: none; box-shadow: 0 2px 8px rgba(3,26,72,0.18);
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity 120ms ease-out, transform 120ms ease-out, visibility 0s linear 120ms;
+  }
+  .sl-tooltip.shown {
+    opacity: 1; visibility: visible; transform: translateY(0);
+    transition: opacity 120ms ease-out, transform 120ms ease-out;
+  }
+  .sl-tooltip::after {
+    content: ""; position: absolute; width: 0; height: 0;
+    border: 5px solid transparent; bottom: 100%;
+    left: var(--arrow-x, 50%); transform: translateX(-50%);
+    border-bottom-color: var(--ink); border-top: none;
+  }
+
+  /* ── Pins + popovers ── */
+  .pin {
+    position: absolute; top: -12px; right: -12px; width: 26px; height: 26px;
+    border-radius: 50%; background: var(--red); color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 300;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 2px solid #fff;
+    transition: transform 0.15s, background 0.15s; user-select: none;
+  }
+  .pin:hover { transform: scale(1.15); background: var(--red-dark); }
+  .pin.active { background: var(--red-dark); transform: scale(1.15); }
+  .pin.green { background: var(--green); }
+  .pin.green:hover { background: var(--green-dark); }
+  .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
+
+  /* Pins 1 and 4 share the header block, so they stack at its left edge, clear
+     of the title and the lead-in. */
+  #pin-1, #green-pin-1 { top: -14px; left: -22px; right: auto; }
+  #pin-2, #green-pin-2 { top: -11px; right: -11px; }
+  #pin-3, #green-pin-3 { top: -13px; left: -13px; right: auto; }
+  #pin-4, #green-pin-4 { top: 20px; left: -22px; right: auto; }
+
+  .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
+  .prop-highlighted { box-shadow: 0 0 0 2px var(--green); border-radius: 6px; }
+
+  /* The proposed page on its own, below the comparison. */
+  .clean-view { max-width: 1500px; margin: 40px auto 0; padding: 0 32px; }
+  .clean-view h2 {
+    font-size: 19px; font-weight: 800; letter-spacing: -0.005em;
+    color: var(--ink); margin-bottom: 4px;
+  }
+  .clean-sub { font-size: 12px; color: var(--dim); margin-bottom: 14px; }
+  .clean-mount { max-width: 734px; }
+  .clean-mount .highlighted, .clean-mount .prop-highlighted { box-shadow: none; }
+
+  /* Says what each mark on the page means, using the mark itself. */
+  .legend {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 8px 22px; margin-top: 10px; flex: 1 1 auto; min-width: 0;
+  }
+  .legend-item {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--dim); line-height: 1.4;
+  }
+  .legend-sym {
+    width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff;
+    border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .legend-sym.red { background: var(--red); }
+  .legend-sym.green { background: var(--green); }
+  .legend-info { color: #8A93A3; display: inline-flex; flex-shrink: 0; }
+  .legend-info svg { width: 14px; height: 14px; display: block; }
+
+  .popover {
+    display: none; position: fixed; width: 390px;
+    max-width: calc(100vw - 16px); max-height: calc(100vh - 16px);
+    background: #fff; border: 1px solid #ddd; border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18); z-index: 400; overflow-y: auto;
+  }
+  .popover-header { background: var(--red); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .popover-header.green { background: var(--green); }
+  .popover-header .pin-label {
+    width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,0.25);
+    font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .popover-header h3 { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .popover-body { padding: 16px; }
+  .popover-problem { font-size: 13px; color: #333; line-height: 1.6; }
+  .popover-jump-btn {
+    display: inline-block; margin-top: 14px; padding: 8px 16px; border-radius: 4px;
+    border: none; font-size: 12px; font-weight: 700; cursor: pointer;
+  }
+  .popover-jump-btn.to-fix { background: var(--green); color: #fff; }
+  .popover-jump-btn.to-problem { background: var(--red); color: #fff; }
+  .popover-footer {
+    padding: 10px 16px; background: #f8f8f8; display: flex; justify-content: space-between;
+    align-items: center; font-size: 12px; color: #888; border-top: 1px solid #eee;
+  }
+  .popover-nav { display: flex; gap: 8px; }
+  .popover-nav button { padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; font-size: 12px; cursor: pointer; color: #444; }
+  .popover-nav button:hover { background: #f0f0f0; }
+  .popover-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .close-btn { background: none; border: none; font-size: 18px; color: #fff; cursor: pointer; margin-left: auto; line-height: 1; padding: 0 0 0 8px; }
+
+  .verify-note { max-width: 1500px; margin: 0 auto; padding: 0 32px 28px; }
+  .verify-note div {
+    background: var(--orange-tint); border: 1px dashed var(--orange); border-radius: 6px;
+    padding: 10px 14px; font-size: 12px; color: #6b3a07; line-height: 1.55;
+  }
+  .shot-note { margin-top: 14px; font-size: 11.5px; line-height: 1.55; color: #6b7280;
+    text-align: center; max-width: 56ch; margin-left: auto; margin-right: auto; }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="showcase-header">
+  <div class="breadcrumb">
+    <a class="back-link" href="../index.html">← All APIM 3.0 issues</a>
+    <span class="path">apim-3 <span class="sep">/</span> manage <span class="sep">/</span> policy-catalog</span>
+  </div>
+  <div class="issue-heading">
+    <h1>Policy Catalog</h1>
+    <span class="wip"><span class="dot"></span>Work in progress</span>
+  </div>
+  <div class="header-row">
+    <div class="legend">
+      <span class="legend-item"><span class="legend-sym red">1</span>Click for what's confusing</span>
+      <span class="legend-item"><span class="legend-sym green">1</span>Click for the proposed fix</span>
+      <span class="legend-item"><span class="legend-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>Hover for a definition</span>
+    </div>
+    <div class="header-links">
+      <a class="related-link" href="../services-catalog/comparison.html">← Previous: Services catalog</a>
+    </div>
+  </div>
+</div>
+
+<div class="compare-grid">
+
+  <!-- ── Current UI ── -->
+  <div>
+    <div class="sheet current">
+      <span class="stamp redline">REDLINE</span>
+      <div class="compare-col-label current">Current UI</div>
+      <div class="page-wrapper">
+
+        <div id="block-header" style="position: relative;">
+          <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
+          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+          <div class="list-card">
+            <div class="controls">
+              <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span></span></div>
+              <div class="filter"><span>Filter by projects</span><span class="chev">⌄</span></div>
+              <div class="filter"><span>Filter by owners</span><span class="chev">⌄</span></div>
+              <div id="block-add" style="position: relative;">
+                <div class="pin" id="pin-2" onclick="openPopover(2, event)">2</div>
+                <button class="add-btn" type="button">New Policy</button>
+              </div>
+            </div>
+
+            <div id="block-band" style="position: relative;">
+              <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+              <div class="catalog-band">Catalog Policy</div>
+            </div>
+
+            <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>shared</span></div>
+            <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>01-Tutorial/shared</span></div>
+            <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-a/project-a</span></div>
+            <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/shared</span></div>
+            <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/MyProject</span></div>
+            <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-c/MyTask</span></div>
+          </div>
+        </div>
+        <p class="shot-note">A recreation of the page, with the project names replaced.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Proposed ── -->
+  <div>
+    <div class="sheet proposed">
+      <span class="stamp proposed-stamp">PROPOSED</span>
+      <div class="compare-col-label proposed">Proposed improvement</div>
+      <div class="page-wrapper" id="proposed-page">
+
+        <div id="prop-block-header" style="position: relative;">
+          <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
+          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+          <div class="page-head">
+            <div class="page-head-text">
+              <div class="page-h1">Policy catalog</div>
+              <p class="page-sub">Create and edit policies with rules that configure governance and behavior of requests and responses. <a href="#" onclick="return false;">Learn more.</a></p>
+            </div>
+            <div id="prop-block-add" style="position: relative;">
+              <div class="pin green" id="green-pin-2" onclick="openGreenPopover(2, event)">2</div>
+              <button class="add-btn" type="button">New policy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="list-card">
+          <div class="controls">
+            <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span></span></div>
+            <div class="filter enabled"><span>Filter by projects</span><span class="chev">⌄</span></div>
+            <div class="filter enabled"><span>Filter by owners</span><span class="chev">⌄</span></div>
+          </div>
+
+          <div id="prop-block-band" style="position: relative;">
+            <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+            <div class="catalog-band">Catalog policy
+              <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">One policy that holds rules for the whole catalog. When a rule in it sets Priority to “Always use catalog rule,” that rule overrides the matching rule on a service or an endpoint.</span></span>
+            </div>
+          </div>
+
+          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>shared</span></div>
+          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>01-Tutorial/shared</span></div>
+          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-a/project-a</span></div>
+          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/shared</span></div>
+          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/MyProject</span></div>
+          <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-c/MyTask</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- The proposed page on its own, cloned from the column above so the two can't drift. -->
+<div class="clean-view">
+  <h2>The proposed page, without the annotations</h2>
+  <p class="clean-sub">The same page as the right-hand column above, as a customer would meet it.</p>
+  <div class="clean-mount" id="clean-mount"></div>
+</div>
+
+<div class="verify-note">
+  <div>
+    <strong>Reviewers — one thing to verify before this ships.</strong>
+    The tooltip describes the catalog policy from the Priority setting named in the UI
+    (“Always use catalog rule”). Confirm with engineering that a catalog rule set that way overrides the
+    matching rule at both the service and the endpoint level, and that no other Priority value changes
+    which rule wins.
+  </div>
+</div>
+
+<!-- Shared pin popover -->
+<div class="popover" id="popover">
+  <div class="popover-header" id="pop-header">
+    <div class="pin-label" id="pop-num">1</div>
+    <h3 id="pop-title"></h3>
+    <button class="close-btn" onclick="closePopover()">×</button>
+  </div>
+  <div class="popover-body">
+    <div class="popover-problem" id="pop-problem"></div>
+    <button class="popover-jump-btn" id="pop-jump-btn"></button>
+  </div>
+  <div class="popover-footer">
+    <span id="pop-counter"></span>
+    <div class="popover-nav">
+      <button id="btn-prev" onclick="navigate(-1)">← Prev</button>
+      <button id="btn-next" onclick="navigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const annotations = [
+  {
+    title: "No page title",
+    problem: "The page opens straight into a search box and a list. Nothing names the page or says what a policy does, so the only clue to where you are is the nav item you clicked to get here.",
+    fix: "Title the page after its nav item, in sentence case: “Policy catalog.” Add a lead-in saying what you can do here — “Create and edit policies with rules that configure governance and behavior of requests and responses” — followed by a Learn more link to the docs.",
+    section: "block-header",
+    propBlock: "prop-block-header"
+  },
+  {
+    title: "New Policy is in title case",
+    problem: "JellyRoll specifies sentence case for buttons. New Policy capitalizes the noun, and the page sits beside others that don't, so the UI reads as several products stitched together.",
+    fix: "Change the label to “New policy.” This is the page's instance of the capitalization issue noted across APIM 3.0, so fixing it here is part of that pass rather than a separate ask.",
+    section: "block-add",
+    propBlock: "prop-block-add"
+  },
+  {
+    title: "Catalog Policy names something the page never explains",
+    problem: "Catalog Policy sits above the project folders as though it were one of them, but it isn't a project and the page says nothing about what it holds or what it affects. Nothing warns that a rule in it can override a rule someone set on their own service.",
+    fix: "Put a tooltip on the label: one policy that holds rules for the whole catalog, and when a rule in it sets Priority to “Always use catalog rule,” that rule overrides the matching rule on a service or an endpoint. Hover the info icon in the proposed column.",
+    section: "block-band",
+    propBlock: "prop-block-band"
+  },
+  {
+    title: "Policy Catalog and Services Catalog don't agree",
+    problem: "Two sibling pages in the same nav group name themselves differently: one singular and title case, one plural. A reader can't tell whether the difference means anything, and search and docs have to carry both forms.",
+    fix: "Use the singular on both, in sentence case: “Policy catalog” and “Service catalog.” Singular reads better in a sentence about one of them — “add it to the service catalog” — and makes the pair obviously parallel. Changing Services catalog is the larger of the two edits, so it is noted on that page as well.",
+    section: "block-header",
+    propBlock: "prop-block-header"
+  }
+];
+
+let current = null;
+let mode = 'red';
+
+function openPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'red';
+  current = n;
+  render();
+  clearHighlights();
+  const a = annotations[n - 1];
+  if (a.section) document.getElementById(a.section).classList.add('highlighted');
+  const pinEl = document.getElementById('pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl, document.getElementById('popover'));
+}
+
+function openGreenPopover(n, e) {
+  if (e) e.stopPropagation();
+  mode = 'green';
+  current = n;
+  render();
+  clearHighlights();
+  const a = annotations[n - 1];
+  if (a.propBlock) document.getElementById(a.propBlock).classList.add('prop-highlighted');
+  const pinEl = document.getElementById('green-pin-' + n);
+  pinEl.classList.add('active');
+  positionPopover(pinEl, document.getElementById('popover'));
+}
+
+// Open the pin named in the URL hash, so "Refer to pin N" lands on the pin itself.
+function openPinFromHash() {
+  const m = /^#(green-)?pin-(\d+)$/.exec(window.location.hash);
+  if (!m) return;
+  const n = Number(m[2]);
+  if (!(n >= 1 && n <= annotations.length)) return;
+  const pinEl = document.getElementById((m[1] || '') + 'pin-' + n);
+  if (!pinEl) return;
+  pinEl.scrollIntoView({ block: 'center', behavior: 'auto' });
+  if (m[1]) openGreenPopover(n); else openPopover(n);
+}
+window.addEventListener('DOMContentLoaded', openPinFromHash);
+window.addEventListener('hashchange', openPinFromHash);
+
+function clearHighlights() {
+  document.querySelectorAll('.highlighted').forEach(s => s.classList.remove('highlighted'));
+  document.querySelectorAll('.prop-highlighted').forEach(s => s.classList.remove('prop-highlighted'));
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('active'));
+}
+
+function positionPopover(anchorEl, pop) {
+  pop.style.display = 'block';
+  const rect = anchorEl.getBoundingClientRect();
+  const margin = 8;
+  const popRect = pop.getBoundingClientRect();
+  let top = rect.bottom + margin;
+  if (top + popRect.height > window.innerHeight - margin) top = rect.top - popRect.height - margin;
+  top = Math.max(margin, Math.min(top, window.innerHeight - popRect.height - margin));
+  let left = rect.left + rect.width / 2 - popRect.width / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popRect.width - margin));
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+}
+
+function render() {
+  const a = annotations[current - 1];
+  const header = document.getElementById('pop-header');
+  const jumpBtn = document.getElementById('pop-jump-btn');
+  document.getElementById('pop-num').textContent = current;
+  document.getElementById('pop-title').textContent = a.title;
+
+  if (mode === 'red') {
+    header.classList.remove('green');
+    document.getElementById('pop-problem').textContent = a.problem;
+    jumpBtn.textContent = 'Refer to the proposed fix →';
+    jumpBtn.className = 'popover-jump-btn to-fix';
+    jumpBtn.onclick = function() { jumpTo('green', current); };
+    document.getElementById('pop-counter').textContent = 'Issue ' + current + ' of ' + annotations.length;
+  } else {
+    header.classList.add('green');
+    document.getElementById('pop-problem').textContent = a.fix;
+    jumpBtn.textContent = '← Back to problem';
+    jumpBtn.className = 'popover-jump-btn to-problem';
+    jumpBtn.onclick = function() { jumpTo('red', current); };
+    document.getElementById('pop-counter').textContent = 'Fix ' + current + ' of ' + annotations.length;
+  }
+  document.getElementById('btn-prev').disabled = current === 1;
+  document.getElementById('btn-next').disabled = current === annotations.length;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > annotations.length) return;
+  if (mode === 'red') openPopover(next); else openGreenPopover(next);
+}
+
+function jumpTo(targetMode, n) {
+  closePopover();
+  const pinEl = document.getElementById((targetMode === 'green' ? 'green-pin-' : 'pin-') + n);
+  pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() {
+    if (targetMode === 'green') openGreenPopover(n); else openPopover(n);
+  }, 300);
+}
+
+function closePopover() {
+  document.getElementById('popover').style.display = 'none';
+  clearHighlights();
+  current = null;
+}
+
+document.addEventListener('click', function(e) {
+  const pop = document.getElementById('popover');
+  if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) closePopover();
+});
+
+// Tooltips are fixed-position and placed here, so one near a page edge is
+// clamped into view rather than hanging off it.
+var tipTimer = null, tipOpen = null;
+
+function hideTooltip() {
+  clearTimeout(tipTimer);
+  if (tipOpen) { tipOpen.classList.remove('shown'); tipOpen = null; }
+}
+
+function placeTooltip(wrap) {
+  var tip = wrap.querySelector('.sl-tooltip');
+  if (!tip) return;
+  var t = wrap.getBoundingClientRect();
+  var m = 8;
+  tip.style.left = '0px';
+  tip.style.top = '0px';
+  var r = tip.getBoundingClientRect();
+  var left = t.left + t.width / 2 - r.width / 2;
+  left = Math.max(m, Math.min(left, window.innerWidth - r.width - m));
+  var top = t.bottom + 8;
+  if (top + r.height > window.innerHeight - m) top = t.top - r.height - 8;
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+  tip.style.setProperty('--arrow-x', (t.left + t.width / 2 - left) + 'px');
+  tip.classList.add('shown');
+  tipOpen = tip;
+}
+
+function initTooltips(root) {
+  root.querySelectorAll('.sl-tooltip-wrap').forEach(function (wrap) {
+    wrap.addEventListener('mouseenter', function () {
+      clearTimeout(tipTimer);
+      tipTimer = setTimeout(function () { placeTooltip(wrap); }, 300);
+    });
+    wrap.addEventListener('focusin', function () { clearTimeout(tipTimer); placeTooltip(wrap); });
+    wrap.addEventListener('mouseleave', hideTooltip);
+    wrap.addEventListener('focusout', hideTooltip);
+  });
+}
+
+window.addEventListener('scroll', hideTooltip, true);
+window.addEventListener('resize', hideTooltip);
+
+// The clean copy is cloned from the proposed column, so the two can never drift.
+function mountCleanView() {
+  var src = document.getElementById('proposed-page');
+  var mount = document.getElementById('clean-mount');
+  if (!src || !mount) return;
+  var copy = src.cloneNode(true);
+  copy.querySelectorAll('.pin').forEach(function (pin) { pin.remove(); });
+  copy.querySelectorAll('[id]').forEach(function (el) { el.removeAttribute('id'); });
+  copy.removeAttribute('id');
+  mount.appendChild(copy);
+  initTooltips(mount);
+}
+
+initTooltips(document);
+mountCleanView();
+</script>
+</body>
+</html>

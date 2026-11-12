@@ -238,7 +238,27 @@
 /* Pin 6 shares the stats block with pin 2, so it takes the left corner. */
 #pin-6 { top: -14px; left: -14px; right: auto; }
 #green-pin-6 { top: -13px; left: -13px; right: auto; }
-  .add-btn { flex: 0 0 auto; white-space: nowrap; background: #0B43B8; color: #fff; font-size: 12px; font-weight: 700; padding: 9px 14px; border-radius: 4px; display: flex; align-items: center; gap: 10px; }
+  .add-btn { flex: 0 0 auto; white-space: nowrap; background: #0B43B8; color: #fff; font-size: 12px; font-weight: 700; padding: 9px 14px; border-radius: 4px; display: flex; align-items: center; gap: 10px; font-family: inherit; border: 0; cursor: pointer; }
+  .add-btn:hover { background: #09379A; }
+  .add-btn:focus-visible { outline: 2px solid #0B43B8; outline-offset: 2px; }
+  .add-caret { transition: transform 0.15s; }
+  .add-btn[aria-expanded="true"] .add-caret { transform: rotate(180deg); }
+
+  /* One menu button rather than a split button: both ways to add a service
+     appear on click, so neither hides behind the caret. */
+  .add-menu {
+    display: none; position: absolute; top: calc(100% + 4px); right: 0; z-index: 60;
+    background: #fff; border: 1px solid var(--hairline); border-radius: 4px;
+    box-shadow: 0 4px 14px rgba(19,28,53,0.16); padding: 4px; min-width: 150px;
+  }
+  .add-menu.open { display: block; }
+  .add-menu-item {
+    display: block; width: 100%; text-align: left; background: none; border: 0;
+    font-family: inherit; font-size: 12px; color: var(--ink);
+    padding: 8px 10px; border-radius: 3px; cursor: pointer;
+  }
+  .add-menu-item:hover { background: var(--canvas); }
+  .add-menu-item:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
   .folder-row { display: flex; align-items: center; gap: 12px; padding: 11px 4px; border-bottom: 1px solid #EDF0F4; font-size: 13px; }
   .folder-row:last-child { border-bottom: none; }
   .chev { color: #5a6475; font-size: 11px; }
@@ -438,7 +458,12 @@
             </div>
             <div id="prop-block-add" style="position: relative;">
               <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
-              <div class="add-btn"><span>Add service</span><span>⌄</span></div>
+              <button class="add-btn" type="button" id="add-service-btn" aria-haspopup="true"
+                aria-expanded="false" onclick="toggleAddMenu(event)"><span>Add service</span><span class="add-caret">⌄</span></button>
+              <div class="add-menu" id="add-menu" role="menu">
+                <button class="add-menu-item" type="button" role="menuitem">From scratch</button>
+                <button class="add-menu-item" type="button" role="menuitem">From a spec</button>
+              </div>
             </div>
           </div>
         </div>
@@ -574,7 +599,7 @@ const annotations = [
   {
     title: "Add service sits with the filters",
     problem: "Filters narrow the list that already exists; Add service creates something new. Putting them in one row implies they belong to the same task. On an empty catalog it is worse: the page's only useful action hangs off a card with nothing in it.",
-    fix: "Move Add service to the top right, in line with the page title, where a page's primary action belongs. It then stays visible whether or not the list has any rows.",
+    fix: "Move Add service to the top right, in line with the page title, where a page's primary action belongs. It then stays visible whether or not the list has any rows. Change it from a split button to a menu button as well: clicking it opens both choices — From scratch and From a spec — so neither one hides behind a caret. Try it in the proposed column.",
     section: "block-add",
     propBlock: "prop-block-add"
   },
@@ -721,6 +746,31 @@ document.addEventListener('click', function(e) {
   const uaPop = document.getElementById('inapp-ua-popover');
   if (uaPop.style.display === 'block' && !uaPop.contains(e.target) && !e.target.closest('.inapp-ua-badge')) closeInAppHelpPopover();
 });
+// The proposed Add service button is a menu button: one click shows both ways
+// to add a service, so the mockup demonstrates the fix rather than describing it.
+function toggleAddMenu(e) {
+  if (e) e.stopPropagation();
+  var btn = document.getElementById('add-service-btn');
+  var menu = document.getElementById('add-menu');
+  var open = menu.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.addEventListener('click', function (e) {
+  var menu = document.getElementById('add-menu');
+  if (!menu || !menu.classList.contains('open')) return;
+  if (e.target.closest('#add-menu') || e.target.closest('#add-service-btn')) return;
+  menu.classList.remove('open');
+  document.getElementById('add-service-btn').setAttribute('aria-expanded', 'false');
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Escape') return;
+  var menu = document.getElementById('add-menu');
+  if (menu && menu.classList.contains('open')) {
+    menu.classList.remove('open');
+    document.getElementById('add-service-btn').setAttribute('aria-expanded', 'false');
+  }
+});
+
 // Tooltips are fixed-position and placed here, so one near a page edge is
 // clamped into view rather than hanging off it.
 (function () {

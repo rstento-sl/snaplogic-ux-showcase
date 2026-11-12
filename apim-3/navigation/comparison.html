@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Left navigation pane is confusing</title>
+<title>Left navigation pane</title>
 <style>
   @font-face {
     font-family: "Acherus Grotesque";
@@ -245,6 +245,15 @@
   .legend-sym.red { background: var(--red); }
   .legend-sym.green { background: var(--green); }
 
+  /* The proposed nav on its own, below the comparison. */
+  .clean-view { max-width: 1500px; margin: 40px auto 0; padding: 0 32px; }
+  .clean-view h2 {
+    font-size: 19px; font-weight: 800; letter-spacing: -0.005em;
+    color: var(--ink); margin-bottom: 4px;
+  }
+  .clean-sub { font-size: 12px; color: var(--dim); margin-bottom: 14px; }
+  .clean-mount { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+
   .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 4px; }
   .prop-highlighted { box-shadow: 0 0 0 2px var(--green); border-radius: 4px; }
 
@@ -291,7 +300,7 @@
     <span class="path">apim-3 <span class="sep">/</span> navigation <span class="sep">/</span> left-navigation-pane</span>
   </div>
   <div class="issue-heading">
-    <h1>Left navigation pane is confusing</h1>
+    <h1>Left navigation pane</h1>
     <span class="wip"><span class="dot"></span>Work in progress</span>
   </div>
   <div class="header-row">
@@ -338,7 +347,7 @@
     <div class="sheet proposed">
       <span class="stamp proposed-stamp">PROPOSED</span>
       <div class="compare-col-label proposed">Proposed improvement</div>
-      <div class="nav-wrapper">
+      <div class="nav-wrapper" id="proposed-nav-expanded">
         <div class="app-bar" id="prop-block-apimanager">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
           <span class="logo">∞</span>API Management
@@ -434,7 +443,7 @@
     <div class="sheet proposed">
       <span class="stamp proposed-stamp">PROPOSED</span>
       <div class="compare-col-label proposed">Proposed improvement</div>
-      <div class="nav-wrapper">
+      <div class="nav-wrapper" id="proposed-nav-collapsed">
         <div class="nav collapsed">
 
           <div class="cgroup">
@@ -471,6 +480,18 @@
     </div>
   </div>
 
+</div>
+
+
+<!-- The proposed nav on its own, cloned from the columns above so they can't
+     drift, with the pins stripped out. -->
+<div class="clean-view">
+  <h2>The proposed navigation, without the annotations</h2>
+  <p class="clean-sub">The same panes as the right-hand columns above, expanded and collapsed.</p>
+  <div class="clean-mount">
+    <div class="clean-slot" id="clean-expanded"></div>
+    <div class="clean-slot" id="clean-collapsed"></div>
+  </div>
 </div>
 
 
@@ -661,6 +682,19 @@ document.addEventListener('click', function(e) {
   const pop = document.getElementById('popover');
   if (pop.style.display === 'block' && !pop.contains(e.target) && !e.target.closest('.pin')) closePopover();
 });
+// The clean copies are cloned from the proposed columns, so they can't drift.
+function mountClean(srcId, mountId) {
+  var src = document.getElementById(srcId);
+  var mount = document.getElementById(mountId);
+  if (!src || !mount) return;
+  var copy = src.cloneNode(true);
+  copy.querySelectorAll('.pin').forEach(function (pin) { pin.remove(); });
+  copy.querySelectorAll('[id]').forEach(function (el) { el.removeAttribute('id'); });
+  copy.removeAttribute('id');
+  mount.appendChild(copy);
+}
+mountClean('proposed-nav-expanded', 'clean-expanded');
+mountClean('proposed-nav-collapsed', 'clean-collapsed');
 </script>
 
 </body>

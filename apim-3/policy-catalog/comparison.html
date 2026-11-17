@@ -188,12 +188,29 @@
   .pin.green:hover { background: var(--green-dark); }
   .pin.green.active { background: var(--green-dark); transform: scale(1.15); }
 
-  /* Pins 1 and 4 share the header block, so they stack at its left edge, clear
-     of the title and the lead-in. */
+  /* Pins run top to bottom: 1 and 2 share the title row, so 1 takes its left
+     and 2 the New Policy button on the right. 3 sits below 1, on the lead-in. */
   #pin-1, #green-pin-1 { top: -14px; left: -22px; right: auto; }
   #pin-2, #green-pin-2 { top: -11px; right: -11px; }
-  #pin-3, #green-pin-3 { top: -13px; left: -13px; right: auto; }
-  #pin-4, #green-pin-4 { top: 20px; left: -22px; right: auto; }
+  #pin-3, #green-pin-3 { top: 20px; left: -22px; right: auto; }
+  #pin-4, #green-pin-4 { top: -13px; left: -13px; right: auto; }
+  #pin-5, #green-pin-5 { top: -13px; left: -13px; right: auto; }
+
+  /* The rule dialog reached from a policy — the only place the catalog-rule
+     checkbox appears, so pin 5 needs it on the page. */
+  .inset {
+    margin-top: 18px; background: #fff; border: 1px solid var(--hairline);
+    border-radius: 6px; padding: 14px 16px 16px;
+  }
+  .inset-cap {
+    font-size: 11px; color: var(--dim); letter-spacing: 0.01em; margin-bottom: 12px;
+  }
+  .inset h4 { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 10px; }
+  .checkrow { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink); }
+  .checkbox {
+    width: 15px; height: 15px; border: 1.5px solid #6B768A; border-radius: 3px;
+    flex-shrink: 0; background: #fff;
+  }
 
   .highlighted { box-shadow: 0 0 0 2px var(--red); border-radius: 6px; }
   .prop-highlighted { box-shadow: 0 0 0 2px var(--green); border-radius: 6px; }
@@ -304,7 +321,7 @@
 
         <div id="block-header" style="position: relative;">
           <div class="pin" id="pin-1" onclick="openPopover(1, event)">1</div>
-          <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
+          <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
           <div class="list-card">
             <div class="controls">
               <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span></span></div>
@@ -317,7 +334,7 @@
             </div>
 
             <div id="block-band" style="position: relative;">
-              <div class="pin" id="pin-3" onclick="openPopover(3, event)">3</div>
+              <div class="pin" id="pin-4" onclick="openPopover(4, event)">4</div>
               <div class="catalog-band">Catalog Policy</div>
             </div>
 
@@ -328,8 +345,15 @@
             <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/MyProject</span></div>
             <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-c/MyTask</span></div>
           </div>
+
+          <div class="inset" id="block-priority" style="position: relative;">
+            <div class="pin" id="pin-5" onclick="openPopover(5, event)">5</div>
+            <p class="inset-cap">From the rule dialog, two levels in: a policy, then one of its rules.</p>
+            <h4>Priority</h4>
+            <div class="checkrow"><span class="checkbox"></span>Always use Catalog Rule</div>
+          </div>
         </div>
-        <p class="shot-note">A recreation of the page, with the project names replaced.</p>
+        <p class="shot-note">A recreation of the page and the rule dialog, with the project names replaced.</p>
       </div>
     </div>
   </div>
@@ -343,7 +367,7 @@
 
         <div id="prop-block-header" style="position: relative;">
           <div class="pin green" id="green-pin-1" onclick="openGreenPopover(1, event)">1</div>
-          <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
+          <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
           <div class="page-head">
             <div class="page-head-text">
               <div class="page-h1">Policy catalog</div>
@@ -364,7 +388,7 @@
           </div>
 
           <div id="prop-block-band" style="position: relative;">
-            <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
+            <div class="pin green" id="green-pin-4" onclick="openGreenPopover(4, event)">4</div>
             <div class="catalog-band">Catalog policy
               <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">One policy that holds rules for the whole catalog. A rule here with Always use Catalog Rule selected overrides the matching rule on a service or an endpoint.</span></span>
             </div>
@@ -376,6 +400,13 @@
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/shared</span></div>
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-b/MyProject</span></div>
           <div class="folder-row"><span class="chev">›</span><span class="folder-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span>project-c/MyTask</span></div>
+        </div>
+
+        <div class="inset" id="prop-block-priority" style="position: relative;">
+          <div class="pin green" id="green-pin-5" onclick="openGreenPopover(5, event)">5</div>
+          <p class="inset-cap">From the rule dialog, two levels in: a policy, then one of its rules.</p>
+          <h4>Priority</h4>
+          <div class="checkrow"><span class="checkbox"></span>Always use catalog rule</div>
         </div>
 
       </div>
@@ -428,6 +459,13 @@ const annotations = [
     propBlock: "prop-block-add"
   },
   {
+    title: "Policy Catalog and Services Catalog don't agree",
+    problem: "Two sibling pages in the same nav group name themselves differently: one singular and title case, one plural. A reader can't tell whether the difference means anything, and search and docs have to carry both forms.",
+    fix: "Use the singular on both, in sentence case: “Policy catalog” and “Service catalog.” Singular reads better in a sentence about one of them — “add it to the service catalog” — and makes the pair obviously parallel. Changing Services catalog is the larger of the two edits, so it is noted on that page as well.",
+    section: "block-header",
+    propBlock: "prop-block-header"
+  },
+  {
     title: "Catalog Policy names something the page never explains",
     problem: "Catalog Policy sits above the project folders as though it were one of them, but it isn't a project and the page says nothing about what it holds or what it affects. Nothing warns that a rule in it can override a rule someone set on their own service.",
     fix: "Put a tooltip on the label, using the definition already written in the SnapLogic docs, in the topic on creating a catalog policy: one policy that holds rules for the whole catalog, and a rule here with Always use Catalog Rule selected overrides the matching rule on a service or an endpoint. Hover the info icon in the proposed column.",
@@ -435,12 +473,13 @@ const annotations = [
     propBlock: "prop-block-band"
   },
   {
-    title: "Policy Catalog and Services Catalog don't agree",
-    problem: "Two sibling pages in the same nav group name themselves differently: one singular and title case, one plural. A reader can't tell whether the difference means anything, and search and docs have to carry both forms.",
-    fix: "Use the singular on both, in sentence case: “Policy catalog” and “Service catalog.” Singular reads better in a sentence about one of them — “add it to the service catalog” — and makes the pair obviously parallel. Changing Services catalog is the larger of the two edits, so it is noted on that page as well.",
-    section: "block-header",
-    propBlock: "prop-block-header"
+    title: "Always use Catalog Rule is in title case, and the docs disagree",
+    problem: "The checkbox capitalizes all three words. The SnapLogic docs write the same control as \u201cAlways use Catalog rule.\u201d A reader who meets the label in one place and the other elsewhere can\u0027t tell whether they are the same setting.",
+    fix: "Use sentence case in both: \u201cAlways use catalog rule.\u201d Catalog rule isn\u0027t a product name, so nothing here earns a capital. Correct the UI and the docs topic together, so the label a reader searches for matches the one on screen.",
+    section: "block-priority",
+    propBlock: "prop-block-priority"
   }
+
 ];
 
 let current = null;
@@ -608,6 +647,9 @@ function mountCleanView() {
   if (!src || !mount) return;
   var copy = src.cloneNode(true);
   copy.querySelectorAll('.pin').forEach(function (pin) { pin.remove(); });
+  // The rule dialog is a different screen, so it has no place in a clean view
+  // of the page itself.
+  copy.querySelectorAll('.inset').forEach(function (el) { el.remove(); });
   copy.querySelectorAll('[id]').forEach(function (el) { el.removeAttribute('id'); });
   copy.removeAttribute('id');
   mount.appendChild(copy);

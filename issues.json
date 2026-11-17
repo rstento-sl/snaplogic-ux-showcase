@@ -1150,12 +1150,16 @@
           "callout": "Title case on a button, where JellyRoll specifies sentence case."
         },
         {
+          "target": "Page name",
+          "callout": "Singular here, plural on Services Catalog — two sibling pages that don't agree."
+        },
+        {
           "target": "Catalog Policy row",
           "callout": "Sits above the project folders unexplained, though its rules can override a service's."
         },
         {
-          "target": "Page name",
-          "callout": "Singular here, plural on Services Catalog — two sibling pages that don't agree."
+          "target": "Always use Catalog Rule checkbox",
+          "callout": "Title case on the checkbox, and the docs write the same control a third way."
         }
       ]
     }

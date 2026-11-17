@@ -366,7 +366,7 @@
           <div id="prop-block-band" style="position: relative;">
             <div class="pin green" id="green-pin-3" onclick="openGreenPopover(3, event)">3</div>
             <div class="catalog-band">Catalog policy
-              <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">One policy that holds rules for the whole catalog. A rule in it set to always use the catalog rule overrides the matching rule on a service or an endpoint.</span></span>
+              <span class="sl-tooltip-wrap" tabindex="0"><span class="sl-tooltip-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span class="sl-tooltip">One policy that holds rules for the whole catalog. A rule here with Always use Catalog Rule selected overrides the matching rule on a service or an endpoint.</span></span>
             </div>
           </div>
 
@@ -389,15 +389,6 @@
   <h2>The proposed page, without the annotations</h2>
   <p class="clean-sub">The same page as the right-hand column above, as a customer would meet it.</p>
   <div class="clean-mount" id="clean-mount"></div>
-</div>
-
-<div class="verify-note">
-  <div>
-    <strong>Reviewers — one wording question.</strong>
-    The tooltip comes from the SnapLogic docs, in the topic on creating a catalog policy. That topic
-    describes <em>Always use Catalog rule</em> as a checkbox on each rule; the UI appears to offer it as a
-    Priority value instead. Confirm which one is current, and the tooltip should name it the same way.
-  </div>
 </div>
 
 <!-- Shared pin popover -->
@@ -439,7 +430,7 @@ const annotations = [
   {
     title: "Catalog Policy names something the page never explains",
     problem: "Catalog Policy sits above the project folders as though it were one of them, but it isn't a project and the page says nothing about what it holds or what it affects. Nothing warns that a rule in it can override a rule someone set on their own service.",
-    fix: "Put a tooltip on the label, using the definition already written in the SnapLogic docs, in the topic on creating a catalog policy: one policy that holds rules for the whole catalog, and a rule in it set to always use the catalog rule overrides the matching rule on a service or an endpoint. Hover the info icon in the proposed column.",
+    fix: "Put a tooltip on the label, using the definition already written in the SnapLogic docs, in the topic on creating a catalog policy: one policy that holds rules for the whole catalog, and a rule here with Always use Catalog Rule selected overrides the matching rule on a service or an endpoint. Hover the info icon in the proposed column.",
     section: "block-band",
     propBlock: "prop-block-band"
   },
